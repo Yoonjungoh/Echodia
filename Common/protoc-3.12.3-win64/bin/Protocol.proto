@@ -1,0 +1,392 @@
+syntax = "proto3";
+
+package Protocol;
+import "google/protobuf/timestamp.proto";
+option csharp_namespace = "Google.Protobuf.Protocol";
+
+enum MsgId {
+  S_ASSIGN_USER_ID = 0;
+  C_ASSIGN_USER_ID = 1;
+  S_ENTER_LOBBY = 2;
+  S_LEAVE_LOBBY = 3;
+  C_LEAVE_LOBBY = 4;
+  C_ENTER_WAITING_ROOM = 5;
+  S_ENTER_WAITING_ROOM = 6;
+  C_ADD_ROOM = 7;
+  S_ADD_ROOM = 8;
+  S_REMOVE_ROOM = 9;
+  S_EXIT_ROOM = 10;
+  C_EXIT_ROOM = 11;
+  C_ENTER_LOBBY = 12;
+  S_UPDATE_WAITING_ROOM_INFO = 13;
+  C_START_GAME = 14;
+  S_START_GAME = 15;
+  C_ENTER_GAME = 16;
+  S_ENTER_GAME = 17;
+  C_ATTACK = 18;
+  S_ATTACK = 19;
+  S_LEAVE_GAME = 20;
+  S_SPAWN = 21;
+  S_DESPAWN = 22;
+  C_MOVE = 23;
+  S_MOVE = 24;
+  S_DIE = 26;
+  C_START_COUNTDOWN = 27;
+  S_START_COUNTDOWN = 28;
+  C_SPAWN_PROJECTILE = 29;
+  C_TIMESTAMP = 105;
+  S_TIMESTAMP = 106;
+  C_CHANGE_CREATURE_STATE = 107;
+  S_CHANGE_CREATURE_STATE = 108;
+  S_CONNECTED = 109;
+  C_LOGIN = 110;
+  S_LOGIN = 111;
+  C_REQUEST_PLAYER_LIST = 112;
+  S_REQUEST_PLAYER_LIST = 113;
+  C_CREATE_PLAYER = 114;
+  S_CREATE_PLAYER = 115;
+  C_DELETE_PLAYER = 116;
+  S_DELETE_PLAYER = 117;
+  C_UPDATE_CURRENCY_DATA = 118;
+  S_UPDATE_CURRENCY_DATA = 119;
+  C_UPDATE_CURRENCY_DATA_ALL = 120;
+  S_UPDATE_CURRENCY_DATA_ALL = 121;
+}
+
+enum CreatureState {
+  CREATURE_STATE_NONE = 0;
+  IDLE = 1;
+  MOVE = 2;
+  ATTACK = 3;
+  ON_DAMAGED = 4;
+  SKILL = 5;
+  DIE = 6;
+}
+
+enum GameObjectType {
+  GAME_OBJECT_TYPE_NONE = 0;
+  PLAYER = 1;
+  MONSTER = 2;
+  PROJECTILE = 3;
+}
+
+enum AttackType {
+  ATTACK_TYPE_NONE = 0;
+  COMMON_ATTACK = 1;
+  RANGED_ATTACK = 2;
+}
+
+enum MonsterType {
+  MONSTER_TYPE_NONE = 0;
+  BEAR = 1;
+}
+
+enum ProjectileType {
+  PROJECTILE_TYPE_NONE = 0;
+  MAGIC_MISSILE = 1;
+}
+
+enum RoomExitReason {
+  ROOM_EXIT_REASON_NONE = 0;
+  GAME_WIN = 1;
+  GAME_LOSE = 2;
+  MANUAL_EXIT = 3;
+}
+
+enum LoginStatus {
+  LOGIN_STATUS_NONE = 0; 
+  LOGIN_STATUS_SUCCESS = 1; 
+  LOGIN_STATUS_ID_WRONG = 2; // ID가 틀림
+  LOGIN_STATUS_PASSWORD_WRONG = 3;	// 비밀번호가 틀림
+  LOGIN_STATUS_ALREADY_LOGGED_IN = 4;	// 이미 로그인 되어 있음
+  SIGN_UP_SUCCESS = 5;	// 회원가입 성공 (TODO - 나중에 회원가입 따로 빼기)
+}
+
+enum ClientServerState {
+  CLIENT_SERVER_STATE_NONE = 0;
+  LOGIN = 1;
+  PLAYER_SELECT = 2;
+  LOBBY = 3;
+  WAITING_ROOM = 4;
+  GAME_ROOM = 5;
+}
+
+enum CurrencyType {
+  CURRENCY_TYPE_NONE = 0;
+  CURRENCY_TYPE_JEWEL = 1;
+  CURRENCY_TYPE_GOLD = 2;
+}
+
+message S_AssignUserId {
+  int32 userId = 1;
+}
+
+message C_AssignUserId {
+	
+}
+
+message S_EnterLobby {
+  repeated int32 userIdList = 1;
+  repeated string userNameList = 2;
+  repeated RoomInfo roomInfoList = 3;
+}
+
+message S_LeaveLobby {
+  int32 userId = 1;
+}
+
+message C_LeaveLobby {
+  int32 userId = 1;
+}
+
+message C_EnterWaitingRoom {
+  int32 userId = 1;
+  int32 roomId = 2;
+}
+
+message S_EnterWaitingRoom {
+  int32 roomId = 1;
+  ObjectState objectState = 2;
+}
+
+message C_AddRoom {
+  string roomName = 1;
+}
+
+message S_AddRoom {
+  RoomInfo roomInfo = 1;
+}
+
+message S_RemoveRoom {
+  int32 roomId = 1;
+}
+
+message S_ExitRoom {
+}
+
+message C_ExitRoom {
+}
+
+message S_UpdateWaitingRoomInfo{
+  RoomInfo roomInfo = 1;
+}
+
+message C_StartGame{
+  int32 roomId = 1;
+}
+
+message S_StartGame{
+  repeated int32 playerIdList = 1;
+}
+
+message S_EnterGame {
+  ObjectState objectState = 1;
+}
+
+message C_EnterGame {
+  int32 roomId = 1;
+}
+
+message C_EnterLobby {
+  int32 playerId = 1;	// Player 테이블의 PlayerId
+}
+
+message S_LeaveGame {
+  int32 playerCount = 1;
+  bool isAttacked = 2;
+  RoomExitReason roomExitReason = 3;	// 떠나는 사유
+}
+
+message S_Spawn {
+  repeated ObjectState objectStateList = 1;
+}
+
+message S_Despawn {
+  repeated int32 objectIdList = 1;
+  int32 playerCount = 2;
+  bool canRespawn = 3;
+} 
+
+message C_Move {
+  ObjectState objectState = 1;
+}
+
+message S_Move {
+  ObjectState objectState = 1;
+}
+
+message C_Attack {
+  AttackType attackType = 1;
+  int32 InstigatorId = 2;	// 데미지를 입힌 자
+  int32 damagedObjectId = 3;	// 투사체가 맞춘 대상 (서버 충돌 처리하는 부분은 해당 부분 비워서 보내도 됨)
+}
+
+message S_Attack {
+  AttackType attackType = 1;	// 애니메이션 재생용
+  int32 instigatorId = 2;	// 피해 입힌자 알리기용
+  repeated DamagedInfo damagedObjectList = 3;
+}
+
+message S_Die {
+  int32 damagedObjectId = 1;
+  int32 instigatorId = 2;
+  CreatureState creatureState = 3;
+}
+
+message C_StartCountdown {
+}
+
+message S_StartCountdown {
+  float gameStartCountdownTime = 1;
+}
+
+message C_SpawnProjectile {
+  int32 ownerId = 1;
+  ProjectileType projectileType = 2;
+}
+
+message S_SpawnProjectile {
+  int32 ownerId = 1;
+  ProjectileType projectileType = 2;
+}
+
+message C_Timestamp {
+  int64 clientSendTime = 1;
+}
+
+message S_Timestamp {
+  int64 clientSendTime = 1;
+  int64 serverReceivedTime = 2;
+}
+
+message C_ChangeCreatureState {
+  CreatureState creatureState = 1;
+}
+
+message S_ChangeCreatureState {
+  int32 objectId = 1;
+  CreatureState creatureState = 2;
+}
+
+message S_Connected {
+}
+
+message C_Login {
+  string id = 1;
+  string password = 2;
+}
+
+message S_Login {
+  LoginStatus loginStatus = 1; 
+}
+
+message C_RequestPlayerList {
+}
+
+message S_RequestPlayerList {
+  repeated PlayerSelectInfo playerInfoList = 1;
+}
+
+message C_CreatePlayer {
+  string name = 1;
+}
+
+message S_CreatePlayer {
+  bool canCreate = 1;	// 중복 이름은 불가
+  repeated PlayerSelectInfo playerInfoList = 2;	// 보유 플레이어 목록
+}
+
+message C_DeletePlayer {
+  int32 playerId = 1;
+}
+
+message S_DeletePlayer {
+  bool canDelete = 1;	// 해당 플레이어 삭제에 성공했는지
+  repeated PlayerSelectInfo playerInfoList = 2;	// 보유 플레이어 목록
+}
+
+message C_UpdateCurrencyData {
+  int32 playerId = 1;
+  CurrencyType currencyType = 2;
+}
+
+message S_UpdateCurrencyData {
+  CurrencyType currencyType = 1;
+  int32 amount = 2;
+}
+
+message C_UpdateCurrencyDataAll {
+  // 모든 재화 정보 요청
+  int32 playerId = 1;
+}
+
+message S_UpdateCurrencyDataAll {
+  CurrencyData currencyData = 1;	
+}
+
+message PlayerSelectInfo {
+  int32 playerId = 1;
+  string name = 2;
+  CurrencyData currencyData = 3;
+}
+
+message RoomInfo {
+  int32 roomId = 1;
+  string roomName = 2;
+  int32 roomOwnerId = 3;
+  int32 currentPlayerCount = 4;
+  int32 maxPlayerCount = 5;
+}
+
+message ProtoVector3 {
+  float x = 1;
+  float y = 2;
+  float z = 3;
+}
+
+message ProtoQuaternion {
+  float x = 1;
+  float y = 2;
+  float z = 3;
+  float w = 4;
+}
+
+message ObjectState {
+  int32 objectId = 1;                // 유저 식별자
+  int64 clientSendTime = 2;          // 클라 기준 보낸 시점
+  int64 serverReceivedTime = 3;		 // 서버 기준 보낸 시점
+  ProtoVector3 position = 4;         // 현재 위치
+  ProtoVector3 velocity = 5;         // 이동 속도
+  ProtoQuaternion rotation = 6;      // 회전 상태
+  string name = 7;					 // 유저 이름 (todo)
+  CreatureState creatureState = 8;	 // 캐릭터 상태
+  Stat stat = 9;                     // 캐릭터 스탯
+  GameObjectType objectType = 10;	 // 플레이어인지 몬스터인지
+  MonsterType monsterType = 11;		 // 몬스터면 무슨 타입인지
+  ProjectileType projectileType = 12;		 // 투사체면 무슨 타입인지
+  int32 ownerId = 13;		 // 투사체 소유자가 누구인지 다른 플레이어에게 알리기
+}
+
+message DamagedInfo {
+  int32 objectId = 1;
+  float remainHp = 2; 
+}
+
+message Stat {
+  float maxHp = 1;
+  float hp = 2;
+  float defense = 3;
+  float moveSpeed = 4;
+  float commonAttackDamage = 5;
+  float commonAttackCoolTime = 6;
+  float magicMissileAttakDamage = 7;
+  float magicMissileAttackCoolTime = 8;
+  float attackRange = 9;          // 반지름 r
+  float attackHalfAngleDeg = 10;  // 부채꼴의 반각 d(도)
+  float attackHeight = 11;        // 높이
+}
+
+message CurrencyData {
+  int32 jewel = 1;
+  int32 gold = 2;
+}

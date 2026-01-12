@@ -1,0 +1,11 @@
+[20251010_003517]: LobbyData Donwload Complete
+[20251010_003517]: Server Starting...
+[20251010_003525]: Connected : 1
+[20251010_003525]: OnConnected : [fe80::c8c1:233f:309:a705%16]:50666
+[20251010_003525]: Player Connected in Lobby 1
+[20251010_003642]: Connected : 2
+[20251010_003642]: OnConnected : [fe80::c8c1:233f:309:a705%16]:50794
+[20251010_003642]: Player Connected in Lobby 2
+[20251010_003649]: Connected : 3
+[20251010_003649]: OnConnected : [fe80::c8c1:233f:309:a705%16]:50813
+[20251010_003649]: Player Connected in Lobby 3

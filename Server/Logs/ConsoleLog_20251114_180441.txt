@@ -1,0 +1,12 @@
+[20251114_180432] (MapManager.Init) : [MapManager] Map file not found: C:\Users\user\Desktop\Development\Unity\Eternal Arena\Common\MapData\MapData_001.map
+[20251114_180432] (LobbyManager.Init) : LobbyData Donwload Complete
+[20251114_180432] (Program.Main) : Server Starting...
+[20251114_180432] (JobSerializer.Flush) : Init
+[20251114_180432] (JobSerializer.Flush) : Init
+[20251114_180432] (JobSerializer.Flush) : Init
+[20251114_180432] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 3
+[20251114_180432] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 1
+[20251114_180432] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 2
+[20251114_180432] (GameRoomManager..ctor) : GameRoomManager created for Lobby 3
+[20251114_180432] (GameRoomManager..ctor) : GameRoomManager created for Lobby 1
+[20251114_180432] (GameRoomManager..ctor) : GameRoomManager created for Lobby 2

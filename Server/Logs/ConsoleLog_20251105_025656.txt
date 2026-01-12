@@ -1,0 +1,62 @@
+[20251105_025544] (LobbyManager.Init) : LobbyData Donwload Complete
+[20251105_025544] (Program.Main) : Server Starting...
+[20251105_025544] (JobSerializer.Flush) : Init
+[20251105_025544] (JobSerializer.Flush) : Init
+[20251105_025544] (JobSerializer.Flush) : Init
+[20251105_025544] (WaitingRoomManager..ctor) : RoomManager created for Lobby 3
+[20251105_025544] (WaitingRoomManager..ctor) : RoomManager created for Lobby 2
+[20251105_025544] (WaitingRoomManager..ctor) : RoomManager created for Lobby 1
+[20251105_025559] (SessionManager.Generate) : Connected : 1
+[20251105_025559] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:58598
+[20251105_025559] (ClientSession.EnterLobby) : Player Connected in Lobby 1
+[20251105_025559] (JobSerializer.Flush) : EnterLobby
+[20251105_025559] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777216
+[20251105_025602] (SessionManager.Generate) : Connected : 2
+[20251105_025602] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:58606
+[20251105_025602] (ClientSession.EnterLobby) : Player Connected in Lobby 2
+[20251105_025602] (JobSerializer.Flush) : EnterLobby
+[20251105_025602] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777217
+[20251105_025604] (JobSerializer.Flush) : HandleAddRoom
+[20251105_025604] (Lobby.HandleAddRoom) : Room created: 1, RoomOnwerId: 16777217, RoomName: tset​
+[20251105_025604] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (1/4)
+[20251105_025604] (JobSerializer.Flush) : LeaveLobby
+[20251105_025604] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777217
+[20251105_025604] (JobSerializer.Flush) : Init
+[20251105_025610] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (2/4)
+[20251105_025610] (JobSerializer.Flush) : LeaveLobby
+[20251105_025610] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777216
+[20251105_025615] (JobSerializer.Flush) : LeaveRoom
+[20251105_025615] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (1/4)
+[20251105_025615] (JobSerializer.Flush) : EnterLobby
+[20251105_025615] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777216
+[20251105_025616] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (2/4)
+[20251105_025616] (JobSerializer.Flush) : LeaveLobby
+[20251105_025616] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777216
+[20251105_025621] (JobSerializer.Flush) : LeaveRoom
+[20251105_025621] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (1/4)
+[20251105_025621] (JobSerializer.Flush) : EnterLobby
+[20251105_025621] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777216
+[20251105_025622] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (2/4)
+[20251105_025622] (JobSerializer.Flush) : LeaveLobby
+[20251105_025622] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777216
+[20251105_025626] (JobSerializer.Flush) : LeaveRoom
+[20251105_025626] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (1/4)
+[20251105_025626] (JobSerializer.Flush) : EnterLobby
+[20251105_025626] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777216
+[20251105_025627] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (2/4)
+[20251105_025627] (JobSerializer.Flush) : LeaveLobby
+[20251105_025627] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777216
+[20251105_025636] (JobSerializer.Flush) : LeaveRoom
+[20251105_025636] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (1/4)
+[20251105_025636] (JobSerializer.Flush) : EnterLobby
+[20251105_025636] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777216
+[20251105_025638] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (2/4)
+[20251105_025638] (JobSerializer.Flush) : LeaveLobby
+[20251105_025638] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777216
+[20251105_025645] (JobSerializer.Flush) : LeaveRoom
+[20251105_025645] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (1/4)
+[20251105_025645] (JobSerializer.Flush) : EnterLobby
+[20251105_025645] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777216
+[20251105_025646] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (2/4)
+[20251105_025646] (JobSerializer.Flush) : LeaveLobby
+[20251105_025646] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777216

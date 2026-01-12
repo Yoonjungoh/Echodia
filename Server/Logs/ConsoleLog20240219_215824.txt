@@ -1,0 +1,13 @@
+[20240219_215258]: ReqExpData Downloaded
+[20240219_215258]: PlayerStatData Downloaded
+[20240219_215258]: BuffData Downloaded
+[20240219_215258]: ShopBuffData Downloaded
+[20240219_215258]: All data has been downloaded...
+[20240219_215258]: Server Starting...
+[20240219_215308]: Connected : 1
+[20240219_215308]: OnConnected : 218.147.118.37:54908
+[20240219_215750]: Connected : 2
+[20240219_215750]: OnConnected : 192.241.196.108:44686
+[20240219_215755]: Cant Find Room 0
+[20240219_215755]: <Remain Room List>
+[20240219_215755]: Cant Leave the game because room is null

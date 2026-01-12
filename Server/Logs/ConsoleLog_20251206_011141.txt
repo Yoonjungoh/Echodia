@@ -1,0 +1,14 @@
+[20251206_010514] (LobbyManager.Init) : LobbyData Donwload Complete
+[20251206_010514] (Program.Main) : Server Starting...
+[20251206_010514] (JobSerializer.Flush) : Init
+[20251206_010514] (JobSerializer.Flush) : Init
+[20251206_010514] (JobSerializer.Flush) : Init
+[20251206_010514] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 2
+[20251206_010514] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 3
+[20251206_010514] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 1
+[20251206_010514] (GameRoomManager..ctor) : GameRoomManager created for Lobby 3
+[20251206_010514] (GameRoomManager..ctor) : GameRoomManager created for Lobby 1
+[20251206_010514] (GameRoomManager..ctor) : GameRoomManager created for Lobby 2
+[20251206_010517] (SessionManager.Generate) : Connected : 1
+[20251206_010517] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:58671
+[20251206_011139] (ClientSession.OnDisconnected) : Can't Find MyPlayer

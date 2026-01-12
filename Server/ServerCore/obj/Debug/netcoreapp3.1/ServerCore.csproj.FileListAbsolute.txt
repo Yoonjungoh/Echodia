@@ -1,0 +1,206 @@
+C:\Rookiss\MMO_Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\Rookiss\MMO_Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\Rookiss\MMO_Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\Rookiss\MMO_Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\Rookiss\MMO_Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Rookiss\MMO_Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Rookiss\MMO_Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\Rookiss\MMO_Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Rookiss\MMO_Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csprojAssemblyReference.cache
+C:\Rookiss\MMO_Game\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\Rookiss\MMO_Game\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Rookiss\MMO_Game\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Rookiss\MMO_Game\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csprojAssemblyReference.cache
+C:\Rookiss\MMO_Game\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\Rookiss\MMO_Game\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\Rookiss\MMO_Game\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\Rookiss\MMO_Game\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Rookiss\MMO_Game\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\project-X\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\project-X\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\project-X\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.AssemblyReference.cache
+C:\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Unity Project\project-X\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\Unity Project\project-X\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Unity Project\project-X\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Unity Project\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.AssemblyReference.cache
+C:\Unity Project\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Unity Project\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\Unity Project\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\Unity Project\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\Unity Project\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\Unity Project\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.AssemblyReference.cache
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\projectX-client\project-X\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\projectX-client\project-X\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\projectX-client\project-X\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\projectX-client\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.AssemblyReference.cache
+C:\projectX-client\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\projectX-client\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\projectX-client\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\projectX-client\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\projectX-client\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\projectX-client\project-X\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.AssemblyReference.cache
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\project-X-server\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\project-X-server\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\project-X-server\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\project-X-server\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.AssemblyReference.cache
+C:\project-X-server\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\project-X-server\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\project-X-server\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\project-X-server\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\project-X-server\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\project-X-server\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.AssemblyReference.cache
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.AssemblyReference.cache
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\Development\Project-S\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\Users\user\Desktop\Development\Project-S\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\Development\Project-S\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\Development\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\Development\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\Development\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\Development\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\Users\user\Desktop\Development\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\Development\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\Development\Project-S\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Downloads\Project-S (1)\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\Users\user\Downloads\Project-S (1)\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Downloads\Project-S (1)\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Downloads\Project-S (1)\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.AssemblyReference.cache
+C:\Users\user\Downloads\Project-S (1)\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Downloads\Project-S (1)\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\Users\user\Downloads\Project-S (1)\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\Users\user\Downloads\Project-S (1)\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\Users\user\Downloads\Project-S (1)\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Downloads\Project-S (1)\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\Development\Project-J\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\Users\user\Desktop\Development\Project-J\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\Development\Project-J\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\Development\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\Development\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\Development\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\Development\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\Users\user\Desktop\Development\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\Development\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\Development\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.AssemblyReference.cache
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.sourcelink.json
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\Development\EternalArena\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\Users\user\Desktop\Development\EternalArena\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\Development\EternalArena\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\Development\EternalArena\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\Development\EternalArena\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\Development\EternalArena\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\Users\user\Desktop\Development\EternalArena\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\Development\EternalArena\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\Development\EternalArena\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.sourcelink.json
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\Development\EternalArena\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.sourcelink.json

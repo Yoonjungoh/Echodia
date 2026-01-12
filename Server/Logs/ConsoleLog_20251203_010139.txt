@@ -1,0 +1,11 @@
+[20251203_010133] (LobbyManager.Init) : LobbyData Donwload Complete
+[20251203_010133] (Program.Main) : Server Starting...
+[20251203_010133] (JobSerializer.Flush) : Init
+[20251203_010133] (JobSerializer.Flush) : Init
+[20251203_010133] (JobSerializer.Flush) : Init
+[20251203_010133] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 1
+[20251203_010133] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 3
+[20251203_010133] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 2
+[20251203_010133] (GameRoomManager..ctor) : GameRoomManager created for Lobby 1
+[20251203_010133] (GameRoomManager..ctor) : GameRoomManager created for Lobby 3
+[20251203_010133] (GameRoomManager..ctor) : GameRoomManager created for Lobby 2

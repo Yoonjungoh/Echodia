@@ -1,0 +1,6 @@
+[20251010_003318]: LobbyData Donwload Complete
+[20251010_003318]: Server Starting...
+[20251010_003328]: Connected : 1
+[20251010_003328]: OnConnected : [fe80::c8c1:233f:309:a705%16]:50477
+[20251010_003328]: Player Connected in Lobby 1
+[20251010_003341]: Cant Leave the game because room is null

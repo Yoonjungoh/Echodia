@@ -1,0 +1,63 @@
+[20251115_031116] (MapManager.Init) : [MapManager] Loading Map: C:\Users\user\Desktop\Development\EternalArena\Common\MapData\MapData_001.bytes
+[20251115_031117] (MapManager.Init) : [MapManager] Loaded Size = 4000 x 4000
+[20251115_031117] (MapManager.Init) : [MapManager] Origin = <-2000, 0, -2000>
+[20251115_031117] (MapManager.Init) : [MapManager] CellSize = 1
+[20251115_031117] (MapManager.Init) : [MapManager] Test
+[20251115_031117] (MapManager.Init) : Height[0,0] = 359.04
+[20251115_031117] (MapManager.Init) : Height[100,100] = 384.2
+[20251115_031117] (MapManager.Init) : CanGo[0,0] = True
+[20251115_031117] (MapManager.Init) : CanGo[100,100] = True
+[20251115_031117] (MapManager.Init) : [MapManager] Load Complete
+[20251115_031117] (LobbyManager.Init) : LobbyData Donwload Complete
+[20251115_031117] (Program.Main) : Server Starting...
+[20251115_031117] (JobSerializer.Flush) : Init
+[20251115_031117] (JobSerializer.Flush) : Init
+[20251115_031117] (JobSerializer.Flush) : Init
+[20251115_031117] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 2
+[20251115_031117] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 1
+[20251115_031117] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 3
+[20251115_031117] (GameRoomManager..ctor) : GameRoomManager created for Lobby 1
+[20251115_031117] (GameRoomManager..ctor) : GameRoomManager created for Lobby 3
+[20251115_031117] (GameRoomManager..ctor) : GameRoomManager created for Lobby 2
+[20251115_031118] (SessionManager.Generate) : Connected : 1
+[20251115_031118] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:60577
+[20251115_031118] (ClientSession.EnterLobby) : Player Connected in Lobby 1
+[20251115_031118] (JobSerializer.Flush) : EnterLobby
+[20251115_031118] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777216
+[20251115_031137] (JobSerializer.Flush) : HandleAddRoom
+[20251115_031137] (Lobby.HandleAddRoom) : Room created: 1, RoomOnwerId: 16777216, RoomName: tset​
+[20251115_031137] (JobSerializer.Flush) : LeaveLobby
+[20251115_031137] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777216
+[20251115_031137] (JobSerializer.Flush) : Init
+[20251115_031137] (JobSerializer.Flush) : EnterRoom
+[20251115_031137] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (1/2)
+[20251115_031145] (SessionManager.Generate) : Connected : 2
+[20251115_031145] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:60614
+[20251115_031145] (ClientSession.EnterLobby) : Player Connected in Lobby 2
+[20251115_031145] (JobSerializer.Flush) : EnterLobby
+[20251115_031145] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777217
+[20251115_031150] (JobSerializer.Flush) : LeaveLobby
+[20251115_031150] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777217
+[20251115_031150] (JobSerializer.Flush) : EnterRoom
+[20251115_031150] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (2/2)
+[20251115_031150] (WaitingRoom.EnterRoom) : [WaitingRoom Update] Player 16777216 Pos(-676, 5.550294, -471.00012)
+[20251115_031152] (JobSerializer.Flush) : StartGame
+[20251115_031152] (JobSerializer.Flush) : Init
+[20251115_031152] (JobSerializer.Flush) : EnterGame
+[20251115_031156] (JobSerializer.Flush) : EnterGame
+[20251115_031156] (JobSerializer.Flush) : EnterGame
+[20251115_031156] (GameRoom.EnterGame) : [GameRoom Update] Player 16777216 Pos(63, -26, 527)
+[20251115_031159] (JobSerializer.Flush) : HandleAttack
+[20251115_031200] (JobSerializer.Flush) : HandleChangeCreatureState
+[20251115_031201] (JobSerializer.Flush) : HandleAttack
+[20251115_031202] (JobSerializer.Flush) : HandleChangeCreatureState
+[20251115_031203] (JobSerializer.Flush) : HandleAttack
+[20251115_031204] (JobSerializer.Flush) : HandleChangeCreatureState
+[20251115_031206] (JobSerializer.Flush) : HandleAttack
+[20251115_031206] (GameObject.OnDead) : Id: 33554434, Type: Monster is dead
+[20251115_031206] (JobSerializer.Flush) : <OnDead>b__0
+[20251115_031207] (JobSerializer.Flush) : HandleChangeCreatureState
+[20251115_031208] (JobSerializer.Flush) : HandleAttack
+[20251115_031208] (GameObject.OnDead) : Id: 33554434, Type: Monster is dead
+[20251115_031208] (JobSerializer.Flush) : <OnDead>b__0
+[20251115_031209] (JobSerializer.Flush) : HandleChangeCreatureState

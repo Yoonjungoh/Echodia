@@ -1,0 +1,52 @@
+[20251205_193553] (LobbyManager.Init) : LobbyData Donwload Complete
+[20251205_193553] (JobSerializer.Flush) : Init
+[20251205_193553] (JobSerializer.Flush) : Init
+[20251205_193553] (JobSerializer.Flush) : Init
+[20251205_193553] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 3
+[20251205_193553] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 2
+[20251205_193553] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 1
+[20251205_193553] (GameRoomManager..ctor) : GameRoomManager created for Lobby 3
+[20251205_193553] (GameRoomManager..ctor) : GameRoomManager created for Lobby 1
+[20251205_193553] (GameRoomManager..ctor) : GameRoomManager created for Lobby 2
+[20251205_193553] (Program.Main) : Server Starting...
+[20251205_193602] (SessionManager.Generate) : Connected : 1
+[20251205_193602] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:50924
+[20251205_193605] (ClientSession.HandleLogin) : AccountId: test​, Password: 1234​
+[20251205_193636] (ClientSession.OnDisconnected) : Can't Find MyPlayer
+[20251205_193653] (SessionManager.Generate) : Connected : 2
+[20251205_193653] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:50987
+[20251205_193658] (ClientSession.HandleLogin) : AccountId: test​, Password: 1234​
+[20251205_193702] (Session.OnRecvCompleted) : OnRecvCompleted Failed Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Name'.
+Invalid column name 'Gold'.
+Invalid column name 'Name'.
+Invalid column name 'PlayerId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetSingle[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method59(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at Server.ClientSession.HandleCreatePlayer(String name) in C:\Users\user\Desktop\Development\EternalArena\Server\Server\Session\ClientSession_PreGame.cs:line 47
+   at PacketHandler.C_CreatePlayerHandler(PacketSession session, IMessage packet) in C:\Users\user\Desktop\Development\EternalArena\Server\Server\Packet\PacketHandler.cs:line 250
+   at PacketManager.MakePacket[T](PacketSession session, ArraySegment`1 buffer, UInt16 id) in C:\Users\user\Desktop\Development\EternalArena\Server\Server\Packet\ServerPacketManager.cs:line 89
+   at PacketManager.OnRecvPacket(PacketSession session, ArraySegment`1 buffer) in C:\Users\user\Desktop\Development\EternalArena\Server\Server\Packet\ServerPacketManager.cs:line 73
+   at Server.ClientSession.OnRecvPacket(ArraySegment`1 buffer) in C:\Users\user\Desktop\Development\EternalArena\Server\Server\Session\ClientSession_Network.cs:line 66
+   at ServerCore.PacketSession.OnRecv(ArraySegment`1 buffer) in C:\Users\user\Desktop\Development\EternalArena\Server\ServerCore\Session.cs:line 32
+   at ServerCore.Session.OnRecvCompleted(Object sender, SocketAsyncEventArgs args) in C:\Users\user\Desktop\Development\EternalArena\Server\ServerCore\Session.cs:line 209
+ClientConnectionId:0c1dded8-a7bd-4b93-9e76-817709e16361
+Error Number:207,State:1,Class:16

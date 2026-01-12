@@ -1,0 +1,304 @@
+[20251114_171421] (MapManager.Init) : [MapManager] Loading Map: C:\Users\user\Desktop\Development\Unity\Eternal Arena\Common\MapData\MapData_001.map
+[20251114_171421] (MapManager.Init) : [MapManager] Loaded Size = 2000 x 2000
+[20251114_171421] (MapManager.Init) : [MapManager] Origin = <-2000, 0, -2000>
+[20251114_171421] (MapManager.Init) : [MapManager] CellSize = 2
+[20251114_171421] (MapManager.Init) : [MapManager] Test
+[20251114_171421] (MapManager.Init) : Height[0,0] = 359.04
+[20251114_171421] (MapManager.Init) : Height[100,100] = 417.47998
+[20251114_171421] (MapManager.Init) : CanGo[0,0] = True
+[20251114_171421] (MapManager.Init) : CanGo[100,100] = True
+[20251114_171421] (MapManager.Init) : [MapManager] Load Complete
+[20251114_171421] (LobbyManager.Init) : LobbyData Donwload Complete
+[20251114_171421] (Program.Main) : Server Starting...
+[20251114_171421] (JobSerializer.Flush) : Init
+[20251114_171421] (JobSerializer.Flush) : Init
+[20251114_171421] (JobSerializer.Flush) : Init
+[20251114_171421] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 3
+[20251114_171421] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 1
+[20251114_171421] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 2
+[20251114_171421] (GameRoomManager..ctor) : GameRoomManager created for Lobby 2
+[20251114_171421] (GameRoomManager..ctor) : GameRoomManager created for Lobby 1
+[20251114_171421] (GameRoomManager..ctor) : GameRoomManager created for Lobby 3
+[20251114_171426] (SessionManager.Generate) : Connected : 1
+[20251114_171426] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:58197
+[20251114_171426] (ClientSession.EnterLobby) : Player Connected in Lobby 1
+[20251114_171426] (JobSerializer.Flush) : EnterLobby
+[20251114_171426] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777216
+[20251114_171426] (SessionManager.Generate) : Connected : 2
+[20251114_171426] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:58203
+[20251114_171426] (ClientSession.EnterLobby) : Player Connected in Lobby 2
+[20251114_171426] (JobSerializer.Flush) : EnterLobby
+[20251114_171426] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777217
+[20251114_171428] (JobSerializer.Flush) : HandleAddRoom
+[20251114_171428] (Lobby.HandleAddRoom) : Room created: 1, RoomOnwerId: 16777216, RoomName: set​
+[20251114_171428] (JobSerializer.Flush) : Init
+[20251114_171428] (JobSerializer.Flush) : EnterRoom
+[20251114_171428] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (1/2)
+[20251114_171428] (JobSerializer.Flush) : LeaveLobby
+[20251114_171428] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777216
+[20251114_171432] (JobSerializer.Flush) : LeaveLobby
+[20251114_171432] (JobSerializer.Flush) : EnterRoom
+[20251114_171432] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777217
+[20251114_171432] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (2/2)
+[20251114_171432] (WaitingRoom.EnterRoom) : [WaitingRoom Update] Player 16777216 Pos(62.99991, -92.06659, 527)
+[20251114_171433] (JobSerializer.Flush) : StartGame
+[20251114_171433] (JobSerializer.Flush) : Init
+[20251114_171436] (JobSerializer.Flush) : EnterGame
+[20251114_171436] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171436] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171436] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171436] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171436] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171436] (JobSerializer.Flush) : EnterGame
+[20251114_171436] (GameRoom.EnterGame) : [GameRoom Update] Player 16777217 Pos(-676, 8, -471)
+[20251114_171436] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171436] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171436] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171436] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171436] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171436] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171436] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171436] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171436] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171436] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171437] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171437] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171437] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171437] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171437] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171437] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171437] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171437] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171437] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171437] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171437] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171437] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171437] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171437] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171437] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171437] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171437] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171437] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171437] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171437] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171438] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171438] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171438] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171438] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171438] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171438] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171438] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171438] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171438] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171438] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171438] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171438] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171438] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171438] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171438] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171438] (PacketSession.OnRecv) : 패킷 모아보내기 : 2
+[20251114_171438] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171438] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171438] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171438] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171438] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171439] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171439] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171439] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171439] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171439] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171439] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171439] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171439] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171439] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171439] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171439] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171439] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171439] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171439] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171439] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171439] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171439] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171439] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171439] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171439] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171440] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171440] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171440] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171440] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171440] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171440] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171440] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171440] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171440] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171440] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171440] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171440] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171440] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171440] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171440] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171440] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171440] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171440] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171440] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171440] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171441] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171441] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171441] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171441] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171441] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171441] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171441] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171441] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171441] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171441] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171441] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171441] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171441] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171441] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171441] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171441] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171441] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171441] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171441] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171441] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171442] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171442] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171442] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171442] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171442] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171442] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171442] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171442] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171442] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171442] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171442] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171442] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171442] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171442] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171442] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171442] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171442] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171442] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171442] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171442] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171443] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171443] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171443] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171443] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171443] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171443] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171443] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171443] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171443] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171443] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171443] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171443] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171443] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171443] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171443] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171443] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171443] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171443] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171443] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171443] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171444] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171444] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171444] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171444] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171444] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171444] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171444] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171444] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171444] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171444] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171444] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171444] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171444] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171444] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171444] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171444] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171444] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171444] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171444] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171444] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171445] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171445] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171445] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171445] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171445] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171445] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171445] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171445] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::bb6d:8391:7f70:8923%17]:58197
+[20251114_171445] (JobSerializer.Flush) : LeaveRoom
+[20251114_171445] (JobSerializer.Flush) : LeaveLobby
+[20251114_171445] (Lobby.LeaveLobby) : Not Exist UserId: 16777216
+[20251114_171445] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (1/2)
+[20251114_171445] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (1/2)
+[20251114_171445] (Lobby.HandleRemoveRoom) : [Manager] Room 1 deleted (no players left)
+[20251114_171445] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171445] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171445] (JobSerializer.Flush) : EnterLobby
+[20251114_171445] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777217
+[20251114_171445] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171445] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171445] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171445] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171445] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171445] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171445] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171445] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171445] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171445] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171445] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171446] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171446] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171446] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171446] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171446] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171446] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171446] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171446] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171446] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171446] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171446] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171446] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171446] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171446] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171446] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171446] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171446] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171446] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171446] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171446] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171447] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171447] (ClientSession.OnDisconnected) : Can't Find Room 1 -> UserId: 16777217
+[20251114_171447] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::bb6d:8391:7f70:8923%17]:58203
+[20251114_171447] (JobSerializer.Flush) : LeaveLobby
+[20251114_171447] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777217
+[20251114_171447] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171447] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171447] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171447] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171447] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171447] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171447] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171447] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171447] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171447] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171447] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171447] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171447] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171447] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171447] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171447] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171447] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171447] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171447] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171448] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171448] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171448] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171448] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171448] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171448] (GameRoom.Update) : Id: 16777217, CanGo: True
+[20251114_171448] (GameRoom.Update) : Id: 16777217, CanGo: True

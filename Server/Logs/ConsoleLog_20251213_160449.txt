@@ -1,0 +1,385 @@
+[20251213_160349] (LobbyManager.Init) : LobbyData Donwload Complete
+[20251213_160349] (Program.Main) : Server Starting...
+[20251213_160349] (JobSerializer.Flush) : Init
+[20251213_160349] (JobSerializer.Flush) : Init
+[20251213_160349] (JobSerializer.Flush) : Init
+[20251213_160349] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 1
+[20251213_160349] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 2
+[20251213_160349] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 3
+[20251213_160349] (GameRoomManager..ctor) : GameRoomManager created for Lobby 1
+[20251213_160349] (GameRoomManager..ctor) : GameRoomManager created for Lobby 3
+[20251213_160349] (GameRoomManager..ctor) : GameRoomManager created for Lobby 2
+[20251213_160353] (SessionManager.Generate) : Connected : 1
+[20251213_160353] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:59350
+[20251213_160353] (SessionManager.Generate) : Connected : 2
+[20251213_160353] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:59354
+[20251213_160356] (ClientSession.HandleLogin) : AccountId: test, Password: 1234
+[20251213_160359] (ClientSession.HandleLogin) : AccountId: test2, Password: 1234
+[20251213_160402] (JobSerializer.Flush) : EnterLobby
+[20251213_160402] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777216
+[20251213_160403] (JobSerializer.Flush) : EnterLobby
+[20251213_160403] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777217
+[20251213_160405] (JobSerializer.Flush) : HandleAddRoom
+[20251213_160405] (Lobby.HandleAddRoom) : Room created: 1, RoomOnwerId: 16777216, RoomName: set​
+[20251213_160405] (JobSerializer.Flush) : Init
+[20251213_160407] (JobSerializer.Flush) : EnterRoom
+[20251213_160407] (JobSerializer.Flush) : LeaveLobby
+[20251213_160407] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777216
+[20251213_160407] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (1/2)
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160407] (JobSerializer.Flush) : HandleMove
+[20251213_160408] (JobSerializer.Flush) : HandleMove
+[20251213_160408] (JobSerializer.Flush) : HandleMove
+[20251213_160408] (JobSerializer.Flush) : HandleMove
+[20251213_160409] (JobSerializer.Flush) : EnterRoom
+[20251213_160409] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (2/2)
+[20251213_160409] (WaitingRoom.EnterRoom) : [WaitingRoom Update] Player 16777216 Pos(-676, 5.5459266, -471.00006)
+[20251213_160409] (JobSerializer.Flush) : LeaveLobby
+[20251213_160409] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777217
+[20251213_160409] (JobSerializer.Flush) : HandleMove
+[20251213_160409] (JobSerializer.Flush) : HandleMove
+[20251213_160409] (JobSerializer.Flush) : HandleMove
+[20251213_160409] (JobSerializer.Flush) : HandleMove
+[20251213_160409] (JobSerializer.Flush) : HandleMove
+[20251213_160409] (JobSerializer.Flush) : HandleMove
+[20251213_160409] (JobSerializer.Flush) : HandleMove
+[20251213_160409] (JobSerializer.Flush) : HandleMove
+[20251213_160409] (JobSerializer.Flush) : HandleMove
+[20251213_160409] (JobSerializer.Flush) : HandleMove
+[20251213_160409] (JobSerializer.Flush) : HandleMove
+[20251213_160409] (JobSerializer.Flush) : HandleMove
+[20251213_160409] (JobSerializer.Flush) : HandleMove
+[20251213_160409] (JobSerializer.Flush) : HandleMove
+[20251213_160409] (JobSerializer.Flush) : HandleMove
+[20251213_160409] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160410] (JobSerializer.Flush) : HandleMove
+[20251213_160411] (JobSerializer.Flush) : HandleMove
+[20251213_160411] (JobSerializer.Flush) : HandleMove
+[20251213_160411] (JobSerializer.Flush) : HandleMove
+[20251213_160411] (JobSerializer.Flush) : HandleMove
+[20251213_160411] (JobSerializer.Flush) : HandleMove
+[20251213_160411] (JobSerializer.Flush) : HandleMove
+[20251213_160411] (JobSerializer.Flush) : HandleMove
+[20251213_160411] (JobSerializer.Flush) : StartGame
+[20251213_160411] (JobSerializer.Flush) : Init
+[20251213_160412] (JobSerializer.Flush) : EnterGame
+[20251213_160412] (JobSerializer.Flush) : EnterGame
+[20251213_160412] (JobSerializer.Flush) : EnterGame
+[20251213_160413] (JobSerializer.Flush) : EnterGame
+[20251213_160414] (JobSerializer.Flush) : EnterGame
+[20251213_160414] (GameRoom.EnterGame) : [GameRoom Update] Player 16777216 Pos(63, -20, 527)
+[20251213_160414] (JobSerializer.Flush) : HandleStartCountdown
+[20251213_160414] (JobSerializer.Flush) : HandleStartCountdown
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160414] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160415] (JobSerializer.Flush) : HandleMove
+[20251213_160417] (JobSerializer.Flush) : HandleMove
+[20251213_160417] (JobSerializer.Flush) : HandleMove
+[20251213_160417] (JobSerializer.Flush) : HandleMove
+[20251213_160417] (JobSerializer.Flush) : HandleMove
+[20251213_160417] (JobSerializer.Flush) : HandleMove
+[20251213_160417] (JobSerializer.Flush) : HandleMove
+[20251213_160417] (JobSerializer.Flush) : HandleMove
+[20251213_160417] (JobSerializer.Flush) : HandleMove
+[20251213_160417] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160418] (JobSerializer.Flush) : HandleMove
+[20251213_160419] (JobSerializer.Flush) : HandleMove
+[20251213_160419] (JobSerializer.Flush) : HandleMove
+[20251213_160419] (JobSerializer.Flush) : HandleMove
+[20251213_160419] (JobSerializer.Flush) : HandleMove
+[20251213_160419] (JobSerializer.Flush) : HandleMove
+[20251213_160419] (JobSerializer.Flush) : HandleMove
+[20251213_160419] (JobSerializer.Flush) : HandleMove
+[20251213_160419] (JobSerializer.Flush) : HandleMove
+[20251213_160419] (JobSerializer.Flush) : HandleMove
+[20251213_160419] (JobSerializer.Flush) : HandleMove
+[20251213_160419] (JobSerializer.Flush) : HandleMove
+[20251213_160419] (JobSerializer.Flush) : HandleMove
+[20251213_160419] (JobSerializer.Flush) : HandleMove
+[20251213_160419] (JobSerializer.Flush) : HandleMove
+[20251213_160419] (JobSerializer.Flush) : HandleMove
+[20251213_160419] (JobSerializer.Flush) : HandleMove
+[20251213_160420] (JobSerializer.Flush) : HandleMove
+[20251213_160420] (JobSerializer.Flush) : HandleMove
+[20251213_160420] (JobSerializer.Flush) : HandleMove
+[20251213_160420] (JobSerializer.Flush) : HandleMove
+[20251213_160420] (JobSerializer.Flush) : HandleMove
+[20251213_160420] (JobSerializer.Flush) : HandleMove
+[20251213_160420] (JobSerializer.Flush) : HandleMove
+[20251213_160420] (JobSerializer.Flush) : HandleMove
+[20251213_160420] (JobSerializer.Flush) : HandleMove
+[20251213_160420] (JobSerializer.Flush) : HandleMove
+[20251213_160420] (JobSerializer.Flush) : HandleMove
+[20251213_160420] (JobSerializer.Flush) : HandleMove
+[20251213_160420] (JobSerializer.Flush) : HandleMove
+[20251213_160420] (JobSerializer.Flush) : HandleMove
+[20251213_160420] (JobSerializer.Flush) : HandleMove
+[20251213_160420] (JobSerializer.Flush) : HandleMove
+[20251213_160421] (JobSerializer.Flush) : HandleMove
+[20251213_160421] (JobSerializer.Flush) : HandleMove
+[20251213_160421] (JobSerializer.Flush) : HandleMove
+[20251213_160421] (JobSerializer.Flush) : HandleMove
+[20251213_160421] (JobSerializer.Flush) : HandleMove
+[20251213_160421] (JobSerializer.Flush) : HandleMove
+[20251213_160421] (JobSerializer.Flush) : HandleMove
+[20251213_160421] (JobSerializer.Flush) : HandleMove
+[20251213_160421] (JobSerializer.Flush) : HandleMove
+[20251213_160421] (JobSerializer.Flush) : HandleMove
+[20251213_160421] (JobSerializer.Flush) : HandleMove
+[20251213_160422] (JobSerializer.Flush) : HandleMove
+[20251213_160422] (JobSerializer.Flush) : HandleMove
+[20251213_160422] (JobSerializer.Flush) : HandleMove
+[20251213_160422] (JobSerializer.Flush) : HandleMove
+[20251213_160422] (JobSerializer.Flush) : HandleMove
+[20251213_160422] (JobSerializer.Flush) : HandleMove
+[20251213_160423] (JobSerializer.Flush) : HandleMove
+[20251213_160425] (JobSerializer.Flush) : HandleMove
+[20251213_160425] (JobSerializer.Flush) : HandleMove
+[20251213_160425] (JobSerializer.Flush) : HandleMove
+[20251213_160425] (JobSerializer.Flush) : HandleMove
+[20251213_160425] (JobSerializer.Flush) : HandleMove
+[20251213_160425] (JobSerializer.Flush) : HandleMove
+[20251213_160425] (JobSerializer.Flush) : HandleMove
+[20251213_160425] (JobSerializer.Flush) : HandleMove
+[20251213_160425] (JobSerializer.Flush) : HandleMove
+[20251213_160425] (JobSerializer.Flush) : HandleMove
+[20251213_160426] (JobSerializer.Flush) : HandleMove
+[20251213_160426] (JobSerializer.Flush) : HandleMove
+[20251213_160426] (JobSerializer.Flush) : SpawnProjectile
+[20251213_160426] (JobSerializer.Flush) : EnterGame
+[20251213_160426] (GameRoom.EnterGame) : [GameRoom Update] Player 16777216 Pos(64.866394, -24.737535, 480.75497)
+[20251213_160426] (GameRoom.EnterGame) : [GameRoom Update] Player 16777217 Pos(68.97398, -24.066265, 459.99997)
+[20251213_160427] (JobSerializer.Flush) : HandleChangeCreatureState
+[20251213_160427] (JobSerializer.Flush) : HandleMove
+[20251213_160427] (JobSerializer.Flush) : HandleMove
+[20251213_160427] (JobSerializer.Flush) : HandleMove
+[20251213_160427] (JobSerializer.Flush) : HandleMove
+[20251213_160427] (JobSerializer.Flush) : HandleMove
+[20251213_160428] (JobSerializer.Flush) : HandleMove
+[20251213_160428] (JobSerializer.Flush) : HandleMove
+[20251213_160428] (JobSerializer.Flush) : HandleMove
+[20251213_160428] (JobSerializer.Flush) : HandleMove
+[20251213_160428] (JobSerializer.Flush) : HandleMove
+[20251213_160428] (JobSerializer.Flush) : HandleMove
+[20251213_160428] (JobSerializer.Flush) : HandleMove
+[20251213_160428] (JobSerializer.Flush) : HandleMove
+[20251213_160428] (JobSerializer.Flush) : HandleMove
+[20251213_160428] (JobSerializer.Flush) : HandleMove
+[20251213_160428] (JobSerializer.Flush) : HandleMove
+[20251213_160428] (JobSerializer.Flush) : HandleMove
+[20251213_160428] (JobSerializer.Flush) : HandleMove
+[20251213_160429] (JobSerializer.Flush) : HandleMove
+[20251213_160429] (JobSerializer.Flush) : HandleMove
+[20251213_160430] (JobSerializer.Flush) : HandleMove
+[20251213_160430] (JobSerializer.Flush) : HandleMove
+[20251213_160430] (JobSerializer.Flush) : HandleMove
+[20251213_160430] (JobSerializer.Flush) : HandleMove
+[20251213_160430] (JobSerializer.Flush) : HandleMove
+[20251213_160430] (JobSerializer.Flush) : HandleMove
+[20251213_160430] (JobSerializer.Flush) : HandleMove
+[20251213_160430] (JobSerializer.Flush) : HandleMove
+[20251213_160430] (JobSerializer.Flush) : HandleMove
+[20251213_160431] (JobSerializer.Flush) : HandleMove
+[20251213_160431] (JobSerializer.Flush) : HandleMove
+[20251213_160431] (JobSerializer.Flush) : HandleMove
+[20251213_160431] (JobSerializer.Flush) : HandleMove
+[20251213_160431] (JobSerializer.Flush) : HandleMove
+[20251213_160431] (JobSerializer.Flush) : HandleMove
+[20251213_160431] (JobSerializer.Flush) : HandleMove
+[20251213_160431] (JobSerializer.Flush) : HandleMove
+[20251213_160431] (JobSerializer.Flush) : SpawnProjectile
+[20251213_160431] (JobSerializer.Flush) : EnterGame
+[20251213_160431] (GameRoom.EnterGame) : [GameRoom Update] Player 16777216 Pos(64.866974, -24.27731, 467.74622)
+[20251213_160431] (GameRoom.EnterGame) : [GameRoom Update] Player 16777217 Pos(68.97398, -24.066265, 459.99997)
+[20251213_160432] (JobSerializer.Flush) : HandleAttack
+[20251213_160432] (JobSerializer.Flush) : HandleChangeCreatureState
+[20251213_160432] (JobSerializer.Flush) : HandleMove
+[20251213_160432] (JobSerializer.Flush) : HandleMove
+[20251213_160432] (JobSerializer.Flush) : HandleMove
+[20251213_160432] (JobSerializer.Flush) : SpawnProjectile
+[20251213_160432] (JobSerializer.Flush) : EnterGame
+[20251213_160432] (GameRoom.EnterGame) : [GameRoom Update] Player 16777216 Pos(65.5893, -24.241581, 466.54932)
+[20251213_160432] (GameRoom.EnterGame) : [GameRoom Update] Player 16777217 Pos(68.97398, -24.066265, 459.99997)
+[20251213_160433] (JobSerializer.Flush) : HandleAttack
+[20251213_160433] (GameObject.OnDead) : Id: 16777217, Type: Player is dead
+[20251213_160433] (JobSerializer.Flush) : HandleAttack
+[20251213_160433] (JobSerializer.Flush) : Broadcast
+[20251213_160433] (JobSerializer.Flush) : LeaveGame
+[20251213_160433] (JobSerializer.Flush) : SavePlayerCurrency_Db
+[20251213_160433] (Lobby.HandleRemoveRoom) : [Manager] Room 1 deleted (no players left)
+[20251213_160433] (JobSerializer.Flush) : HandleChangeCreatureState
+[20251213_160433] (JobSerializer.Flush) : SpawnProjectile
+[20251213_160433] (JobSerializer.Flush) : EnterGame
+[20251213_160433] (GameRoom.EnterGame) : [GameRoom Update] Player 16777216 Pos(65.5893, -24.241581, 466.54932)
+[20251213_160434] (JobSerializer.Flush) : HandleChangeCreatureState
+[20251213_160436] (JobSerializer.Flush) : HandleMove
+[20251213_160437] (JobSerializer.Flush) : HandleAttack
+[20251213_160439] (JobSerializer.Flush) : EnterLobby
+[20251213_160439] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777225
+[20251213_160439] (JobSerializer.Flush) : EnterLobby
+[20251213_160439] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777226
+[20251213_160445] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:59350
+[20251213_160445] (JobSerializer.Flush) : LeaveLobby
+[20251213_160445] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777225
+[20251213_160447] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:59354
+[20251213_160447] (JobSerializer.Flush) : LeaveLobby
+[20251213_160447] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777226

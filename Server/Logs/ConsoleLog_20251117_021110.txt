@@ -1,0 +1,33 @@
+[20251117_020940] (LobbyManager.Init) : LobbyData Donwload Complete
+[20251117_020940] (Program.Main) : Server Starting...
+[20251117_020940] (JobSerializer.Flush) : Init
+[20251117_020940] (JobSerializer.Flush) : Init
+[20251117_020940] (JobSerializer.Flush) : Init
+[20251117_020940] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 3
+[20251117_020940] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 2
+[20251117_020940] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 1
+[20251117_020940] (GameRoomManager..ctor) : GameRoomManager created for Lobby 3
+[20251117_020940] (GameRoomManager..ctor) : GameRoomManager created for Lobby 2
+[20251117_020940] (GameRoomManager..ctor) : GameRoomManager created for Lobby 1
+[20251117_021019] (SessionManager.Generate) : Connected : 1
+[20251117_021019] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:60455
+[20251117_021019] (ClientSession.EnterLobby) : Player Connected in Lobby 1
+[20251117_021019] (JobSerializer.Flush) : EnterLobby
+[20251117_021019] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777216
+[20251117_021021] (JobSerializer.Flush) : HandleAddRoom
+[20251117_021021] (Lobby.HandleAddRoom) : Room created: 1, RoomOnwerId: 16777216, RoomName: set​
+[20251117_021021] (JobSerializer.Flush) : Init
+[20251117_021024] (JobSerializer.Flush) : HandleAddRoom
+[20251117_021024] (Lobby.HandleAddRoom) : Room created: 2, RoomOnwerId: 16777216, RoomName: set​
+[20251117_021024] (JobSerializer.Flush) : Init
+[20251117_021027] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:60455
+[20251117_021027] (JobSerializer.Flush) : LeaveLobby
+[20251117_021027] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777216
+[20251117_021034] (SessionManager.Generate) : Connected : 2
+[20251117_021034] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:60476
+[20251117_021034] (ClientSession.EnterLobby) : Player Connected in Lobby 2
+[20251117_021034] (JobSerializer.Flush) : EnterLobby
+[20251117_021034] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777217
+[20251117_021036] (JobSerializer.Flush) : HandleAddRoom
+[20251117_021036] (Lobby.HandleAddRoom) : Room created: 3, RoomOnwerId: 16777217, RoomName: set​
+[20251117_021036] (JobSerializer.Flush) : Init

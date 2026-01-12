@@ -1,0 +1,15 @@
+[20251012_233603] (LobbyManager.Init) : LobbyData Donwload Complete
+[20251012_233603] (Program.Main) : Server Starting...
+[20251012_233611] (SessionManager.Generate) : Connected : 1
+[20251012_233611] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:58004
+[20251012_233611] (ClientSession.EnterLobby) : Player Connected in Lobby 1
+[20251012_233611] (SessionManager.Generate) : Connected : 2
+[20251012_233611] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:58011
+[20251012_233611] (ClientSession.EnterLobby) : Player Connected in Lobby 2
+[20251012_233612] (SessionManager.Generate) : Connected : 3
+[20251012_233612] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:58017
+[20251012_233612] (ClientSession.EnterLobby) : Player Connected in Lobby 3
+[20251012_233613] (ClientSession.OnDisconnected) : Can't Find Room 0 -> UserId: 16777217
+[20251012_233613] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:58011
+[20251012_233631] (ClientSession.OnDisconnected) : Can't Find Room 0 -> UserId: 16777218
+[20251012_233631] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:58017

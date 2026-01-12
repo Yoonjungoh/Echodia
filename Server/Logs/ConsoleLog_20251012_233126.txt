@@ -1,0 +1,11 @@
+[20251012_233055] (LobbyManager.Init) : LobbyData Donwload Complete
+[20251012_233055] (Program.Main) : Server Starting...
+[20251012_233109] (SessionManager.Generate) : Connected : 1
+[20251012_233109] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:57567
+[20251012_233109] (ClientSession.EnterLobby) : Player Connected in Lobby 1
+[20251012_233109] (SessionManager.Generate) : Connected : 2
+[20251012_233109] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:57574
+[20251012_233109] (ClientSession.EnterLobby) : Player Connected in Lobby 2
+[20251012_233110] (ClientSession.OnDisconnected) : Can't Find Room -> UserId: 16777216
+[20251012_233110] (ClientSession.OnDisconnected) : Can't Find Lobby -> UserId: 16777216
+[20251012_233110] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:57567

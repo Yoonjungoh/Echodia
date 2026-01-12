@@ -1,0 +1,22 @@
+[20251206_003646] (LobbyManager.Init) : LobbyData Donwload Complete
+[20251206_003646] (Program.Main) : Server Starting...
+[20251206_003646] (JobSerializer.Flush) : Init
+[20251206_003646] (JobSerializer.Flush) : Init
+[20251206_003646] (JobSerializer.Flush) : Init
+[20251206_003646] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 2
+[20251206_003646] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 1
+[20251206_003646] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 3
+[20251206_003646] (GameRoomManager..ctor) : GameRoomManager created for Lobby 2
+[20251206_003646] (GameRoomManager..ctor) : GameRoomManager created for Lobby 3
+[20251206_003646] (GameRoomManager..ctor) : GameRoomManager created for Lobby 1
+[20251206_003658] (SessionManager.Generate) : Connected : 1
+[20251206_003658] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:57798
+[20251206_003659] (SessionManager.Generate) : Connected : 2
+[20251206_003659] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:57804
+[20251206_003701] (ClientSession.HandleLogin) : AccountId: test​, Password: 1234​
+[20251206_003711] (ClientSession.HandleLogin) : AccountId: test​, Password: 1234​
+[20251206_003711] (ClientSession.HandleLogin) : [Warning] 로그인 상태가 아닌 곳에서 로그인 시도. SessionId: 1
+[20251206_003715] (ClientSession.HandleLogin) : AccountId: test​, Password: ​
+[20251206_003720] (ClientSession.HandleLogin) : AccountId: test​, Password: 1234​
+[20251206_003722] (ClientSession.HandleLogin) : AccountId: test​, Password: 1234​
+[20251206_003723] (ClientSession.OnDisconnected) : Can't Find MyPlayer

@@ -1,0 +1,21 @@
+[20251114_180501] (MapManager.Init) : [MapManager] Loading Map: C:\Users\user\Desktop\Development\Unity\Eternal Arena\Common\MapData\MapData_001.bytes
+[20251114_180501] (MapManager.Init) : [MapManager] Loaded Size = 2000 x 2000
+[20251114_180501] (MapManager.Init) : [MapManager] Origin = <-2000, 0, -2000>
+[20251114_180501] (MapManager.Init) : [MapManager] CellSize = 2
+[20251114_180501] (MapManager.Init) : [MapManager] Test
+[20251114_180501] (MapManager.Init) : Height[0,0] = 359.04
+[20251114_180501] (MapManager.Init) : Height[100,100] = 417.47998
+[20251114_180501] (MapManager.Init) : CanGo[0,0] = True
+[20251114_180501] (MapManager.Init) : CanGo[100,100] = True
+[20251114_180501] (MapManager.Init) : [MapManager] Load Complete
+[20251114_180501] (LobbyManager.Init) : LobbyData Donwload Complete
+[20251114_180501] (Program.Main) : Server Starting...
+[20251114_180501] (JobSerializer.Flush) : Init
+[20251114_180501] (JobSerializer.Flush) : Init
+[20251114_180501] (JobSerializer.Flush) : Init
+[20251114_180501] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 1
+[20251114_180501] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 2
+[20251114_180501] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 3
+[20251114_180501] (GameRoomManager..ctor) : GameRoomManager created for Lobby 1
+[20251114_180501] (GameRoomManager..ctor) : GameRoomManager created for Lobby 3
+[20251114_180501] (GameRoomManager..ctor) : GameRoomManager created for Lobby 2

@@ -1,0 +1,22 @@
+[20251110_231901] (LobbyManager.Init) : LobbyData Donwload Complete
+[20251110_231901] (Program.Main) : Server Starting...
+[20251110_231901] (JobSerializer.Flush) : Init
+[20251110_231901] (JobSerializer.Flush) : Init
+[20251110_231901] (JobSerializer.Flush) : Init
+[20251110_231901] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 1
+[20251110_231901] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 3
+[20251110_231901] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 2
+[20251110_231901] (GameRoomManager..ctor) : GameRoomManager created for Lobby 3
+[20251110_231901] (GameRoomManager..ctor) : GameRoomManager created for Lobby 1
+[20251110_231901] (GameRoomManager..ctor) : GameRoomManager created for Lobby 2
+[20251110_231913] (SessionManager.Generate) : Connected : 1
+[20251110_231913] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:57285
+[20251110_231913] (ClientSession.EnterLobby) : Player Connected in Lobby 1
+[20251110_231913] (JobSerializer.Flush) : EnterLobby
+[20251110_231913] (Lobby.EnterLobby) : Lobby: Enter UserId: 0
+[20251110_231914] (SessionManager.Generate) : Connected : 2
+[20251110_231914] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:57292
+[20251110_231914] (ClientSession.EnterLobby) : Player Connected in Lobby 2
+[20251110_231914] (JobSerializer.Flush) : EnterLobby
+[20251110_231914] (Lobby.EnterLobby) : Can't Add UserId: 0 to Lobby 1
+[20251110_231914] (Lobby.EnterLobby) : Lobby: Enter UserId: 0

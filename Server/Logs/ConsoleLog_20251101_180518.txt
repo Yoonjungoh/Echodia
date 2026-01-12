@@ -1,0 +1,35 @@
+[20251101_180418] (LobbyManager.Init) : LobbyData Donwload Complete
+[20251101_180418] (Program.Main) : Server Starting...
+[20251101_180418] (JobSerializer.Flush) : Init
+[20251101_180418] (JobSerializer.Flush) : Init
+[20251101_180418] (JobSerializer.Flush) : Init
+[20251101_180418] (WaitingRoomManager..ctor) : RoomManager created for Lobby 2
+[20251101_180418] (WaitingRoomManager..ctor) : RoomManager created for Lobby 3
+[20251101_180418] (WaitingRoomManager..ctor) : RoomManager created for Lobby 1
+[20251101_180425] (SessionManager.Generate) : Connected : 1
+[20251101_180425] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:63277
+[20251101_180425] (ClientSession.EnterLobby) : Player Connected in Lobby 1
+[20251101_180425] (JobSerializer.Flush) : EnterLobby
+[20251101_180425] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777216
+[20251101_180426] (SessionManager.Generate) : Connected : 2
+[20251101_180426] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:63290
+[20251101_180426] (ClientSession.EnterLobby) : Player Connected in Lobby 2
+[20251101_180426] (JobSerializer.Flush) : EnterLobby
+[20251101_180426] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777217
+[20251101_180433] (JobSerializer.Flush) : HandleAddRoom
+[20251101_180433] (Lobby.HandleAddRoom) : Room created: 1, RoomOnwerId: 16777216, RoomName: tset1​
+[20251101_180433] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (1/4)
+[20251101_180433] (JobSerializer.Flush) : LeaveLobby
+[20251101_180433] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777216
+[20251101_180433] (JobSerializer.Flush) : Init
+[20251101_180438] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (2/4)
+[20251101_180438] (JobSerializer.Flush) : LeaveLobby
+[20251101_180438] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777217
+[20251101_180440] (PacketSession.OnRecv) : 패킷 모아보내기 : 2
+[20251101_180440] (PacketSession.OnRecv) : 패킷 모아보내기 : 2
+[20251101_180448] (PacketSession.OnRecv) : 패킷 모아보내기 : 2
+[20251101_180510] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::bb6d:8391:7f70:8923%17]:63290
+[20251101_180510] (JobSerializer.Flush) : LeaveRoom
+[20251101_180510] (JobSerializer.Flush) : LeaveLobby
+[20251101_180510] (Lobby.LeaveLobby) : Not Exist UserId: 16777217
+[20251101_180510] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (1/4)

@@ -1,0 +1,29 @@
+[20251211_155847] (LobbyManager.Init) : LobbyData Donwload Complete
+[20251211_155847] (JobSerializer.Flush) : Init
+[20251211_155847] (JobSerializer.Flush) : Init
+[20251211_155847] (JobSerializer.Flush) : Init
+[20251211_155847] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 1
+[20251211_155847] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 2
+[20251211_155847] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 3
+[20251211_155847] (GameRoomManager..ctor) : GameRoomManager created for Lobby 1
+[20251211_155847] (GameRoomManager..ctor) : GameRoomManager created for Lobby 2
+[20251211_155847] (GameRoomManager..ctor) : GameRoomManager created for Lobby 3
+[20251211_155847] (Program.Main) : Server Starting...
+[20251211_160027] (SessionManager.Generate) : Connected : 1
+[20251211_160027] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:64969
+[20251211_160037] (ClientSession.HandleLogin) : AccountId: arcnature@naver.com​, Password: asd12asd!!​
+[20251211_160043] (ClientSession.HandleLogin) : AccountId: arcnature@naver.com​, Password: asd12asd!!​
+[20251211_160043] (ClientSession.HandleLogin) : [Warning] 로그인 상태가 아닌 곳에서 로그인 시도. SessionId: 1
+[20251211_160048] (ClientSession.HandleLogin) : AccountId: arcnature@naver.com​, Password: asd12asd!!​
+[20251211_160048] (ClientSession.HandleLogin) : [Warning] 로그인 상태가 아닌 곳에서 로그인 시도. SessionId: 1
+[20251211_160106] (ClientSession.OnDisconnected) : Can't Find MyPlayer
+[20251211_160123] (SessionManager.Generate) : Connected : 2
+[20251211_160123] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:65053
+[20251211_160126] (ClientSession.HandleLogin) : AccountId: test​, Password: 123​
+[20251211_160128] (ClientSession.HandleLogin) : AccountId: test​, Password: 1234​
+[20251211_160133] (ClientSession.HandleLogin) : AccountId: test​, Password: 1234​
+[20251211_160133] (ClientSession.HandleLogin) : [Warning] 로그인 상태가 아닌 곳에서 로그인 시도. SessionId: 2
+[20251211_160141] (ClientSession.OnDisconnected) : Can't Find MyPlayer
+[20251211_160148] (SessionManager.Generate) : Connected : 3
+[20251211_160148] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:65085
+[20251211_160155] (ClientSession.HandleLogin) : AccountId: test​, Password: 1234​

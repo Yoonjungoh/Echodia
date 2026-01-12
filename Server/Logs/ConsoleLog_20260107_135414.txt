@@ -1,0 +1,15 @@
+[20260107_135406] (LobbyManager.Init) : LobbyData Donwload Complete
+[20260107_135406] (Program.Main) : Server Starting...
+[20260107_135406] (JobSerializer.Flush) : Init
+[20260107_135406] (JobSerializer.Flush) : Init
+[20260107_135406] (JobSerializer.Flush) : Init
+[20260107_135406] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 1
+[20260107_135406] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 3
+[20260107_135406] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 2
+[20260107_135406] (GameRoomManager..ctor) : GameRoomManager created for Lobby 1
+[20260107_135406] (GameRoomManager..ctor) : GameRoomManager created for Lobby 2
+[20260107_135406] (GameRoomManager..ctor) : GameRoomManager created for Lobby 3
+[20260107_135412] (SessionManager.Generate) : Connected : 1
+[20260107_135412] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:61876
+[20260107_135412] (SessionManager.Generate) : Connected : 2
+[20260107_135412] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:61879

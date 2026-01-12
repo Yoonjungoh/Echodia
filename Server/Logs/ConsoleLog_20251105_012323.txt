@@ -1,0 +1,68 @@
+[20251105_012226] (LobbyManager.Init) : LobbyData Donwload Complete
+[20251105_012226] (Program.Main) : Server Starting...
+[20251105_012226] (JobSerializer.Flush) : Init
+[20251105_012226] (JobSerializer.Flush) : Init
+[20251105_012226] (JobSerializer.Flush) : Init
+[20251105_012226] (WaitingRoomManager..ctor) : RoomManager created for Lobby 2
+[20251105_012226] (WaitingRoomManager..ctor) : RoomManager created for Lobby 1
+[20251105_012226] (WaitingRoomManager..ctor) : RoomManager created for Lobby 3
+[20251105_012232] (SessionManager.Generate) : Connected : 1
+[20251105_012232] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:55406
+[20251105_012232] (ClientSession.EnterLobby) : Player Connected in Lobby 1
+[20251105_012232] (JobSerializer.Flush) : EnterLobby
+[20251105_012232] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777216
+[20251105_012233] (SessionManager.Generate) : Connected : 2
+[20251105_012233] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:55412
+[20251105_012233] (ClientSession.EnterLobby) : Player Connected in Lobby 2
+[20251105_012233] (JobSerializer.Flush) : EnterLobby
+[20251105_012233] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777217
+[20251105_012235] (JobSerializer.Flush) : HandleAddRoom
+[20251105_012235] (Lobby.HandleAddRoom) : Room created: 1, RoomOnwerId: 16777217, RoomName: ET​
+[20251105_012235] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (1/4)
+[20251105_012235] (JobSerializer.Flush) : LeaveLobby
+[20251105_012235] (JobSerializer.Flush) : Init
+[20251105_012235] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777217
+[20251105_012242] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:55412
+[20251105_012242] (JobSerializer.Flush) : LeaveRoom
+[20251105_012242] (JobSerializer.Flush) : LeaveLobby
+[20251105_012242] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (0/4)
+[20251105_012242] (Lobby.LeaveLobby) : Not Exist UserId: 16777217
+[20251105_012242] (Lobby.HandleRemoveRoom) : [Manager] Room 1 deleted (no players left)
+[20251105_012248] (JobSerializer.Flush) : HandleAddRoom
+[20251105_012248] (Lobby.HandleAddRoom) : Room created: 2, RoomOnwerId: 16777216, RoomName: SET​
+[20251105_012248] (Lobby.HandleRoomInfoChanged) : [Manager] Room 2 (1/4)
+[20251105_012248] (JobSerializer.Flush) : Init
+[20251105_012248] (JobSerializer.Flush) : LeaveLobby
+[20251105_012248] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777216
+[20251105_012249] (SessionManager.Generate) : Connected : 3
+[20251105_012249] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:55426
+[20251105_012249] (ClientSession.EnterLobby) : Player Connected in Lobby 3
+[20251105_012249] (JobSerializer.Flush) : EnterLobby
+[20251105_012249] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777220
+[20251105_012251] (Lobby.HandleRoomInfoChanged) : [Manager] Room 2 (2/4)
+[20251105_012251] (JobSerializer.Flush) : LeaveLobby
+[20251105_012251] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777220
+[20251105_012253] (PacketSession.OnRecv) : 패킷 모아보내기 : 2
+[20251105_012309] (SessionManager.Generate) : Connected : 4
+[20251105_012309] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:55442
+[20251105_012309] (ClientSession.EnterLobby) : Player Connected in Lobby 4
+[20251105_012309] (JobSerializer.Flush) : EnterLobby
+[20251105_012309] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777222
+[20251105_012310] (Lobby.HandleRoomInfoChanged) : [Manager] Room 2 (3/4)
+[20251105_012310] (JobSerializer.Flush) : LeaveLobby
+[20251105_012310] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777222
+[20251105_012319] (JobSerializer.Flush) : LeaveRoom
+[20251105_012319] (Lobby.HandleRoomInfoChanged) : [Manager] Room 2 (2/4)
+[20251105_012319] (JobSerializer.Flush) : EnterLobby
+[20251105_012319] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777222
+[20251105_012322] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:55426
+[20251105_012322] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:55406
+[20251105_012322] (JobSerializer.Flush) : LeaveLobby
+[20251105_012322] (JobSerializer.Flush) : LeaveRoom
+[20251105_012322] (Lobby.LeaveLobby) : Not Exist UserId: 16777220
+[20251105_012322] (JobSerializer.Flush) : LeaveLobby
+[20251105_012322] (Lobby.HandleRoomInfoChanged) : [Manager] Room 2 (1/4)
+[20251105_012322] (Lobby.LeaveLobby) : Not Exist UserId: 16777216
+[20251105_012322] (JobSerializer.Flush) : LeaveRoom
+[20251105_012322] (Lobby.HandleRoomInfoChanged) : [Manager] Room 2 (0/4)
+[20251105_012322] (Lobby.HandleRemoveRoom) : [Manager] Room 2 deleted (no players left)

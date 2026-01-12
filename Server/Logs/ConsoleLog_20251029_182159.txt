@@ -1,0 +1,40 @@
+[20251029_181721] (LobbyManager.Init) : LobbyData Donwload Complete
+[20251029_181721] (JobSerializer.Flush) : Init
+[20251029_181721] (JobSerializer.Flush) : Init
+[20251029_181721] (JobSerializer.Flush) : Init
+[20251029_181721] (WaitingRoomManager..ctor) : RoomManager created for Lobby 3
+[20251029_181721] (WaitingRoomManager..ctor) : RoomManager created for Lobby 1
+[20251029_181721] (WaitingRoomManager..ctor) : RoomManager created for Lobby 2
+[20251029_181721] (Program.Main) : Server Starting...
+[20251029_181744] (SessionManager.Generate) : Connected : 1
+[20251029_181744] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:63150
+[20251029_181744] (ClientSession.EnterLobby) : Player Connected in Lobby 1
+[20251029_181744] (JobSerializer.Flush) : EnterLobby
+[20251029_181744] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777216
+[20251029_181809] (SessionManager.Generate) : Connected : 2
+[20251029_181809] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:63192
+[20251029_181809] (ClientSession.EnterLobby) : Player Connected in Lobby 2
+[20251029_181809] (JobSerializer.Flush) : EnterLobby
+[20251029_181809] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777217
+[20251029_181816] (SessionManager.Generate) : Connected : 3
+[20251029_181816] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:63203
+[20251029_181816] (ClientSession.EnterLobby) : Player Connected in Lobby 3
+[20251029_181816] (JobSerializer.Flush) : EnterLobby
+[20251029_181816] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777218
+[20251029_181901] (JobSerializer.Flush) : HandleAddRoom
+[20251029_181901] (Lobby.HandleAddRoom) : Room created: 1, RoomOnwerId: 16777216, RoomName: test1​
+[20251029_181901] (JobSerializer.Flush) : Init
+[20251029_181901] (JobSerializer.Flush) : LeaveLobby
+[20251029_181901] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777216
+[20251029_181906] (JobSerializer.Flush) : LeaveLobby
+[20251029_181906] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777217
+[20251029_181909] (JobSerializer.Flush) : LeaveLobby
+[20251029_181909] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777218
+[20251029_182157] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::bb6d:8391:7f70:8923%17]:63150
+[20251029_182157] (JobSerializer.Flush) : LeaveLobby
+[20251029_182157] (Lobby.LeaveLobby) : Not Exist UserId: 16777216
+[20251029_182157] (JobSerializer.Flush) : LeaveGame
+[20251029_182159] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::bb6d:8391:7f70:8923%17]:63192
+[20251029_182159] (JobSerializer.Flush) : LeaveLobby
+[20251029_182159] (Lobby.LeaveLobby) : Not Exist UserId: 16777217
+[20251029_182159] (JobSerializer.Flush) : LeaveGame

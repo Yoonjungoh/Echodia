@@ -1,0 +1,25 @@
+[20240222_013027]: ReqExpData Downloaded
+[20240222_013027]: PlayerStatData Downloaded
+[20240222_013027]: BuffData Downloaded
+[20240222_013028]: ShopBuffData Downloaded
+[20240222_013028]: All data has been downloaded...
+[20240222_013028]: Server Starting...
+[20240222_013049]: Connected : 1
+[20240222_013049]: OnConnected : 218.147.118.37:62640
+[20240222_013049]: Make new Room 1
+[20240222_013049]: Player Connected in GameRoom 1
+[20240222_013054]: Connected : 2
+[20240222_013054]: OnConnected : 218.147.118.37:62653
+[20240222_013054]: Find Room! 1
+[20240222_013054]: Player Connected in GameRoom 1
+[20240222_013105]: Connected : 3
+[20240222_013105]: OnConnected : 218.147.118.37:62672
+[20240222_013105]: Find Room! 1
+[20240222_013105]: Player Connected in GameRoom 1
+[20240222_013121]: Connected : 4
+[20240222_013121]: OnConnected : 218.147.118.37:62705
+[20240222_013121]: Find Room! 1
+[20240222_013121]: Player Connected in GameRoom 1
+[20240222_013129]: OnDisconnected : 218.147.118.37:62672
+[20240222_013131]: OnDisconnected : 218.147.118.37:62653
+[20240222_013131]: OnDisconnected : 218.147.118.37:62640

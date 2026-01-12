@@ -1,0 +1,243 @@
+[20260109_152918] (LobbyManager.Init) : LobbyData Donwload Complete
+[20260109_152918] (Program.Main) : Server Starting...
+[20260109_152918] (JobSerializer.Flush) : Init
+[20260109_152918] (JobSerializer.Flush) : Init
+[20260109_152918] (JobSerializer.Flush) : Init
+[20260109_152918] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 3
+[20260109_152918] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 2
+[20260109_152918] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 1
+[20260109_152918] (GameRoomManager..ctor) : GameRoomManager created for Lobby 3
+[20260109_152918] (GameRoomManager..ctor) : GameRoomManager created for Lobby 2
+[20260109_152918] (GameRoomManager..ctor) : GameRoomManager created for Lobby 1
+[20260109_152954] (SessionManager.Generate) : Connected : 1
+[20260109_152954] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:56626
+[20260109_152959] (ClientSession.HandleLogin) : AccountId: 1, Password: 1
+[20260109_153004] (JobSerializer.Flush) : EnterLobby
+[20260109_153004] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777216
+[20260109_153026] (SessionManager.Generate) : Connected : 2
+[20260109_153026] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:56685
+[20260109_153029] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:56626
+[20260109_153029] (JobSerializer.Flush) : LeaveLobby
+[20260109_153029] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777216
+[20260109_153031] (ClientSession.HandleLogin) : AccountId: 2, Password: 2
+[20260109_153034] (JobSerializer.Flush) : EnterLobby
+[20260109_153034] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777217
+[20260109_153049] (SessionManager.Generate) : Connected : 3
+[20260109_153049] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:56718
+[20260109_153052] (ClientSession.HandleLogin) : AccountId: 1, Password: 1
+[20260109_153055] (JobSerializer.Flush) : EnterLobby
+[20260109_153055] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777218
+[20260109_153108] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:56718
+[20260109_153108] (JobSerializer.Flush) : LeaveLobby
+[20260109_153108] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777218
+[20260109_153113] (SessionManager.Generate) : Connected : 4
+[20260109_153113] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:56758
+[20260109_153121] (ClientSession.HandleLogin) : AccountId: 1, Password: 1
+[20260109_153124] (JobSerializer.Flush) : EnterLobby
+[20260109_153124] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777219
+[20260109_153130] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:56758
+[20260109_153130] (JobSerializer.Flush) : LeaveLobby
+[20260109_153130] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777219
+[20260109_153135] (SessionManager.Generate) : Connected : 5
+[20260109_153135] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:56797
+[20260109_153136] (ClientSession.HandleLogin) : AccountId: 1, Password: 1
+[20260109_153140] (JobSerializer.Flush) : EnterLobby
+[20260109_153140] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777220
+[20260109_153152] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:56797
+[20260109_153152] (JobSerializer.Flush) : LeaveLobby
+[20260109_153152] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777220
+[20260109_153217] (SessionManager.Generate) : Connected : 6
+[20260109_153217] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:56854
+[20260109_153222] (ClientSession.HandleLogin) : AccountId: 1, Password: 1
+[20260109_153225] (JobSerializer.Flush) : EnterLobby
+[20260109_153225] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777221
+[20260109_153237] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:56854
+[20260109_153237] (JobSerializer.Flush) : LeaveLobby
+[20260109_153237] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777221
+[20260109_153242] (SessionManager.Generate) : Connected : 7
+[20260109_153242] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:56886
+[20260109_153243] (ClientSession.HandleLogin) : AccountId: 1, Password: 1
+[20260109_153247] (JobSerializer.Flush) : EnterLobby
+[20260109_153247] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777222
+[20260109_153255] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:56886
+[20260109_153255] (JobSerializer.Flush) : LeaveLobby
+[20260109_153255] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777222
+[20260109_153300] (SessionManager.Generate) : Connected : 8
+[20260109_153300] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:56911
+[20260109_153301] (ClientSession.HandleLogin) : AccountId: 1, Password: 1
+[20260109_153305] (JobSerializer.Flush) : EnterLobby
+[20260109_153305] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777223
+[20260109_153311] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:56911
+[20260109_153311] (JobSerializer.Flush) : LeaveLobby
+[20260109_153311] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777223
+[20260109_154158] (SessionManager.Generate) : Connected : 9
+[20260109_154158] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:57669
+[20260109_154211] (ClientSession.HandleLogin) : AccountId: 1, Password: 1
+[20260109_154212] (ClientSession.HandleLogin) : AccountId: 1, Password: 1
+[20260109_154212] (ClientSession.HandleLogin) : [Warning] 로그인 상태가 아닌 곳에서 로그인 시도. SessionId: 9
+[20260109_154212] (ClientSession.HandleLogin) : AccountId: 1, Password: 1
+[20260109_154212] (ClientSession.HandleLogin) : [Warning] 로그인 상태가 아닌 곳에서 로그인 시도. SessionId: 9
+[20260109_154212] (PacketSession.OnRecv) : 패킷 모아보내기 : 2
+[20260109_154216] (JobSerializer.Flush) : EnterLobby
+[20260109_154216] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777224
+[20260109_154227] (SessionManager.Generate) : Connected : 10
+[20260109_154227] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:57704
+[20260109_154230] (ClientSession.HandleLogin) : AccountId: 3, Password: 3
+[20260109_154233] (JobSerializer.Flush) : EnterLobby
+[20260109_154233] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777225
+[20260109_154240] (JobSerializer.Flush) : HandleAddRoom
+[20260109_154240] (Lobby.HandleAddRoom) : Room created: 1, RoomOnwerId: 16777225, RoomName: 테스트 방​
+[20260109_154240] (JobSerializer.Flush) : Init
+[20260109_154241] (JobSerializer.Flush) : LeaveLobby
+[20260109_154241] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777225
+[20260109_154241] (JobSerializer.Flush) : EnterRoom
+[20260109_154241] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (1/2)
+[20260109_154241] (JobSerializer.Flush) : HandleMove
+[20260109_154241] (JobSerializer.Flush) : HandleMove
+[20260109_154241] (JobSerializer.Flush) : HandleMove
+[20260109_154241] (JobSerializer.Flush) : HandleMove
+[20260109_154241] (JobSerializer.Flush) : HandleMove
+[20260109_154241] (JobSerializer.Flush) : HandleMove
+[20260109_154241] (JobSerializer.Flush) : HandleMove
+[20260109_154241] (JobSerializer.Flush) : HandleMove
+[20260109_154241] (JobSerializer.Flush) : HandleMove
+[20260109_154241] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154242] (JobSerializer.Flush) : HandleMove
+[20260109_154247] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:56685
+[20260109_154247] (JobSerializer.Flush) : LeaveLobby
+[20260109_154247] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777217
+[20260109_154251] (SessionManager.Generate) : Connected : 11
+[20260109_154251] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:57734
+[20260109_154255] (ClientSession.HandleLogin) : AccountId: 5, Password: 5
+[20260109_154255] (ClientSession.HandleLogin) : AccountId: , Password: 
+[20260109_154300] (JobSerializer.Flush) : EnterLobby
+[20260109_154300] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777226
+[20260109_154314] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:57669
+[20260109_154314] (JobSerializer.Flush) : LeaveLobby
+[20260109_154314] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777224
+[20260109_154316] (JobSerializer.Flush) : LeaveRoom
+[20260109_154316] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (0/2)
+[20260109_154316] (Lobby.HandleRemoveRoom) : [Manager] Room 1 deleted (no players left)
+[20260109_154317] (JobSerializer.Flush) : EnterLobby
+[20260109_154317] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777227
+[20260109_154445] (SessionManager.Generate) : Connected : 12
+[20260109_154445] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:57856
+[20260109_154446] (ClientSession.HandleLogin) : AccountId: 1, Password: 1
+[20260109_154450] (JobSerializer.Flush) : EnterLobby
+[20260109_154450] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777228
+[20260109_154457] (JobSerializer.Flush) : HandleAddRoom
+[20260109_154457] (Lobby.HandleAddRoom) : Room created: 2, RoomOnwerId: 16777227, RoomName: 테스트 룸​
+[20260109_154457] (JobSerializer.Flush) : Init
+[20260109_154458] (JobSerializer.Flush) : EnterRoom
+[20260109_154458] (Lobby.HandleRoomInfoChanged) : [Manager] Room 2 (1/2)
+[20260109_154458] (JobSerializer.Flush) : LeaveLobby
+[20260109_154458] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777227
+[20260109_154458] (JobSerializer.Flush) : HandleMove
+[20260109_154458] (JobSerializer.Flush) : HandleMove
+[20260109_154458] (JobSerializer.Flush) : HandleMove
+[20260109_154458] (JobSerializer.Flush) : HandleMove
+[20260109_154458] (JobSerializer.Flush) : HandleMove
+[20260109_154458] (JobSerializer.Flush) : HandleMove
+[20260109_154458] (JobSerializer.Flush) : HandleMove
+[20260109_154458] (JobSerializer.Flush) : HandleMove
+[20260109_154458] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154459] (JobSerializer.Flush) : HandleMove
+[20260109_154511] (SessionManager.Generate) : Connected : 13
+[20260109_154511] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:57888
+[20260109_154513] (ClientSession.HandleLogin) : AccountId: test1, Password: 1234
+[20260109_154517] (JobSerializer.Flush) : EnterLobby
+[20260109_154517] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777229
+[20260109_154523] (JobSerializer.Flush) : HandleAddRoom
+[20260109_154523] (Lobby.HandleAddRoom) : Room created: 3, RoomOnwerId: 16777229, RoomName: 테스트 룸 2​
+[20260109_154523] (JobSerializer.Flush) : Init
+[20260109_154524] (JobSerializer.Flush) : EnterRoom
+[20260109_154524] (JobSerializer.Flush) : LeaveLobby
+[20260109_154524] (Lobby.HandleRoomInfoChanged) : [Manager] Room 3 (1/2)
+[20260109_154524] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777229
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154525] (JobSerializer.Flush) : HandleMove
+[20260109_154534] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:57856
+[20260109_154534] (JobSerializer.Flush) : LeaveLobby
+[20260109_154534] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777228
+[20260109_154600] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:57888
+[20260109_154600] (JobSerializer.Flush) : LeaveLobby
+[20260109_154600] (JobSerializer.Flush) : LeaveRoom
+[20260109_154600] (Lobby.LeaveLobby) : Not Exist UserId: 16777229
+[20260109_154600] (Lobby.HandleRoomInfoChanged) : [Manager] Room 3 (0/2)
+[20260109_154600] (Lobby.HandleRemoveRoom) : [Manager] Room 3 deleted (no players left)
+[20260109_154601] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:57704
+[20260109_154601] (JobSerializer.Flush) : LeaveRoom
+[20260109_154601] (Lobby.HandleRoomInfoChanged) : [Manager] Room 2 (0/2)
+[20260109_154601] (Lobby.HandleRemoveRoom) : [Manager] Room 2 deleted (no players left)
+[20260109_154601] (JobSerializer.Flush) : LeaveLobby
+[20260109_154601] (Lobby.LeaveLobby) : Not Exist UserId: 16777227

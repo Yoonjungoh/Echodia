@@ -1,0 +1,24 @@
+[20251018_025455] (LobbyManager.Init) : LobbyData Donwload Complete
+[20251018_025455] (Program.Main) : Server Starting...
+[20251018_025455] (JobSerializer.Flush) : Init
+[20251018_025455] (JobSerializer.Flush) : Init
+[20251018_025455] (JobSerializer.Flush) : Init
+[20251018_025455] (WaitingRoomManager..ctor) : RoomManager created for Lobby 2
+[20251018_025455] (WaitingRoomManager..ctor) : RoomManager created for Lobby 3
+[20251018_025455] (WaitingRoomManager..ctor) : RoomManager created for Lobby 1
+[20251018_025503] (SessionManager.Generate) : Connected : 1
+[20251018_025503] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:63448
+[20251018_025503] (ClientSession.EnterLobby) : Player Connected in Lobby 1
+[20251018_025503] (JobSerializer.Flush) : EnterLobby
+[20251018_025503] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777216
+[20251018_025507] (SessionManager.Generate) : Connected : 2
+[20251018_025507] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:63457
+[20251018_025507] (ClientSession.EnterLobby) : Player Connected in Lobby 2
+[20251018_025507] (JobSerializer.Flush) : EnterLobby
+[20251018_025507] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777217
+[20251018_025509] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:63448
+[20251018_025509] (JobSerializer.Flush) : LeaveLobby
+[20251018_025509] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777216
+[20251018_025510] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:63457
+[20251018_025510] (JobSerializer.Flush) : LeaveLobby
+[20251018_025510] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777217

@@ -1,0 +1,13 @@
+[20251010_001048]: Server Starting...
+[20251010_001147]: Connected : 1
+[20251010_001147]: OnConnected : [fe80::c8c1:233f:309:a705%16]:64606
+[20251010_001147]: Player Connected in Lobby 1
+[20251010_001155]: Connected : 2
+[20251010_001155]: OnConnected : [fe80::c8c1:233f:309:a705%16]:64622
+[20251010_001155]: Player Connected in Lobby 2
+[20251010_001201]: Cant Find Room 0
+[20251010_001201]: <Remain Room List>
+[20251010_001201]: Cant Leave the game because room is null
+[20251010_001202]: Cant Find Room 0
+[20251010_001202]: <Remain Room List>
+[20251010_001202]: Cant Leave the game because room is null

@@ -1,0 +1,237 @@
+[20251005_173921]: Server Starting...
+[20251005_173928]: Connected : 1
+[20251005_173928]: OnConnected : [fe80::c8c1:233f:309:a705%16]:54632
+[20251005_173928]: Make new Room 1
+[20251005_173928]: Player Connected in GameRoom 1
+[20251005_174002]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:54632
+[20251005_174005]: Connected : 2
+[20251005_174005]: OnConnected : [fe80::c8c1:233f:309:a705%16]:54674
+[20251005_174005]: Find Room! 1
+[20251005_174005]: Player Connected in GameRoom 1
+[20251005_174400]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:54674
+[20251005_174403]: Connected : 3
+[20251005_174403]: OnConnected : [fe80::c8c1:233f:309:a705%16]:54960
+[20251005_174403]: Find Room! 1
+[20251005_174403]: Player Connected in GameRoom 1
+[20251005_174430]: 패킷 모아보내기 : 6
+[20251005_174623]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:54960
+[20251005_174638]: Connected : 4
+[20251005_174638]: OnConnected : [fe80::c8c1:233f:309:a705%16]:55136
+[20251005_174638]: Find Room! 1
+[20251005_174638]: Player Connected in GameRoom 1
+[20251005_174647]: 패킷 모아보내기 : 2
+[20251005_174704]: 패킷 모아보내기 : 2
+[20251005_174718]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:55136
+[20251005_174722]: Connected : 5
+[20251005_174722]: OnConnected : [fe80::c8c1:233f:309:a705%16]:55184
+[20251005_174722]: Find Room! 1
+[20251005_174722]: Player Connected in GameRoom 1
+[20251005_174922]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:55184
+[20251005_175455]: Connected : 6
+[20251005_175455]: OnConnected : [fe80::c8c1:233f:309:a705%16]:55709
+[20251005_175455]: Find Room! 1
+[20251005_175455]: Player Connected in GameRoom 1
+[20251005_175457]: 패킷 모아보내기 : 2
+[20251005_175458]: 패킷 모아보내기 : 2
+[20251005_175502]: 패킷 모아보내기 : 2
+[20251005_175513]: 패킷 모아보내기 : 2
+[20251005_175553]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:55709
+[20251005_175557]: Connected : 7
+[20251005_175557]: OnConnected : [fe80::c8c1:233f:309:a705%16]:55776
+[20251005_175557]: Find Room! 1
+[20251005_175557]: Player Connected in GameRoom 1
+[20251005_175641]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:55776
+[20251005_175654]: Connected : 8
+[20251005_175654]: OnConnected : [fe80::c8c1:233f:309:a705%16]:55837
+[20251005_175654]: Find Room! 1
+[20251005_175654]: Player Connected in GameRoom 1
+[20251005_175801]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:55837
+[20251005_180106]: Connected : 9
+[20251005_180106]: OnConnected : [fe80::c8c1:233f:309:a705%16]:56121
+[20251005_180106]: Find Room! 1
+[20251005_180106]: Player Connected in GameRoom 1
+[20251005_180132]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:56121
+[20251005_180142]: Connected : 10
+[20251005_180142]: OnConnected : [fe80::c8c1:233f:309:a705%16]:56161
+[20251005_180142]: Find Room! 1
+[20251005_180142]: Player Connected in GameRoom 1
+[20251005_180241]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:56161
+[20251005_180254]: Connected : 11
+[20251005_180254]: OnConnected : [fe80::c8c1:233f:309:a705%16]:56264
+[20251005_180254]: Find Room! 1
+[20251005_180254]: Player Connected in GameRoom 1
+[20251005_180309]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:56264
+[20251005_180313]: Connected : 12
+[20251005_180313]: OnConnected : [fe80::c8c1:233f:309:a705%16]:56287
+[20251005_180313]: Find Room! 1
+[20251005_180313]: Player Connected in GameRoom 1
+[20251005_180334]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:56287
+[20251005_180346]: Connected : 13
+[20251005_180346]: OnConnected : [fe80::c8c1:233f:309:a705%16]:56330
+[20251005_180346]: Find Room! 1
+[20251005_180346]: Player Connected in GameRoom 1
+[20251005_180507]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:56330
+[20251005_180603]: Connected : 14
+[20251005_180603]: OnConnected : [fe80::c8c1:233f:309:a705%16]:56492
+[20251005_180603]: Find Room! 1
+[20251005_180603]: Player Connected in GameRoom 1
+[20251005_181103]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:56492
+[20251005_181116]: Connected : 15
+[20251005_181116]: OnConnected : [fe80::c8c1:233f:309:a705%16]:56827
+[20251005_181116]: Find Room! 1
+[20251005_181116]: Player Connected in GameRoom 1
+[20251005_181121]: 패킷 모아보내기 : 3
+[20251005_181137]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:56827
+[20251005_181145]: Connected : 16
+[20251005_181145]: OnConnected : [fe80::c8c1:233f:309:a705%16]:56861
+[20251005_181145]: Find Room! 1
+[20251005_181145]: Player Connected in GameRoom 1
+[20251005_181157]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:56861
+[20251005_181204]: Connected : 17
+[20251005_181204]: OnConnected : [fe80::c8c1:233f:309:a705%16]:56881
+[20251005_181204]: Find Room! 1
+[20251005_181204]: Player Connected in GameRoom 1
+[20251005_181457]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:56881
+[20251005_181522]: Connected : 18
+[20251005_181522]: OnConnected : [fe80::c8c1:233f:309:a705%16]:57124
+[20251005_181522]: Find Room! 1
+[20251005_181522]: Player Connected in GameRoom 1
+[20251005_181624]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:57124
+[20251005_181627]: Connected : 19
+[20251005_181627]: OnConnected : [fe80::c8c1:233f:309:a705%16]:57197
+[20251005_181627]: Find Room! 1
+[20251005_181627]: Player Connected in GameRoom 1
+[20251005_181815]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:57197
+[20251005_182312]: Connected : 20
+[20251005_182312]: OnConnected : [fe80::c8c1:233f:309:a705%16]:57641
+[20251005_182312]: Find Room! 1
+[20251005_182312]: Player Connected in GameRoom 1
+[20251005_182319]: 패킷 모아보내기 : 3
+[20251005_182337]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:57641
+[20251005_182345]: Connected : 21
+[20251005_182345]: OnConnected : [fe80::c8c1:233f:309:a705%16]:57681
+[20251005_182345]: Find Room! 1
+[20251005_182345]: Player Connected in GameRoom 1
+[20251005_182353]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:57681
+[20251005_182454]: Connected : 22
+[20251005_182454]: OnConnected : [fe80::c8c1:233f:309:a705%16]:57756
+[20251005_182454]: Find Room! 1
+[20251005_182454]: Player Connected in GameRoom 1
+[20251005_182534]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:57756
+[20251005_182605]: Connected : 23
+[20251005_182605]: OnConnected : [fe80::c8c1:233f:309:a705%16]:57836
+[20251005_182605]: Find Room! 1
+[20251005_182605]: Player Connected in GameRoom 1
+[20251005_182613]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:57836
+[20251005_182631]: Connected : 24
+[20251005_182631]: OnConnected : [fe80::c8c1:233f:309:a705%16]:57868
+[20251005_182631]: Find Room! 1
+[20251005_182631]: Player Connected in GameRoom 1
+[20251005_182821]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:57868
+[20251005_182925]: Connected : 25
+[20251005_182925]: OnConnected : [fe80::c8c1:233f:309:a705%16]:58049
+[20251005_182925]: Find Room! 1
+[20251005_182925]: Player Connected in GameRoom 1
+[20251005_183032]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:58049
+[20251005_183107]: Connected : 26
+[20251005_183107]: OnConnected : [fe80::c8c1:233f:309:a705%16]:58158
+[20251005_183107]: Find Room! 1
+[20251005_183107]: Player Connected in GameRoom 1
+[20251005_183116]: 패킷 모아보내기 : 2
+[20251005_183154]: 패킷 모아보내기 : 2
+[20251005_183259]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:58158
+[20251005_183331]: Connected : 27
+[20251005_183331]: OnConnected : [fe80::c8c1:233f:309:a705%16]:58331
+[20251005_183331]: Find Room! 1
+[20251005_183331]: Player Connected in GameRoom 1
+[20251005_183358]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:58331
+[20251005_183407]: Connected : 28
+[20251005_183407]: OnConnected : [fe80::c8c1:233f:309:a705%16]:58371
+[20251005_183407]: Find Room! 1
+[20251005_183407]: Player Connected in GameRoom 1
+[20251005_183423]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:58371
+[20251005_183555]: Connected : 29
+[20251005_183555]: OnConnected : [fe80::c8c1:233f:309:a705%16]:58487
+[20251005_183555]: Find Room! 1
+[20251005_183555]: Player Connected in GameRoom 1
+[20251005_183635]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:58487
+[20251005_183646]: Connected : 30
+[20251005_183646]: OnConnected : [fe80::c8c1:233f:309:a705%16]:58541
+[20251005_183646]: Find Room! 1
+[20251005_183646]: Player Connected in GameRoom 1
+[20251005_183711]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:58541
+[20251005_183719]: Connected : 31
+[20251005_183719]: OnConnected : [fe80::c8c1:233f:309:a705%16]:58579
+[20251005_183719]: Find Room! 1
+[20251005_183719]: Player Connected in GameRoom 1
+[20251005_183827]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:58579
+[20251005_183831]: Connected : 32
+[20251005_183831]: OnConnected : [fe80::c8c1:233f:309:a705%16]:58657
+[20251005_183831]: Find Room! 1
+[20251005_183831]: Player Connected in GameRoom 1
+[20251005_184007]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:58657
+[20251005_184015]: Connected : 33
+[20251005_184015]: OnConnected : [fe80::c8c1:233f:309:a705%16]:58777
+[20251005_184015]: Find Room! 1
+[20251005_184015]: Player Connected in GameRoom 1
+[20251005_184043]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:58777
+[20251005_184238]: Connected : 34
+[20251005_184238]: OnConnected : [fe80::c8c1:233f:309:a705%16]:58932
+[20251005_184238]: Find Room! 1
+[20251005_184238]: Player Connected in GameRoom 1
+[20251005_184317]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:58932
+[20251005_184338]: Connected : 35
+[20251005_184338]: OnConnected : [fe80::c8c1:233f:309:a705%16]:59022
+[20251005_184338]: Find Room! 1
+[20251005_184338]: Player Connected in GameRoom 1
+[20251005_184411]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:59022
+[20251005_184422]: Connected : 36
+[20251005_184422]: OnConnected : [fe80::c8c1:233f:309:a705%16]:59070
+[20251005_184422]: Find Room! 1
+[20251005_184422]: Player Connected in GameRoom 1
+[20251005_184453]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:59070
+[20251005_184508]: Connected : 37
+[20251005_184508]: OnConnected : [fe80::c8c1:233f:309:a705%16]:59127
+[20251005_184508]: Find Room! 1
+[20251005_184508]: Player Connected in GameRoom 1
+[20251005_184526]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:59127
+[20251005_184611]: Connected : 38
+[20251005_184611]: OnConnected : [fe80::c8c1:233f:309:a705%16]:59194
+[20251005_184611]: Find Room! 1
+[20251005_184611]: Player Connected in GameRoom 1
+[20251005_184613]: 패킷 모아보내기 : 2
+[20251005_184626]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:59194
+[20251005_184636]: Connected : 39
+[20251005_184636]: OnConnected : [fe80::c8c1:233f:309:a705%16]:59221
+[20251005_184636]: Find Room! 1
+[20251005_184636]: Player Connected in GameRoom 1
+[20251005_184719]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:59221
+[20251005_184849]: Connected : 40
+[20251005_184849]: OnConnected : [fe80::c8c1:233f:309:a705%16]:59368
+[20251005_184849]: Find Room! 1
+[20251005_184849]: Player Connected in GameRoom 1
+[20251005_184938]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:59368
+[20251005_184949]: Connected : 41
+[20251005_184949]: OnConnected : [fe80::c8c1:233f:309:a705%16]:59433
+[20251005_184949]: Find Room! 1
+[20251005_184949]: Player Connected in GameRoom 1
+[20251005_185007]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:59433
+[20251005_185145]: Connected : 42
+[20251005_185145]: OnConnected : [fe80::c8c1:233f:309:a705%16]:59549
+[20251005_185145]: Find Room! 1
+[20251005_185145]: Player Connected in GameRoom 1
+[20251005_185211]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:59549
+[20251005_185946]: Connected : 43
+[20251005_185946]: OnConnected : [fe80::c8c1:233f:309:a705%16]:59981
+[20251005_185946]: Find Room! 1
+[20251005_185946]: Player Connected in GameRoom 1
+[20251005_185959]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:59981
+[20251005_190129]: Connected : 44
+[20251005_190129]: OnConnected : [fe80::c8c1:233f:309:a705%16]:60032
+[20251005_190129]: Find Room! 1
+[20251005_190129]: Player Connected in GameRoom 1
+[20251005_190147]: OnDisconnected : [fe80::c8c1:233f:309:a705%16]:60032
+[20251005_190247]: Connected : 45
+[20251005_190247]: OnConnected : [fe80::c8c1:233f:309:a705%16]:60073
+[20251005_190247]: Find Room! 1
+[20251005_190247]: Player Connected in GameRoom 1

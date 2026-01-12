@@ -1,0 +1,21 @@
+[20260109_152028] (LobbyManager.Init) : LobbyData Donwload Complete
+[20260109_152028] (JobSerializer.Flush) : Init
+[20260109_152028] (JobSerializer.Flush) : Init
+[20260109_152028] (JobSerializer.Flush) : Init
+[20260109_152028] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 1
+[20260109_152028] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 2
+[20260109_152028] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 3
+[20260109_152028] (GameRoomManager..ctor) : GameRoomManager created for Lobby 2
+[20260109_152028] (GameRoomManager..ctor) : GameRoomManager created for Lobby 3
+[20260109_152028] (GameRoomManager..ctor) : GameRoomManager created for Lobby 1
+[20260109_152028] (Program.Main) : Server Starting...
+[20260109_152033] (SessionManager.Generate) : Connected : 1
+[20260109_152033] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:55905
+[20260109_152035] (ClientSession.HandleLogin) : AccountId: 1, Password: 1
+[20260109_152041] (ClientSession.HandleLogin) : AccountId: 1, Password: 1
+[20260109_152041] (ClientSession.HandleLogin) : [Warning] 로그인 상태가 아닌 곳에서 로그인 시도. SessionId: 1
+[20260109_152045] (JobSerializer.Flush) : EnterLobby
+[20260109_152045] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777216
+[20260109_152100] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:55905
+[20260109_152100] (JobSerializer.Flush) : LeaveLobby
+[20260109_152100] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777216

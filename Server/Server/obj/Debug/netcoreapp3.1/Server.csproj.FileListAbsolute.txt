@@ -1,0 +1,391 @@
+C:\Rookiss\MMO_Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Rookiss\MMO_Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Rookiss\MMO_Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Rookiss\MMO_Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Rookiss\MMO_Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Rookiss\MMO_Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Rookiss\MMO_Server\Server\obj\Debug\netcoreapp3.1\Server.csprojAssemblyReference.cache
+C:\Rookiss\MMO_Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Rookiss\MMO_Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Rookiss\MMO_Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Rookiss\MMO_Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Rookiss\MMO_Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Rookiss\MMO_Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Rookiss\MMO_Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Rookiss\MMO_Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Rookiss\MMO_Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+C:\Rookiss\MMO_Game\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Rookiss\MMO_Game\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Rookiss\MMO_Game\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Rookiss\MMO_Game\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Rookiss\MMO_Game\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Rookiss\MMO_Game\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Rookiss\MMO_Game\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\Rookiss\MMO_Game\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Rookiss\MMO_Game\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Rookiss\MMO_Game\Server\Server\obj\Debug\netcoreapp3.1\Server.csprojAssemblyReference.cache
+C:\Rookiss\MMO_Game\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Rookiss\MMO_Game\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Rookiss\MMO_Game\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+C:\Rookiss\MMO_Game\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Rookiss\MMO_Game\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Rookiss\MMO_Game\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Rookiss\MMO_Game\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+C:\Users\user\Desktop\게임 개발\Unity\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\project-X\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\project-X\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\project-X\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\project-X\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\project-X\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\project-X\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\project-X\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\project-X\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\project-X\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+C:\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Unity Project\project-X\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Unity Project\project-X\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Unity Project\project-X\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Unity Project\project-X\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Unity Project\project-X\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Unity Project\project-X\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Unity Project\project-X\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\Unity Project\project-X\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Unity Project\project-X\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Unity Project\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Unity Project\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Unity Project\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Unity Project\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Unity Project\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Unity Project\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+C:\Unity Project\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Unity Project\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Unity Project\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Downloads\project-X-ingameBranch (2)\project-X-ingameBranch\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\projectX-client\project-X\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\projectX-client\project-X\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\projectX-client\project-X\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\projectX-client\project-X\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\projectX-client\project-X\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\projectX-client\project-X\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\projectX-client\project-X\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\projectX-client\project-X\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\projectX-client\project-X\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\projectX-client\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\projectX-client\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\projectX-client\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\projectX-client\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\projectX-client\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\projectX-client\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+C:\projectX-client\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\projectX-client\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\projectX-client\project-X\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Downloads\project-X-clientBranch\project-X-clientBranch\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\project-X-server\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\project-X-server\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\project-X-server\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\project-X-server\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\project-X-server\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\project-X-server\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\project-X-server\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\project-X-server\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\project-X-server\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\project-X-server\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\project-X-server\Server\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\project-X-server\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\project-X-server\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\project-X-server\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\project-X-server\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+C:\project-X-server\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\project-X-server\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\project-X-server\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\user\Desktop\GameDevelopment\Unity\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Unity Project\project-X\Server\Server\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\Administrator\Downloads\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\Administrator\Desktop\project-X-ec2Branch (1)\project-X-ec2Branch\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\user\Desktop\Development\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\Development\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\Development\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\Development\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\user\Desktop\Development\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\Development\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Desktop\Development\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Desktop\Development\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\user\Desktop\Development\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\user\Desktop\Development\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\user\Desktop\Development\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\user\Desktop\Development\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Desktop\Development\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Desktop\Development\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\Users\user\Desktop\Development\Project-S\Server\Server\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\user\Desktop\Development\Project-S\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\Development\Project-S\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\Development\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+C:\Users\user\Desktop\Development\Project-S\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\user\Downloads\Project-S (1)\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\user\Downloads\Project-S (1)\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\user\Downloads\Project-S (1)\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\user\Downloads\Project-S (1)\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\user\Downloads\Project-S (1)\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Downloads\Project-S (1)\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Downloads\Project-S (1)\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\Users\user\Downloads\Project-S (1)\Server\Server\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\user\Downloads\Project-S (1)\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Downloads\Project-S (1)\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Downloads\Project-S (1)\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Users\user\Downloads\Project-S (1)\Server\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Downloads\Project-S (1)\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\user\Downloads\Project-S (1)\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\user\Downloads\Project-S (1)\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\user\Downloads\Project-S (1)\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+C:\Users\user\Downloads\Project-S (1)\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Downloads\Project-S (1)\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Downloads\Project-S (1)\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\user\Desktop\Development\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\user\Desktop\Development\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\user\Desktop\Development\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\user\Desktop\Development\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\user\Desktop\Development\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Desktop\Development\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Desktop\Development\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\Users\user\Desktop\Development\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\user\Desktop\Development\Project-J\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\Development\Project-J\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\Development\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\Development\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\Development\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\Development\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\user\Desktop\Development\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\Development\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+C:\Users\user\Desktop\Development\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Desktop\Development\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Desktop\Development\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\바탕 화면\GameDevelopment\Unity\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\Server\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.Up2Date
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Downloads\Project-J (1)\Project-J-a7e8c158040835ac26921bd41dec468481cd153f\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.Up2Date
+C:\Users\user\Downloads\Project-J (1)\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\Server\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.sourcelink.json
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.Up2Date
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Desktop\Development\Unity\Project-J\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\user\Desktop\Development\EternalArena\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\user\Desktop\Development\EternalArena\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\user\Desktop\Development\EternalArena\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\user\Desktop\Development\EternalArena\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\user\Desktop\Development\EternalArena\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Desktop\Development\EternalArena\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Desktop\Development\EternalArena\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\Users\user\Desktop\Development\EternalArena\Server\Server\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\user\Desktop\Development\EternalArena\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\Development\EternalArena\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\Development\EternalArena\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\Development\EternalArena\Server\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\Development\EternalArena\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\Development\EternalArena\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\user\Desktop\Development\EternalArena\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\Development\EternalArena\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Desktop\Development\EternalArena\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Desktop\Development\EternalArena\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\Server\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\Server\obj\Debug\netcoreapp3.1\Server.sourcelink.json
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.Up2Date
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\user\Desktop\Development\EternalArena\Server\Server\obj\Debug\netcoreapp3.1\Server.sourcelink.json
+C:\Users\user\Desktop\Development\EternalArena\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.Up2Date
