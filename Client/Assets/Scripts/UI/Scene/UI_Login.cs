@@ -41,7 +41,7 @@ public class UI_Login : UI_Scene
         switch (loginStatus)
         {
             case LoginStatus.Success:
-                Managers.Scene.LoadScene(Define.Scene.PlayerSelect);
+                Managers.Scene.LoadScene(Define.Scene.ServerSelect);
                 break;
             case LoginStatus.PasswordWrong:
                 Managers.UI.ShowToastPopup("비밀번호가 틀렸습니다.");

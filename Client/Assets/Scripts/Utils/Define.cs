@@ -22,6 +22,7 @@ public class Define
         Unknown,
         Loading,
         Login,
+        ServerSelect,
         PlayerSelect,
         Lobby,
         WaitingRoom,

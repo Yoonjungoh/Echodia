@@ -324,6 +324,13 @@ message S_UpdateCurrencyDataAll {
   CurrencyData currencyData = 1;	
 }
 
+message ServerInfo {
+  string name = 1;	// 서버 이름
+  int32 channelId = 2;	// 채널 Id
+  int32 currentPlayerCount = 3;	// 현재 접속자 수
+  int32 maxPlayerCount = 4;	// 최대 접속자 수 (혼잡도 계산은 클라에서)
+}
+
 message PlayerSelectInfo {
   int32 playerId = 1;
   string name = 2;
