@@ -1,0 +1,99 @@
+[20260115_235923] (LobbyManager.Init) : LobbyData Donwload Complete
+[20260115_235923] (Program.Main) : Server Starting...
+[20260115_235923] (JobSerializer.Flush) : Init
+[20260115_235923] (JobSerializer.Flush) : Init
+[20260115_235923] (JobSerializer.Flush) : Init
+[20260115_235923] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 1
+[20260115_235923] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 3
+[20260115_235923] (WaitingRoomManager..ctor) : WaitingRoomManager created for Lobby 2
+[20260115_235923] (GameRoomManager..ctor) : GameRoomManager created for Lobby 2
+[20260115_235923] (GameRoomManager..ctor) : GameRoomManager created for Lobby 1
+[20260115_235923] (GameRoomManager..ctor) : GameRoomManager created for Lobby 3
+[20260115_235942] (SessionManager.Generate) : Connected : 1
+[20260115_235942] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:54586
+[20260115_235944] (ClientSession.HandleLogin) : AccountId: test1, Password: 1234
+[20260115_235950] (JobSerializer.Flush) : EnterLobby
+[20260115_235950] (Lobby.EnterLobby) : Lobby: Enter UserId: 16777216
+[20260115_235952] (JobSerializer.Flush) : HandleAddRoom
+[20260115_235952] (Lobby.HandleAddRoom) : Room created: 1, RoomOnwerId: 16777216, RoomName: sdf​
+[20260115_235952] (JobSerializer.Flush) : Init
+[20260115_235953] (JobSerializer.Flush) : LeaveLobby
+[20260115_235953] (Lobby.LeaveLobby) : Lobby: Remove UserId: 16777216
+[20260115_235953] (JobSerializer.Flush) : EnterRoom
+[20260115_235953] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (1/2)
+[20260115_235953] (JobSerializer.Flush) : HandleMove
+[20260115_235953] (JobSerializer.Flush) : HandleMove
+[20260115_235953] (JobSerializer.Flush) : HandleMove
+[20260115_235953] (JobSerializer.Flush) : HandleMove
+[20260115_235953] (JobSerializer.Flush) : HandleMove
+[20260115_235953] (JobSerializer.Flush) : HandleMove
+[20260115_235953] (JobSerializer.Flush) : HandleMove
+[20260115_235953] (JobSerializer.Flush) : HandleMove
+[20260115_235953] (JobSerializer.Flush) : HandleMove
+[20260115_235953] (JobSerializer.Flush) : HandleMove
+[20260115_235953] (JobSerializer.Flush) : HandleMove
+[20260115_235953] (JobSerializer.Flush) : HandleMove
+[20260115_235953] (JobSerializer.Flush) : HandleMove
+[20260115_235953] (JobSerializer.Flush) : HandleMove
+[20260115_235953] (JobSerializer.Flush) : HandleMove
+[20260115_235953] (JobSerializer.Flush) : HandleMove
+[20260115_235953] (JobSerializer.Flush) : HandleMove
+[20260115_235953] (JobSerializer.Flush) : HandleMove
+[20260115_235953] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235954] (JobSerializer.Flush) : HandleMove
+[20260115_235955] (JobSerializer.Flush) : HandleMove
+[20260115_235955] (JobSerializer.Flush) : HandleMove
+[20260115_235955] (JobSerializer.Flush) : HandleMove
+[20260115_235955] (JobSerializer.Flush) : HandleMove
+[20260115_235955] (JobSerializer.Flush) : HandleMove
+[20260115_235955] (JobSerializer.Flush) : HandleMove
+[20260115_235955] (JobSerializer.Flush) : HandleMove
+[20260115_235955] (JobSerializer.Flush) : HandleMove
+[20260115_235955] (JobSerializer.Flush) : HandleMove
+[20260115_235955] (JobSerializer.Flush) : HandleMove
+[20260115_235956] (ClientSession.OnDisconnected) : OnDisconnected : [fe80::c8c1:233f:309:a705%16]:54586
+[20260115_235956] (JobSerializer.Flush) : LeaveRoom
+[20260115_235956] (JobSerializer.Flush) : LeaveLobby
+[20260115_235956] (Lobby.LeaveLobby) : Not Exist UserId: 16777216
+[20260115_235956] (Lobby.HandleRoomInfoChanged) : [Manager] Room 1 (0/2)
+[20260115_235956] (Lobby.HandleRemoveRoom) : [Manager] Room 1 deleted (no players left)

@@ -44,6 +44,7 @@ public class MultiplayersBuildAndRun
         string[] s = Application.dataPath.Split('/');
         return s[s.Length - 2];
     }
+
     // 실제 빌드에 추가된 scene 이름 긁어오는 코드
     static string[] GetScenePaths()
     {

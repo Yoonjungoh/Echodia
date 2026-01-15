@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\user\\Desktop\\Development\\EternalArena\\Server\\PacketGenerator\\PacketGenerator.csproj": {}
+    "C:\\Users\\user\\Desktop\\Development\\Echodia\\Server\\PacketGenerator\\PacketGenerator.csproj": {}
   },
   "projects": {
-    "C:\\Users\\user\\Desktop\\Development\\EternalArena\\Server\\PacketGenerator\\PacketGenerator.csproj": {
+    "C:\\Users\\user\\Desktop\\Development\\Echodia\\Server\\PacketGenerator\\PacketGenerator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\Desktop\\Development\\EternalArena\\Server\\PacketGenerator\\PacketGenerator.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\Development\\Echodia\\Server\\PacketGenerator\\PacketGenerator.csproj",
         "projectName": "PacketGenerator",
-        "projectPath": "C:\\Users\\user\\Desktop\\Development\\EternalArena\\Server\\PacketGenerator\\PacketGenerator.csproj",
+        "projectPath": "C:\\Users\\user\\Desktop\\Development\\Echodia\\Server\\PacketGenerator\\PacketGenerator.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\Desktop\\Development\\EternalArena\\Server\\PacketGenerator\\obj\\",
+        "outputPath": "C:\\Users\\user\\Desktop\\Development\\Echodia\\Server\\PacketGenerator\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
