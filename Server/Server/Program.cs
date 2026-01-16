@@ -61,8 +61,9 @@ namespace Server
 
             MapManager.Instance.Init();
             LobbyManager.Instance.Init();
+            ServerManager.Instance.Init();
 
-			_listener.Init(endPoint, () => { return SessionManager.Instance.Generate(); });
+            _listener.Init(endPoint, () => { return SessionManager.Instance.Generate(); });
 			ConsoleLogManager.Instance.Log("Server Starting...");
 
             // DbTask

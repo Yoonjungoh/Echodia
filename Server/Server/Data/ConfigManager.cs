@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Server.Data
 {
-    internal class ConfigManager
+    public class ConfigManager
     {
     }
 }

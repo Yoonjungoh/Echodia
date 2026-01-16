@@ -231,13 +231,12 @@ class PacketHandler
 
     public static void C_RequestPlayerListHandler(PacketSession session, IMessage packet)
     {
-        C_RequestPlayerList requestPlayerList = packet as C_RequestPlayerList;
         ClientSession clientSession = session as ClientSession;
 
         if (clientSession == null)
             return;
 
-        clientSession.HandleRequestPlayerList(requestPlayerList);
+        clientSession.HandleRequestPlayerList();
     }
 
     public static void C_CreatePlayerHandler(PacketSession session, IMessage packet)
@@ -277,10 +276,31 @@ class PacketHandler
     {
         C_UpdateCurrencyData updateCurrencyDataPacket = packet as C_UpdateCurrencyData;
         ClientSession clientSession = session as ClientSession;
-        
+
         if (clientSession == null)
             return;
 
         clientSession.HandleUpdateCurrencyData(updateCurrencyDataPacket.PlayerId, updateCurrencyDataPacket.CurrencyType);
+    }
+
+    public static void C_RequestServerSummaryListHandler(PacketSession session, IMessage packet)
+    {
+        ClientSession clientSession = session as ClientSession;
+
+        if (clientSession == null)
+            return;
+
+        clientSession.HandleRequestServerSummaryList();
+    }
+
+    public static void C_RequestServerListHandler(PacketSession session, IMessage packet)
+    {
+        C_RequestServerList requestServerListPacket = packet as C_RequestServerList;
+        ClientSession clientSession = session as ClientSession;
+
+        if (clientSession == null)
+            return;
+
+        clientSession.HandleRequestServerList(requestServerListPacket.ServerId);
     }
 }

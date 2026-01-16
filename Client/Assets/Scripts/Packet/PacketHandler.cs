@@ -507,4 +507,40 @@ class PacketHandler
 
         Managers.Currency.UpdateCurrencyDataAll(updateCurrencyDataAllPacket.CurrencyData);
     }
+
+    public static void S_RequestServerSummaryListHandler(PacketSession session, IMessage packet)
+    {
+        S_RequestServerSummaryList requestServerSummaryListPacket = packet as S_RequestServerSummaryList;
+        if (requestServerSummaryListPacket == null)
+        {
+            Debug.Log("S_RequestServerSummaryList 패킷이 null입니다");
+            return;
+        }
+
+        UI_ServerSelect serverSelectUI = Managers.UI.CurrentScene.GetComponent<UI_ServerSelect>();
+        if (serverSelectUI == null)
+        {
+            Debug.Log("현재 서버 선택창이 아닌데 서버 선택을 하려고 합니다.");
+            return;
+        }
+        serverSelectUI.InitServerSummaryInfos(requestServerSummaryListPacket.ServerInfoList);
+    }
+
+    public static void S_RequestServerListHandler(PacketSession session, IMessage packet)
+    {
+        S_RequestServerList requestServerListPacket = packet as S_RequestServerList;
+        if (requestServerListPacket == null)
+        {
+            Debug.Log("S_RequestServerList 패킷이 null입니다");
+            return;
+        }
+
+        UI_ServerSelect serverSelectUI = Managers.UI.CurrentScene.GetComponent<UI_ServerSelect>();
+        if (serverSelectUI == null)
+        {
+            Debug.Log("현재 서버 선택창이 아닌데 서버 선택을 하려고 합니다.");
+            return;
+        }
+        serverSelectUI.UpdateServerChannelInfos(requestServerListPacket.ServerId, requestServerListPacket.ServerInfoList);
+    }
 }

@@ -32,6 +32,7 @@ public class UI_Login : UI_Scene
         Managers.Input.RegisterKeyAction(KeyCode.Return, OnClickLoginButton);
 
         Bind<TMP_InputField>(typeof(InputFields));
+
         _idInputField = Get<TMP_InputField>((int)InputFields.IdInputField);
         _passwordInputField = Get<TMP_InputField>((int)InputFields.PasswordInputField);
     }
@@ -56,7 +57,7 @@ public class UI_Login : UI_Scene
                 break;
         }
     }
-
+    
     private void OnClickLoginButton()
     {
         // TODO - 무한 패킷 발사 방지하기 위해 전송 주기 타이머 넣기

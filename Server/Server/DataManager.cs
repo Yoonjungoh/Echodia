@@ -1,7 +1,6 @@
 ﻿using Google.Protobuf.Protocol;
 using Newtonsoft;
 using Newtonsoft.Json;
-using Server.Game;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,11 +11,13 @@ using System.Text;
 using System.Text.Json;
 using static Server.Define;
 
-namespace Server.Game
+namespace Server
 {
     // TODO - JSON 파싱
     public class DataManager
     {
+        public static DataManager Instance { get; } = new DataManager();
+
         public Dictionary<RoomType, List<Vector3>> StartPositions = new Dictionary<RoomType, List<Vector3>>()
         {
             //new Vector3(-150, -18, 112),  // 숲풀
@@ -50,23 +51,24 @@ namespace Server.Game
                 new Vector3(122, -20, 507),
             } }
         };
+       
+        public List<string> WorldServerNameList { get; set; } = new List<string>()
+        {
+            "Lumina",   // 빛
+            "Velora",   // 흐름과 세계
+            "Arvian",   // 여정
+        };
 
-        public static DataManager Instance { get; } = new DataManager();
+        public int MaxWorldServerChannelCount { get; set; } = 5; // 최대 월드의 서버 채널 개수
+        
+        public int MaxChannelPlayerCount { get; set; } = 100;   // 채널에 들어갈 수 있는 최대 플레이어 수
+
         public int MaxLobbyCount { get; set; } = 3;  // 최대 로비 개수
+
         public int MaxRoomPlayerCount { get; set; } = 2; // 방당 최대 플레이어 수
+
         public float GameStartCountdownTime { get; set; } = 3.0f; // 게임 시작 카운트다운 초기값 (클라 offset 영향 받음)
         
-        public Vector3 GetStartPosition(RoomType roomType, int index)
-        {
-            if (index < 0 || index >= StartPositions[roomType].Count)
-                return new Vector3(
-                    StartPositions[roomType][StartPositions[roomType].Count - 1].X + index,
-                    StartPositions[roomType][StartPositions[roomType].Count - 1].Y,
-                    StartPositions[roomType][StartPositions[roomType].Count - 1].Z
-                ); // 기본값
-
-            return StartPositions[roomType][index];
-        }
         public float MaxHp { get; set; } = 10000.0f;
 
         public float MaxDamage { get; set; } = 1000.0f;
@@ -84,5 +86,17 @@ namespace Server.Game
 
         // AOIController의 GatherGameObjects에 쓰이는 Cell 단위
         public int AOICells { get; set; } = 30;
+
+        public Vector3 GetStartPosition(RoomType roomType, int index)
+        {
+            if (index < 0 || index >= StartPositions[roomType].Count)
+                return new Vector3(
+                    StartPositions[roomType][StartPositions[roomType].Count - 1].X + index,
+                    StartPositions[roomType][StartPositions[roomType].Count - 1].Y,
+                    StartPositions[roomType][StartPositions[roomType].Count - 1].Z
+                ); // 기본값
+
+            return StartPositions[roomType][index];
+        }
     }
 }

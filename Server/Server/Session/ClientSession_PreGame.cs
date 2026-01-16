@@ -237,7 +237,7 @@ namespace Server
             }
         }
 
-        public void HandleRequestPlayerList(C_RequestPlayerList requestPlayerListPacket)
+        public void HandleRequestPlayerList()
         {
             lock (_lock)
             {
@@ -290,7 +290,7 @@ namespace Server
                 }
             }
         }
-
+        
         public void HandleLogin(C_Login loginPacket)
         {
             lock (_lock)
@@ -360,6 +360,27 @@ namespace Server
                     serverLoginPacket.LoginStatus = LoginStatus.SignUpSuccess;
                     Send(serverLoginPacket);
                 }
+            }
+        }
+
+        public void HandleRequestServerSummaryList()
+        {
+            lock (_lock)
+            {
+                S_RequestServerSummaryList requestServerSummaryListPacket = new S_RequestServerSummaryList();
+                requestServerSummaryListPacket.ServerInfoList.AddRange(ServerManager.Instance.ServerSummaryList);
+                Send(requestServerSummaryListPacket);
+            }
+        }
+
+        public void HandleRequestServerList(int serverId)
+        {
+            lock (_lock)
+            {
+                S_RequestServerList requestServerListPacket = new S_RequestServerList();
+                requestServerListPacket.ServerInfoList.Add(ServerManager.Instance.GetServerInfoList(serverId));
+                requestServerListPacket.ServerId = serverId;
+                Send(requestServerListPacket);
             }
         }
     }

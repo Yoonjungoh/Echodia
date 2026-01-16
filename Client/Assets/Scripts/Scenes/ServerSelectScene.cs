@@ -8,7 +8,7 @@ public class ServerSelectScene : BaseScene
     protected override void Init()
     {
         base.Init();
-        Managers.UI.ShowSceneUI<UI_PlayerSelect>();
+        Managers.UI.ShowSceneUI<UI_ServerSelect>();
     }
 
     private void Awake()

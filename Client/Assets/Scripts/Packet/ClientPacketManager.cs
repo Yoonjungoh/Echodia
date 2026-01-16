@@ -74,7 +74,11 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.SUpdateCurrencyData, MakePacket<S_UpdateCurrencyData>);
 		_handler.Add((ushort)MsgId.SUpdateCurrencyData, PacketHandler.S_UpdateCurrencyDataHandler);		
 		_onRecv.Add((ushort)MsgId.SUpdateCurrencyDataAll, MakePacket<S_UpdateCurrencyDataAll>);
-		_handler.Add((ushort)MsgId.SUpdateCurrencyDataAll, PacketHandler.S_UpdateCurrencyDataAllHandler);
+		_handler.Add((ushort)MsgId.SUpdateCurrencyDataAll, PacketHandler.S_UpdateCurrencyDataAllHandler);		
+		_onRecv.Add((ushort)MsgId.SRequestServerList, MakePacket<S_RequestServerList>);
+		_handler.Add((ushort)MsgId.SRequestServerList, PacketHandler.S_RequestServerListHandler);		
+		_onRecv.Add((ushort)MsgId.SRequestServerSummaryList, MakePacket<S_RequestServerSummaryList>);
+		_handler.Add((ushort)MsgId.SRequestServerSummaryList, PacketHandler.S_RequestServerSummaryListHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)
