@@ -64,6 +64,7 @@ namespace Server
                 {
                     ServerChannel channel = new ServerChannel
                     {
+                        ServerId = newWorldServer.ServerId,
                         ChannelId = i,
                         MaxPlayerCount = maxChannelPlayerCount
                     };
@@ -98,6 +99,16 @@ namespace Server
             }
 
             return serverInfoList;
+        }
+
+        public bool IsValidServerChannel(int serverId, int channel)
+        {
+            if (WorldServers.TryGetValue(serverId, out WorldServer worldServer))
+            {
+                return worldServer.Channels.ContainsKey(channel);
+            }
+            
+            return false;
         }
     }
 

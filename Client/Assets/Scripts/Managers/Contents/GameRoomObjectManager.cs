@@ -7,7 +7,9 @@ using UnityEngine;
 
 public class GameRoomObjectManager
 {
-    public MyPlayerController MyPlayer { get; set; }
+    public int PlayerId { get; set; }    // 내 캐릭터를 생성했을 때 부여 받은 고유 Id (오브젝트 Id는 CreatureController의 Id고 이 값은 매번 바뀜 )
+
+    public MyPlayerController MyPlayer { get; set; }    
 
     private Dictionary<int, GameObject> _objects = new Dictionary<int, GameObject>();
 

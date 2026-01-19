@@ -26,6 +26,10 @@ namespace Server
         
         public int AccountId { get; set; }  // DB Id (Account 테이블의 AccountDbId임)
 
+        public int ServerId { get; set; }   // 접속 중인 서버 Id
+        
+        public int ChannelId { get; set; }  // 접속 중인 채널 Id
+
         private object _lock = new object();
 
         public ClientServerState ClientServerState { get; private set; } = ClientServerState.Login;
@@ -135,6 +139,11 @@ namespace Server
                     PlayerDb player = db.Players
                         .Where(p => p.PlayerId == playerId)
                         .FirstOrDefault();
+                    if (player == null)
+                    {
+                        ConsoleLogManager.Instance.Log($"[Error] DB에서 플레이어 정보를 찾을 수 없음 PlayerId: {playerId}");
+                        return null;
+                    }
 
                     // 2. 해당 플레이어 데이터를 바탕으로 현재 클라이언트 세션의 MyPlayer 생성
                     MyPlayer = ObjectManager.Instance.Add<Player>();
@@ -337,7 +346,6 @@ namespace Server
                         ClientServerState = ClientServerState.ServerSelect;
                         AccountId = findAccount.AccountDbId;
                         serverLoginPacket.LoginStatus = LoginStatus.Success;
-                        serverLoginPacket.PlayerId = AccountId;
                         Send(serverLoginPacket);
                         return;
                     }
@@ -382,6 +390,51 @@ namespace Server
                 requestServerListPacket.ServerInfoList.Add(ServerManager.Instance.GetServerInfoList(serverId));
                 requestServerListPacket.ServerId = serverId;
                 Send(requestServerListPacket);
+            }
+        }
+
+        public void HandleSelectServer(int serverId, int channelId)
+        {
+            lock (_lock)
+            {
+                // 서버/채널 존재하는지 확인 후 패킷 보내기
+                S_SelectServer selectServerPacket = new S_SelectServer();
+                if (ServerManager.Instance.IsValidServerChannel(serverId, channelId))
+                {
+                    ServerId = serverId;
+                    ChannelId = channelId;
+                    selectServerPacket.ServerId = serverId;
+                    selectServerPacket.ChannelId = channelId;
+                    selectServerPacket.CanSelect = true;
+                    ClientServerState = ClientServerState.PlayerSelect;
+                    Send(selectServerPacket);
+                    return;
+                }
+                
+                ConsoleLogManager.Instance.Log($"[Warning] 잘못된 서버/채널 선택 시도. SessionId: {SessionId}, ServerId: {serverId}, ChannelId: {channelId}");
+                selectServerPacket.CanSelect = false;
+                Send(selectServerPacket);
+            }
+        }
+
+        public void HandleSelectPlayer(int playerId, int serverId, int channelId)
+        {
+            lock (_lock)
+            {
+                // TODO - 캐릭터도 존재하는지 DB 뒤져서 미리 알아봐도 좋을듯?
+                // 지금은 부하 생각해서 패스
+                S_SelectPlayer selectPlayerPacket = new S_SelectPlayer();
+                if (ServerId ==  serverId && ChannelId == channelId)
+                {
+                    selectPlayerPacket.PlayerId = playerId;
+                    selectPlayerPacket.CanSelect = true;
+                    Send(selectPlayerPacket);
+                    return;
+                }
+                
+                ConsoleLogManager.Instance.Log($"[Warning] 잘못된 서버/채널 선택 시도. SessionId: {SessionId}, ServerId: {serverId}, ChannelId: {channelId}");
+                selectPlayerPacket.CanSelect = false;
+                Send(selectPlayerPacket);
             }
         }
     }

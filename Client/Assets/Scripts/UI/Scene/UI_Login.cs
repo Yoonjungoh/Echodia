@@ -21,6 +21,7 @@ public class UI_Login : UI_Scene
 
     private TMP_InputField _idInputField;
     private TMP_InputField _passwordInputField;
+    private bool _isLoginInProgress = false;    // 로그인 시도 중인지 여부
 
     public override void Init()
     {
@@ -37,13 +38,12 @@ public class UI_Login : UI_Scene
         _passwordInputField = Get<TMP_InputField>((int)InputFields.PasswordInputField);
     }
 
-    public void HandleLogin(LoginStatus loginStatus, int playerId)
+    public void HandleLogin(LoginStatus loginStatus)
     {
         switch (loginStatus)
         {
             case LoginStatus.Success:
-                Managers.Network.PlayerId = playerId;
-                Managers.Scene.LoadScene(Define.Scene.ServerSelect);
+                OnLoginSuccess();
                 break;
             case LoginStatus.PasswordWrong:
                 Managers.UI.ShowToastPopup("비밀번호가 틀렸습니다.");
@@ -59,6 +59,18 @@ public class UI_Login : UI_Scene
         }
     }
     
+    private void OnLoginSuccess()
+    {
+        if (_isLoginInProgress)
+        {
+            Managers.UI.ShowToastPopup("로그인 처리 중입니다. 잠시만 기다려주세요.");
+            return;
+        }
+
+        _isLoginInProgress = true;
+        Managers.Scene.LoadScene(Define.Scene.ServerSelect);
+    }
+
     private void OnClickLoginButton()
     {
         // TODO - 무한 패킷 발사 방지하기 위해 전송 주기 타이머 넣기

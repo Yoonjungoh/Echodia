@@ -29,7 +29,7 @@ namespace Server.Game
             int mapCount = DataManager.Instance.MaxMapCount;
             for (int mapId = 0; mapId < mapCount; ++mapId)
             {
-                CreateGameRoom(1, 1, mapId);
+                CreateGameRoom(mapId);
             }
         }
 
@@ -43,19 +43,19 @@ namespace Server.Game
             _timers.Add(timer);
         }
 
-        private GameRoom CreateGameRoom(int serverId, int channelId, int mapId)
+        private GameRoom CreateGameRoom(int mapId)
         {
             lock (_lock)
             {
-                GameRoomKey gameRoomKey = new GameRoomKey(serverId, channelId, mapId);
+                GameRoomKey gameRoomKey = new GameRoomKey(ServerId, ChannelId, mapId);
                 if (_rooms.ContainsKey(gameRoomKey))
                 {
                     ConsoleLogManager.Instance.Log
-                        ($"CreateGameRoom Failed! Already Exists Room ServerId:{serverId}, ChannelId:{channelId}, MapId:{mapId}");
+                        ($"CreateGameRoom Failed! Already Exists Room ServerId:{ServerId}, ChannelId:{ChannelId}, MapId:{mapId}");
                     return null;
                 }
 
-                GameRoom newRoom = new GameRoom(serverId, channelId, mapId);
+                GameRoom newRoom = new GameRoom(ServerId, ChannelId, mapId);
 
                 newRoom.Push(newRoom.Init, DataManager.Instance.DefaultCells);
                 TickRoom(newRoom);

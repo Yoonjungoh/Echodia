@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class GameRoomManager
 {
-    public int ServerId { get; set; } = -1;
-    public int ChannelId { get; set; } = -1;
+    public int ServerId { get; set; } = -1; // 현재 접속한 GameRoom의 Server Id
+    public int ChannelId { get; set; } = -1;    // 현재 접속한 GameRoom의 Channel Id
     public int MapId { get; set; } = -1;    // 맵 Id는 서버에서 받아옴
 
     public void Init()
@@ -29,8 +29,8 @@ public class GameRoomManager
 
     public void Clear()
     {
-        ServerId = -1;
-        ChannelId = -1;
-        MapId = -1;
+        //ServerId = -1;
+        //ChannelId = -1;
+        //MapId = -1;
     }
 }

@@ -10,7 +10,6 @@ public class UI_ServerSelect : UI_Scene
 {
     enum Buttons
     {
-        CreatePlayerButton,
         ExitGameButton,
     }
 
@@ -101,11 +100,6 @@ public class UI_ServerSelect : UI_Scene
         }
     }
 
-    private void OnClickCreatePlayerButton()
-    {
-        UI_CreatePlayer createPlayerUI = Managers.UI.ShowPopupUI<UI_CreatePlayer>();
-    }
-
     private void OnClickExitGameButton()
     {
 #if UNITY_EDITOR
@@ -113,5 +107,17 @@ public class UI_ServerSelect : UI_Scene
 #else
     Application.Quit();                                // 빌드에서 게임 종료
 #endif
+    }
+
+    public void OnServerSelected(int serverId, int channelId, bool canSelect)
+    {
+        if (canSelect == false)
+        {
+            Managers.UI.ShowToastPopup("선택한 서버에 접속할 수 없습니다.");
+            return;
+        }
+
+        Managers.GameRoom.SetMapData(serverId, channelId);
+        Managers.Scene.LoadScene(Define.Scene.PlayerSelect);
     }
 }

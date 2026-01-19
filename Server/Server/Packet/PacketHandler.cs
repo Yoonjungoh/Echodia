@@ -29,13 +29,12 @@ class PacketHandler
         C_EnterGame enterGamePacket = packet as C_EnterGame;
         ClientSession clientSession = session as ClientSession;
 
-        // 유저 생성
-        Player user = clientSession.EnterGame(enterGamePacket.PlayerId);
-        if (clientSession.MyPlayer == null)
+        if (clientSession == null)
             return;
 
-        Player player = clientSession.MyPlayer;
-        if (player == null)
+        clientSession.EnterGame(enterGamePacket.PlayerId);
+
+        if (clientSession.MyPlayer == null)
             return;
 
         // 유저가 접속하려는 채널 찾기 (서버 Id도 필요)
@@ -50,8 +49,8 @@ class PacketHandler
         GameRoom gameRoom = channel.GameRoomManager.Find(mapId);
         if (gameRoom == null)
             return;
-
-        gameRoom.Push(gameRoom.EnterGame, player);
+        
+        gameRoom.Push(gameRoom.EnterGame, clientSession.MyPlayer);
     }
 
     public static void C_AttackHandler(PacketSession session, IMessage packet)
@@ -205,5 +204,28 @@ class PacketHandler
             return;
 
         clientSession.HandleRequestServerList(requestServerListPacket.ServerId);
+    }
+    
+    public static void C_SelectServerHandler(PacketSession session, IMessage packet)
+    {
+        C_SelectServer selectServerPacket = packet as C_SelectServer;
+        ClientSession clientSession = session as ClientSession;
+
+        if (clientSession == null)
+            return;
+
+        clientSession.HandleSelectServer(selectServerPacket.ServerId, selectServerPacket.ChannelId);
+    }
+
+
+    public static void C_SelectPlayerHandler(PacketSession session, IMessage packet)
+    {
+        C_SelectPlayer selectPlayerPacket = packet as C_SelectPlayer;
+        ClientSession clientSession = session as ClientSession;
+
+        if (clientSession == null)
+            return;
+
+        clientSession.HandleSelectPlayer(selectPlayerPacket.PlayerId, selectPlayerPacket.ServerId, selectPlayerPacket.ChannelId);
     }
 }

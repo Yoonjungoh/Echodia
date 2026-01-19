@@ -226,7 +226,7 @@ class PacketHandler
             return;
         }
 
-        loginUI.HandleLogin(loginPacket.LoginStatus, loginPacket.PlayerId);
+        loginUI.HandleLogin(loginPacket.LoginStatus);
     }
 
     public static void S_RequestPlayerListHandler(PacketSession session, IMessage packet)
@@ -357,5 +357,41 @@ class PacketHandler
             return;
         }
         serverSelectUI.UpdateServerChannelInfos(requestServerListPacket.ServerId, requestServerListPacket.ServerInfoList);
+    }
+
+    public static void S_SelectServerHandler(PacketSession session, IMessage packet)
+    {
+        S_SelectServer selectServerPacket = packet as S_SelectServer;
+        if (selectServerPacket == null)
+        {
+            Debug.Log("S_SelectServer 패킷이 null입니다");
+            return;
+        }
+
+        UI_ServerSelect serverSelectUI = Managers.UI.CurrentScene.GetComponent<UI_ServerSelect>();
+        if (serverSelectUI == null)
+        {
+            Debug.Log("현재 서버 선택창이 아닌데 서버 선택을 하려고 합니다.");
+            return;
+        }
+        serverSelectUI.OnServerSelected(selectServerPacket.ServerId, selectServerPacket.ChannelId, selectServerPacket.CanSelect);
+    }
+    
+    public static void S_SelectPlayerHandler(PacketSession session, IMessage packet)
+    {
+        S_SelectPlayer selectPlayerPacket = packet as S_SelectPlayer;
+        if (selectPlayerPacket == null)
+        {
+            Debug.Log("S_SelectPlayer 패킷이 null입니다");
+            return;
+        }
+
+        UI_PlayerSelect playerSelectUI = Managers.UI.CurrentScene.GetComponent<UI_PlayerSelect>();
+        if (playerSelectUI == null)
+        {
+            Debug.Log("현재 캐릭터 선택창이 아닌데 캐릭터 선택을 하려고 합니다.");
+            return;
+        }
+        playerSelectUI.OnPlayerSelected(selectPlayerPacket.PlayerId, selectPlayerPacket.CanSelect);
     }
 }

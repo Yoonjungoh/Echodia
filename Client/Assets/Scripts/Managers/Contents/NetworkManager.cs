@@ -15,8 +15,6 @@ public class NetworkManager
     ServerSession _session = new ServerSession();
     private string urlValue;
 
-    public int PlayerId { get; set; }    // DB에 저장된 내 계정의 고유 UID
-
     // 서버와의 offset 저장
     public double ServerOffsetMs { get; set; } // 서버 기준 시각과 내 로컬 시각의 차이 (초 단위)
     public double RTTMs { get; set; }

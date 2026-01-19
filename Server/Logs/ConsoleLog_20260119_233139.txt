@@ -1,0 +1,90 @@
+[20260119_233027] (Program.Main) : Server Starting...
+[20260119_233027] (JobSerializer.Flush) : Init
+[20260119_233027] (JobSerializer.Flush) : Init
+[20260119_233027] (JobSerializer.Flush) : Init
+[20260119_233027] (JobSerializer.Flush) : Init
+[20260119_233027] (JobSerializer.Flush) : Init
+[20260119_233027] (JobSerializer.Flush) : Init
+[20260119_233027] (JobSerializer.Flush) : Init
+[20260119_233027] (JobSerializer.Flush) : Init
+[20260119_233027] (JobSerializer.Flush) : Init
+[20260119_233027] (JobSerializer.Flush) : Init
+[20260119_233027] (JobSerializer.Flush) : Init
+[20260119_233027] (JobSerializer.Flush) : Init
+[20260119_233027] (JobSerializer.Flush) : Init
+[20260119_233027] (JobSerializer.Flush) : Init
+[20260119_233027] (JobSerializer.Flush) : Init
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : EnterGame
+[20260119_233027] (JobSerializer.Flush) : Job execution failed: System.InvalidOperationException: Operations that change non-concurrent collections must have exclusive access. A concurrent update was performed on this collection and corrupted its state. The collection's state is no longer correct.
+   at System.Collections.Generic.HashSet`1.AddIfNotPresent(T value, Int32& location)
+   at System.Collections.Generic.HashSet`1.Add(T item)
+   at Server.Game.Zone.Add(GameObject gameObject) in C:\Users\user\Desktop\Development\Echodia\Server\Server\Game\Room\Zone.cs:line 34
+   at Server.Game.GameRoom.EnterGame(GameObject gameObject) in C:\Users\user\Desktop\Development\Echodia\Server\Server\Game\Room\GameRoom.cs:line 339
+   at Server.Game.Job`1.Execute() in C:\Users\user\Desktop\Development\Echodia\Server\Server\Game\Job\Job.cs:line 47
+   at Server.Game.JobSerializer.Flush() in C:\Users\user\Desktop\Development\Echodia\Server\Server\Game\Job\JobSerializer.cs:line 62
+[20260119_233029] (SessionManager.Generate) : Connected : 1
+[20260119_233029] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:55343
+[20260119_233036] (ClientSession.HandleLogin) : AccountId: 1, Password: 1
+[20260119_233052] (ClientSession.OnDisconnected) : Can't Find MyPlayer
+[20260119_233057] (SessionManager.Generate) : Connected : 2
+[20260119_233057] (ClientSession.OnConnected) : OnConnected : [fe80::c8c1:233f:309:a705%16]:55372
+[20260119_233059] (ClientSession.HandleLogin) : AccountId: 1, Password: 1

@@ -33,8 +33,6 @@ class PacketManager
 		_handler.Add((ushort)MsgId.CMove, PacketHandler.C_MoveHandler);		
 		_onRecv.Add((ushort)MsgId.CSpawnProjectile, MakePacket<C_SpawnProjectile>);
 		_handler.Add((ushort)MsgId.CSpawnProjectile, PacketHandler.C_SpawnProjectileHandler);		
-		_onRecv.Add((ushort)MsgId.CEnterServerSelectScene, MakePacket<C_EnterServerSelectScene>);
-		_handler.Add((ushort)MsgId.CEnterServerSelectScene, PacketHandler.C_EnterServerSelectSceneHandler);		
 		_onRecv.Add((ushort)MsgId.CTimestamp, MakePacket<C_Timestamp>);
 		_handler.Add((ushort)MsgId.CTimestamp, PacketHandler.C_TimestampHandler);		
 		_onRecv.Add((ushort)MsgId.CChangeCreatureState, MakePacket<C_ChangeCreatureState>);
@@ -51,10 +49,14 @@ class PacketManager
 		_handler.Add((ushort)MsgId.CUpdateCurrencyData, PacketHandler.C_UpdateCurrencyDataHandler);		
 		_onRecv.Add((ushort)MsgId.CUpdateCurrencyDataAll, MakePacket<C_UpdateCurrencyDataAll>);
 		_handler.Add((ushort)MsgId.CUpdateCurrencyDataAll, PacketHandler.C_UpdateCurrencyDataAllHandler);		
+		_onRecv.Add((ushort)MsgId.CSelectServer, MakePacket<C_SelectServer>);
+		_handler.Add((ushort)MsgId.CSelectServer, PacketHandler.C_SelectServerHandler);		
 		_onRecv.Add((ushort)MsgId.CRequestServerList, MakePacket<C_RequestServerList>);
 		_handler.Add((ushort)MsgId.CRequestServerList, PacketHandler.C_RequestServerListHandler);		
 		_onRecv.Add((ushort)MsgId.CRequestServerSummaryList, MakePacket<C_RequestServerSummaryList>);
-		_handler.Add((ushort)MsgId.CRequestServerSummaryList, PacketHandler.C_RequestServerSummaryListHandler);
+		_handler.Add((ushort)MsgId.CRequestServerSummaryList, PacketHandler.C_RequestServerSummaryListHandler);		
+		_onRecv.Add((ushort)MsgId.CSelectPlayer, MakePacket<C_SelectPlayer>);
+		_handler.Add((ushort)MsgId.CSelectPlayer, PacketHandler.C_SelectPlayerHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

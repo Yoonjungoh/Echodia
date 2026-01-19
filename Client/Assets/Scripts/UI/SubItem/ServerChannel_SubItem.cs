@@ -36,8 +36,12 @@ public class ServerChannel_SubItem : UI_SubItem<ServerInfo>
         }
         // 선택한 서버랑, 채널 Id 저장
         // TODO - 후에 혼잡도에 따라서 못 들어오게 해야할듯
-        Managers.GameRoom.SetMapData(_data.ServerId, _data.ChannelId);
-        Managers.Scene.LoadScene(Define.Scene.PlayerSelect);
+        C_SelectServer selectServerPacket = new C_SelectServer()
+        {
+            ServerId = _data.ServerId,
+            ChannelId = _data.ChannelId,
+        };
+        Managers.Network.Send(selectServerPacket);
     }
 
     public override void SetData(ServerInfo data)

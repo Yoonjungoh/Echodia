@@ -59,6 +59,18 @@ public class UI_PlayerSelect : UI_Scene
         }
     }
 
+    public void OnPlayerSelected(int playerId, bool canSelect)
+    {
+        if (canSelect == false)
+        {
+            Managers.UI.ShowToastPopup("해당 캐릭터로 입장이 불가능합니다");
+            return;
+        }
+        
+        Managers.GameRoomObject.PlayerId = playerId;
+        Managers.Scene.LoadScene(Define.Scene.GameRoom);
+    }
+
     private void OnClickCreatePlayerButton()
     {
         UI_CreatePlayer createPlayerUI = Managers.UI.ShowPopupUI<UI_CreatePlayer>();

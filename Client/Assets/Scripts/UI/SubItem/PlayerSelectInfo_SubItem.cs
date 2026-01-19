@@ -22,6 +22,8 @@ public class PlayerSelectInfo_SubItem : UI_SubItem<PlayerSelectInfo>
         DeleteButton,
     }
 
+    private bool _isSelected = false;
+
     public override void Init()
     {
         Bind<TextMeshProUGUI>(typeof(Texts));
@@ -38,8 +40,22 @@ public class PlayerSelectInfo_SubItem : UI_SubItem<PlayerSelectInfo>
             Managers.UI.ShowToastPopup("플레이어 정보를 불러올 수 없습니다");
             return;
         }
+
+        if (_isSelected)
+        {
+            Managers.UI.ShowToastPopup("서버에서 입장 처리 중입니다");
+            return;
+        }
         
-        Managers.Scene.LoadScene(Define.Scene.GameRoom);
+        _isSelected = true;
+        // 교차 검증을 위해 서버, 채널 정보도 함께 보냄
+        C_SelectPlayer selectPlayerPacket = new C_SelectPlayer()
+        {
+            PlayerId = _data.PlayerId,
+            ServerId = Managers.GameRoom.ServerId,
+            ChannelId = Managers.GameRoom.ChannelId,
+        };
+        Managers.Network.Send(selectPlayerPacket);
     }
 
     private void OnClickDeleteButton()
