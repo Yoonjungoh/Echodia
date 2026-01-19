@@ -47,13 +47,15 @@ public class MyPlayerController : PlayerController
                 { AttackType.CommonAttack, Stat.CommonAttackCoolTime },
                 { AttackType.RangedAttack, Stat.MagicMissileAttackCoolTime }
            };
-
+            
             // 커서 잠금
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
             _meleeAttackType = AttackType.CommonAttack;
             _rangedAttackType = AttackType.RangedAttack;
+
+            OnStartGame();
         }
     }
 
@@ -77,6 +79,7 @@ public class MyPlayerController : PlayerController
             Managers.GameRoomObject.MyPlayer.OnProjectileSpawnInput
         );
 
+        // TODO - 우선 타이밍 이슈로 어쩔 수 없이 여기서 초기화
         _commonAttackAnimSpeedTime = 2.0f;
         _commonAttackAnimLength = _anim.GetAnimationClipLength(_commonAttackanimName) / _commonAttackAnimSpeedTime;
 
