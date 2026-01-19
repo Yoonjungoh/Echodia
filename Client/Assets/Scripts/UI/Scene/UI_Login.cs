@@ -37,11 +37,12 @@ public class UI_Login : UI_Scene
         _passwordInputField = Get<TMP_InputField>((int)InputFields.PasswordInputField);
     }
 
-    public void HandleLogin(LoginStatus loginStatus)
+    public void HandleLogin(LoginStatus loginStatus, int playerId)
     {
         switch (loginStatus)
         {
             case LoginStatus.Success:
+                Managers.Network.PlayerId = playerId;
                 Managers.Scene.LoadScene(Define.Scene.ServerSelect);
                 break;
             case LoginStatus.PasswordWrong:

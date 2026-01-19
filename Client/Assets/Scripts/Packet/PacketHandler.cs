@@ -226,7 +226,7 @@ class PacketHandler
             return;
         }
 
-        loginUI.HandleLogin(loginPacket.LoginStatus);
+        loginUI.HandleLogin(loginPacket.LoginStatus, loginPacket.PlayerId);
     }
 
     public static void S_RequestPlayerListHandler(PacketSession session, IMessage packet)

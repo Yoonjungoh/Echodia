@@ -135,7 +135,7 @@ namespace Server.Game
                 LeaveGame(id);
             }
         }
-
+        
         public void SpawnMonster(MonsterType monsterType, Vector3 spawnPos)
         {
             Monster monster = MonsterFactory.Create(monsterType);

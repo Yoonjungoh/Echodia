@@ -18,6 +18,8 @@ enum MsgId {
   S_MOVE = 24;
   S_DIE = 26;
   C_SPAWN_PROJECTILE = 29;
+  C_ENTER_SERVER_SELECT_SCENE = 30;
+  S_ENTER_SERVER_SELECT_SCENE = 31;
   C_TIMESTAMP = 105;
   S_TIMESTAMP = 106;
   C_CHANGE_CREATURE_STATE = 107;
@@ -123,12 +125,9 @@ message S_EnterGame {
 }
 
 message C_EnterGame {
-  int32 serverId = 1;
-  int32 channelId = 2;
-}
-
-message C_EnterLobby {
-  int32 playerId = 1;	// Player 테이블의 PlayerId
+  int32 playerId = 1;
+  int32 serverId = 2;
+  int32 channelId = 3;
 }
 
 message S_LeaveGame {
@@ -183,6 +182,12 @@ message S_SpawnProjectile {
   ProjectileType projectileType = 2;
 }
 
+message C_EnterServerSelectScene {
+}
+
+message S_EnterServerSelectScene {
+}
+
 message C_Timestamp {
   int64 clientSendTime = 1;
 }
@@ -211,6 +216,7 @@ message C_Login {
 
 message S_Login {
   LoginStatus loginStatus = 1; 
+  int32 playerId = 2;	// DB 조회용 Id
 }
 
 message C_RequestPlayerList {

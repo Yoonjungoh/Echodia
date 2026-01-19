@@ -110,8 +110,8 @@ namespace Server
             }
         }
 
-        // 만들어진 캐릭터 선택 후 로비 진입 (여기서 세션의 MyPlayer 세팅함)
-        public Player EnterLobby(int playerId)
+        // 만들어진 캐릭터 선택 후 게임에 진입 (여기서 세션의 MyPlayer 세팅함)
+        public Player EnterGame(int playerId)
         {
             lock (_lock)
             {
@@ -334,9 +334,10 @@ namespace Server
 
                         // 2-3. 비밀번호 확인 성공 후, 로그인 처리
                         AccountManager.Instance.Add(findAccount.AccountDbId);
-                        ClientServerState = ClientServerState.PlayerSelect;
+                        ClientServerState = ClientServerState.ServerSelect;
                         AccountId = findAccount.AccountDbId;
                         serverLoginPacket.LoginStatus = LoginStatus.Success;
+                        serverLoginPacket.PlayerId = AccountId;
                         Send(serverLoginPacket);
                         return;
                     }

@@ -10,9 +10,13 @@ public class GameRoomScene : BaseScene
         base.Init();
 
         // 게임 입장 하겠다고 패킷 전송
-        C_EnterGame enterGamePacket = new C_EnterGame();
-        enterGamePacket.ServerId = Managers.GameRoom.ServerId;
-        enterGamePacket.ChannelId = Managers.GameRoom.ChannelId;
+        C_EnterGame enterGamePacket = new C_EnterGame()
+        {
+            PlayerId = Managers.Network.PlayerId,
+            ServerId = Managers.GameRoom.ServerId,
+            ChannelId = Managers.GameRoom.ChannelId,
+        };
+        
         Managers.Network.Send(enterGamePacket);
     }
     

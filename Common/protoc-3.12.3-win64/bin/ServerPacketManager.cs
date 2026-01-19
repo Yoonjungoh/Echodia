@@ -33,6 +33,8 @@ class PacketManager
 		_handler.Add((ushort)MsgId.CMove, PacketHandler.C_MoveHandler);		
 		_onRecv.Add((ushort)MsgId.CSpawnProjectile, MakePacket<C_SpawnProjectile>);
 		_handler.Add((ushort)MsgId.CSpawnProjectile, PacketHandler.C_SpawnProjectileHandler);		
+		_onRecv.Add((ushort)MsgId.CEnterServerSelectScene, MakePacket<C_EnterServerSelectScene>);
+		_handler.Add((ushort)MsgId.CEnterServerSelectScene, PacketHandler.C_EnterServerSelectSceneHandler);		
 		_onRecv.Add((ushort)MsgId.CTimestamp, MakePacket<C_Timestamp>);
 		_handler.Add((ushort)MsgId.CTimestamp, PacketHandler.C_TimestampHandler);		
 		_onRecv.Add((ushort)MsgId.CChangeCreatureState, MakePacket<C_ChangeCreatureState>);

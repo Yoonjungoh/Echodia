@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
-using static System.Collections.Specialized.BitVector32;
 
 class PacketHandler
 {
@@ -30,6 +29,11 @@ class PacketHandler
         C_EnterGame enterGamePacket = packet as C_EnterGame;
         ClientSession clientSession = session as ClientSession;
 
+        // 유저 생성
+        Player user = clientSession.EnterGame(enterGamePacket.PlayerId);
+        if (clientSession.MyPlayer == null)
+            return;
+
         Player player = clientSession.MyPlayer;
         if (player == null)
             return;
@@ -38,6 +42,7 @@ class PacketHandler
         ServerChannel channel = ServerManager.Instance.FindChannel(enterGamePacket.ServerId, enterGamePacket.ChannelId);
         if (channel == null)
             return;
+
         // 게임에 입장하기 위해선 ServerId, ChannelId, MapId 모두 유효해야 함
         // MapId만 찾아주면 됨
         // TODO - DB에서 마지막으로 접속한 곳 찾아오기
@@ -93,7 +98,7 @@ class PacketHandler
             return;
         }
 	}
-
+    
     public static void C_TimestampHandler(PacketSession session, IMessage packet)
     {
         C_Timestamp clientTimestampPacket = packet as C_Timestamp;
@@ -185,7 +190,6 @@ class PacketHandler
     public static void C_RequestServerSummaryListHandler(PacketSession session, IMessage packet)
     {
         ClientSession clientSession = session as ClientSession;
-
         if (clientSession == null)
             return;
 
