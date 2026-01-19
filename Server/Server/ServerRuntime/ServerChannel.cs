@@ -19,6 +19,7 @@ namespace Server
         public void Init()
         {
             GameRoomManager = new GameRoomManager(ServerId, ChannelId);
+            GameRoomManager.Init();
         }
     }
 }

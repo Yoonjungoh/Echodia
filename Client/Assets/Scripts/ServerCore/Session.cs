@@ -110,7 +110,7 @@ namespace ServerCore
 				return;
 
 			OnDisconnected(_socket.RemoteEndPoint);
-			_socket.Shutdown(SocketShutdown.Both);
+ 			_socket.Shutdown(SocketShutdown.Both);
 			_socket.Close();
 			Clear();
 		}

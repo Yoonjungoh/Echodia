@@ -102,7 +102,8 @@ namespace Server.Game
             if (_monsters == null || _monsters.Count == 0)
                 return;
 
-            foreach (Monster monster in _monsters.Values)
+            Monster[] monsters = _monsters.Values.ToArray();
+            foreach (Monster monster in monsters)
             {
                 if (monster == null)
                     continue;
@@ -120,7 +121,8 @@ namespace Server.Game
 
             List<int> removeList = new List<int>();
 
-            foreach (Projectile projectile in _projectiles.Values)
+            Projectile[] projectiles = _projectiles.Values.ToArray();
+            foreach (Projectile projectile in projectiles)
             {
                 if (now - projectile.SpawnTime >= projectile.LifeTime)
                 {

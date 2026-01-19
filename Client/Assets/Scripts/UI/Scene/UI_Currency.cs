@@ -93,9 +93,9 @@ public class UI_Currency : UI_Scene
         // 본인을 해당 Scene의 Currency UI로 설정
         Managers.UI.CurrencyUI = this;
 
-        // 최초 UI 초기화 시 재화 데이터를 서버에 요청
-        C_UpdateCurrencyDataAll updateCurrencyDataAllPacket = new C_UpdateCurrencyDataAll();
-        updateCurrencyDataAllPacket.PlayerId = Managers.GameRoomObject.MyPlayer.Id;
-        Managers.Network.Send(updateCurrencyDataAllPacket);
+        //// 최초 UI 초기화 시 재화 데이터를 서버에 요청
+        //C_UpdateCurrencyDataAll updateCurrencyDataAllPacket = new C_UpdateCurrencyDataAll();
+        //updateCurrencyDataAllPacket.PlayerId = Managers.GameRoomObject.MyPlayer.Id;
+        //Managers.Network.Send(updateCurrencyDataAllPacket);
     }
 }

@@ -30,12 +30,14 @@ class PacketHandler
         C_EnterGame enterGamePacket = packet as C_EnterGame;
         ClientSession clientSession = session as ClientSession;
 
-        Player user = clientSession.MyPlayer;
-        if (user == null)
+        Player player = clientSession.MyPlayer;
+        if (player == null)
             return;
 
         // 유저가 접속하려는 채널 찾기 (서버 Id도 필요)
         ServerChannel channel = ServerManager.Instance.FindChannel(enterGamePacket.ServerId, enterGamePacket.ChannelId);
+        if (channel == null)
+            return;
         // 게임에 입장하기 위해선 ServerId, ChannelId, MapId 모두 유효해야 함
         // MapId만 찾아주면 됨
         // TODO - DB에서 마지막으로 접속한 곳 찾아오기
@@ -44,7 +46,7 @@ class PacketHandler
         if (gameRoom == null)
             return;
 
-        gameRoom.Push(gameRoom.EnterGame, user);
+        gameRoom.Push(gameRoom.EnterGame, player);
     }
 
     public static void C_AttackHandler(PacketSession session, IMessage packet)
