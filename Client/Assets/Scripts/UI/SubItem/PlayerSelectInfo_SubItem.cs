@@ -33,15 +33,13 @@ public class PlayerSelectInfo_SubItem : UI_SubItem<PlayerSelectInfo>
 
     private void OnClickSelectButton()
     {
-        // 해당 플레이어로 세팅 후, 로비로 이동
-        Managers.Lobby.SetSelectedPlayerInfo(_data);
         if (_data == null)
         {
             Managers.UI.ShowToastPopup("플레이어 정보를 불러올 수 없습니다");
             return;
         }
         
-        Managers.Scene.LoadScene(Define.Scene.Lobby);
+        Managers.Scene.LoadScene(Define.Scene.GameRoom);
     }
 
     private void OnClickDeleteButton()

@@ -25,26 +25,12 @@ class PacketManager
 	{		
 		_onRecv.Add((ushort)MsgId.CAssignUserId, MakePacket<C_AssignUserId>);
 		_handler.Add((ushort)MsgId.CAssignUserId, PacketHandler.C_AssignUserIdHandler);		
-		_onRecv.Add((ushort)MsgId.CLeaveLobby, MakePacket<C_LeaveLobby>);
-		_handler.Add((ushort)MsgId.CLeaveLobby, PacketHandler.C_LeaveLobbyHandler);		
-		_onRecv.Add((ushort)MsgId.CEnterWaitingRoom, MakePacket<C_EnterWaitingRoom>);
-		_handler.Add((ushort)MsgId.CEnterWaitingRoom, PacketHandler.C_EnterWaitingRoomHandler);		
-		_onRecv.Add((ushort)MsgId.CAddRoom, MakePacket<C_AddRoom>);
-		_handler.Add((ushort)MsgId.CAddRoom, PacketHandler.C_AddRoomHandler);		
-		_onRecv.Add((ushort)MsgId.CExitRoom, MakePacket<C_ExitRoom>);
-		_handler.Add((ushort)MsgId.CExitRoom, PacketHandler.C_ExitRoomHandler);		
-		_onRecv.Add((ushort)MsgId.CEnterLobby, MakePacket<C_EnterLobby>);
-		_handler.Add((ushort)MsgId.CEnterLobby, PacketHandler.C_EnterLobbyHandler);		
-		_onRecv.Add((ushort)MsgId.CStartGame, MakePacket<C_StartGame>);
-		_handler.Add((ushort)MsgId.CStartGame, PacketHandler.C_StartGameHandler);		
 		_onRecv.Add((ushort)MsgId.CEnterGame, MakePacket<C_EnterGame>);
 		_handler.Add((ushort)MsgId.CEnterGame, PacketHandler.C_EnterGameHandler);		
 		_onRecv.Add((ushort)MsgId.CAttack, MakePacket<C_Attack>);
 		_handler.Add((ushort)MsgId.CAttack, PacketHandler.C_AttackHandler);		
 		_onRecv.Add((ushort)MsgId.CMove, MakePacket<C_Move>);
 		_handler.Add((ushort)MsgId.CMove, PacketHandler.C_MoveHandler);		
-		_onRecv.Add((ushort)MsgId.CStartCountdown, MakePacket<C_StartCountdown>);
-		_handler.Add((ushort)MsgId.CStartCountdown, PacketHandler.C_StartCountdownHandler);		
 		_onRecv.Add((ushort)MsgId.CSpawnProjectile, MakePacket<C_SpawnProjectile>);
 		_handler.Add((ushort)MsgId.CSpawnProjectile, PacketHandler.C_SpawnProjectileHandler);		
 		_onRecv.Add((ushort)MsgId.CTimestamp, MakePacket<C_Timestamp>);

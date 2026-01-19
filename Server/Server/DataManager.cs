@@ -2,6 +2,7 @@
 using Newtonsoft;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -54,14 +55,23 @@ namespace Server
        
         public List<string> WorldServerNameList { get; set; } = new List<string>()
         {
-            "Lumina",   // 빛
-            "Velora",   // 흐름과 세계
-            "Arvian",   // 여정
+            "루미나",   // 빛 Lumina
+            "벨로라",   // 흐름과 세계 Velora
+            "아르비안",   // 여정 Arvian
         };
 
         public int MaxWorldServerChannelCount { get; set; } = 5; // 최대 월드의 서버 채널 개수
         
         public int MaxChannelPlayerCount { get; set; } = 100;   // 채널에 들어갈 수 있는 최대 플레이어 수
+
+        private Dictionary<int, string> _mapNameDict { get; } = new Dictionary<int, string>()
+        {
+            { 1, "초원"},
+            //{ 2, "숲"},
+            //{ 3, "사막"},
+        };
+
+        public int MaxMapCount { get { return _mapNameDict.Count; } }   // 맵 최대 개수
 
         public int MaxLobbyCount { get; set; } = 3;  // 최대 로비 개수
 
@@ -97,6 +107,14 @@ namespace Server
                 ); // 기본값
 
             return StartPositions[roomType][index];
+        }
+
+        public string GetMapName(int mapId)
+        {
+            if (_mapNameDict.ContainsKey(mapId))
+                return _mapNameDict[mapId];
+
+            return "None";
         }
     }
 }

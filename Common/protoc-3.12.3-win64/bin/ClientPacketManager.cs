@@ -25,22 +25,6 @@ class PacketManager
 	{		
 		_onRecv.Add((ushort)MsgId.SAssignUserId, MakePacket<S_AssignUserId>);
 		_handler.Add((ushort)MsgId.SAssignUserId, PacketHandler.S_AssignUserIdHandler);		
-		_onRecv.Add((ushort)MsgId.SEnterLobby, MakePacket<S_EnterLobby>);
-		_handler.Add((ushort)MsgId.SEnterLobby, PacketHandler.S_EnterLobbyHandler);		
-		_onRecv.Add((ushort)MsgId.SLeaveLobby, MakePacket<S_LeaveLobby>);
-		_handler.Add((ushort)MsgId.SLeaveLobby, PacketHandler.S_LeaveLobbyHandler);		
-		_onRecv.Add((ushort)MsgId.SEnterWaitingRoom, MakePacket<S_EnterWaitingRoom>);
-		_handler.Add((ushort)MsgId.SEnterWaitingRoom, PacketHandler.S_EnterWaitingRoomHandler);		
-		_onRecv.Add((ushort)MsgId.SAddRoom, MakePacket<S_AddRoom>);
-		_handler.Add((ushort)MsgId.SAddRoom, PacketHandler.S_AddRoomHandler);		
-		_onRecv.Add((ushort)MsgId.SRemoveRoom, MakePacket<S_RemoveRoom>);
-		_handler.Add((ushort)MsgId.SRemoveRoom, PacketHandler.S_RemoveRoomHandler);		
-		_onRecv.Add((ushort)MsgId.SExitRoom, MakePacket<S_ExitRoom>);
-		_handler.Add((ushort)MsgId.SExitRoom, PacketHandler.S_ExitRoomHandler);		
-		_onRecv.Add((ushort)MsgId.SUpdateWaitingRoomInfo, MakePacket<S_UpdateWaitingRoomInfo>);
-		_handler.Add((ushort)MsgId.SUpdateWaitingRoomInfo, PacketHandler.S_UpdateWaitingRoomInfoHandler);		
-		_onRecv.Add((ushort)MsgId.SStartGame, MakePacket<S_StartGame>);
-		_handler.Add((ushort)MsgId.SStartGame, PacketHandler.S_StartGameHandler);		
 		_onRecv.Add((ushort)MsgId.SEnterGame, MakePacket<S_EnterGame>);
 		_handler.Add((ushort)MsgId.SEnterGame, PacketHandler.S_EnterGameHandler);		
 		_onRecv.Add((ushort)MsgId.SAttack, MakePacket<S_Attack>);
@@ -55,8 +39,6 @@ class PacketManager
 		_handler.Add((ushort)MsgId.SMove, PacketHandler.S_MoveHandler);		
 		_onRecv.Add((ushort)MsgId.SDie, MakePacket<S_Die>);
 		_handler.Add((ushort)MsgId.SDie, PacketHandler.S_DieHandler);		
-		_onRecv.Add((ushort)MsgId.SStartCountdown, MakePacket<S_StartCountdown>);
-		_handler.Add((ushort)MsgId.SStartCountdown, PacketHandler.S_StartCountdownHandler);		
 		_onRecv.Add((ushort)MsgId.STimestamp, MakePacket<S_Timestamp>);
 		_handler.Add((ushort)MsgId.STimestamp, PacketHandler.S_TimestampHandler);		
 		_onRecv.Add((ushort)MsgId.SChangeCreatureState, MakePacket<S_ChangeCreatureState>);

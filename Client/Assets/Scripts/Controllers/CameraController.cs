@@ -22,11 +22,7 @@ public class CameraController : MonoBehaviour
     {
         if (_target == null)
         {
-            if (Managers.Scene.CurrentScene == Define.Scene.WaitingRoom)
-            {
-                _target = Managers.WaitingRoomObject.MyPlayer;
-            }
-            else if (Managers.Scene.CurrentScene == Define.Scene.GameRoom)
+            if (Managers.Scene.CurrentScene == Define.Scene.GameRoom)
             {
                 _target = Managers.GameRoomObject.MyPlayer;
             }

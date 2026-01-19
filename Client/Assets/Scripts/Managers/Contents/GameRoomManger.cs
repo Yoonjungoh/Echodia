@@ -7,55 +7,30 @@ using UnityEngine;
 
 public class GameRoomManager
 {
-    // 현재 Room Id, -1이면 방에 없음
-    public RoomInfo RoomInfo { get; set; } = new RoomInfo();
-    public RepeatedField<int> PlayerIdList = new RepeatedField<int>();
-    public bool IsCountdownFinished { get; set; } = false;
-    public float GameOverPopupDelayTime { get; set; } = 3.0f;
+    public int ServerId { get; set; } = -1;
+    public int ChannelId { get; set; } = -1;
+    public int MapId { get; set; } = -1;    // 맵 Id는 서버에서 받아옴
 
     public void Init()
     {
 
     }
 
-    public void OnShowGameOverPopup(RoomExitReason roomExitReason)
+    public void SetMapData(int serverId, int channelId)
     {
-        Managers.GameRoomObject.MyPlayer.CreatureState = CreatureState.None;
-        UI_GameResult gameResultUI = Managers.UI.ShowPopupUI<UI_GameResult>();
-        gameResultUI.SetData(new GameResultPopupData
-        {
-            GameResultText = Util.GetGameResult(roomExitReason)
-        });
-    }
-    
-    public void EnterGame(RoomInfo roomInfo, RepeatedField<int> playerIdList)
-    {
-        RoomInfo = roomInfo;
-        PlayerIdList = playerIdList;
-        Managers.Scene.LoadScene(Define.Scene.GameRoom);
-    }
-
-    public void StartGame(float time)
-    {
-        Managers.UI.ShowCountdown(time, OnStartGame);
-    }
-
-    private void OnStartGame()
-    {
-        Managers.UI.ShowToastPopup("게임 시작!");
-        Managers.GameRoomObject.MyPlayer.OnStartGame();
-        IsCountdownFinished = true;
+        ServerId = serverId;
+        ChannelId = channelId;
     }
 
     public void ExitGame()
     {
-        Managers.Scene.LoadScene(Define.Scene.Lobby);
+        Managers.Scene.LoadScene(Define.Scene.ServerSelect);
     }
 
     public void Clear()
     {
-        RoomInfo = new RoomInfo();
-        RoomInfo.RoomId = -1;
-        IsCountdownFinished = false;
+        ServerId = -1;
+        ChannelId = -1;
+        MapId = -1;
     }
 }

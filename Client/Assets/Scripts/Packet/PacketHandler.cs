@@ -19,114 +19,7 @@ class PacketHandler
             Debug.Log("S_AssignUserId 패킷이 null입니다");
             return;
         }
-        Managers.WaitingRoomObject.UserId = assignUserIdPacket.UserId;
-    }
-
-    // 로비에 입장했을 때
-    public static void S_EnterLobbyHandler(PacketSession session, IMessage packet)
-    {
-        // UI 찾는게 더 무겁고 패킷 캐스팅이 더 가벼우니 패킷 먼저 체크
-        S_EnterLobby enterLobbyPacket = packet as S_EnterLobby;
-        if (enterLobbyPacket == null || enterLobbyPacket.UserIdList == null)
-        {
-            Debug.Log("S_EnterLobby 패킷이 null입니다");
-            return;
-        }
-
-        UI_Lobby lobbyUI = Managers.UI.CurrentScene.GetComponent<UI_Lobby>();
-        if (lobbyUI == null)
-        {
-            Debug.Log("현재 로비가 아닌데 로비에 입장하려고 합니다.");
-            return;
-        }
-
-        lobbyUI.EnterLobby(enterLobbyPacket.UserIdList, enterLobbyPacket.UserNameList);
-        lobbyUI.AddRoom(enterLobbyPacket.RoomInfoList); // 기존 방 목록 추가
-    }
-
-    // 로비에서 누군가 퇴장했을 때
-    public static void S_LeaveLobbyHandler(PacketSession session, IMessage packet)
-    {
-        // UI 찾는게 더 무겁고 패킷 캐스팅이 더 가벼우니 패킷 먼저 체크
-        S_LeaveLobby leaveLobbyPacket = packet as S_LeaveLobby;
-        if (leaveLobbyPacket == null)
-        {
-            Debug.Log("S_LeaveLobby 패킷이 null입니다");
-            return;
-        }
-
-        UI_Lobby lobbyUI = Managers.UI.CurrentScene.GetComponent<UI_Lobby>();
-        if (Managers.UI.CurrentScene == null)
-        {
-            Managers.UI.ShowToastPopup("다시 시도해주세요.");
-        }
-        if (lobbyUI == null)
-        {
-            Debug.Log("현재 로비가 아닌데 로비에 입장하려고 합니다.");
-            return;
-        }
-        lobbyUI.LeaveLobby(leaveLobbyPacket.UserId);
-    }
-
-    public static void S_EnterWaitingRoomHandler(PacketSession session, IMessage packet)
-    {
-        S_EnterWaitingRoom enterWaitingRoomPacket = packet as S_EnterWaitingRoom;
-        if (enterWaitingRoomPacket == null)
-        {
-            Debug.Log("S_EnterWaitingRoom 패킷이 null입니다");
-            return;
-        }
-
-        Managers.WaitingRoomObject.Add(enterWaitingRoomPacket.ObjectState, isMyPlayer: true);
-    }
-
-    public static void S_AddRoomHandler(PacketSession session, IMessage packet)
-    {
-        // UI 찾는게 더 무겁고 패킷 캐스팅이 더 가벼우니 패킷 먼저 체크
-        S_AddRoom addRoomPacket = packet as S_AddRoom;
-        if (addRoomPacket == null)
-        {
-            Debug.Log("S_AddRoom 패킷이 null입니다");
-            return;
-        }
-
-        UI_Lobby lobbyUI = Managers.UI.CurrentScene.GetComponent<UI_Lobby>();
-        if (lobbyUI == null)
-        {
-            Debug.Log("현재 로비가 아닌데 로비에 입장하려고 합니다.");
-            return;
-        }
-        RepeatedField<RoomInfo> roomInfoList = new RepeatedField<RoomInfo>();
-        roomInfoList.Add(addRoomPacket.RoomInfo);
-        lobbyUI.AddRoom(roomInfoList);
-
-        int roomInfoListCount = roomInfoList.Count;
-        // 내가 방 주인인지 확인 후 바로 입장
-        if (roomInfoListCount == 1 && roomInfoList[0].RoomOwnerId == Managers.WaitingRoomObject.UserId)
-        {
-            Managers.WaitingRoom.EnterRoom(roomInfoList[0]);
-        }
-
-    }
-
-    public static void S_RemoveRoomHandler(PacketSession session, IMessage packet)
-    {
-        // UI 찾는게 더 무겁고 패킷 캐스팅이 더 가벼우니 패킷 먼저 체크
-        S_RemoveRoom removeRoomPacket = packet as S_RemoveRoom;
-        if (removeRoomPacket == null)
-        {
-            Debug.Log("S_RemoveRoom 패킷이 null입니다");
-            return;
-        }
-
-        UI_Lobby lobbyUI = Managers.UI.CurrentScene.GetComponent<UI_Lobby>();
-        if (lobbyUI == null)
-        {
-            Debug.Log("현재 로비가 아닌데 로비에 입장하려고 합니다.");
-            return;
-        }
-
-        lobbyUI.RemoveRoom(removeRoomPacket.RoomId);
+        // TODO - 재할당 필요할 때 요청
     }
 
     public static void S_ExitRoomHandler(PacketSession session, IMessage packet)
@@ -138,52 +31,8 @@ class PacketHandler
             return;
         }
 
-        Managers.WaitingRoom.ExitRoom();
-    }
-
-    // 유저가 로비에 있으면 방 정보 갱신
-    // 유저가 대기방에 있으면 본인 방의 정보 갱신
-    public static void S_UpdateWaitingRoomInfoHandler(PacketSession session, IMessage packet)
-    {
-        S_UpdateWaitingRoomInfo updateWatingRoomInfoPacket = packet as S_UpdateWaitingRoomInfo;
-        if (updateWatingRoomInfoPacket == null)
-        {
-            Debug.Log("S_UpdateWaitingRoomInfo 패킷이 null입니다");
-            return;
-        }
-
-        if (Managers.Scene.CurrentScene == Define.Scene.Lobby)
-        {
-            UI_Lobby lobbyUI = Managers.UI.CurrentScene.GetComponent<UI_Lobby>();
-            if (lobbyUI == null)
-            {
-                Debug.Log("현재 로비가 아닌데 로비에 입장하려고 합니다.");
-                return;
-            }
-            lobbyUI.UpdateRoomInfo(updateWatingRoomInfoPacket.RoomInfo);
-        }
-        else if (Managers.Scene.CurrentScene == Define.Scene.WaitingRoom)
-        {
-            Managers.WaitingRoom.RoomInfo = updateWatingRoomInfoPacket.RoomInfo;
-        }
-    }
-
-    public static void S_StartGameHandler(PacketSession session, IMessage packet)
-    {
-        S_StartGame startGamePacket = packet as S_StartGame;
-        if (startGamePacket == null)
-        {
-            Debug.Log("S_StartGame 패킷이 null입니다");
-            return;
-        }
-        if (Managers.Scene.CurrentScene != Define.Scene.WaitingRoom)
-        {
-            Managers.UI.ShowToastPopup("현재 대기방에 있지 않아 게임에 입장할 수 없습니다.");
-            return;
-        }
-        
-        // 대기방의 정보 그대로 넘겨주고 서버에서 받은 유저 아이디 리스트 넘겨줌
-        Managers.GameRoom.EnterGame(Managers.WaitingRoom.RoomInfo, startGamePacket.PlayerIdList);
+        // TODO - 대기실 나가기 처리 하거나 게임 종료
+        //Managers.WaitingRoom.ExitRoom();
     }
 
     // 내가 게임에 입장할 때 패킷
@@ -196,10 +45,7 @@ class PacketHandler
             return;
         }
         
-        // 처음 입장했다는 걸 서버에게 알려서 카운트다운 패킷 받을 준비 하기
         Managers.GameRoomObject.Add(enterGamePacket.ObjectState, isMyPlayer: true);
-        C_StartCountdown startContdownPacket = new C_StartCountdown();
-        Managers.Network.Send(startContdownPacket);
     }
 
     public static void S_AttackHandler(PacketSession session, IMessage packet)
@@ -233,24 +79,14 @@ class PacketHandler
         // 커서 잠금 풀기
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        Managers.UI.ShowCountdown(
-            Managers.GameRoom.GameOverPopupDelayTime, 
-            () => Managers.GameRoom.OnShowGameOverPopup(leaveGamePacket.RoomExitReason),
-            isHideCountdownText: false);
+        // TODO - 리스폰 UI 띄우기
     }
 
     public static void S_SpawnHandler(PacketSession session, IMessage packet)
     {
         S_Spawn spawnPacket = packet as S_Spawn;
 
-        if (Managers.Scene.CurrentScene == Define.Scene.WaitingRoom)
-        {
-            foreach (ObjectState objectState in spawnPacket.ObjectStateList)
-            {
-                Managers.WaitingRoomObject.Add(objectState, isMyPlayer: false);
-            }
-        }
-        else if (Managers.Scene.CurrentScene == Define.Scene.GameRoom)
+        if (Managers.Scene.CurrentScene == Define.Scene.GameRoom)
         {
             foreach (ObjectState objectState in spawnPacket.ObjectStateList)
             {
@@ -263,14 +99,7 @@ class PacketHandler
     {
         S_Despawn despawnPacket = packet as S_Despawn;
 
-        if (Managers.Scene.CurrentScene == Define.Scene.WaitingRoom)
-        {
-            foreach (int id in despawnPacket.ObjectIdList)
-            {
-                Managers.WaitingRoomObject.Remove(id);
-            }
-        }
-        else if (Managers.Scene.CurrentScene == Define.Scene.GameRoom)
+        if (Managers.Scene.CurrentScene == Define.Scene.GameRoom)
         {
             foreach (int id in despawnPacket.ObjectIdList)
             {
@@ -285,11 +114,7 @@ class PacketHandler
 
         // 움직임 동기화 시킬 오브젝트 찾기
         GameObject go = null;
-        if (Managers.Scene.CurrentScene == Define.Scene.WaitingRoom)
-        {
-            go = Managers.WaitingRoomObject.FindById(movePacket.ObjectState.ObjectId);
-        }
-        else if (Managers.Scene.CurrentScene == Define.Scene.GameRoom)
+        if (Managers.Scene.CurrentScene == Define.Scene.GameRoom)
         {
             go = Managers.GameRoomObject.FindById(movePacket.ObjectState.ObjectId);
         }
@@ -312,11 +137,7 @@ class PacketHandler
         cc.ObjectState.CreatureState = movePacket.ObjectState.CreatureState;
 
         GameObjectType type = GameObjectType.None;
-        if (Managers.Scene.CurrentScene == Define.Scene.WaitingRoom)
-        {
-            type = Managers.WaitingRoomObject.GetObjectTypeById(cc.Id);
-        }
-        else if (Managers.Scene.CurrentScene == Define.Scene.GameRoom)
+        if (Managers.Scene.CurrentScene == Define.Scene.GameRoom)
         {
             type = Managers.GameRoomObject.GetObjectTypeById(cc.Id);
         }
@@ -368,12 +189,6 @@ class PacketHandler
         cc.CreatureState = diePacket.CreatureState;
         Managers.GameRoomObject.Remove(diePacket.DamagedObjectId, isDead: true);
         cc.OnDead();
-    }
-
-    public static void S_StartCountdownHandler(PacketSession session, IMessage packet)
-    {
-        S_StartCountdown startCountdownPacket = packet as S_StartCountdown;
-        Managers.GameRoom.StartGame(startCountdownPacket.GameStartCountdownTime);
     }
 
     public static void S_TimestampHandler(PacketSession session, IMessage packet)

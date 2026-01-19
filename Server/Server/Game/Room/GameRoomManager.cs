@@ -1,5 +1,7 @@
 ﻿using Google.Protobuf.Protocol;
 using Google.Protobuf.WellKnownTypes;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Server.Game.Room;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,14 +10,27 @@ namespace Server.Game
 {
     public class GameRoomManager : JobSerializer
     {
-        object _lock = new object();
-        Dictionary<int, GameRoom> _rooms = new Dictionary<int, GameRoom>();
-        public Dictionary<int, GameRoom> Rooms { get { return _rooms; } }
-        List<System.Timers.Timer> _timers = new List<System.Timers.Timer>();
-        public event Action<int> OnEmptyRoom; // 방이 비었을 때 알림 (roomId)
-        public GameRoomManager(int lobbyId)
+        private object _lock = new object();
+        private Dictionary<GameRoomKey, GameRoom> _rooms = new Dictionary<GameRoomKey, GameRoom>();
+        public Dictionary<GameRoomKey, GameRoom> Rooms { get { return _rooms; } }
+        private List<System.Timers.Timer> _timers = new List<System.Timers.Timer>();
+        public int ServerId { get; set; }
+        public int ChannelId { get; set; }
+
+        public GameRoomManager(int serverId, int channelId)
         {
-            ConsoleLogManager.Instance.Log($"GameRoomManager created for Lobby {lobbyId}");
+            ServerId = serverId;
+            ChannelId = channelId;
+        }
+
+        public void Init()
+        {
+            // 1. 맵 개수만큼 GameRoom 생성
+            int mapCount = DataManager.Instance.MaxMapCount;
+            for (int mapId = 0; mapId < mapCount; ++mapId)
+            {
+                CreateGameRoom(1, 1, mapId);
+            }
         }
 
         public void TickRoom(GameRoom room, int tick = 50)
@@ -28,76 +43,50 @@ namespace Server.Game
             _timers.Add(timer);
         }
 
-        public GameRoom Add(int roomId, string roomName, int roomOwnerId)
+        private GameRoom CreateGameRoom(int serverId, int channelId, int mapId)
         {
             lock (_lock)
             {
-                GameRoom newRoom = new GameRoom();
-                newRoom.Push(newRoom.Init, DataManager.Instance.DefaultCells);
-                TickRoom(newRoom);
-
-                if (_rooms.ContainsKey(roomId))
+                GameRoomKey gameRoomKey = new GameRoomKey(serverId, channelId, mapId);
+                if (_rooms.ContainsKey(gameRoomKey))
                 {
-                    ConsoleLogManager.Instance.Log($"That room already exist {roomId}");
+                    ConsoleLogManager.Instance.Log
+                        ($"CreateGameRoom Failed! Already Exists Room ServerId:{serverId}, ChannelId:{channelId}, MapId:{mapId}");
                     return null;
                 }
 
-                newRoom.RoomId = roomId;
-                newRoom.RoomName = roomName;
-                newRoom.RoomOwnerId = roomOwnerId;
+                GameRoom newRoom = new GameRoom(serverId, channelId, mapId);
 
-                newRoom.OnEmptyRoom -= HandleEmptyRoom;
-                newRoom.OnEmptyRoom += HandleEmptyRoom;
+                newRoom.Push(newRoom.Init, DataManager.Instance.DefaultCells);
+                TickRoom(newRoom);
 
-                _rooms.Add(roomId, newRoom);
+                _rooms.Add(gameRoomKey, newRoom);
 
                 return newRoom;
             }
         }
-
-        private void HandleEmptyRoom(int roomId)
-        {
-            if (_rooms.ContainsKey(roomId) == false)
-            {
-                ConsoleLogManager.Instance.Log($"Cant Find Room {roomId}");
-                return;
-            }
-            OnEmptyRoom?.Invoke(roomId);
-        }
-
-        public bool Remove(int roomId)
-        {
-            lock (_lock)
-            {
-                if (_rooms.ContainsKey(roomId))
-                    return _rooms.Remove(roomId);
-                else
-                {
-                    ConsoleLogManager.Instance.Log($"That room already removed {roomId}");
-                    return false;
-                }
-            }
-        }
-
-        public GameRoom Find(int roomId)
+        
+        public GameRoom Find(int mapId)
         {
             lock (_lock)
             {
                 GameRoom room = null;
-                if (_rooms.TryGetValue(roomId, out room))
+                GameRoomKey gameRoomKey = new GameRoomKey(ServerId, ChannelId, mapId);
+                if (_rooms.TryGetValue(gameRoomKey, out room))
                     return room;
                 return null;
             }
         }
 
-        public void DisposeTimer()
+        public GameRoom Find(GameRoomKey gameRoomKey)
         {
-            foreach (var timer in _timers)
+            lock (_lock)
             {
-                timer.Stop();
-                timer.Dispose();
+                GameRoom room = null;
+                if (_rooms.TryGetValue(gameRoomKey, out room))
+                    return room;
+                return null;
             }
-            _timers.Clear();
         }
     }
 }

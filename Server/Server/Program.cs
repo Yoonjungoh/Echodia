@@ -60,7 +60,6 @@ namespace Server
             IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
             MapManager.Instance.Init();
-            LobbyManager.Instance.Init();
             ServerManager.Instance.Init();
 
             _listener.Init(endPoint, () => { return SessionManager.Instance.Generate(); });

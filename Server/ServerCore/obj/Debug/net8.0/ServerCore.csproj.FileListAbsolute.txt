@@ -34,3 +34,15 @@ C:\Users\user\Desktop\Development\Echodia\Server\ServerCore\obj\Debug\net8.0\Ser
 C:\Users\user\Desktop\Development\Echodia\Server\ServerCore\obj\Debug\net8.0\refint\ServerCore.dll
 C:\Users\user\Desktop\Development\Echodia\Server\ServerCore\obj\Debug\net8.0\ServerCore.pdb
 C:\Users\user\Desktop\Development\Echodia\Server\ServerCore\obj\Debug\net8.0\ref\ServerCore.dll
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\ServerCore\bin\Debug\net8.0\ServerCore.deps.json
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\ServerCore\bin\Debug\net8.0\ServerCore.dll
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\ServerCore\bin\Debug\net8.0\ServerCore.pdb
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\ServerCore\obj\Debug\net8.0\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\ServerCore\obj\Debug\net8.0\ServerCore.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\ServerCore\obj\Debug\net8.0\ServerCore.AssemblyInfo.cs
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\ServerCore\obj\Debug\net8.0\ServerCore.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\ServerCore\obj\Debug\net8.0\ServerCore.sourcelink.json
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\ServerCore\obj\Debug\net8.0\ServerCore.dll
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\ServerCore\obj\Debug\net8.0\refint\ServerCore.dll
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\ServerCore\obj\Debug\net8.0\ServerCore.pdb
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\ServerCore\obj\Debug\net8.0\ref\ServerCore.dll

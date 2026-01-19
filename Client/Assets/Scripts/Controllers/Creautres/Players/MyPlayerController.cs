@@ -148,8 +148,7 @@ public class MyPlayerController : PlayerController
 
     private void HandleInput()
     {
-        if (Managers.Scene.CurrentScene == Define.Scene.GameRoom &&
-            Managers.GameRoom.IsCountdownFinished == false)
+        if (Managers.Scene.CurrentScene != Define.Scene.GameRoom)
             return;
 
         if (CreatureState == CreatureState.Die || CreatureState == CreatureState.Attack)

@@ -80,23 +80,9 @@ namespace Server
             }
 
             // 로비에서 내보내기
-            if (MyPlayer.Lobby != null)
+            if (MyPlayer.GameRoom != null)
             {
-                MyPlayer.Lobby.Push(MyPlayer.Lobby.LeaveLobby, MyPlayer.Id);
-            }
-
-            // 대기방에서 내보내기
-            if (MyPlayer.WaitingRoom != null)
-            {
-                WaitingRoom watingRoom = MyPlayer.Lobby.WaitingRoomManager.Find(MyPlayer.WaitingRoom.RoomId);
-                if (watingRoom != null)
-                {
-                    watingRoom.Push(watingRoom.LeaveRoom, MyPlayer.ObjectState.ObjectId);
-                }
-                else
-                {
-                    ConsoleLogManager.Instance.Log($"Can't Find Room {MyPlayer.WaitingRoom.RoomId} -> UserId: {MyPlayer.Id}");
-                }
+                MyPlayer.GameRoom.Push(MyPlayer.GameRoom.LeaveGame, MyPlayer.Id);
             }
 
             AccountManager.Instance.Remove(AccountId);
@@ -108,12 +94,6 @@ namespace Server
         public override void OnSend(int numOfBytes)
         {
             //ConsoleLogManager.Instance.Log($"Transferred bytes: {numOfBytes}");
-        }
-
-        public void EnterLobby()
-        {
-            ConsoleLogManager.Instance.Log($"Player Connected in Lobby {MyPlayer.Session.SessionId}");
-            LobbyManager.Instance.EnterLobby(1, MyPlayer);	// TODO - 1번 로비로 강제 이동
         }
         #endregion
     }

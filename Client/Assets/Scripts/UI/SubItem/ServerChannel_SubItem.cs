@@ -29,14 +29,14 @@ public class ServerChannel_SubItem : UI_SubItem<ServerInfo>
 
     private void OnClickSelectButton()
     {
-        // 해당 플레이어로 세팅 후, 로비로 이동
-        //Managers.Lobby.SetSelectedPlayerInfo(_data);
         if (_data == null)
         {
             Managers.UI.ShowToastPopup("플레이어 정보를 불러올 수 없습니다");
             return;
         }
-        
+        // 선택한 서버랑, 채널 Id 저장
+        // TODO - 후에 혼잡도에 따라서 못 들어오게 해야할듯
+        Managers.GameRoom.SetMapData(_data.ServerId, _data.ChannelId);
         Managers.Scene.LoadScene(Define.Scene.PlayerSelect);
     }
 

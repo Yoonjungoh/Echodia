@@ -12,7 +12,7 @@ namespace Server
     {
         public static ServerManager Instance { get; } = new ServerManager();
 
-        public int _serverId = 1; // 서버의 UId 설정
+        private int _serverId = 1; // 서버의 UId 설정
 
         // ServerId -> WorldServer
         public Dictionary<int, WorldServer> WorldServers { get; set; } = new Dictionary<int, WorldServer>();
@@ -23,6 +23,19 @@ namespace Server
         public void Init()
         {
             CreateWorldServers();
+        }
+
+        public ServerChannel FindChannel(int serverId, int channelId)
+        {
+            if (WorldServers.TryGetValue(serverId, out WorldServer worldServer))
+            {
+                if (worldServer.Channels.TryGetValue(channelId, out ServerChannel channel))
+                {
+                    return channel;
+                }
+            }
+            
+            return null;
         }
 
         // 월드 서버 생성 로직
@@ -54,6 +67,7 @@ namespace Server
                         ChannelId = i,
                         MaxPlayerCount = maxChannelPlayerCount
                     };
+                    channel.Init();
                     newWorldServer.Channels.Add(i, channel);
                 }
 

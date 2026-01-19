@@ -15,10 +15,7 @@ namespace Server.Game
         {
             Init();
         }
-
-        public Lobby Lobby;	// 로비 나가면 초기화 해줘야 함
-			
-        public WaitingRoom WaitingRoom;	// 방 나가면 초기화 해줘야 함
+        
         public int PlayerId { get; set; }   // DB에 저장된 플레이어 고유 Id
         public ClientSession Session { get; set; }
         public AOIController AOI { get; set; }

@@ -6,14 +6,14 @@ namespace Server
 {
     public class MapData
     {
-        public float CellSize;
-        public Vector3 Origin;
-        public int SizeX;
-        public int SizeZ;
+        public int MapId { get; set; } = -1;
+        public float CellSize { get; set; }
+        public Vector3 Origin { get; set; }
+        public int SizeX { get; set; }
+        public int SizeZ { get; set; }
+        public float[,] Height { get; set; }  // float 로 유지
+        public bool[,] CanGo { get; set; }
 
-        public float[,] Height;  // float 로 유지
-        public bool[,] CanGo;
-        
         public int MinX { get { return -(SizeX / 2); } }
 
         public int MaxX { get { return (SizeX / 2); } }
@@ -21,6 +21,11 @@ namespace Server
         public int MinZ { get { return -(SizeZ / 2); } }
 
         public int MaxZ { get { return (SizeZ / 2); } }
+
+        public MapData(int mapId)
+        {
+            MapId = mapId;
+        }
     }
 
     public class MapManager
@@ -36,17 +41,19 @@ namespace Server
                 Console.WriteLine("[MapManager] Map file not found.");
                 return;
             }
-
-            _globalMap = Load(path);
+            
+            // TODO - 여러 맵 로드 지원
+            int mapId = 0;
+            _globalMap = Load(mapId, path);
             Console.WriteLine($"[MapManager] Loaded map: {_globalMap.SizeX} x {_globalMap.SizeZ}");
         }
 
-        public MapData CreateCopy()
+        public MapData CreateCopy(int mapId)
         {
             if (_globalMap == null)
                 return null;
 
-            MapData copy = new MapData();
+            MapData copy = new MapData(mapId);
             copy.CellSize = _globalMap.CellSize;
             copy.Origin = _globalMap.Origin;
             copy.SizeX = _globalMap.SizeX;
@@ -65,9 +72,9 @@ namespace Server
             return Path.Combine(root, "Common", "MapData", "MapData_001.bytes");
         }
 
-        private MapData Load(string filePath)
+        private MapData Load(int mapId, string filePath)
         {
-            MapData map = new MapData();
+            MapData map = new MapData(mapId);
 
             using (BinaryReader br = new BinaryReader(File.OpenRead(filePath)))
             {

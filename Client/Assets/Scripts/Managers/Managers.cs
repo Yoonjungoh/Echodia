@@ -11,12 +11,9 @@ public class Managers : MonoBehaviour
     private CurrencyManager _currency = new CurrencyManager();
     private GameRoomManager _gameRoom = new GameRoomManager();
     private GameRoomObjectManager _gameRoomObject = new GameRoomObjectManager();
-    private LobbyManager _lobby = new LobbyManager();
     private MapManager _map = new MapManager();
     private NetworkManager _network = new NetworkManager();
     private TimeManager _time = new TimeManager();
-    private WaitingRoomObjectManager _waitingRoomObject = new WaitingRoomObjectManager();
-    private WaitingRoomManager _waitingRoom = new WaitingRoomManager();
     private PoolManager _pool = new PoolManager();
     private InputManager _input = new InputManager();
     private DataManager _data = new DataManager();
@@ -29,12 +26,9 @@ public class Managers : MonoBehaviour
     public static CurrencyManager Currency { get { return Instance._currency; } }
     public static GameRoomManager GameRoom { get { return Instance._gameRoom; } }
     public static GameRoomObjectManager GameRoomObject { get { return Instance._gameRoomObject; } }
-    public static LobbyManager Lobby { get { return Instance._lobby; } }
     public static MapManager Map { get { return Instance._map; } }
     public static NetworkManager Network { get { return Instance._network; } }
     public static TimeManager Time { get { return Instance._time; } }
-    public static WaitingRoomObjectManager WaitingRoomObject { get { return Instance._waitingRoomObject; } }
-    public static WaitingRoomManager WaitingRoom { get { return Instance._waitingRoom; } }
     public static PoolManager Pool { get { return Instance._pool; } }
     public static DataManager Data { get { return Instance._data; } }
     public static InputManager Input { get { return Instance._input; } }
@@ -75,7 +69,6 @@ public class Managers : MonoBehaviour
             s_instance._data.Init();
             s_instance._sound.Init();
             s_instance._resource.Init();
-            s_instance._waitingRoom.Init();
             s_instance._map.Init();
             s_instance._gameRoomObject.Init();
         }
@@ -87,8 +80,6 @@ public class Managers : MonoBehaviour
         UI.Clear();
 
         Pool.Clear();
-
-        WaitingRoomObject.Clear();
 
         GameRoom.Clear();
         GameRoomObject.Clear();

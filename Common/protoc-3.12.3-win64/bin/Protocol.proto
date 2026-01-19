@@ -7,20 +7,6 @@ option csharp_namespace = "Google.Protobuf.Protocol";
 enum MsgId {
   S_ASSIGN_USER_ID = 0;
   C_ASSIGN_USER_ID = 1;
-  S_ENTER_LOBBY = 2;
-  S_LEAVE_LOBBY = 3;
-  C_LEAVE_LOBBY = 4;
-  C_ENTER_WAITING_ROOM = 5;
-  S_ENTER_WAITING_ROOM = 6;
-  C_ADD_ROOM = 7;
-  S_ADD_ROOM = 8;
-  S_REMOVE_ROOM = 9;
-  S_EXIT_ROOM = 10;
-  C_EXIT_ROOM = 11;
-  C_ENTER_LOBBY = 12;
-  S_UPDATE_WAITING_ROOM_INFO = 13;
-  C_START_GAME = 14;
-  S_START_GAME = 15;
   C_ENTER_GAME = 16;
   S_ENTER_GAME = 17;
   C_ATTACK = 18;
@@ -31,8 +17,6 @@ enum MsgId {
   C_MOVE = 23;
   S_MOVE = 24;
   S_DIE = 26;
-  C_START_COUNTDOWN = 27;
-  S_START_COUNTDOWN = 28;
   C_SPAWN_PROJECTILE = 29;
   C_TIMESTAMP = 105;
   S_TIMESTAMP = 106;
@@ -109,10 +93,9 @@ enum LoginStatus {
 enum ClientServerState {
   CLIENT_SERVER_STATE_NONE = 0;
   LOGIN = 1;
-  PLAYER_SELECT = 2;
-  LOBBY = 3;
-  WAITING_ROOM = 4;
-  GAME_ROOM = 5;
+  SERVER_SELECT = 2;
+  PLAYER_SELECT = 3;
+  GAME_ROOM = 4;
 }
 
 enum CurrencyType {
@@ -129,58 +112,10 @@ message C_AssignUserId {
 	
 }
 
-message S_EnterLobby {
-  repeated int32 userIdList = 1;
-  repeated string userNameList = 2;
-  repeated RoomInfo roomInfoList = 3;
-}
-
-message S_LeaveLobby {
-  int32 userId = 1;
-}
-
-message C_LeaveLobby {
-  int32 userId = 1;
-}
-
-message C_EnterWaitingRoom {
-  int32 userId = 1;
-  int32 roomId = 2;
-}
-
-message S_EnterWaitingRoom {
-  int32 roomId = 1;
-  ObjectState objectState = 2;
-}
-
-message C_AddRoom {
-  string roomName = 1;
-}
-
-message S_AddRoom {
-  RoomInfo roomInfo = 1;
-}
-
-message S_RemoveRoom {
-  int32 roomId = 1;
-}
-
 message S_ExitRoom {
 }
 
 message C_ExitRoom {
-}
-
-message S_UpdateWaitingRoomInfo{
-  RoomInfo roomInfo = 1;
-}
-
-message C_StartGame{
-  int32 roomId = 1;
-}
-
-message S_StartGame{
-  repeated int32 playerIdList = 1;
 }
 
 message S_EnterGame {
@@ -188,7 +123,8 @@ message S_EnterGame {
 }
 
 message C_EnterGame {
-  int32 roomId = 1;
+  int32 serverId = 1;
+  int32 channelId = 2;
 }
 
 message C_EnterLobby {
@@ -235,13 +171,6 @@ message S_Die {
   int32 damagedObjectId = 1;
   int32 instigatorId = 2;
   CreatureState creatureState = 3;
-}
-
-message C_StartCountdown {
-}
-
-message S_StartCountdown {
-  float gameStartCountdownTime = 1;
 }
 
 message C_SpawnProjectile {

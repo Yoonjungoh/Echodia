@@ -20,13 +20,12 @@ namespace Server.Game
 {
     public class GameRoom : JobSerializer
     {
-        public int RoomId { get; set; }
-        public string RoomName { get; set; }
-        public int RoomOwnerId { get; set; }
+        public int ServerId { get; set; }
+        public int ChannelId { get; set; }
+        public int MapId { get; set; }
+        public string MapName { get; set; }
         public Map Map { get; set; } = new Map();
-
         public Zone[,] Zones { get; private set; }  // x, z
-
         public int ZoneCells { get; private set; }
 
         private Dictionary<int, GameObject> _gameObjects = new Dictionary<int, GameObject>();
@@ -36,15 +35,22 @@ namespace Server.Game
 
         public bool IsRoomFull { get { return _players.Count == DataManager.Instance.MaxRoomPlayerCount; } }
 
-        public event Action<int> OnEmptyRoom; // 방이 비었을 때 알림 (roomId)
         public event Action OnPlayerInfoChanged;  // 방 정보 바뀌었을 때 알림 (roomId)
+
+        public GameRoom(int serverId, int channelId, int mapId)
+        {
+            ServerId = serverId;
+            ChannelId = channelId;
+            MapId = mapId;
+            MapName = DataManager.Instance.GetMapName(mapId);
+        }
 
         public void Init(int zoneCells)
         {
             //TestTimer();
-            Map.MapData = MapManager.Instance.CreateCopy();
-            OnPlayerInfoChanged -= CheckForWinner;
-            OnPlayerInfoChanged += CheckForWinner;
+            Map.MapData = MapManager.Instance.CreateCopy(MapId);
+            OnPlayerInfoChanged -= PlayerInfoChanged;
+            OnPlayerInfoChanged += PlayerInfoChanged;
 
             // Zone 초기화
             ZoneCells = zoneCells;
@@ -540,35 +546,9 @@ namespace Server.Game
             Broadcast(player.CurrentPosition, resMovePacket, player.Id);
         }
 
-        private void CheckForWinner()
+        private void PlayerInfoChanged()
         {
-            // 플레이어가 있었던 방인데 혼자 남거나 동시에 다 나가서 터진방일 때
-            // 게임룸에선 승리 처리
-            if (_players.Count <= 1)
-            {
-                foreach (Player p in _players.Values)
-                {
-                    OnGameOver(p);
-                    S_LeaveGame leavePacket = new S_LeaveGame();
-                    leavePacket.RoomExitReason = RoomExitReason.GameWin;
-                    p.Session.Send(leavePacket);
-                }
-                OnEmptyRoom?.Invoke(RoomId);
-            }
-        }
 
-        private void OnGameOver(Player winner)
-        {
-            if (winner == null)
-            {
-                ConsoleLogManager.Instance.Log($"RoomId {RoomId}: No Winner in OnGameOver");
-                return;
-            }
-
-            CurrencyManager.Instance.AddCurrency
-                (winner, CurrencyType.Jewel, DataManager.Instance.VictoryJewelReward,
-                () => ConsoleLogManager.Instance.Log($"PlayerId: {winner.PlayerId}: Jewel Saved({CurrencyManager.Instance.GetCurrentAmount(winner, CurrencyType.Jewel)})"),
-                reason: "Game win");
         }
 
         public void HandleChangeCreatureState(int objectId, CreatureState creatureState)
@@ -598,15 +578,6 @@ namespace Server.Game
             changeCreatureStatePacket.ObjectId = objectId;
             changeCreatureStatePacket.CreatureState = creatureState;
             Broadcast(gameObject.CurrentPosition, changeCreatureStatePacket, objectId);
-        }
-
-        public void HandleStartCountdown(Player player)
-        {
-            S_StartCountdown startCountdownPacket = new S_StartCountdown();
-
-            // 게임 시작 시간 초기화
-            startCountdownPacket.GameStartCountdownTime = DataManager.Instance.GameStartCountdownTime;
-            Broadcast(startCountdownPacket);
         }
 
         public Player FindPlayer(Func<GameObject, bool> condition)
