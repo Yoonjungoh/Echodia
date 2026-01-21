@@ -134,6 +134,7 @@ public class GameRoomObjectManager
             Managers.Resource.Destroy(go);
             return;
         }
+
         _objects.Remove(id);
         GameObjectType gameObjectType = GetObjectTypeById(id);
         if (gameObjectType == GameObjectType.Projectile)

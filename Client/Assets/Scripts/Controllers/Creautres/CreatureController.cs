@@ -143,6 +143,9 @@ public class CreatureController : BaseController
 
     public override void OnDead()
     {
+        // 혹시 모르니 체력 0으로 맞춤
+        _hpBar.UpdateHpBar(0, Stat.MaxHp);
+
         // 죽는 이펙트
         ParticleSystem particleSystem = Managers.Resource.SpawnEffect(
             _dieEffectName,

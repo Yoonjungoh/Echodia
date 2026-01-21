@@ -66,7 +66,7 @@ namespace Server.Game
             }
 
             // Monster 초반 Spawn
-            InitMonsters();
+            Push(InitMonsters);
         }
 
         public Zone GetZone(Vector3 pos)
@@ -181,6 +181,9 @@ namespace Server.Game
             projectile.Position = MovementHelper.Vec3ToProtoVec3(spawnPos);
             projectile.Velocity = MovementHelper.Vec3ToProtoVec3(forward * projectile.Stat.MoveSpeed);
             projectile.SpawnTime = Util.GetTimestampMs();
+
+            Console.WriteLine($"Owner: ({owner.Position.X},{owner.Position.Y},{owner.Position.Z})");
+            Console.WriteLine($"Projectile: ({projectile.Position.X},{projectile.Position.Y},{projectile.Position.Z})");
 
             Push(EnterGame, projectile);
         }
@@ -357,6 +360,7 @@ namespace Server.Game
                 // 투사체는 Move로 변경해주기
                 gameObject.CreatureState = CreatureState.Move;
                 enteGamePacket.ObjectState.CreatureState = CreatureState.Move;
+                Console.WriteLine("Enter Projectile");
             }
 
             // name 초기화
@@ -418,7 +422,7 @@ namespace Server.Game
             
             S_Spawn spawnToOthersPacket = new S_Spawn();
             spawnToOthersPacket.ObjectStateList.Add(gameObject.ObjectState);
-            Broadcast(gameObject.CurrentPosition, spawnToOthersPacket);
+            Broadcast(MovementHelper.ProtoVec3ToVec3(gameObject.Position), spawnToOthersPacket);
         }
 
         public void LeaveGame(int objectId)
@@ -756,10 +760,10 @@ namespace Server.Game
             //{
             //    SpawnMonster(MonsterType.Bear, new Vector3(100, -26, 527 + (i * 2)));
             //}
-            SpawnMonster(MonsterType.Bear, new Vector3(100, -26, 527));
-            SpawnMonster(MonsterType.Bear, new Vector3(80, -27, 500));
-            SpawnMonster(MonsterType.Bear, new Vector3(100, -26, 420));
-            SpawnMonster(MonsterType.Bear, new Vector3(100, -26, 480));
+            Push(SpawnMonster, MonsterType.Bear, new Vector3(100, -26, 527));
+            Push(SpawnMonster, MonsterType.Bear, new Vector3(80, -27, 500));
+            Push(SpawnMonster, MonsterType.Bear, new Vector3(100, -26, 420));
+            Push(SpawnMonster, MonsterType.Bear, new Vector3(100, -26, 480));
         }
     }
 }
