@@ -46,6 +46,14 @@ namespace Server.Game
 
 		public void Flush()
 		{
+			lock (_lock)
+			{
+				if (_flush)
+					return;
+
+				_flush = true;
+			}
+
 			_jobTimer.Flush();
 
 			while (true)
@@ -73,7 +81,7 @@ namespace Server.Game
 			lock (_lock)
 			{
 				// queue에 job 다 처리하면 빠져나오기
-				if (_jobQueue.Count == 0)
+				if (_jobQueue.Count ==0)
 				{
 					_flush = false;
 					return null;

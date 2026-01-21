@@ -66,7 +66,7 @@ namespace Server.Game
             }
 
             // Monster 초반 Spawn
-            Push(InitMonsters);
+            InitMonsters();
         }
 
         public Zone GetZone(Vector3 pos)
@@ -760,10 +760,10 @@ namespace Server.Game
             //{
             //    SpawnMonster(MonsterType.Bear, new Vector3(100, -26, 527 + (i * 2)));
             //}
-            Push(SpawnMonster, MonsterType.Bear, new Vector3(100, -26, 527));
-            Push(SpawnMonster, MonsterType.Bear, new Vector3(80, -27, 500));
-            Push(SpawnMonster, MonsterType.Bear, new Vector3(100, -26, 420));
-            Push(SpawnMonster, MonsterType.Bear, new Vector3(100, -26, 480));
+            SpawnMonster(MonsterType.Bear, new Vector3(100, -26, 527));
+            SpawnMonster(MonsterType.Bear, new Vector3(80, -27, 500));
+            SpawnMonster(MonsterType.Bear, new Vector3(100, -26, 420));
+            SpawnMonster(MonsterType.Bear, new Vector3(100, -26, 480));
         }
     }
 }

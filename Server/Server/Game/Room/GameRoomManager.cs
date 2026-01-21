@@ -25,11 +25,14 @@ namespace Server.Game
 
         public void Init()
         {
-            // 1. 맵 개수만큼 GameRoom 생성
-            int mapCount = DataManager.Instance.MaxMapCount;
-            for (int mapId = 0; mapId < mapCount; ++mapId)
+            lock (_lock)
             {
-                CreateGameRoom(mapId);
+                // 1. 맵 개수만큼 GameRoom 생성
+                int mapCount = DataManager.Instance.MaxMapCount;
+                for (int mapId = 0; mapId < mapCount; ++mapId)
+                {
+                    CreateGameRoom(mapId);
+                }
             }
         }
 
@@ -45,25 +48,22 @@ namespace Server.Game
 
         private GameRoom CreateGameRoom(int mapId)
         {
-            lock (_lock)
+            GameRoomKey gameRoomKey = new GameRoomKey(ServerId, ChannelId, mapId);
+            if (_rooms.ContainsKey(gameRoomKey))
             {
-                GameRoomKey gameRoomKey = new GameRoomKey(ServerId, ChannelId, mapId);
-                if (_rooms.ContainsKey(gameRoomKey))
-                {
-                    ConsoleLogManager.Instance.Log
-                        ($"CreateGameRoom Failed! Already Exists Room ServerId:{ServerId}, ChannelId:{ChannelId}, MapId:{mapId}");
-                    return null;
-                }
-
-                GameRoom newRoom = new GameRoom(ServerId, ChannelId, mapId);
-
-                newRoom.Push(newRoom.Init, DataManager.Instance.DefaultCells);
-                TickRoom(newRoom);
-
-                _rooms.Add(gameRoomKey, newRoom);
-
-                return newRoom;
+                ConsoleLogManager.Instance.Log
+                    ($"CreateGameRoom Failed! Already Exists Room ServerId:{ServerId}, ChannelId:{ChannelId}, MapId:{mapId}");
+                return null;
             }
+
+            GameRoom newRoom = new GameRoom(ServerId, ChannelId, mapId);
+
+            newRoom.Push(newRoom.Init, DataManager.Instance.DefaultCells);
+            TickRoom(newRoom);
+
+            _rooms.Add(gameRoomKey, newRoom);
+
+            return newRoom;
         }
         
         public GameRoom Find(int mapId)
