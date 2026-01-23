@@ -399,20 +399,26 @@ namespace Server
             {
                 // 서버/채널 존재하는지 확인 후 패킷 보내기
                 S_SelectServer selectServerPacket = new S_SelectServer();
-                if (ServerManager.Instance.IsValidServerChannel(serverId, channelId))
+                ServerChannel channel = ServerManager.Instance.FindChannel(serverId, channelId);
+                if (channel == null)
                 {
-                    ServerId = serverId;
-                    ChannelId = channelId;
-                    selectServerPacket.ServerId = serverId;
-                    selectServerPacket.ChannelId = channelId;
-                    selectServerPacket.CanSelect = true;
-                    ClientServerState = ClientServerState.PlayerSelect;
-                    Send(selectServerPacket);
+                    ConsoleLogManager.Instance.Log($"[Error] 채널 정보를 찾을 수 없음. SessionId: {SessionId}, ServerId: {serverId}, ChannelId: {channelId}");
                     return;
                 }
                 
-                ConsoleLogManager.Instance.Log($"[Warning] 잘못된 서버/채널 선택 시도. SessionId: {SessionId}, ServerId: {serverId}, ChannelId: {channelId}");
-                selectServerPacket.CanSelect = false;
+                // 채널 입장 작업
+                channel.TryEnterChannel(SessionId, out EnterServerResult enterServerResult);
+
+                if (enterServerResult == EnterServerResult.Success)
+                {
+                    ServerId = serverId;
+                    ChannelId = channelId;
+                    ClientServerState = ClientServerState.PlayerSelect;
+                    ServerManager.Instance.BroadcastChannelPlayerCountChanged(serverId);
+                }
+                selectServerPacket.ServerId = serverId;
+                selectServerPacket.ChannelId = channelId;
+                selectServerPacket.EnterServerResult = enterServerResult;
                 Send(selectServerPacket);
             }
         }
@@ -426,6 +432,7 @@ namespace Server
                 S_SelectPlayer selectPlayerPacket = new S_SelectPlayer();
                 if (ServerId ==  serverId && ChannelId == channelId)
                 {
+                    // 패킷 전송
                     selectPlayerPacket.PlayerId = playerId;
                     selectPlayerPacket.CanSelect = true;
                     Send(selectPlayerPacket);

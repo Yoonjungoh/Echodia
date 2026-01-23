@@ -11,6 +11,7 @@ namespace Server
     public class ServerManager
     {
         public static ServerManager Instance { get; } = new ServerManager();
+        private readonly object _lock = new object();
 
         private int _serverId = 1; // 서버의 UId 설정
 
@@ -36,6 +37,29 @@ namespace Server
             }
             
             return null;
+        }
+
+        // 서버에 접속 중인 유저 찾아서 제거
+        public bool Remove(int sessionId)
+        {
+            lock (_lock)
+            {
+                ClientSession session = SessionManager.Instance.Find(sessionId);
+                if (session == null)
+                {
+                    ConsoleLogManager.Instance.Log($"[ServerManager] Session {sessionId} not found.");
+                    return false;
+                }
+
+                ServerChannel channel = FindChannel(session.ServerId, session.ChannelId);
+                if (channel == null)
+                {
+                    ConsoleLogManager.Instance.Log($"[ServerManager] Channel {session.ChannelId} of Server {session.ServerId} not found.");
+                    return false;
+                }
+
+                return channel.LeaveChannel(sessionId);
+            }
         }
 
         // 월드 서버 생성 로직
@@ -101,14 +125,21 @@ namespace Server
             return serverInfoList;
         }
 
-        public bool IsValidServerChannel(int serverId, int channel)
+        public void BroadcastChannelPlayerCountChanged(int serverId)
         {
-            if (WorldServers.TryGetValue(serverId, out WorldServer worldServer))
+            // 해당 채널 창을 보고 있는 유저들에게 유저수가 바뀐 것을
+            // UI에 반영하게 하기 위한 브로드캐스트
+
+            // 현재 접속한 클라이언트 순회 하면서 ClientServerState 체크로
+            // 선택적 브로드캐스트 (추후에 ClientServerState별로 유저 관리해도 좋을듯)
+            List<ClientSession> sessions = SessionManager.Instance.GetSessions();
+            foreach (ClientSession session in sessions)
             {
-                return worldServer.Channels.ContainsKey(channel);
+                if (session.ClientServerState == ClientServerState.ServerSelect)
+                {
+                    session.HandleRequestServerList(serverId);
+                }
             }
-            
-            return false;
         }
     }
 

@@ -102,6 +102,16 @@ enum ClientServerState {
   GAME_ROOM = 4;
 }
 
+enum EnterServerResult {
+  ENTER_SERVER_RESULT_NONE = 0;
+  SUCCESS = 1;
+  CHANNEL_FULL = 2;
+  ALREADY_IN = 3;
+  INVALID_PLAYER = 4;
+  INVALID_SERVER = 5;
+  SERVER_MAINTENANCE = 6;
+}
+
 enum CurrencyType {
   CURRENCY_TYPE_NONE = 0;
   CURRENCY_TYPE_JEWEL = 1;
@@ -275,7 +285,7 @@ message C_SelectServer {
 message S_SelectServer {
   int32 serverId = 1;
   int32 channelId = 2;
-  bool canSelect = 3;
+  EnterServerResult enterServerResult = 3;
 }
 
 message C_RequestServerSummaryList {

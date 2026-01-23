@@ -169,11 +169,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\Desktop\\Development\\Echodia\\Server\\PacketGenerator\\PacketGenerator.csproj",
+      "projectUniqueName": "C:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\PacketGenerator\\PacketGenerator.csproj",
       "projectName": "PacketGenerator",
-      "projectPath": "C:\\Users\\user\\Desktop\\Development\\Echodia\\Server\\PacketGenerator\\PacketGenerator.csproj",
+      "projectPath": "C:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\PacketGenerator\\PacketGenerator.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\Desktop\\Development\\Echodia\\Server\\PacketGenerator\\obj\\",
+      "outputPath": "C:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\PacketGenerator\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -206,8 +206,7 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "9.0.300"
+      }
     },
     "frameworks": {
       "netcoreapp3.1": {
@@ -237,12 +236,30 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[3.1.10, 3.1.10]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[3.1.32, 3.1.32]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[3.1.0, 3.1.0]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[3.1.0, 3.1.0]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
       }
     }
   }

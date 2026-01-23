@@ -341,6 +341,7 @@ class PacketHandler
         serverSelectUI.InitServerSummaryInfos(requestServerSummaryListPacket.ServerInfoList);
     }
 
+    // 서버에서 보낸 서버 채널 정보 패킷 처리 (다른 유저가 들어오고 나와도 실행됨)
     public static void S_RequestServerListHandler(PacketSession session, IMessage packet)
     {
         S_RequestServerList requestServerListPacket = packet as S_RequestServerList;
@@ -374,7 +375,7 @@ class PacketHandler
             Debug.Log("현재 서버 선택창이 아닌데 서버 선택을 하려고 합니다.");
             return;
         }
-        serverSelectUI.OnServerSelected(selectServerPacket.ServerId, selectServerPacket.ChannelId, selectServerPacket.CanSelect);
+        serverSelectUI.OnServerSelected(selectServerPacket.ServerId, selectServerPacket.ChannelId, selectServerPacket.EnterServerResult);
     }
     
     public static void S_SelectPlayerHandler(PacketSession session, IMessage packet)

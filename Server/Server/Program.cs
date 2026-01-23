@@ -38,9 +38,9 @@ namespace Server
             while (true)
             {
                 List<ClientSession> sessions = SessionManager.Instance.GetSessions();
-                foreach (ClientSession clientSession in sessions)
+                foreach (ClientSession session in sessions)
                 {
-                    clientSession.FlushSend();
+                    session.FlushSend();
                 }
 
                 Thread.Sleep(0);	// 커널에게 잠깐 운영권 양도 (CPU 낭비 감소)

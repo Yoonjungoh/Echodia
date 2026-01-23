@@ -72,23 +72,35 @@ namespace Server
 
         public override void OnDisconnected(EndPoint endPoint)
         {
-            if (MyPlayer == null)
+            int accountId = AccountId;
+            if (ClientServerState == ClientServerState.ServerSelect)
             {
-                ConsoleLogManager.Instance.Log("Can't Find MyPlayer");
                 AccountManager.Instance.Remove(AccountId);
-                return;
-            }
 
-            // 로비에서 내보내기
-            if (MyPlayer.GameRoom != null)
+                SessionManager.Instance.Remove(this);
+            }
+            else if (ClientServerState == ClientServerState.PlayerSelect)
             {
-                MyPlayer.GameRoom.Push(MyPlayer.GameRoom.LeaveGame, MyPlayer.Id);
+                AccountManager.Instance.Remove(AccountId);
+                ServerManager.Instance.Remove(SessionId);
+
+                SessionManager.Instance.Remove(this);
+            }
+            else if (ClientServerState == ClientServerState.GameRoom)
+            {
+                AccountManager.Instance.Remove(AccountId);
+                ServerManager.Instance.Remove(SessionId);
+
+                SessionManager.Instance.Remove(this);
+                // 게임에서 내보내기
+                if (MyPlayer.GameRoom != null)
+                {
+                    MyPlayer.GameRoom.Push(MyPlayer.GameRoom.LeaveGame, MyPlayer.Id);
+                }
+
             }
 
-            AccountManager.Instance.Remove(AccountId);
-            SessionManager.Instance.Remove(this);
-
-            ConsoleLogManager.Instance.Log($"OnDisconnected : {endPoint}");
+            ConsoleLogManager.Instance.Log($"OnDisconnected AccountId: Id({accountId}) -> {endPoint}");
         }
 
         public override void OnSend(int numOfBytes)
