@@ -1,4 +1,5 @@
 ﻿using Google.Protobuf.Protocol;
+using Server.Currency;
 using Server.DB;
 using Server.Game;
 using System;
@@ -11,7 +12,7 @@ namespace Server.Game
     {
         protected float _searchRange = 7.0f;
         protected Player _target;
-
+        protected int _gold;
         public Monster()
         {
             ObjectType = GameObjectType.Monster;
@@ -210,7 +211,11 @@ namespace Server.Game
             if (_nextAttackTick == 0)
             {
                 // 우선 단일 타깃
-                _target.OnDamaged(this, Stat.CommonAttackDamage);
+                if (GameRoom != null)
+                {
+                    //_target.OnDamaged(this, Stat.CommonAttackDamage);
+                    GameRoom.Push(_target.OnDamaged, this, Stat.CommonAttackDamage);
+                }
 
                 // 상태 먼저 브로드캐스트
                 BroadCastCurrentState();
@@ -235,6 +240,38 @@ namespace Server.Game
                 return;
 
             _nextAttackTick = 0;
+        }
+
+        public override void OnDead(GameObject instigator)
+        {
+            GameObjectType gameObjectType = ObjectManager.Instance.GetObjectTypeById(instigator.Id);
+            if (gameObjectType == GameObjectType.Player)
+            {
+                Player player = instigator as Player;
+                if (player != null)
+                {
+                    CurrencyManager.Instance.AddCurrency(player.PlayerId, CurrencyType.Gold, _gold, () =>
+                    {
+                        player.Session.HandleUpdateCurrencyData(CurrencyType.Gold);
+                    });
+                }
+            }
+            else if (gameObjectType == GameObjectType.Projectile)
+            {
+                Projectile projectile = instigator as Projectile;
+                if (projectile != null)
+                {
+                    Player player = GameRoom.Find(projectile.OwnerId);
+                    if (player != null)
+                    {
+                        CurrencyManager.Instance.AddCurrency(player.PlayerId, CurrencyType.Gold, _gold, () =>
+                        {
+                            player.Session.HandleUpdateCurrencyData(CurrencyType.Gold);
+                        });
+                    }
+                }
+            }
+            base.OnDead(instigator);
         }
 
         protected void BroadCastCurrentState()

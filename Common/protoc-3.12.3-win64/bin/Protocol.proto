@@ -250,8 +250,7 @@ message S_DeletePlayer {
 }
 
 message C_UpdateCurrencyData {
-  int32 playerId = 1;
-  CurrencyType currencyType = 2;
+  CurrencyType currencyType = 1;
 }
 
 message S_UpdateCurrencyData {
@@ -261,7 +260,6 @@ message S_UpdateCurrencyData {
 
 message C_UpdateCurrencyDataAll {
   // 모든 재화 정보 요청
-  int32 playerId = 1;
 }
 
 message S_UpdateCurrencyDataAll {

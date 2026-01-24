@@ -597,6 +597,16 @@ namespace Server.Game
             return null;
         }
 
+        public Player Find(int id)
+        {
+            if (_players.ContainsKey(id))
+            {
+                return _players[id];
+            }
+            
+            return null;
+        }
+
         // AOI 기반 브로드캐스트
         public void Broadcast(Vector3 pos, IMessage packet)
         {

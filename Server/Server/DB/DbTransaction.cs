@@ -15,13 +15,10 @@ namespace Server.DB
     {
         public static DbTransaction Instance { get; } = new DbTransaction();
 
-        public static void SavePlayerCurrency(Player player, CurrencyType currencyType, int amount,  Action callBack = null, string reason = null)
+        public static void SavePlayerCurrency(int playerId, CurrencyType currencyType, int amount, Action callBack = null, string reason = null)
         {
-            if (player == null)
-                return;
-
             Instance.Push<int, CurrencyType, int, Action, string>(SavePlayerCurrency_Db,
-                player.PlayerId, currencyType, amount, callBack, reason);
+                playerId, currencyType, amount, callBack, reason);
         }
 
         private static void SavePlayerCurrency_Db(int playerId, CurrencyType currencyType, int amount, Action callBack, string reason = null)

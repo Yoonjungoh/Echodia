@@ -18,6 +18,9 @@ namespace Server.Game.Object
             Stat.AttackRange = 4;
             Stat.Defense = 0;
             Stat.MoveSpeed = 7;
+
+            // TODO
+            _gold = 15;
         }
     }
 }

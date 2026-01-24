@@ -22,6 +22,12 @@ public class GameRoomManager
         ChannelId = channelId;
     }
 
+    public void HandleEnterGame(ObjectState objectState)
+    {
+        Managers.GameRoomObject.Add(objectState, isMyPlayer: true);
+        Managers.UI.ShowSceneUI<UI_Currency>();
+    }
+
     public void ExitGame()
     {
         Managers.Scene.LoadScene(Define.Scene.ServerSelect);

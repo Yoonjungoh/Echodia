@@ -9,12 +9,8 @@ public abstract class BaseScene : MonoBehaviour
     {
         Object obj = GameObject.FindObjectOfType(typeof(EventSystem));
         if (obj == null)
-            Managers.Resource.Instantiate("UI/EventSystem").name = "@EventSystem";
-
-        // 재화 UI 소환
-        if (Managers.Scene.CanShowCurrencyUIScene(Managers.Scene.CurrentScene))
         {
-            Managers.UI.ShowSceneUI<UI_Currency>();
+            Managers.Resource.Instantiate("UI/EventSystem").name = "@EventSystem";
         }
     }
 }

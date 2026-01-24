@@ -44,8 +44,8 @@ class PacketHandler
             Debug.Log("S_EnterGame 패킷이 null입니다");
             return;
         }
-        
-        Managers.GameRoomObject.Add(enterGamePacket.ObjectState, isMyPlayer: true);
+
+        Managers.GameRoom.HandleEnterGame(enterGamePacket.ObjectState);
     }
 
     public static void S_AttackHandler(PacketSession session, IMessage packet)

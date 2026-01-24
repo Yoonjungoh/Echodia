@@ -22,8 +22,6 @@ public class SceneManagerEx
 
     private HashSet<Define.Scene> _canShowCurrencyUIScene = new HashSet<Define.Scene>()
     {
-        Define.Scene.Lobby,
-        Define.Scene.WaitingRoom,
         Define.Scene.GameRoom,
     };
 

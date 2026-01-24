@@ -20,7 +20,7 @@ namespace Server
     // PreGame 관련 핸들러들 (로그인, 캐릭터 선택까지를 PreGame이라 칭하자)
     public partial class ClientSession : PacketSession
     {
-        public void HandleUpdateCurrencyDataAll(int playerId)
+        public void HandleUpdateCurrencyDataAll()
         {
             lock (_lock)
             {
@@ -28,7 +28,7 @@ namespace Server
                 {
                     PlayerDb player = db.Players
                         .AsNoTracking()
-                        .Where(p => p.PlayerId == playerId)
+                        .Where(p => p.PlayerId == MyPlayer.PlayerId)
                         .FirstOrDefault();
 
                     if (player == null)
@@ -51,7 +51,7 @@ namespace Server
             }
         }
 
-        public void HandleUpdateCurrencyData(int playerId, CurrencyType currencyType)
+        public void HandleUpdateCurrencyData(CurrencyType currencyType)
         {
             lock (_lock)
             {
@@ -59,7 +59,7 @@ namespace Server
                 {
                     PlayerDb player = db.Players
                         .AsNoTracking()
-                        .Where(p => p.PlayerId == playerId)
+                        .Where(p => p.PlayerId == MyPlayer.PlayerId)
                         .FirstOrDefault();
 
                     if (player == null)
@@ -68,23 +68,23 @@ namespace Server
                         return;
                     }
 
-                    S_UpdateCurrencyData updateCurrencyDataAllPacket = new S_UpdateCurrencyData();
-                    updateCurrencyDataAllPacket.CurrencyType = currencyType;
+                    S_UpdateCurrencyData updateCurrencyDataPacket = new S_UpdateCurrencyData();
+                    updateCurrencyDataPacket.CurrencyType = currencyType;
                     // TODO - 재화 자동화 필요
                     switch (currencyType)
                     {
                         case CurrencyType.Jewel:
-                            updateCurrencyDataAllPacket.Amount = player.Jewel;
+                            updateCurrencyDataPacket.Amount = player.Jewel;
                             break;
                         case CurrencyType.Gold:
-                            updateCurrencyDataAllPacket.Amount = player.Gold;
+                            updateCurrencyDataPacket.Amount = player.Gold;
                             break;
                         default:
                             Console.WriteLine("[Error] 알 수 없는 재화 타입");
                             return;
                     }
 
-                    Send(updateCurrencyDataAllPacket);
+                    Send(updateCurrencyDataPacket);
                 }
             }
         }

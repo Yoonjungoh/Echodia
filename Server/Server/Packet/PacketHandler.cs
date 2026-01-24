@@ -172,7 +172,7 @@ class PacketHandler
         if (clientSession == null)
             return;
         
-        clientSession.HandleUpdateCurrencyDataAll(updateCurrencyDataAllPacket.PlayerId);
+        clientSession.HandleUpdateCurrencyDataAll();
     }
 
     public static void C_UpdateCurrencyDataHandler(PacketSession session, IMessage packet)
@@ -183,7 +183,7 @@ class PacketHandler
         if (clientSession == null)
             return;
 
-        clientSession.HandleUpdateCurrencyData(updateCurrencyDataPacket.PlayerId, updateCurrencyDataPacket.CurrencyType);
+        clientSession.HandleUpdateCurrencyData(updateCurrencyDataPacket.CurrencyType);
     }
 
     public static void C_RequestServerSummaryListHandler(PacketSession session, IMessage packet)
