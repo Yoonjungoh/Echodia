@@ -38,7 +38,7 @@ namespace Server.Game
 
         long _nextSearchTick = 0;
         int _searchTick = 500;
-
+        
         public virtual void UpdateIdle()
         {
             if (_nextSearchTick > Environment.TickCount64)

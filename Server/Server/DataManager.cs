@@ -19,39 +19,7 @@ namespace Server
     {
         public static DataManager Instance { get; } = new DataManager();
 
-        public Dictionary<RoomType, List<Vector3>> StartPositions = new Dictionary<RoomType, List<Vector3>>()
-        {
-            //new Vector3(-150, -18, 112),  // 숲풀
-            // 평지
-            //new Vector3(-676, 8, -471),
-            //new Vector3(-677, 8, -471),
-            //new Vector3(-678, 8, -471),
-            //new Vector3(-679, 8, -471),
-            // 충돌 물체
-            //new Vector3(63, -26, 527),
-            //new Vector3(64, -26, 527),
-            //new Vector3(65, -26, 527),
-            //new Vector3(66, -26, 527),
-            { RoomType.WaitingRoom, new List<Vector3>()
-            {
-                new Vector3(-676, 8, -471),
-                new Vector3(-677, 8, -471),
-                new Vector3(-678, 8, -471),
-                new Vector3(-679, 8, -471),
-            } },
-            { RoomType.GameRoom, new List<Vector3>()
-            {
-                // 평지 Test
-                //new Vector3(63, -26, 527),
-                //new Vector3(64, -26, 527),
-                //new Vector3(65, -26, 527),
-                //new Vector3(66, -26, 527),
-                new Vector3(63, -20, 527),
-                new Vector3(69, -22, 460),
-                new Vector3(120, -23, 480),
-                new Vector3(122, -20, 507),
-            } }
-        };
+        public Vector3 StartPositions = new Vector3(63, -20, 527);
        
         public List<string> WorldServerNameList { get; set; } = new List<string>()
         {
@@ -97,16 +65,9 @@ namespace Server
         // AOIController의 GatherGameObjects에 쓰이는 Cell 단위
         public int AOICells { get; set; } = 30;
 
-        public Vector3 GetStartPosition(RoomType roomType, int index)
+        public Vector3 GetStartPosition()
         {
-            if (index < 0 || index >= StartPositions[roomType].Count)
-                return new Vector3(
-                    StartPositions[roomType][StartPositions[roomType].Count - 1].X + index,
-                    StartPositions[roomType][StartPositions[roomType].Count - 1].Y,
-                    StartPositions[roomType][StartPositions[roomType].Count - 1].Z
-                ); // 기본값
-
-            return StartPositions[roomType][index];
+            return StartPositions;
         }
 
         public string GetMapName(int mapId)

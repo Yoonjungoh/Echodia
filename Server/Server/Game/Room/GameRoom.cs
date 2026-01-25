@@ -372,8 +372,7 @@ namespace Server.Game
             // 플레이어 이외는 다른 곳에서 위치 미리 받고 옴
             if (objectType == GameObjectType.Player)
             {
-                int spawnIndex = _players.Count % DataManager.Instance.MaxRoomPlayerCount;
-                startPos = DataManager.Instance.GetStartPosition(RoomType.GameRoom, spawnIndex);
+                startPos = DataManager.Instance.GetStartPosition();
             }
             else
             {
