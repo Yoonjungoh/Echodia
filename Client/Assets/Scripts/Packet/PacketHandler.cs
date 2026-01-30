@@ -94,7 +94,7 @@ class PacketHandler
             }
         }
     }
-
+    
     public static void S_DespawnHandler(PacketSession session, IMessage packet)
     {
         S_Despawn despawnPacket = packet as S_Despawn;
