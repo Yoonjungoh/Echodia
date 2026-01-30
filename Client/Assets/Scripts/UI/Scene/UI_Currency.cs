@@ -101,7 +101,6 @@ public class UI_Currency : UI_Scene
     public void RequestCurrencyDataAll()
     {
         C_UpdateCurrencyDataAll updateCurrencyDataAllPacket = new C_UpdateCurrencyDataAll();
-        updateCurrencyDataAllPacket.PlayerId = Managers.GameRoomObject.PlayerId;
         Managers.Network.Send(updateCurrencyDataAllPacket);
     }
 
@@ -110,7 +109,6 @@ public class UI_Currency : UI_Scene
     {
         C_UpdateCurrencyData updateCurrencyDataPacket = new C_UpdateCurrencyData();
         updateCurrencyDataPacket.CurrencyType = currencyType;
-        updateCurrencyDataPacket.PlayerId = Managers.GameRoomObject.PlayerId;
         Managers.Network.Send(updateCurrencyDataPacket);
     }
 }
