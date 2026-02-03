@@ -31,17 +31,6 @@ class PacketHandler
 
     }
 
-    // 내가 게임에 입장할 때 패킷
-    public static void S_EnterGameHandler(PacketSession session, IMessage packet)
-    {
-        S_EnterGame enterGamePacket = packet as S_EnterGame;
-        if (enterGamePacket == null)
-        {
-            return;
-        }
-
-    }
-
     public static void S_AttackHandler(PacketSession session, IMessage packet)
     {
         S_Attack attackPacket = packet as S_Attack;
@@ -92,11 +81,13 @@ class PacketHandler
         S_ChangeCreatureState changeCreatureStatePacket = packet as S_ChangeCreatureState;
     }
 
+    // Step 1: 서버와 연결되었을 때 처리
     public static void S_ConnectedHandler(PacketSession session, IMessage packet)
     {
         S_Connected connectedPacket = packet as S_Connected;
     }
 
+    // Step 2: 로그인 처리
     public static void S_LoginHandler(PacketSession session, IMessage packet)
     {
         S_Login loginPacket = packet as S_Login;
@@ -107,6 +98,7 @@ class PacketHandler
 
     }
 
+    // Step 3: 플레이어 목록 요청 처리 (없으면 Step 4에서 만듦)
     public static void S_RequestPlayerListHandler(PacketSession session, IMessage packet)
     {
         S_RequestPlayerList requestPlayerListPacket = packet as S_RequestPlayerList;
@@ -114,10 +106,9 @@ class PacketHandler
         {
             return;
         }
-
-
     }
 
+    // Step 4: 플레이어 생성 처리
     public static void S_CreatePlayerHandler(PacketSession session, IMessage packet)
     {
         S_CreatePlayer createPlaerPacket = packet as S_CreatePlayer;
@@ -127,55 +118,18 @@ class PacketHandler
         }
     }
 
-    public static void S_DeletePlayerHandler(PacketSession session, IMessage packet)
+    // Step 5: 플레이어 선택 처리
+    public static void S_SelectPlayerHandler(PacketSession session, IMessage packet)
     {
-        S_DeletePlayer deletePlaerPacket = packet as S_DeletePlayer;
-        if (deletePlaerPacket == null)
-        {
-            return;
-        }
-    }
-
-    public static void S_UpdateCurrencyDataHandler(PacketSession session, IMessage packet)
-    {
-        S_UpdateCurrencyData updateCurrencyDataPacket = packet as S_UpdateCurrencyData;
-        if (updateCurrencyDataPacket == null)
-        {
-            return;
-        }
-    }
-
-    public static void S_UpdateCurrencyDataAllHandler(PacketSession session, IMessage packet)
-    {
-        S_UpdateCurrencyDataAll updateCurrencyDataAllPacket = packet as S_UpdateCurrencyDataAll;
-        if (updateCurrencyDataAllPacket == null || updateCurrencyDataAllPacket.CurrencyData == null)
+        S_SelectPlayer selectPlayerPacket = packet as S_SelectPlayer;
+        if (selectPlayerPacket == null)
         {
             return;
         }
 
     }
 
-    public static void S_RequestServerSummaryListHandler(PacketSession session, IMessage packet)
-    {
-        S_RequestServerSummaryList requestServerSummaryListPacket = packet as S_RequestServerSummaryList;
-        if (requestServerSummaryListPacket == null)
-        {
-            return;
-        }
-
-    }
-
-    // 서버에서 보낸 서버 채널 정보 패킷 처리 (다른 유저가 들어오고 나와도 실행됨)
-    public static void S_RequestServerListHandler(PacketSession session, IMessage packet)
-    {
-        S_RequestServerList requestServerListPacket = packet as S_RequestServerList;
-        if (requestServerListPacket == null)
-        {
-            return;
-        }
-
-    }
-
+    // Step 6: 들어갈 서버와 채널 정하기
     public static void S_SelectServerHandler(PacketSession session, IMessage packet)
     {
         S_SelectServer selectServerPacket = packet as S_SelectServer;
@@ -185,10 +139,11 @@ class PacketHandler
         }
     }
 
-    public static void S_SelectPlayerHandler(PacketSession session, IMessage packet)
+    // Step 7: 게임 입장 처리
+    public static void S_EnterGameHandler(PacketSession session, IMessage packet)
     {
-        S_SelectPlayer selectPlayerPacket = packet as S_SelectPlayer;
-        if (selectPlayerPacket == null)
+        S_EnterGame enterGamePacket = packet as S_EnterGame;
+        if (enterGamePacket == null)
         {
             return;
         }

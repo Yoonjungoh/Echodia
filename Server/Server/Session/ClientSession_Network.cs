@@ -99,8 +99,6 @@ namespace Server
                 }
 
             }
-
-            ConsoleLogManager.Instance.Log($"OnDisconnected AccountId: Id({accountId}) -> {endPoint}");
         }
 
         public override void OnSend(int numOfBytes)
