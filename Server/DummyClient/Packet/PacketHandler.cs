@@ -81,21 +81,21 @@ class PacketHandler
         S_ChangeCreatureState changeCreatureStatePacket = packet as S_ChangeCreatureState;
     }
 
-    // Step 1: 서버와 연결되었을 때 처리
+    // Step 1: 서버와 연결되었을 때 처리 (현재는 처리 없음, 순서상만 존재)
     public static void S_ConnectedHandler(PacketSession session, IMessage packet)
     {
-        S_Connected connectedPacket = packet as S_Connected;
+
     }
 
     // Step 2: 로그인 처리
     public static void S_LoginHandler(PacketSession session, IMessage packet)
     {
-        S_Login loginPacket = packet as S_Login;
-        if (loginPacket == null)
-        {
-            return;
-        }
+        C_Login loginPacket = new C_Login();
 
+        ServerSession serverSession = session as ServerSession; 
+        loginPacket.Id = $"DummyClient_Id_{serverSession.DummyId.ToString("0000")}";
+        loginPacket.Password = $"DummyClient_Pw_{serverSession.DummyId.ToString("0000")}";
+        serverSession.Send(loginPacket);
     }
 
     // Step 3: 플레이어 목록 요청 처리 (없으면 Step 4에서 만듦)
