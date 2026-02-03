@@ -24,6 +24,7 @@ namespace ServerCore
 
 				RegisterConnect(args);
 
+				// 텀 둬서 입장시켜야 동접 많이 몰릴 때, 거부 당하는 현상 줄어듦
 				Thread.Sleep(10);
 			}
 		}
@@ -34,9 +35,18 @@ namespace ServerCore
 			if (socket == null)
 				return;
 
-			bool pending = socket.ConnectAsync(args);
-			if (pending == false)
-				OnConnectCompleted(null, args);
+			try
+            {
+                bool pending = socket.ConnectAsync(args);
+                if (pending == false)
+				{
+                    OnConnectCompleted(null, args);
+                }
+            }
+			catch(Exception e)
+			{
+				ConsoleLogManager.Instance.Log(e);
+			}
 		}
 
 		void OnConnectCompleted(object sender, SocketAsyncEventArgs args)

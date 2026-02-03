@@ -1,10 +1,36 @@
-﻿namespace DummyClient
+﻿using DummyClient.Session;
+using ServerCore;
+using System.Net;
+
+namespace DummyClient
 {
     public class Program
     {
+        static int DummyClientCount { get; } = 500;
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            Thread.Sleep(3000);
+            // DNS (Domain Name System)
+            string host = Dns.GetHostName();
+            IPHostEntry ipHost = Dns.GetHostEntry(host);
+            //IPAddress ipAddr = IPAddress.Parse(urlValue); // for ec2
+            IPAddress ipAddr = ipHost.AddressList[0]; // for local test
+            //IPAddress ipAddr = ipHost.AddressList[1]; // for local test
+            IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
+
+            Connector connector = new Connector();
+
+            connector.Connect(endPoint,
+               () => { return SessionManager.Instance.Generate(); },
+               DummyClientCount);
+            //connector.Connect(endPoint, SessionManager.Instance.Generate,
+            //   DummyClientCount);
+
+            while (true)
+            {
+                Thread.Sleep(10000);
+            }
         }
     }
 }

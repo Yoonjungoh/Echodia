@@ -36,7 +36,9 @@ namespace ServerCore
 
                 bool pending = _listenSocket.AcceptAsync(args);
                 if (pending == false)
+                {
                     OnAcceptCompleted(null, args);
+                }
             }
             catch (Exception ex)
             {
@@ -46,29 +48,29 @@ namespace ServerCore
 
         void OnAcceptCompleted(object sender, SocketAsyncEventArgs args)
         {
-            lock (_lock)
+            try
             {
-                try
+                if (args.SocketError == SocketError.Success)
                 {
-                    if (args.SocketError == SocketError.Success)
+                    Session session = _sessionFactory.Invoke();
+                    session.Start(args.AcceptSocket);
+                    // 소켓 연결된 상태인지 확인
+                    if (args.AcceptSocket.Connected)
                     {
-                        Session session = _sessionFactory.Invoke();
-                        session.Start(args.AcceptSocket);
-                        // 소켓 연결된 상태인지 확인
-                        if (args.AcceptSocket.Connected)
-                        {
-                            session.OnConnected(args.AcceptSocket.RemoteEndPoint);
-                        }
+                        session.OnConnected(args.AcceptSocket.RemoteEndPoint);
                     }
-                    else
-                        ConsoleLogManager.Instance.Log(args.SocketError.ToString());
                 }
-                catch (Exception ex)
+                else
                 {
-                    ConsoleLogManager.Instance.Log(ex);
+                    ConsoleLogManager.Instance.Log(args.SocketError.ToString());
                 }
-                RegisterAccept(args);
             }
+            catch (Exception ex)
+            {
+                ConsoleLogManager.Instance.Log(ex);
+            }
+
+            RegisterAccept(args);
         }
     }
 }
