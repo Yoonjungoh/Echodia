@@ -373,6 +373,8 @@ namespace Server.Game
             if (objectType == GameObjectType.Player)
             {
                 startPos = DataManager.Instance.GetStartPosition();
+                float groundY = Map.GetHeight(startPos);
+                startPos.Y = groundY;
             }
             else
             {
@@ -421,7 +423,8 @@ namespace Server.Game
             
             S_Spawn spawnToOthersPacket = new S_Spawn();
             spawnToOthersPacket.ObjectStateList.Add(gameObject.ObjectState);
-            Broadcast(spawnToOthersPacket);
+            Broadcast(MovementHelper.ProtoVec3ToVec3(gameObject.Position), spawnToOthersPacket);
+            //Broadcast(spawnToOthersPacket);   // 더미 클라 테스트 용
         }
 
         public void LeaveGame(int objectId)
