@@ -421,7 +421,7 @@ namespace Server.Game
             
             S_Spawn spawnToOthersPacket = new S_Spawn();
             spawnToOthersPacket.ObjectStateList.Add(gameObject.ObjectState);
-            Broadcast(MovementHelper.ProtoVec3ToVec3(gameObject.Position), spawnToOthersPacket);
+            Broadcast(spawnToOthersPacket);
         }
 
         public void LeaveGame(int objectId)

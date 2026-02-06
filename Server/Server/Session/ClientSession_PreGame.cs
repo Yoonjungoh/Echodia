@@ -61,7 +61,7 @@ namespace Server
 
                     // 2. 삭제하려는 캐릭터 찾기
                     PlayerDb target = db.Players
-                        .Where(p => p.PlayerId == deletePlayerId)
+                        .Where(p => p.PlayerDbId == deletePlayerId)
                         .FirstOrDefault();
 
                     S_DeletePlayer serverDeletePlayerPacket = new S_DeletePlayer();
@@ -98,7 +98,7 @@ namespace Server
                     {
                         PlayerSelectInfo info = new PlayerSelectInfo()
                         {
-                            PlayerId = player.PlayerId,
+                            PlayerId = player.PlayerDbId,
                             Name = player.Name,
                             CurrencyData = new CurrencyData()
                             {
@@ -137,7 +137,7 @@ namespace Server
 
                     // 1. 플레이어 찾기
                     PlayerDb player = db.Players
-                        .Where(p => p.PlayerId == playerId)
+                        .Where(p => p.PlayerDbId == playerId)
                         .FirstOrDefault();
                     if (player == null)
                     {
@@ -147,7 +147,7 @@ namespace Server
 
                     // 2. 해당 플레이어 데이터를 바탕으로 현재 클라이언트 세션의 MyPlayer 생성
                     MyPlayer = ObjectManager.Instance.Add<Player>();
-                    MyPlayer.Init(player.PlayerId, player.Name);
+                    MyPlayer.Init(player.PlayerDbId, player.Name);
                     MyPlayer.Session = this;
                 }
 
@@ -195,7 +195,7 @@ namespace Server
                     }
 
                     // 2. PlayerId 자동 생성 (모든 계정의 전체 캐릭터 수 기반)
-                    int newPlayerId = db.Players.Any() ? db.Players.Max(p => p.PlayerId) + 1 : 1;
+                    //int newPlayerId = db.Players.Any() ? db.Players.Max(p => p.PlayerId) + 1 : 1;
                     
                     // 3. 새 PlayerDb 생성
                     PlayerDb newPlayerDb = new PlayerDb()
@@ -227,7 +227,7 @@ namespace Server
                     {
                         PlayerSelectInfo info = new PlayerSelectInfo()
                         {
-                            PlayerId = player.PlayerId,
+                            PlayerId = player.PlayerDbId,
                             Name = player.Name,
                             // TODO - 재화 자동화 필요
                             CurrencyData = new CurrencyData()
@@ -280,7 +280,7 @@ namespace Server
                     {
                         PlayerSelectInfo info = new PlayerSelectInfo()
                         {
-                            PlayerId = player.PlayerId,
+                            PlayerId = player.PlayerDbId,
                             Name = player.Name,
                             // TODO - 재화 자동화 필요
                             CurrencyData = new CurrencyData()

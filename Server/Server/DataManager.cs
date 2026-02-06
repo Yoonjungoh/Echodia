@@ -63,11 +63,17 @@ namespace Server
         public int AdjacentZonesCells { get; set; } = 100;
 
         // AOIController의 GatherGameObjects에 쓰이는 Cell 단위
-        public int AOICells { get; set; } = 30;
+        public int AOICells { get; set; } = 200;
 
+        private Random _rand = new Random();
         public Vector3 GetStartPosition()
         {
-            return StartPositions;
+            // TODO - 봇테스트를 위한 랜덤 위치 값
+            float randomX = (float)(_rand.NextDouble() * 20 - 5 + 63);
+            float fixedY = -20;
+            float randomZ = (float)(_rand.NextDouble() * 20 - 5 + 527);
+            return new Vector3(randomX, fixedY, randomZ);
+            //return StartPositions;
         }
 
         public string GetMapName(int mapId)

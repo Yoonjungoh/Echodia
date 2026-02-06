@@ -57,7 +57,7 @@ namespace Server.Currency
             {
                 var query = db.Players
                     .AsNoTracking()
-                    .Where(p => p.PlayerId == playerId);
+                    .Where(p => p.PlayerDbId == playerId);
 
                 // TODO - 재화 자동화 필요
                 int amount = currencyType switch

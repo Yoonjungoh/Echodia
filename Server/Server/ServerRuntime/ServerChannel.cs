@@ -11,6 +11,7 @@ namespace Server
 {
     public class ServerChannel
     {
+        private readonly object _lock = new object();
         public int ServerId { get; set; }
         public int ChannelId { get; set; }
         public int CurrentPlayerCount { get; set; }
@@ -25,6 +26,7 @@ namespace Server
         {
             GameRoomManager = new GameRoomManager(ServerId, ChannelId);
             GameRoomManager.Init();
+            GameRoomManager.Update();
         }
 
         public bool CanEnterChannel(int playerId, out EnterServerResult enterServerResult)
@@ -54,9 +56,16 @@ namespace Server
 
         private bool EnterChannel(int sessionId)
         {
-            Sessions.Add(sessionId);
-            CurrentPlayerCount = Sessions.Count;
-            return true;
+            lock (_lock)
+            {
+                if (Sessions == null)
+                {
+                    Sessions = new HashSet<int>();
+                }
+                Sessions.Add(sessionId);
+                CurrentPlayerCount = Sessions.Count;
+                return true;
+            }
         }
 
         // bool 값으로 입장 인원 꽉 찼을 때, 패킷 전송

@@ -28,7 +28,7 @@ namespace Server
                 {
                     PlayerDb player = db.Players
                         .AsNoTracking()
-                        .Where(p => p.PlayerId == MyPlayer.PlayerId)
+                        .Where(p => p.PlayerDbId == MyPlayer.PlayerId)
                         .FirstOrDefault();
 
                     if (player == null)
@@ -59,7 +59,7 @@ namespace Server
                 {
                     PlayerDb player = db.Players
                         .AsNoTracking()
-                        .Where(p => p.PlayerId == MyPlayer.PlayerId)
+                        .Where(p => p.PlayerDbId == MyPlayer.PlayerId)
                         .FirstOrDefault();
 
                     if (player == null)

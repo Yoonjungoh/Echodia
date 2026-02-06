@@ -126,7 +126,9 @@ class PacketHandler
 
         if (selectServerPacket.EnterServerResult == EnterServerResult.Success)
         {
-             // 서버 선택 성공 시 플레이어 목록 요청
+            serverSession.ServerId = selectServerPacket.ServerId;
+            serverSession.ChannelId = selectServerPacket.ChannelId;
+            // 서버 선택 성공 시 플레이어 목록 요청
             C_RequestPlayerList requestPlayerListPacket = new C_RequestPlayerList();
             serverSession.Send(requestPlayerListPacket);
         }
@@ -150,10 +152,15 @@ class PacketHandler
             // 존재하는 플레이어 중 첫번째 캐릭터 선택
             C_SelectPlayer selectPlayerPacket = new C_SelectPlayer();
             selectPlayerPacket.PlayerId = requestPlayerListPacket.PlayerInfoList[0].PlayerId;
+            selectPlayerPacket.ServerId = serverSession.ServerId;
+            selectPlayerPacket.ChannelId = serverSession.ChannelId;
+
             serverSession.PlayerId = selectPlayerPacket.PlayerId; // 선택된 플레이어 아이디 저장
+
+            serverSession.Send(selectPlayerPacket);
         }
     }
-
+    
     // Step 5: 플레이어 생성 처리
     public static void S_CreatePlayerHandler(PacketSession session, IMessage packet)
     {
@@ -181,6 +188,7 @@ class PacketHandler
             ServerId = serverSession.ServerId,
             ChannelId = serverSession.ChannelId,
         };
+        serverSession.Send(enterGamePacket);
     }
 
     // Step 7: 게임 입장 처리

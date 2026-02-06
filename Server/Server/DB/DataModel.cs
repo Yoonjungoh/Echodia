@@ -21,13 +21,11 @@ namespace Server.DB
     [Table("Player")]
     public class PlayerDb
     {
-        public int PlayerDbId { get; set; }
+        public int PlayerDbId { get; set; } // 게임 내에서 사용하는 고유 Id (ObjectManager에서 사용하는 Id는 다른 거임)
 
         [ForeignKey("Account")]
         public int AccountDbId { get; set; }  // FK 컬럼
         public AccountDb Account { get; set; }
-
-        public int PlayerId { get; set; }  // 게임 내에서 사용하는 고유 Id (ObjectManager에서 사용하는 Id는 다른 거임)
         public string Name { get; set; }  // 게임 내에서 사용하는 닉네임
 
         // TODO - 재화 자동화 필요

@@ -26,7 +26,7 @@ namespace Server.DB
             using (GameDbContext db = new GameDbContext())
             {
                 var query = db.Players
-                        .Where(p => p.PlayerId == playerId);
+                        .Where(p => p.PlayerDbId == playerId);
 
                 int successRows = currencyType switch
                 {

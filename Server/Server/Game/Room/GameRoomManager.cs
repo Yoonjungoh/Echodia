@@ -36,7 +36,12 @@ namespace Server.Game
             }
         }
 
-        public void TickRoom(GameRoom room, int tick = 50)
+        public void Update()
+        {
+            Flush();
+        }
+
+        public void TickRoom(GameRoom room, int tick)
         {
             var timer = new System.Timers.Timer();
             timer.Interval = tick;
@@ -59,7 +64,7 @@ namespace Server.Game
             GameRoom newRoom = new GameRoom(ServerId, ChannelId, mapId);
 
             newRoom.Push(newRoom.Init, DataManager.Instance.DefaultCells);
-            TickRoom(newRoom);
+            Push(TickRoom, newRoom, 50);
 
             _rooms.Add(gameRoomKey, newRoom);
 

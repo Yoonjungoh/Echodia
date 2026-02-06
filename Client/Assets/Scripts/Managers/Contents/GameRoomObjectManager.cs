@@ -78,6 +78,7 @@ public class GameRoomObjectManager
                 objectState.ServerReceivedTime
             );
             _objects.Add(objectState.ObjectId, otherPlayer.gameObject);
+            Debug.Log($"다른 유저 소환");
         }
         else if (objectType == GameObjectType.Monster)
         {
