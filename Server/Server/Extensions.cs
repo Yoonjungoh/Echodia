@@ -17,6 +17,10 @@ public static class Extensions
         catch (Exception ex)
         {
             ConsoleLogManager.Instance.Log($"[Error] DB Update Exception: {ex.Message}");
+            if (ex.InnerException != null)
+            {
+                ConsoleLogManager.Instance.Log($"[Error] Inner Exception: {ex.InnerException.Message}");
+            }
             return false;
         }
     }

@@ -147,3 +147,21 @@ C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\PacketGenerator\obj
 C:\Users\user\Desktop\Development\Unity\Eternal Arena\Server\PacketGenerator\obj\Debug\PacketGenerator.genruntimeconfig.cache
 C:\Users\user\Desktop\Development\EternalArena\Server\PacketGenerator\obj\Debug\PacketGenerator.sourcelink.json
 C:\Users\user\Desktop\Development\EternalArena\Server\PacketGenerator\obj\Debug\PacketGe.F1D84891.Up2Date
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\PacketGenerator\bin\PacketGenerator.exe
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\PacketGenerator\bin\PacketGenerator.deps.json
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\PacketGenerator\bin\PacketGenerator.runtimeconfig.json
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\PacketGenerator\bin\PacketGenerator.runtimeconfig.dev.json
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\PacketGenerator\bin\PacketGenerator.dll
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\PacketGenerator\bin\PacketGenerator.pdb
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\PacketGenerator\bin\Google.Protobuf.dll
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\PacketGenerator\bin\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\PacketGenerator\obj\Debug\PacketGenerator.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\PacketGenerator\obj\Debug\PacketGenerator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\PacketGenerator\obj\Debug\PacketGenerator.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\PacketGenerator\obj\Debug\PacketGenerator.AssemblyInfo.cs
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\PacketGenerator\obj\Debug\PacketGenerator.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\PacketGenerator\obj\Debug\PacketGenerator.sourcelink.json
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\PacketGenerator\obj\Debug\PacketGe.F1D84891.Up2Date
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\PacketGenerator\obj\Debug\PacketGenerator.dll
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\PacketGenerator\obj\Debug\PacketGenerator.pdb
+C:\Users\user\Desktop\Development\Unity\Echodia\Server\PacketGenerator\obj\Debug\PacketGenerator.genruntimeconfig.cache

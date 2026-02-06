@@ -1,0 +1,21 @@
+[20260206_163148] (Session.OnRecvCompleted) : OnRecvCompleted Failed System.NotImplementedException: The method or operation is not implemented.
+   at PacketHandler.S_RequestServerListHandler(PacketSession session, IMessage message) in C:\Users\user\Desktop\Development\Unity\Echodia\Server\DummyClient\Packet\PacketHandler.cs:line 204
+   at PacketManager.MakePacket[T](PacketSession session, ArraySegment`1 buffer, UInt16 id) in C:\Users\user\Desktop\Development\Unity\Echodia\Server\DummyClient\Packet\ClientPacketManager.cs:line 97
+   at PacketManager.OnRecvPacket(PacketSession session, ArraySegment`1 buffer) in C:\Users\user\Desktop\Development\Unity\Echodia\Server\DummyClient\Packet\ClientPacketManager.cs:line 81
+   at ServerSession.OnRecvPacket(ArraySegment`1 buffer) in C:\Users\user\Desktop\Development\Unity\Echodia\Server\DummyClient\Session\ServerSession.cs:line 41
+   at ServerCore.PacketSession.OnRecv(ArraySegment`1 buffer) in C:\Users\user\Desktop\Development\Unity\Echodia\Server\ServerCore\Session.cs:line 31
+   at ServerCore.Session.OnRecvCompleted(Object sender, SocketAsyncEventArgs args) in C:\Users\user\Desktop\Development\Unity\Echodia\Server\ServerCore\Session.cs:line 204
+[20260206_163148] (Session.OnRecvCompleted) : OnRecvCompleted Failed System.NotImplementedException: The method or operation is not implemented.
+   at PacketHandler.S_RequestServerListHandler(PacketSession session, IMessage message) in C:\Users\user\Desktop\Development\Unity\Echodia\Server\DummyClient\Packet\PacketHandler.cs:line 204
+   at PacketManager.MakePacket[T](PacketSession session, ArraySegment`1 buffer, UInt16 id) in C:\Users\user\Desktop\Development\Unity\Echodia\Server\DummyClient\Packet\ClientPacketManager.cs:line 97
+   at PacketManager.OnRecvPacket(PacketSession session, ArraySegment`1 buffer) in C:\Users\user\Desktop\Development\Unity\Echodia\Server\DummyClient\Packet\ClientPacketManager.cs:line 81
+   at ServerSession.OnRecvPacket(ArraySegment`1 buffer) in C:\Users\user\Desktop\Development\Unity\Echodia\Server\DummyClient\Session\ServerSession.cs:line 41
+   at ServerCore.PacketSession.OnRecv(ArraySegment`1 buffer) in C:\Users\user\Desktop\Development\Unity\Echodia\Server\ServerCore\Session.cs:line 31
+   at ServerCore.Session.OnRecvCompleted(Object sender, SocketAsyncEventArgs args) in C:\Users\user\Desktop\Development\Unity\Echodia\Server\ServerCore\Session.cs:line 204
+[20260206_163148] (Session.OnRecvCompleted) : OnRecvCompleted Failed System.NotImplementedException: The method or operation is not implemented.
+   at PacketHandler.S_RequestServerListHandler(PacketSession session, IMessage message) in C:\Users\user\Desktop\Development\Unity\Echodia\Server\DummyClient\Packet\PacketHandler.cs:line 204
+   at PacketManager.MakePacket[T](PacketSession session, ArraySegment`1 buffer, UInt16 id) in C:\Users\user\Desktop\Development\Unity\Echodia\Server\DummyClient\Packet\ClientPacketManager.cs:line 97
+   at PacketManager.OnRecvPacket(PacketSession session, ArraySegment`1 buffer) in C:\Users\user\Desktop\Development\Unity\Echodia\Server\DummyClient\Packet\ClientPacketManager.cs:line 81
+   at ServerSession.OnRecvPacket(ArraySegment`1 buffer) in C:\Users\user\Desktop\Development\Unity\Echodia\Server\DummyClient\Session\ServerSession.cs:line 41
+   at ServerCore.PacketSession.OnRecv(ArraySegment`1 buffer) in C:\Users\user\Desktop\Development\Unity\Echodia\Server\ServerCore\Session.cs:line 31
+   at ServerCore.Session.OnRecvCompleted(Object sender, SocketAsyncEventArgs args) in C:\Users\user\Desktop\Development\Unity\Echodia\Server\ServerCore\Session.cs:line 204

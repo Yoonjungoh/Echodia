@@ -96,7 +96,7 @@ class PacketHandler
     // Step 2: 로그인 처리
     public static void S_LoginHandler(PacketSession session, IMessage packet)
     {
-        S_Login loginPacket = new S_Login();
+        S_Login loginPacket = packet as S_Login;
         ServerSession serverSession = session as ServerSession;
 
         if (loginPacket.LoginStatus == LoginStatus.SignUpSuccess)
@@ -168,7 +168,7 @@ class PacketHandler
         }
     }
 
-    // Step 5: 플레이어 선택 처리 (여기까지 오면 인게임 스폰 가능)
+    // Step 6: 플레이어 선택 처리 (여기까지 오면 인게임 스폰 가능)
     public static void S_SelectPlayerHandler(PacketSession session, IMessage packet)
     {
         S_SelectPlayer selectPlayerPacket = packet as S_SelectPlayer;
@@ -194,22 +194,22 @@ class PacketHandler
 
     }
 
-    internal static void S_RequestServerSummaryListHandler(PacketSession session, IMessage message)
+    public static void S_RequestServerSummaryListHandler(PacketSession session, IMessage message)
     {
         throw new NotImplementedException();
     }
 
-    internal static void S_RequestServerListHandler(PacketSession session, IMessage message)
+    public static void S_RequestServerListHandler(PacketSession session, IMessage message)
     {
         throw new NotImplementedException();
     }
 
-    internal static void S_UpdateCurrencyDataAllHandler(PacketSession session, IMessage message)
+    public static void S_UpdateCurrencyDataAllHandler(PacketSession session, IMessage message)
     {
         throw new NotImplementedException();
     }
 
-    internal static void S_UpdateCurrencyDataHandler(PacketSession session, IMessage message)
+    public static void S_UpdateCurrencyDataHandler(PacketSession session, IMessage message)
     {
         throw new NotImplementedException();
     }

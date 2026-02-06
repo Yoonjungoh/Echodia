@@ -196,12 +196,11 @@ namespace Server
 
                     // 2. PlayerId 자동 생성 (모든 계정의 전체 캐릭터 수 기반)
                     int newPlayerId = db.Players.Any() ? db.Players.Max(p => p.PlayerId) + 1 : 1;
-
+                    
                     // 3. 새 PlayerDb 생성
                     PlayerDb newPlayerDb = new PlayerDb()
                     {
                         AccountDbId = account.AccountDbId,
-                        PlayerId = newPlayerId,
                         Name = name,
                         Jewel = 0,
                         Gold = 1000

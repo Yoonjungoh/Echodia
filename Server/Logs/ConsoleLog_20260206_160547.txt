@@ -1,0 +1,106 @@
+[20260206_160539] (Program.Main) : Server Starting...
+[20260206_160539] (JobSerializer.Flush) : Init
+[20260206_160539] (JobSerializer.Flush) : Init
+[20260206_160539] (JobSerializer.Flush) : Init
+[20260206_160539] (JobSerializer.Flush) : Init
+[20260206_160539] (JobSerializer.Flush) : Init
+[20260206_160539] (JobSerializer.Flush) : Init
+[20260206_160539] (JobSerializer.Flush) : Init
+[20260206_160539] (JobSerializer.Flush) : Init
+[20260206_160539] (JobSerializer.Flush) : Init
+[20260206_160539] (JobSerializer.Flush) : Init
+[20260206_160539] (JobSerializer.Flush) : Init
+[20260206_160539] (JobSerializer.Flush) : Init
+[20260206_160539] (JobSerializer.Flush) : Init
+[20260206_160539] (JobSerializer.Flush) : Init
+[20260206_160539] (JobSerializer.Flush) : Init
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160539] (JobSerializer.Flush) : EnterGame
+[20260206_160542] (SessionManager.Generate) : Connected (1) Players
+[20260206_160542] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:65523
+[20260206_160542] (SessionManager.Generate) : Connected (2) Players
+[20260206_160542] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:65524
+[20260206_160542] (SessionManager.Generate) : Connected (3) Players
+[20260206_160542] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:65525
+[20260206_160542] (SessionManager.Generate) : Connected (4) Players
+[20260206_160542] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:65526
+[20260206_160542] (SessionManager.Generate) : Connected (5) Players
+[20260206_160542] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:65527
+[20260206_160542] (SessionManager.Generate) : Connected (6) Players
+[20260206_160542] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:65528
+[20260206_160542] (SessionManager.Generate) : Connected (7) Players
+[20260206_160542] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:65529
+[20260206_160542] (SessionManager.Generate) : Connected (8) Players
+[20260206_160542] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:65530
+[20260206_160542] (SessionManager.Generate) : Connected (9) Players
+[20260206_160542] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:65531
+[20260206_160542] (SessionManager.Generate) : Connected (10) Players
+[20260206_160542] (ClientSession.OnConnected) : OnConnected : [fe80::bb6d:8391:7f70:8923%17]:65532
+[20260206_160543] (ClientSession.HandleLogin) : AccountId: DummyClient_Id_10001, Password: DummyClient_Pw_10001
+[20260206_160543] (ClientSession.HandleLogin) : AccountId: DummyClient_Id_10000, Password: DummyClient_Pw_10000
+[20260206_160543] (ClientSession.HandleLogin) : AccountId: DummyClient_Id_10009, Password: DummyClient_Pw_10009
+[20260206_160543] (ClientSession.HandleLogin) : AccountId: DummyClient_Id_10002, Password: DummyClient_Pw_10002
+[20260206_160543] (ClientSession.HandleLogin) : AccountId: DummyClient_Id_10006, Password: DummyClient_Pw_10006
+[20260206_160543] (ClientSession.HandleLogin) : AccountId: DummyClient_Id_10007, Password: DummyClient_Pw_10007
+[20260206_160543] (ClientSession.HandleLogin) : AccountId: DummyClient_Id_10003, Password: DummyClient_Pw_10003
+[20260206_160543] (ClientSession.HandleLogin) : AccountId: DummyClient_Id_10008, Password: DummyClient_Pw_10008
+[20260206_160543] (ClientSession.HandleLogin) : AccountId: DummyClient_Id_10004, Password: DummyClient_Pw_10004
+[20260206_160543] (ClientSession.HandleLogin) : AccountId: DummyClient_Id_10005, Password: DummyClient_Pw_10005
