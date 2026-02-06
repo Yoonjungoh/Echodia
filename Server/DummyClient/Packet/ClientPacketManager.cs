@@ -54,10 +54,10 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.SDeletePlayer, MakePacket<S_DeletePlayer>);
 		_handler.Add((ushort)MsgId.SDeletePlayer, PacketHandler.S_DeletePlayerHandler);		
 		_onRecv.Add((ushort)MsgId.SUpdateCurrencyData, MakePacket<S_UpdateCurrencyData>);
-		_handler.Add((ushort)MsgId.SUpdateCurrencyData, PacketHandler.S_UpdateCurrencyDataHandler);		
-		_onRecv.Add((ushort)MsgId.SUpdateCurrencyDataAll, MakePacket<S_UpdateCurrencyDataAll>);
-		_handler.Add((ushort)MsgId.SUpdateCurrencyDataAll, PacketHandler.S_UpdateCurrencyDataAllHandler);		
-		_onRecv.Add((ushort)MsgId.SSelectServer, MakePacket<S_SelectServer>);
+        _handler.Add((ushort)MsgId.SUpdateCurrencyData, PacketHandler.S_UpdateCurrencyDataHandler);
+        _onRecv.Add((ushort)MsgId.SUpdateCurrencyDataAll, MakePacket<S_UpdateCurrencyDataAll>);
+        _handler.Add((ushort)MsgId.SUpdateCurrencyDataAll, PacketHandler.S_UpdateCurrencyDataAllHandler);
+        _onRecv.Add((ushort)MsgId.SSelectServer, MakePacket<S_SelectServer>);
 		_handler.Add((ushort)MsgId.SSelectServer, PacketHandler.S_SelectServerHandler);		
 		_onRecv.Add((ushort)MsgId.SRequestServerList, MakePacket<S_RequestServerList>);
 		_handler.Add((ushort)MsgId.SRequestServerList, PacketHandler.S_RequestServerListHandler);		

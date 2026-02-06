@@ -10,6 +10,9 @@ using System.Net;
 public class ServerSession : PacketSession
 {
     public int DummyId { get; set; }
+    public int ServerId { get; set; }
+    public int ChannelId { get; set; }
+    public int PlayerId { get; set; }   // 선택된 플레이어 아이디
 
     public void Send(IMessage packet)
     {
