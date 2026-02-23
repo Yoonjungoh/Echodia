@@ -111,51 +111,70 @@ namespace Google.Protobuf.Protocol {
             "dHRhY2tDb29sVGltZRgIIAEoAhITCgthdHRhY2tSYW5nZRgJIAEoAhIaChJh",
             "dHRhY2tIYWxmQW5nbGVEZWcYCiABKAISFAoMYXR0YWNrSGVpZ2h0GAsgASgC",
             "IisKDEN1cnJlbmN5RGF0YRINCgVqZXdlbBgBIAEoBRIMCgRnb2xkGAIgASgF",
-            "KrcGCgVNc2dJZBIUChBTX0FTU0lHTl9VU0VSX0lEEAASFAoQQ19BU1NJR05f",
-            "VVNFUl9JRBABEhAKDENfRU5URVJfR0FNRRAQEhAKDFNfRU5URVJfR0FNRRAR",
-            "EgwKCENfQVRUQUNLEBISDAoIU19BVFRBQ0sQExIQCgxTX0xFQVZFX0dBTUUQ",
-            "FBILCgdTX1NQQVdOEBUSDQoJU19ERVNQQVdOEBYSCgoGQ19NT1ZFEBcSCgoG",
-            "U19NT1ZFEBgSCQoFU19ESUUQGhIWChJDX1NQQVdOX1BST0pFQ1RJTEUQHRIP",
-            "CgtDX1RJTUVTVEFNUBBpEg8KC1NfVElNRVNUQU1QEGoSGwoXQ19DSEFOR0Vf",
-            "Q1JFQVRVUkVfU1RBVEUQaxIbChdTX0NIQU5HRV9DUkVBVFVSRV9TVEFURRBs",
-            "Eg8KC1NfQ09OTkVDVEVEEG0SCwoHQ19MT0dJThBuEgsKB1NfTE9HSU4QbxIZ",
-            "ChVDX1JFUVVFU1RfUExBWUVSX0xJU1QQcBIZChVTX1JFUVVFU1RfUExBWUVS",
-            "X0xJU1QQcRITCg9DX0NSRUFURV9QTEFZRVIQchITCg9TX0NSRUFURV9QTEFZ",
-            "RVIQcxITCg9DX0RFTEVURV9QTEFZRVIQdBITCg9TX0RFTEVURV9QTEFZRVIQ",
-            "dRIaChZDX1VQREFURV9DVVJSRU5DWV9EQVRBEHYSGgoWU19VUERBVEVfQ1VS",
-            "UkVOQ1lfREFUQRB3Eh4KGkNfVVBEQVRFX0NVUlJFTkNZX0RBVEFfQUxMEHgS",
-            "HgoaU19VUERBVEVfQ1VSUkVOQ1lfREFUQV9BTEwQeRITCg9DX1NFTEVDVF9T",
-            "RVJWRVIQehITCg9TX1NFTEVDVF9TRVJWRVIQexIZChVDX1JFUVVFU1RfU0VS",
-            "VkVSX0xJU1QQfBIZChVTX1JFUVVFU1RfU0VSVkVSX0xJU1QQfRIhCh1DX1JF",
-            "UVVFU1RfU0VSVkVSX1NVTU1BUllfTElTVBB+EiEKHVNfUkVRVUVTVF9TRVJW",
-            "RVJfU1VNTUFSWV9MSVNUEH8SFAoPQ19TRUxFQ1RfUExBWUVSEIABEhQKD1Nf",
-            "U0VMRUNUX1BMQVlFUhCBASpsCg1DcmVhdHVyZVN0YXRlEhcKE0NSRUFUVVJF",
-            "X1NUQVRFX05PTkUQABIICgRJRExFEAESCAoETU9WRRACEgoKBkFUVEFDSxAD",
-            "Eg4KCk9OX0RBTUFHRUQQBBIJCgVTS0lMTBAFEgcKA0RJRRAGKlQKDkdhbWVP",
-            "YmplY3RUeXBlEhkKFUdBTUVfT0JKRUNUX1RZUEVfTk9ORRAAEgoKBlBMQVlF",
-            "UhABEgsKB01PTlNURVIQAhIOCgpQUk9KRUNUSUxFEAMqSAoKQXR0YWNrVHlw",
-            "ZRIUChBBVFRBQ0tfVFlQRV9OT05FEAASEQoNQ09NTU9OX0FUVEFDSxABEhEK",
-            "DVJBTkdFRF9BVFRBQ0sQAiouCgtNb25zdGVyVHlwZRIVChFNT05TVEVSX1RZ",
-            "UEVfTk9ORRAAEggKBEJFQVIQASo9Cg5Qcm9qZWN0aWxlVHlwZRIYChRQUk9K",
-            "RUNUSUxFX1RZUEVfTk9ORRAAEhEKDU1BR0lDX01JU1NJTEUQASpZCg5Sb29t",
-            "RXhpdFJlYXNvbhIZChVST09NX0VYSVRfUkVBU09OX05PTkUQABIMCghHQU1F",
-            "X1dJThABEg0KCUdBTUVfTE9TRRACEg8KC01BTlVBTF9FWElUEAMqswEKC0xv",
-            "Z2luU3RhdHVzEhUKEUxPR0lOX1NUQVRVU19OT05FEAASGAoUTE9HSU5fU1RB",
-            "VFVTX1NVQ0NFU1MQARIZChVMT0dJTl9TVEFUVVNfSURfV1JPTkcQAhIfChtM",
-            "T0dJTl9TVEFUVVNfUEFTU1dPUkRfV1JPTkcQAxIiCh5MT0dJTl9TVEFUVVNf",
-            "QUxSRUFEWV9MT0dHRURfSU4QBBITCg9TSUdOX1VQX1NVQ0NFU1MQBSpxChFD",
-            "bGllbnRTZXJ2ZXJTdGF0ZRIcChhDTElFTlRfU0VSVkVSX1NUQVRFX05PTkUQ",
-            "ABIJCgVMT0dJThABEhEKDVNFUlZFUl9TRUxFQ1QQAhIRCg1QTEFZRVJfU0VM",
-            "RUNUEAMSDQoJR0FNRV9ST09NEAQqoAEKEUVudGVyU2VydmVyUmVzdWx0EhwK",
-            "GEVOVEVSX1NFUlZFUl9SRVNVTFRfTk9ORRAAEgsKB1NVQ0NFU1MQARIQCgxD",
-            "SEFOTkVMX0ZVTEwQAhIOCgpBTFJFQURZX0lOEAMSEgoOSU5WQUxJRF9QTEFZ",
-            "RVIQBBISCg5JTlZBTElEX1NFUlZFUhAFEhYKElNFUlZFUl9NQUlOVEVOQU5D",
-            "RRAGKlcKDEN1cnJlbmN5VHlwZRIWChJDVVJSRU5DWV9UWVBFX05PTkUQABIX",
-            "ChNDVVJSRU5DWV9UWVBFX0pFV0VMEAESFgoSQ1VSUkVOQ1lfVFlQRV9HT0xE",
-            "EAJCG6oCGEdvb2dsZS5Qcm90b2J1Zi5Qcm90b2NvbGIGcHJvdG8z"));
+            "IjwKC1F1ZXN0UmV3YXJkEgsKA2V4cBgBIAEoAxIMCgRnb2xkGAIgASgDEhIK",
+            "Cml0ZW1JZExpc3QYAyADKAUihQIKD1F1ZXN0RGVmaW5pdGlvbhImCglxdWVz",
+            "dFR5cGUYASABKA4yEy5Qcm90b2NvbC5RdWVzdFR5cGUSEwoLbWFpblF1ZXN0",
+            "SWQYAiABKAUSDQoFdGl0bGUYAyABKAkSEwoLZGVzY3JpcHRpb24YBCABKAkS",
+            "FQoNcmVxdWlyZWRMZXZlbBgFIAEoBRIbChNwcmVyZXF1aXNpdGVRdWVzdElk",
+            "GAYgASgFEjYKCm9iamVjdGl2ZXMYByADKAsyIi5Qcm90b2NvbC5RdWVzdE9i",
+            "amVjdGl2ZURlZmluaXRpb24SJQoGcmV3YXJkGAggASgLMhUuUHJvdG9jb2wu",
+            "UXVlc3RSZXdhcmQivwEKGFF1ZXN0T2JqZWN0aXZlRGVmaW5pdGlvbhISCgpz",
+            "dWJRdWVzdElkGAEgASgFEioKBHR5cGUYAiABKA4yHC5Qcm90b2NvbC5RdWVz",
+            "dE9iamVjdGl2ZVR5cGUSEwoLZGVzY3JpcHRpb24YAyABKAkSEAoIdGFyZ2V0",
+            "SWQYBCABKAUSFQoNcmVxdWlyZWRDb3VudBgFIAEoBRIlCgZyZXdhcmQYBiAB",
+            "KAsyFS5Qcm90b2NvbC5RdWVzdFJld2FyZCq3BgoFTXNnSWQSFAoQU19BU1NJ",
+            "R05fVVNFUl9JRBAAEhQKEENfQVNTSUdOX1VTRVJfSUQQARIQCgxDX0VOVEVS",
+            "X0dBTUUQEBIQCgxTX0VOVEVSX0dBTUUQERIMCghDX0FUVEFDSxASEgwKCFNf",
+            "QVRUQUNLEBMSEAoMU19MRUFWRV9HQU1FEBQSCwoHU19TUEFXThAVEg0KCVNf",
+            "REVTUEFXThAWEgoKBkNfTU9WRRAXEgoKBlNfTU9WRRAYEgkKBVNfRElFEBoS",
+            "FgoSQ19TUEFXTl9QUk9KRUNUSUxFEB0SDwoLQ19USU1FU1RBTVAQaRIPCgtT",
+            "X1RJTUVTVEFNUBBqEhsKF0NfQ0hBTkdFX0NSRUFUVVJFX1NUQVRFEGsSGwoX",
+            "U19DSEFOR0VfQ1JFQVRVUkVfU1RBVEUQbBIPCgtTX0NPTk5FQ1RFRBBtEgsK",
+            "B0NfTE9HSU4QbhILCgdTX0xPR0lOEG8SGQoVQ19SRVFVRVNUX1BMQVlFUl9M",
+            "SVNUEHASGQoVU19SRVFVRVNUX1BMQVlFUl9MSVNUEHESEwoPQ19DUkVBVEVf",
+            "UExBWUVSEHISEwoPU19DUkVBVEVfUExBWUVSEHMSEwoPQ19ERUxFVEVfUExB",
+            "WUVSEHQSEwoPU19ERUxFVEVfUExBWUVSEHUSGgoWQ19VUERBVEVfQ1VSUkVO",
+            "Q1lfREFUQRB2EhoKFlNfVVBEQVRFX0NVUlJFTkNZX0RBVEEQdxIeChpDX1VQ",
+            "REFURV9DVVJSRU5DWV9EQVRBX0FMTBB4Eh4KGlNfVVBEQVRFX0NVUlJFTkNZ",
+            "X0RBVEFfQUxMEHkSEwoPQ19TRUxFQ1RfU0VSVkVSEHoSEwoPU19TRUxFQ1Rf",
+            "U0VSVkVSEHsSGQoVQ19SRVFVRVNUX1NFUlZFUl9MSVNUEHwSGQoVU19SRVFV",
+            "RVNUX1NFUlZFUl9MSVNUEH0SIQodQ19SRVFVRVNUX1NFUlZFUl9TVU1NQVJZ",
+            "X0xJU1QQfhIhCh1TX1JFUVVFU1RfU0VSVkVSX1NVTU1BUllfTElTVBB/EhQK",
+            "D0NfU0VMRUNUX1BMQVlFUhCAARIUCg9TX1NFTEVDVF9QTEFZRVIQgQEqbAoN",
+            "Q3JlYXR1cmVTdGF0ZRIXChNDUkVBVFVSRV9TVEFURV9OT05FEAASCAoESURM",
+            "RRABEggKBE1PVkUQAhIKCgZBVFRBQ0sQAxIOCgpPTl9EQU1BR0VEEAQSCQoF",
+            "U0tJTEwQBRIHCgNESUUQBipUCg5HYW1lT2JqZWN0VHlwZRIZChVHQU1FX09C",
+            "SkVDVF9UWVBFX05PTkUQABIKCgZQTEFZRVIQARILCgdNT05TVEVSEAISDgoK",
+            "UFJPSkVDVElMRRADKkgKCkF0dGFja1R5cGUSFAoQQVRUQUNLX1RZUEVfTk9O",
+            "RRAAEhEKDUNPTU1PTl9BVFRBQ0sQARIRCg1SQU5HRURfQVRUQUNLEAIqLgoL",
+            "TW9uc3RlclR5cGUSFQoRTU9OU1RFUl9UWVBFX05PTkUQABIICgRCRUFSEAEq",
+            "PQoOUHJvamVjdGlsZVR5cGUSGAoUUFJPSkVDVElMRV9UWVBFX05PTkUQABIR",
+            "Cg1NQUdJQ19NSVNTSUxFEAEqWQoOUm9vbUV4aXRSZWFzb24SGQoVUk9PTV9F",
+            "WElUX1JFQVNPTl9OT05FEAASDAoIR0FNRV9XSU4QARINCglHQU1FX0xPU0UQ",
+            "AhIPCgtNQU5VQUxfRVhJVBADKrMBCgtMb2dpblN0YXR1cxIVChFMT0dJTl9T",
+            "VEFUVVNfTk9ORRAAEhgKFExPR0lOX1NUQVRVU19TVUNDRVNTEAESGQoVTE9H",
+            "SU5fU1RBVFVTX0lEX1dST05HEAISHwobTE9HSU5fU1RBVFVTX1BBU1NXT1JE",
+            "X1dST05HEAMSIgoeTE9HSU5fU1RBVFVTX0FMUkVBRFlfTE9HR0VEX0lOEAQS",
+            "EwoPU0lHTl9VUF9TVUNDRVNTEAUqcQoRQ2xpZW50U2VydmVyU3RhdGUSHAoY",
+            "Q0xJRU5UX1NFUlZFUl9TVEFURV9OT05FEAASCQoFTE9HSU4QARIRCg1TRVJW",
+            "RVJfU0VMRUNUEAISEQoNUExBWUVSX1NFTEVDVBADEg0KCUdBTUVfUk9PTRAE",
+            "KqABChFFbnRlclNlcnZlclJlc3VsdBIcChhFTlRFUl9TRVJWRVJfUkVTVUxU",
+            "X05PTkUQABILCgdTVUNDRVNTEAESEAoMQ0hBTk5FTF9GVUxMEAISDgoKQUxS",
+            "RUFEWV9JThADEhIKDklOVkFMSURfUExBWUVSEAQSEgoOSU5WQUxJRF9TRVJW",
+            "RVIQBRIWChJTRVJWRVJfTUFJTlRFTkFOQ0UQBipXCgxDdXJyZW5jeVR5cGUS",
+            "FgoSQ1VSUkVOQ1lfVFlQRV9OT05FEAASFwoTQ1VSUkVOQ1lfVFlQRV9KRVdF",
+            "TBABEhYKEkNVUlJFTkNZX1RZUEVfR09MRBACKncKCVF1ZXN0VHlwZRITCg9R",
+            "VUVTVF9UWVBFX05PTkUQABITCg9RVUVTVF9UWVBFX01BSU4QARITCg9RVUVT",
+            "VF9UWVBFX1NJREUQAhIUChBRVUVTVF9UWVBFX0RBSUxZEAMSFQoRUVVFU1Rf",
+            "VFlQRV9XRUVLTFkQBCrQAQoSUXVlc3RPYmplY3RpdmVUeXBlEh0KGVFVRVNU",
+            "X09CSkVDVElWRV9UWVBFX05PTkUQABIlCiFRVUVTVF9PQkpFQ1RJVkVfVFlQ",
+            "RV9LSUxMX01PTlNURVIQARInCiNRVUVTVF9PQkpFQ1RJVkVfVFlQRV9SRUFD",
+            "SF9MT0NBVElPThACEiUKIVFVRVNUX09CSkVDVElWRV9UWVBFX0NPTExFQ1Rf",
+            "SVRFTRADEiQKIFFVRVNUX09CSkVDVElWRV9UWVBFX1RBTEtfVE9fTlBDEARC",
+            "G6oCGEdvb2dsZS5Qcm90b2J1Zi5Qcm90b2NvbGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.CreatureState), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.AttackType), typeof(global::Google.Protobuf.Protocol.MonsterType), typeof(global::Google.Protobuf.Protocol.ProjectileType), typeof(global::Google.Protobuf.Protocol.RoomExitReason), typeof(global::Google.Protobuf.Protocol.LoginStatus), typeof(global::Google.Protobuf.Protocol.ClientServerState), typeof(global::Google.Protobuf.Protocol.EnterServerResult), typeof(global::Google.Protobuf.Protocol.CurrencyType), }, null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.CreatureState), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.AttackType), typeof(global::Google.Protobuf.Protocol.MonsterType), typeof(global::Google.Protobuf.Protocol.ProjectileType), typeof(global::Google.Protobuf.Protocol.RoomExitReason), typeof(global::Google.Protobuf.Protocol.LoginStatus), typeof(global::Google.Protobuf.Protocol.ClientServerState), typeof(global::Google.Protobuf.Protocol.EnterServerResult), typeof(global::Google.Protobuf.Protocol.CurrencyType), typeof(global::Google.Protobuf.Protocol.QuestType), typeof(global::Google.Protobuf.Protocol.QuestObjectiveType), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_AssignUserId), global::Google.Protobuf.Protocol.S_AssignUserId.Parser, new[]{ "UserId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_AssignUserId), global::Google.Protobuf.Protocol.C_AssignUserId.Parser, null, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_ExitRoom), global::Google.Protobuf.Protocol.S_ExitRoom.Parser, null, null, null, null, null),
@@ -205,7 +224,10 @@ namespace Google.Protobuf.Protocol {
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.ObjectState), global::Google.Protobuf.Protocol.ObjectState.Parser, new[]{ "ObjectId", "ClientSendTime", "ServerReceivedTime", "Position", "Velocity", "Rotation", "Name", "CreatureState", "Stat", "ObjectType", "MonsterType", "ProjectileType", "OwnerId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.DamagedInfo), global::Google.Protobuf.Protocol.DamagedInfo.Parser, new[]{ "ObjectId", "RemainHp" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.Stat), global::Google.Protobuf.Protocol.Stat.Parser, new[]{ "MaxHp", "Hp", "Defense", "MoveSpeed", "CommonAttackDamage", "CommonAttackCoolTime", "MagicMissileAttakDamage", "MagicMissileAttackCoolTime", "AttackRange", "AttackHalfAngleDeg", "AttackHeight" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.CurrencyData), global::Google.Protobuf.Protocol.CurrencyData.Parser, new[]{ "Jewel", "Gold" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.CurrencyData), global::Google.Protobuf.Protocol.CurrencyData.Parser, new[]{ "Jewel", "Gold" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.QuestReward), global::Google.Protobuf.Protocol.QuestReward.Parser, new[]{ "Exp", "Gold", "ItemIdList" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.QuestDefinition), global::Google.Protobuf.Protocol.QuestDefinition.Parser, new[]{ "QuestType", "MainQuestId", "Title", "Description", "RequiredLevel", "PrerequisiteQuestId", "Objectives", "Reward" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.QuestObjectiveDefinition), global::Google.Protobuf.Protocol.QuestObjectiveDefinition.Parser, new[]{ "SubQuestId", "Type", "Description", "TargetId", "RequiredCount", "Reward" }, null, null, null, null)
           }));
     }
     #endregion
@@ -336,6 +358,25 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("CURRENCY_TYPE_NONE")] None = 0,
     [pbr::OriginalName("CURRENCY_TYPE_JEWEL")] Jewel = 1,
     [pbr::OriginalName("CURRENCY_TYPE_GOLD")] Gold = 2,
+  }
+
+  public enum QuestType {
+    [pbr::OriginalName("QUEST_TYPE_NONE")] None = 0,
+    [pbr::OriginalName("QUEST_TYPE_MAIN")] Main = 1,
+    [pbr::OriginalName("QUEST_TYPE_SIDE")] Side = 2,
+    [pbr::OriginalName("QUEST_TYPE_DAILY")] Daily = 3,
+    [pbr::OriginalName("QUEST_TYPE_WEEKLY")] Weekly = 4,
+  }
+
+  /// <summary>
+  /// QuestObjectiveDefinition과 연동
+  /// </summary>
+  public enum QuestObjectiveType {
+    [pbr::OriginalName("QUEST_OBJECTIVE_TYPE_NONE")] None = 0,
+    [pbr::OriginalName("QUEST_OBJECTIVE_TYPE_KILL_MONSTER")] KillMonster = 1,
+    [pbr::OriginalName("QUEST_OBJECTIVE_TYPE_REACH_LOCATION")] ReachLocation = 2,
+    [pbr::OriginalName("QUEST_OBJECTIVE_TYPE_COLLECT_ITEM")] CollectItem = 3,
+    [pbr::OriginalName("QUEST_OBJECTIVE_TYPE_TALK_TO_NPC")] TalkToNpc = 4,
   }
 
   #endregion
@@ -8516,6 +8557,794 @@ namespace Google.Protobuf.Protocol {
           }
           case 16: {
             Gold = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class QuestReward : pb::IMessage<QuestReward> {
+    private static readonly pb::MessageParser<QuestReward> _parser = new pb::MessageParser<QuestReward>(() => new QuestReward());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<QuestReward> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[50]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public QuestReward() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public QuestReward(QuestReward other) : this() {
+      exp_ = other.exp_;
+      gold_ = other.gold_;
+      itemIdList_ = other.itemIdList_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public QuestReward Clone() {
+      return new QuestReward(this);
+    }
+
+    /// <summary>Field number for the "exp" field.</summary>
+    public const int ExpFieldNumber = 1;
+    private long exp_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long Exp {
+      get { return exp_; }
+      set {
+        exp_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "gold" field.</summary>
+    public const int GoldFieldNumber = 2;
+    private long gold_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long Gold {
+      get { return gold_; }
+      set {
+        gold_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "itemIdList" field.</summary>
+    public const int ItemIdListFieldNumber = 3;
+    private static readonly pb::FieldCodec<int> _repeated_itemIdList_codec
+        = pb::FieldCodec.ForInt32(26);
+    private readonly pbc::RepeatedField<int> itemIdList_ = new pbc::RepeatedField<int>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<int> ItemIdList {
+      get { return itemIdList_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as QuestReward);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(QuestReward other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Exp != other.Exp) return false;
+      if (Gold != other.Gold) return false;
+      if(!itemIdList_.Equals(other.itemIdList_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Exp != 0L) hash ^= Exp.GetHashCode();
+      if (Gold != 0L) hash ^= Gold.GetHashCode();
+      hash ^= itemIdList_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Exp != 0L) {
+        output.WriteRawTag(8);
+        output.WriteInt64(Exp);
+      }
+      if (Gold != 0L) {
+        output.WriteRawTag(16);
+        output.WriteInt64(Gold);
+      }
+      itemIdList_.WriteTo(output, _repeated_itemIdList_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Exp != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Exp);
+      }
+      if (Gold != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Gold);
+      }
+      size += itemIdList_.CalculateSize(_repeated_itemIdList_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(QuestReward other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Exp != 0L) {
+        Exp = other.Exp;
+      }
+      if (other.Gold != 0L) {
+        Gold = other.Gold;
+      }
+      itemIdList_.Add(other.itemIdList_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Exp = input.ReadInt64();
+            break;
+          }
+          case 16: {
+            Gold = input.ReadInt64();
+            break;
+          }
+          case 26:
+          case 24: {
+            itemIdList_.AddEntriesFrom(input, _repeated_itemIdList_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  /// 퀘스트 정의
+  /// </summary>
+  public sealed partial class QuestDefinition : pb::IMessage<QuestDefinition> {
+    private static readonly pb::MessageParser<QuestDefinition> _parser = new pb::MessageParser<QuestDefinition>(() => new QuestDefinition());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<QuestDefinition> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[51]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public QuestDefinition() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public QuestDefinition(QuestDefinition other) : this() {
+      questType_ = other.questType_;
+      mainQuestId_ = other.mainQuestId_;
+      title_ = other.title_;
+      description_ = other.description_;
+      requiredLevel_ = other.requiredLevel_;
+      prerequisiteQuestId_ = other.prerequisiteQuestId_;
+      objectives_ = other.objectives_.Clone();
+      reward_ = other.reward_ != null ? other.reward_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public QuestDefinition Clone() {
+      return new QuestDefinition(this);
+    }
+
+    /// <summary>Field number for the "questType" field.</summary>
+    public const int QuestTypeFieldNumber = 1;
+    private global::Google.Protobuf.Protocol.QuestType questType_ = global::Google.Protobuf.Protocol.QuestType.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Google.Protobuf.Protocol.QuestType QuestType {
+      get { return questType_; }
+      set {
+        questType_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "mainQuestId" field.</summary>
+    public const int MainQuestIdFieldNumber = 2;
+    private int mainQuestId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int MainQuestId {
+      get { return mainQuestId_; }
+      set {
+        mainQuestId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "title" field.</summary>
+    public const int TitleFieldNumber = 3;
+    private string title_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Title {
+      get { return title_; }
+      set {
+        title_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "description" field.</summary>
+    public const int DescriptionFieldNumber = 4;
+    private string description_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Description {
+      get { return description_; }
+      set {
+        description_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "requiredLevel" field.</summary>
+    public const int RequiredLevelFieldNumber = 5;
+    private int requiredLevel_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int RequiredLevel {
+      get { return requiredLevel_; }
+      set {
+        requiredLevel_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "prerequisiteQuestId" field.</summary>
+    public const int PrerequisiteQuestIdFieldNumber = 6;
+    private int prerequisiteQuestId_;
+    /// <summary>
+    /// 선행 퀘스트 ID (없으면 0
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int PrerequisiteQuestId {
+      get { return prerequisiteQuestId_; }
+      set {
+        prerequisiteQuestId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "objectives" field.</summary>
+    public const int ObjectivesFieldNumber = 7;
+    private static readonly pb::FieldCodec<global::Google.Protobuf.Protocol.QuestObjectiveDefinition> _repeated_objectives_codec
+        = pb::FieldCodec.ForMessage(58, global::Google.Protobuf.Protocol.QuestObjectiveDefinition.Parser);
+    private readonly pbc::RepeatedField<global::Google.Protobuf.Protocol.QuestObjectiveDefinition> objectives_ = new pbc::RepeatedField<global::Google.Protobuf.Protocol.QuestObjectiveDefinition>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::Google.Protobuf.Protocol.QuestObjectiveDefinition> Objectives {
+      get { return objectives_; }
+    }
+
+    /// <summary>Field number for the "reward" field.</summary>
+    public const int RewardFieldNumber = 8;
+    private global::Google.Protobuf.Protocol.QuestReward reward_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Google.Protobuf.Protocol.QuestReward Reward {
+      get { return reward_; }
+      set {
+        reward_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as QuestDefinition);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(QuestDefinition other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (QuestType != other.QuestType) return false;
+      if (MainQuestId != other.MainQuestId) return false;
+      if (Title != other.Title) return false;
+      if (Description != other.Description) return false;
+      if (RequiredLevel != other.RequiredLevel) return false;
+      if (PrerequisiteQuestId != other.PrerequisiteQuestId) return false;
+      if(!objectives_.Equals(other.objectives_)) return false;
+      if (!object.Equals(Reward, other.Reward)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (QuestType != global::Google.Protobuf.Protocol.QuestType.None) hash ^= QuestType.GetHashCode();
+      if (MainQuestId != 0) hash ^= MainQuestId.GetHashCode();
+      if (Title.Length != 0) hash ^= Title.GetHashCode();
+      if (Description.Length != 0) hash ^= Description.GetHashCode();
+      if (RequiredLevel != 0) hash ^= RequiredLevel.GetHashCode();
+      if (PrerequisiteQuestId != 0) hash ^= PrerequisiteQuestId.GetHashCode();
+      hash ^= objectives_.GetHashCode();
+      if (reward_ != null) hash ^= Reward.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (QuestType != global::Google.Protobuf.Protocol.QuestType.None) {
+        output.WriteRawTag(8);
+        output.WriteEnum((int) QuestType);
+      }
+      if (MainQuestId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(MainQuestId);
+      }
+      if (Title.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Title);
+      }
+      if (Description.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(Description);
+      }
+      if (RequiredLevel != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(RequiredLevel);
+      }
+      if (PrerequisiteQuestId != 0) {
+        output.WriteRawTag(48);
+        output.WriteInt32(PrerequisiteQuestId);
+      }
+      objectives_.WriteTo(output, _repeated_objectives_codec);
+      if (reward_ != null) {
+        output.WriteRawTag(66);
+        output.WriteMessage(Reward);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (QuestType != global::Google.Protobuf.Protocol.QuestType.None) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) QuestType);
+      }
+      if (MainQuestId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MainQuestId);
+      }
+      if (Title.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Title);
+      }
+      if (Description.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Description);
+      }
+      if (RequiredLevel != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(RequiredLevel);
+      }
+      if (PrerequisiteQuestId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(PrerequisiteQuestId);
+      }
+      size += objectives_.CalculateSize(_repeated_objectives_codec);
+      if (reward_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Reward);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(QuestDefinition other) {
+      if (other == null) {
+        return;
+      }
+      if (other.QuestType != global::Google.Protobuf.Protocol.QuestType.None) {
+        QuestType = other.QuestType;
+      }
+      if (other.MainQuestId != 0) {
+        MainQuestId = other.MainQuestId;
+      }
+      if (other.Title.Length != 0) {
+        Title = other.Title;
+      }
+      if (other.Description.Length != 0) {
+        Description = other.Description;
+      }
+      if (other.RequiredLevel != 0) {
+        RequiredLevel = other.RequiredLevel;
+      }
+      if (other.PrerequisiteQuestId != 0) {
+        PrerequisiteQuestId = other.PrerequisiteQuestId;
+      }
+      objectives_.Add(other.objectives_);
+      if (other.reward_ != null) {
+        if (reward_ == null) {
+          Reward = new global::Google.Protobuf.Protocol.QuestReward();
+        }
+        Reward.MergeFrom(other.Reward);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            QuestType = (global::Google.Protobuf.Protocol.QuestType) input.ReadEnum();
+            break;
+          }
+          case 16: {
+            MainQuestId = input.ReadInt32();
+            break;
+          }
+          case 26: {
+            Title = input.ReadString();
+            break;
+          }
+          case 34: {
+            Description = input.ReadString();
+            break;
+          }
+          case 40: {
+            RequiredLevel = input.ReadInt32();
+            break;
+          }
+          case 48: {
+            PrerequisiteQuestId = input.ReadInt32();
+            break;
+          }
+          case 58: {
+            objectives_.AddEntriesFrom(input, _repeated_objectives_codec);
+            break;
+          }
+          case 66: {
+            if (reward_ == null) {
+              Reward = new global::Google.Protobuf.Protocol.QuestReward();
+            }
+            input.ReadMessage(Reward);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class QuestObjectiveDefinition : pb::IMessage<QuestObjectiveDefinition> {
+    private static readonly pb::MessageParser<QuestObjectiveDefinition> _parser = new pb::MessageParser<QuestObjectiveDefinition>(() => new QuestObjectiveDefinition());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<QuestObjectiveDefinition> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[52]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public QuestObjectiveDefinition() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public QuestObjectiveDefinition(QuestObjectiveDefinition other) : this() {
+      subQuestId_ = other.subQuestId_;
+      type_ = other.type_;
+      description_ = other.description_;
+      targetId_ = other.targetId_;
+      requiredCount_ = other.requiredCount_;
+      reward_ = other.reward_ != null ? other.reward_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public QuestObjectiveDefinition Clone() {
+      return new QuestObjectiveDefinition(this);
+    }
+
+    /// <summary>Field number for the "subQuestId" field.</summary>
+    public const int SubQuestIdFieldNumber = 1;
+    private int subQuestId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int SubQuestId {
+      get { return subQuestId_; }
+      set {
+        subQuestId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "type" field.</summary>
+    public const int TypeFieldNumber = 2;
+    private global::Google.Protobuf.Protocol.QuestObjectiveType type_ = global::Google.Protobuf.Protocol.QuestObjectiveType.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Google.Protobuf.Protocol.QuestObjectiveType Type {
+      get { return type_; }
+      set {
+        type_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "description" field.</summary>
+    public const int DescriptionFieldNumber = 3;
+    private string description_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Description {
+      get { return description_; }
+      set {
+        description_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "targetId" field.</summary>
+    public const int TargetIdFieldNumber = 4;
+    private int targetId_;
+    /// <summary>
+    /// 몬스터, NPC, 아이템, 오브젝트 ID
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int TargetId {
+      get { return targetId_; }
+      set {
+        targetId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "requiredCount" field.</summary>
+    public const int RequiredCountFieldNumber = 5;
+    private int requiredCount_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int RequiredCount {
+      get { return requiredCount_; }
+      set {
+        requiredCount_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "reward" field.</summary>
+    public const int RewardFieldNumber = 6;
+    private global::Google.Protobuf.Protocol.QuestReward reward_;
+    /// <summary>
+    /// sub도 보상 줌
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Google.Protobuf.Protocol.QuestReward Reward {
+      get { return reward_; }
+      set {
+        reward_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as QuestObjectiveDefinition);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(QuestObjectiveDefinition other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (SubQuestId != other.SubQuestId) return false;
+      if (Type != other.Type) return false;
+      if (Description != other.Description) return false;
+      if (TargetId != other.TargetId) return false;
+      if (RequiredCount != other.RequiredCount) return false;
+      if (!object.Equals(Reward, other.Reward)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (SubQuestId != 0) hash ^= SubQuestId.GetHashCode();
+      if (Type != global::Google.Protobuf.Protocol.QuestObjectiveType.None) hash ^= Type.GetHashCode();
+      if (Description.Length != 0) hash ^= Description.GetHashCode();
+      if (TargetId != 0) hash ^= TargetId.GetHashCode();
+      if (RequiredCount != 0) hash ^= RequiredCount.GetHashCode();
+      if (reward_ != null) hash ^= Reward.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (SubQuestId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(SubQuestId);
+      }
+      if (Type != global::Google.Protobuf.Protocol.QuestObjectiveType.None) {
+        output.WriteRawTag(16);
+        output.WriteEnum((int) Type);
+      }
+      if (Description.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Description);
+      }
+      if (TargetId != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(TargetId);
+      }
+      if (RequiredCount != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(RequiredCount);
+      }
+      if (reward_ != null) {
+        output.WriteRawTag(50);
+        output.WriteMessage(Reward);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (SubQuestId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SubQuestId);
+      }
+      if (Type != global::Google.Protobuf.Protocol.QuestObjectiveType.None) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
+      }
+      if (Description.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Description);
+      }
+      if (TargetId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TargetId);
+      }
+      if (RequiredCount != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(RequiredCount);
+      }
+      if (reward_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Reward);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(QuestObjectiveDefinition other) {
+      if (other == null) {
+        return;
+      }
+      if (other.SubQuestId != 0) {
+        SubQuestId = other.SubQuestId;
+      }
+      if (other.Type != global::Google.Protobuf.Protocol.QuestObjectiveType.None) {
+        Type = other.Type;
+      }
+      if (other.Description.Length != 0) {
+        Description = other.Description;
+      }
+      if (other.TargetId != 0) {
+        TargetId = other.TargetId;
+      }
+      if (other.RequiredCount != 0) {
+        RequiredCount = other.RequiredCount;
+      }
+      if (other.reward_ != null) {
+        if (reward_ == null) {
+          Reward = new global::Google.Protobuf.Protocol.QuestReward();
+        }
+        Reward.MergeFrom(other.Reward);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            SubQuestId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            Type = (global::Google.Protobuf.Protocol.QuestObjectiveType) input.ReadEnum();
+            break;
+          }
+          case 26: {
+            Description = input.ReadString();
+            break;
+          }
+          case 32: {
+            TargetId = input.ReadInt32();
+            break;
+          }
+          case 40: {
+            RequiredCount = input.ReadInt32();
+            break;
+          }
+          case 50: {
+            if (reward_ == null) {
+              Reward = new global::Google.Protobuf.Protocol.QuestReward();
+            }
+            input.ReadMessage(Reward);
             break;
           }
         }

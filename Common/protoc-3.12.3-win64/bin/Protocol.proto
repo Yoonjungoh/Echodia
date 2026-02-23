@@ -118,6 +118,23 @@ enum CurrencyType {
   CURRENCY_TYPE_GOLD = 2;
 }
 
+enum QuestType {
+  QUEST_TYPE_NONE = 0;
+  QUEST_TYPE_MAIN = 1;
+  QUEST_TYPE_SIDE = 2;
+  QUEST_TYPE_DAILY = 3;
+  QUEST_TYPE_WEEKLY = 4;
+}
+
+// QuestObjectiveDefinition과 연동
+enum QuestObjectiveType {
+  QUEST_OBJECTIVE_TYPE_NONE = 0;
+  QUEST_OBJECTIVE_TYPE_KILL_MONSTER = 1;
+  QUEST_OBJECTIVE_TYPE_REACH_LOCATION = 2;
+  QUEST_OBJECTIVE_TYPE_COLLECT_ITEM = 3;
+  QUEST_OBJECTIVE_TYPE_TALK_TO_NPC = 4;
+}
+
 message S_AssignUserId {
   int32 userId = 1;
 }
@@ -377,4 +394,31 @@ message Stat {
 message CurrencyData {
   int32 jewel = 1;
   int32 gold = 2;
+}
+
+message QuestReward {
+  int64 exp = 1;
+  int64 gold = 2;
+  repeated int32 itemIdList = 3;
+}
+
+// 퀘스트 정의
+message QuestDefinition {
+  QuestType questType = 1;
+  int32 mainQuestId = 2;
+  string title = 3;
+  string description = 4;
+  int32 requiredLevel = 5;
+  int32 prerequisiteQuestId = 6;	// 선행 퀘스트 ID (없으면 0
+  repeated QuestObjectiveDefinition objectives = 7;
+  QuestReward reward  = 8;
+}
+
+message QuestObjectiveDefinition {
+  int32 subQuestId = 1;
+  QuestObjectiveType type = 2;
+  string description = 3;
+  int32 targetId = 4;	// 몬스터, NPC, 아이템, 오브젝트 ID
+  int32 requiredCount = 5;
+  QuestReward reward  = 6;	// sub도 보상 줌
 }
