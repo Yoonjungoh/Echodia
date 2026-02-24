@@ -423,7 +423,7 @@ namespace Server
                 // TODO - 캐릭터도 존재하는지 DB 뒤져서 미리 알아봐도 좋을듯?
                 // 지금은 부하 생각해서 패스
                 S_SelectPlayer selectPlayerPacket = new S_SelectPlayer();
-                if (ServerId ==  serverId && ChannelId == channelId)
+                if (ServerId == serverId && ChannelId == channelId)
                 {
                     // 패킷 전송
                     selectPlayerPacket.PlayerId = playerId;
@@ -434,10 +434,39 @@ namespace Server
                     ClientServerState = ClientServerState.GameRoom;
                     return;
                 }
-                
+
                 ConsoleLogManager.Instance.Log($"[Warning] 잘못된 서버/채널 선택 시도. SessionId: {SessionId}, ServerId: {serverId}, ChannelId: {channelId}");
                 selectPlayerPacket.CanSelect = false;
                 Send(selectPlayerPacket);
+            }
+        }
+
+        public void HandleRequestInitGameRoomData(int playerId)
+        {
+            lock (_lock)
+            {
+                using (GameDbContext db = new GameDbContext())
+                {
+                    PlayerDb player = db.Players
+                        .AsNoTracking()
+                        .Where(p => p.PlayerDbId == playerId)
+                        .FirstOrDefault();
+
+                    if (player == null)
+                    {
+                        ConsoleLogManager.Instance.Log($"[Error] 캐릭터 정보를 찾을 수 없음. PlayerId: {playerId}");
+                        return;
+                    }
+
+                    S_RequestInitGameRoomData initGameRoomDataPacket = new S_RequestInitGameRoomData();
+                    initGameRoomDataPacket.InitGameRoomData = new InitGameRoomData()
+                    {
+                        Level = player.Level,
+                        Exp = player.Exp,
+                        MaxExp = DataManager.Instance.GetExpForLevel(player.Level),
+                    };
+                    Send(initGameRoomDataPacket);
+                }
             }
         }
     }

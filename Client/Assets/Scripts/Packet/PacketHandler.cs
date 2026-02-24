@@ -319,7 +319,7 @@ class PacketHandler
             Debug.Log("S_UpdateCurrencyDataAll 패킷이 null입니다");
             return;
         }
-
+        
         Managers.Currency.UpdateCurrencyDataAll(updateCurrencyDataAllPacket.CurrencyData);
     }
 
@@ -377,7 +377,7 @@ class PacketHandler
         }
         serverSelectUI.OnServerSelected(selectServerPacket.ServerId, selectServerPacket.ChannelId, selectServerPacket.EnterServerResult);
     }
-    
+
     public static void S_SelectPlayerHandler(PacketSession session, IMessage packet)
     {
         S_SelectPlayer selectPlayerPacket = packet as S_SelectPlayer;
@@ -394,5 +394,23 @@ class PacketHandler
             return;
         }
         playerSelectUI.OnPlayerSelected(selectPlayerPacket.PlayerId, selectPlayerPacket.CanSelect);
+    }
+
+    public static void S_RequestInitGameRoomDataHandler(PacketSession session, IMessage packet)
+    {
+        S_RequestInitGameRoomData requestInitGameRoomDataPacket = packet as S_RequestInitGameRoomData;
+        if (requestInitGameRoomDataPacket == null)
+        {
+            Debug.Log("S_RequestInitGameRoomData 패킷이 null입니다");
+            return;
+        }
+
+        UI_GameRoom gameRoomUI = Managers.UI.CurrentScene.GetComponent<UI_GameRoom>();
+        if (gameRoomUI == null)
+        {
+            Debug.Log("현재 게임룸이 아닙니다.");
+            return;
+        }
+        gameRoomUI.SetData(requestInitGameRoomDataPacket.InitGameRoomData);
     }
 }

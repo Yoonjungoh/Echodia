@@ -18,6 +18,24 @@ namespace Server
     public class DataManager
     {
         public static DataManager Instance { get; } = new DataManager();
+        // 레벨업에 필요한 경험치 테이블 만들어야 함
+        private static readonly Dictionary<int, int> _expDictionary = new Dictionary<int, int>()
+        {
+            { 1, 0 },
+            { 2, 1000 },
+            { 3, 3000 },
+            { 4, 6000 },
+            { 5, 10000 },
+            // TODO - 나머지 레벨업 경험치 테이블 채우기
+        };
+
+        public int GetExpForLevel(int level)
+        {
+            if (_expDictionary.ContainsKey(level))
+                return _expDictionary[level];
+            
+            return int.MaxValue; // TODO - 레벨업 불가능한 최대 경험치 반환
+        }
 
         public Vector3 StartPositions = new Vector3(63, -20, 527);
        

@@ -43,6 +43,8 @@ enum MsgId {
   S_REQUEST_SERVER_SUMMARY_LIST = 127;
   C_SELECT_PLAYER = 128;
   S_SELECT_PLAYER = 129;
+  C_REQUEST_INIT_GAME_ROOM_DATA = 130;
+  S_REQUEST_INIT_GAME_ROOM_DATA = 131;
 }
 
 enum CreatureState {
@@ -116,6 +118,8 @@ enum CurrencyType {
   CURRENCY_TYPE_NONE = 0;
   CURRENCY_TYPE_JEWEL = 1;
   CURRENCY_TYPE_GOLD = 2;
+  CURRENCY_TYPE_EXP = 3;
+  CURRENCY_TYPE_LEVEL = 4;
 }
 
 enum QuestType {
@@ -140,7 +144,7 @@ enum QuestStatus {
   NOT_ACCEPTED = 1;	// 수락 안 함
   PROCEEDING = 2;	// 수락해서 진행 중 (수락하고 다음 단계)
   COMPLETED = 3;	// 완료 (보상 받기 전 단계)
-  REWARD_CLAIMED = 4;r	// 보상까지 받은 상태
+  REWARD_CLAIMED = 4;	// 보상까지 받은 상태
   FAILED = 5;	// 실패 (ex: 타임 어택 실패)
 }
 
@@ -330,6 +334,14 @@ message S_SelectPlayer {
   bool canSelect = 2;
 }
 
+message C_RequestInitGameRoomData {
+}
+
+// 게임룸 입장 시 초기 데이터 요청 (레벨, 경험치 등)
+message S_RequestInitGameRoomData {
+  InitGameRoomData initGameRoomData = 1;
+}
+
 message ServerInfo {
   int32 serverId = 1;	// 내부 서버 Id
   string serverName = 2;	// 표시용 이름
@@ -344,12 +356,10 @@ message PlayerSelectInfo {
   CurrencyData currencyData = 3;
 }
 
-message RoomInfo {
-  int32 roomId = 1;
-  string roomName = 2;
-  int32 roomOwnerId = 3;
-  int32 currentPlayerCount = 4;
-  int32 maxPlayerCount = 5;
+message InitGameRoomData {
+  int32 level = 1;
+  int32 exp = 2;
+  int32 maxExp = 3;
 }
 
 message ProtoVector3 {
@@ -379,6 +389,8 @@ message ObjectState {
   MonsterType monsterType = 11;		 // 몬스터면 무슨 타입인지
   ProjectileType projectileType = 12;		 // 투사체면 무슨 타입인지
   int32 ownerId = 13;		 // 투사체 소유자가 누구인지 다른 플레이어에게 알리기
+  int32 level = 14;
+  int32 exp = 15;
 }
 
 message DamagedInfo {
@@ -403,6 +415,8 @@ message Stat {
 message CurrencyData {
   int32 jewel = 1;
   int32 gold = 2;
+  int32 exp = 3;
+  int32 level = 4;
 }
 
 message QuestReward {

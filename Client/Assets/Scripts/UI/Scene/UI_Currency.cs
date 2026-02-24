@@ -94,21 +94,6 @@ public class UI_Currency : UI_Scene
         Managers.UI.CurrencyUI = this;
 
         // 최초 UI 초기화 시 재화 데이터를 서버에 요청
-        RequestCurrencyDataAll();
-    }
-
-    // 서버에 모든 최신 재화 데이터 요청 
-    public void RequestCurrencyDataAll()
-    {
-        C_UpdateCurrencyDataAll updateCurrencyDataAllPacket = new C_UpdateCurrencyDataAll();
-        Managers.Network.Send(updateCurrencyDataAllPacket);
-    }
-
-    // 서버에 특정 최신 재화 데이터 요청 
-    public void RequestCurrencyData(CurrencyType currencyType)
-    {
-        C_UpdateCurrencyData updateCurrencyDataPacket = new C_UpdateCurrencyData();
-        updateCurrencyDataPacket.CurrencyType = currencyType;
-        Managers.Network.Send(updateCurrencyDataPacket);
+        Managers.Currency.RequestCurrencyDataAll();
     }
 }

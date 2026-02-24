@@ -228,4 +228,14 @@ class PacketHandler
 
         clientSession.HandleSelectPlayer(selectPlayerPacket.PlayerId, selectPlayerPacket.ServerId, selectPlayerPacket.ChannelId);
     }
+
+    public static void C_RequestInitGameRoomDataHandler(PacketSession session, IMessage packet)
+    {
+        C_RequestInitGameRoomData requestInitGameroomDataPacket = packet as C_RequestInitGameRoomData;
+        ClientSession clientSession = session as ClientSession;
+        if (clientSession == null)
+            return;
+
+        clientSession.HandleRequestInitGameRoomData(clientSession.MyPlayer.PlayerId);
+    }
 }

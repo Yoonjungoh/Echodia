@@ -23,9 +23,9 @@ namespace Server.DB
     public class PlayerDb
     {
         public PlayerDb() { }
-
         public PlayerDb(int accountDbId, string name)
         {
+            // TODO - JSON
             AccountDbId = accountDbId;
             Name = name;
             Jewel = 0;
@@ -33,22 +33,22 @@ namespace Server.DB
             LastPosX = int.MinValue;
             LastPosY = int.MinValue;
             LastPosZ = int.MinValue;
+            Exp = 0;
+            Level = 1;
         }
-        
         public int PlayerDbId { get; set; } // 게임 내에서 사용하는 고유 Id (ObjectManager에서 사용하는 Id는 다른 거임)
-
         [ForeignKey("Account")]
         public int AccountDbId { get; set; }  // FK 컬럼
         public AccountDb Account { get; set; }
         public string Name { get; set; }  // 게임 내에서 사용하는 닉네임
-
-        // 플레이어가 진행중인 퀘스트 목록
-        public ICollection<QuestDb> Quests { get; set; } = new List<QuestDb>();
+        public ICollection<QuestDb> Quests { get; set; } = new List<QuestDb>(); // 플레이어가 진행중인 퀘스트 목록
 
         #region 재화
         // TODO - 재화 자동화 필요
         public int Jewel { get; set; }
         public int Gold { get; set; }
+        public int Exp { get; set; }
+        public int Level { get; set; }
         #endregion
 
         #region 재접속 시 위치
@@ -74,22 +74,14 @@ namespace Server.DB
     public class QuestDb
     {
         public int QuestDbId { get; set; } // PK
-
         [ForeignKey("Player")]
         public int PlayerDbId { get; set; } // FK
-
         public PlayerDb Player { get; set; }
-        
         public int MainQuestId { get; set; } // 메인 퀘스트 번호
-
         public int SubQuestId { get; set; } // 서브 퀘스트 번호
-
         public int RequiredCount { get; set; }  // 퀘스트 클리어에 필요한 목표 수량
-
         public QuestStatus Status { get; set; } // 진행 상태 (Enum)
-
         public DateTime StartedDate { get; set; } = DateTime.UtcNow;
-        
         public DateTime ClearedDate { get; set; }  // 완료 전엔 null
     }
 }

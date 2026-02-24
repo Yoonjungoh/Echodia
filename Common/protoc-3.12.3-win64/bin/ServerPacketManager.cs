@@ -56,7 +56,9 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.CRequestServerSummaryList, MakePacket<C_RequestServerSummaryList>);
 		_handler.Add((ushort)MsgId.CRequestServerSummaryList, PacketHandler.C_RequestServerSummaryListHandler);		
 		_onRecv.Add((ushort)MsgId.CSelectPlayer, MakePacket<C_SelectPlayer>);
-		_handler.Add((ushort)MsgId.CSelectPlayer, PacketHandler.C_SelectPlayerHandler);
+		_handler.Add((ushort)MsgId.CSelectPlayer, PacketHandler.C_SelectPlayerHandler);		
+		_onRecv.Add((ushort)MsgId.CRequestInitGameRoomData, MakePacket<C_RequestInitGameRoomData>);
+		_handler.Add((ushort)MsgId.CRequestInitGameRoomData, PacketHandler.C_RequestInitGameRoomDataHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

@@ -59,6 +59,12 @@ namespace Server.DB
                     CurrencyType.Gold => query
                         .ExecuteUpdate(s => s.SetProperty(p => p.Gold, amount)),
 
+                    CurrencyType.Exp => query
+                        .ExecuteUpdate(s => s.SetProperty(p => p.Exp, amount)),
+
+                    CurrencyType.Level => query
+                        .ExecuteUpdate(s => s.SetProperty(p => p.Level, amount)),
+
                     _ => 0  // default인 경우 0 반환하라는 의미
                 };
 

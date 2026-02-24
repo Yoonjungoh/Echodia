@@ -42,7 +42,9 @@ namespace Server
                     CurrencyData currencyData = new CurrencyData()
                     {
                         Jewel = player.Jewel,
-                        Gold = player.Gold
+                        Gold = player.Gold,
+                        Exp = player.Exp,
+                        Level = player.Level
                     };
                     updateCurrencyDataAllPacket.CurrencyData = currencyData;
 
@@ -78,6 +80,12 @@ namespace Server
                             break;
                         case CurrencyType.Gold:
                             updateCurrencyDataPacket.Amount = player.Gold;
+                            break;
+                        case CurrencyType.Exp:
+                            updateCurrencyDataPacket.Amount = player.Exp;
+                            break;
+                        case CurrencyType.Level:
+                            updateCurrencyDataPacket.Amount = player.Level;
                             break;
                         default:
                             Console.WriteLine("[Error] 알 수 없는 재화 타입");

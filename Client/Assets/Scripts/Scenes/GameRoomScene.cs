@@ -18,6 +18,8 @@ public class GameRoomScene : BaseScene
         };
         
         Managers.Network.Send(enterGamePacket);
+        
+        Managers.UI.ShowSceneUI<UI_GameRoom>();
     }
     
     private void Awake()

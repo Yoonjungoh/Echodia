@@ -13,7 +13,6 @@ public class UIManager
     private UI_Scene _sceneUI = null;
     public UI_Scene CurrentScene { get { return _sceneUI; } }
     public UI_Currency CurrencyUI { get; set; }
-
     public GameObject Root
     {
         get
