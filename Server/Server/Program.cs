@@ -64,7 +64,7 @@ namespace Server
 
             _listener.Init(endPoint, () => { return SessionManager.Instance.Generate(); });
 			ConsoleLogManager.Instance.Log("Server Starting...");
-
+            
             // DbTask
             {
                 Task dbTask = new Task(DbTask, TaskCreationOptions.LongRunning);

@@ -42,13 +42,19 @@ namespace Server.DB
         public AccountDb Account { get; set; }
         public string Name { get; set; }  // 게임 내에서 사용하는 닉네임
 
+        // 플레이어가 진행중인 퀘스트 목록
+        public ICollection<QuestDb> Quests { get; set; } = new List<QuestDb>();
+
+        #region 재화
         // TODO - 재화 자동화 필요
         public int Jewel { get; set; }
         public int Gold { get; set; }
+        #endregion
+
+        #region 재접속 시 위치
         public float LastPosX { get; set; }
         public float LastPosY { get; set; }
         public float LastPosZ { get; set; }
-
         // 코드에서 편하게 쓰기 위한 가상 프로퍼티 (DB에는 저장 안 함)
         [NotMapped]
         public Vector3 LastLogoutPosition
@@ -61,5 +67,29 @@ namespace Server.DB
                 LastPosZ = value.Z;
             }
         }
+        #endregion
+    }
+
+    [Table("Quest")]
+    public class QuestDb
+    {
+        public int QuestDbId { get; set; } // PK
+
+        [ForeignKey("Player")]
+        public int PlayerDbId { get; set; } // FK
+
+        public PlayerDb Player { get; set; }
+        
+        public int MainQuestId { get; set; } // 메인 퀘스트 번호
+
+        public int SubQuestId { get; set; } // 서브 퀘스트 번호
+
+        public int RequiredCount { get; set; }  // 퀘스트 클리어에 필요한 목표 수량
+
+        public QuestStatus Status { get; set; } // 진행 상태 (Enum)
+
+        public DateTime StartedDate { get; set; } = DateTime.UtcNow;
+        
+        public DateTime ClearedDate { get; set; }  // 완료 전엔 null
     }
 }

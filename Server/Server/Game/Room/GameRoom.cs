@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
 using System.Timers;
@@ -372,7 +373,17 @@ namespace Server.Game
             // 플레이어 이외는 다른 곳에서 위치 미리 받고 옴
             if (objectType == GameObjectType.Player)
             {
-                startPos = DataManager.Instance.GetStartPosition();
+                Player player = gameObject as Player;
+                // 첫 접속인 경우엔 시작 위치 고정, 재접속인 경우엔 마지막 로그아웃 위치로
+                Vector3 lastLogoutPos = ObjectManager.Instance.GetPlayerLastLogoutPos(player.PlayerId);
+                if (lastLogoutPos.X == int.MinValue && lastLogoutPos.Y == int.MinValue && lastLogoutPos.Z == int.MinValue)
+                {
+                    startPos = DataManager.Instance.GetStartPosition();
+                }
+                else
+                {
+                    startPos = lastLogoutPos;
+                }
                 float groundY = Map.GetHeight(startPos);
                 startPos.Y = groundY;
             }

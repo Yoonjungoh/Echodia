@@ -135,6 +135,15 @@ enum QuestObjectiveType {
   QUEST_OBJECTIVE_TYPE_TALK_TO_NPC = 4;
 }
 
+enum QuestStatus {
+  QUEST_STATUS_NONE = 0;
+  NOT_ACCEPTED = 1;	// 수락 안 함
+  PROCEEDING = 2;	// 수락해서 진행 중 (수락하고 다음 단계)
+  COMPLETED = 3;	// 완료 (보상 받기 전 단계)
+  REWARD_CLAIMED = 4;r	// 보상까지 받은 상태
+  FAILED = 5;	// 실패 (ex: 타임 어택 실패)
+}
+
 message S_AssignUserId {
   int32 userId = 1;
 }

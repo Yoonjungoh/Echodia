@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Numerics;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
@@ -90,14 +91,15 @@ namespace Server
             {
                 AccountManager.Instance.Remove(AccountId);
                 ServerManager.Instance.Remove(SessionId);
-
+                
                 SessionManager.Instance.Remove(this);
                 // 게임에서 내보내기
                 if (MyPlayer.GameRoom != null)
                 {
+                    Vector3 pos = MyPlayer.CurrentPosition;
+                    DbTransaction.SavePlayerLogoutPosition(MyPlayer.PlayerId, pos.X, pos.Y, pos.Z);
                     MyPlayer.GameRoom.Push(MyPlayer.GameRoom.LeaveGame, MyPlayer.Id);
                 }
-
             }
         }
 

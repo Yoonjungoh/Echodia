@@ -15,6 +15,9 @@ namespace Server.DB
 
         public DbSet<PlayerDb> Players { get; set; }
 
+        public DbSet<QuestDb> Quests { get; set; }
+
+
         private static readonly ILoggerFactory _logger= LoggerFactory.Create(builder => { builder.AddConsole(); } );
         // TODO - JSON으로 옮기기
         private string _connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=GameDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
@@ -34,6 +37,8 @@ namespace Server.DB
             builder.Entity<PlayerDb>()
                 .HasIndex(p => p.Name)
                 .IsUnique();
+            
+            builder.Entity<QuestDb>();
         }
     }
 }

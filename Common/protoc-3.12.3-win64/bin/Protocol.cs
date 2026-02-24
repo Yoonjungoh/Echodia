@@ -170,11 +170,14 @@ namespace Google.Protobuf.Protocol {
             "X09CSkVDVElWRV9UWVBFX05PTkUQABIlCiFRVUVTVF9PQkpFQ1RJVkVfVFlQ",
             "RV9LSUxMX01PTlNURVIQARInCiNRVUVTVF9PQkpFQ1RJVkVfVFlQRV9SRUFD",
             "SF9MT0NBVElPThACEiUKIVFVRVNUX09CSkVDVElWRV9UWVBFX0NPTExFQ1Rf",
-            "SVRFTRADEiQKIFFVRVNUX09CSkVDVElWRV9UWVBFX1RBTEtfVE9fTlBDEARC",
-            "G6oCGEdvb2dsZS5Qcm90b2J1Zi5Qcm90b2NvbGIGcHJvdG8z"));
+            "SVRFTRADEiQKIFFVRVNUX09CSkVDVElWRV9UWVBFX1RBTEtfVE9fTlBDEAQq",
+            "dQoLUXVlc3RTdGF0dXMSFQoRUVVFU1RfU1RBVFVTX05PTkUQABIQCgxOT1Rf",
+            "QUNDRVBURUQQARIOCgpQUk9DRUVESU5HEAISDQoJQ09NUExFVEVEEAMSEgoO",
+            "UkVXQVJEX0NMQUlNRUQQBBIKCgZGQUlMRUQQBUIbqgIYR29vZ2xlLlByb3Rv",
+            "YnVmLlByb3RvY29sYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.CreatureState), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.AttackType), typeof(global::Google.Protobuf.Protocol.MonsterType), typeof(global::Google.Protobuf.Protocol.ProjectileType), typeof(global::Google.Protobuf.Protocol.RoomExitReason), typeof(global::Google.Protobuf.Protocol.LoginStatus), typeof(global::Google.Protobuf.Protocol.ClientServerState), typeof(global::Google.Protobuf.Protocol.EnterServerResult), typeof(global::Google.Protobuf.Protocol.CurrencyType), typeof(global::Google.Protobuf.Protocol.QuestType), typeof(global::Google.Protobuf.Protocol.QuestObjectiveType), }, null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.CreatureState), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.AttackType), typeof(global::Google.Protobuf.Protocol.MonsterType), typeof(global::Google.Protobuf.Protocol.ProjectileType), typeof(global::Google.Protobuf.Protocol.RoomExitReason), typeof(global::Google.Protobuf.Protocol.LoginStatus), typeof(global::Google.Protobuf.Protocol.ClientServerState), typeof(global::Google.Protobuf.Protocol.EnterServerResult), typeof(global::Google.Protobuf.Protocol.CurrencyType), typeof(global::Google.Protobuf.Protocol.QuestType), typeof(global::Google.Protobuf.Protocol.QuestObjectiveType), typeof(global::Google.Protobuf.Protocol.QuestStatus), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_AssignUserId), global::Google.Protobuf.Protocol.S_AssignUserId.Parser, new[]{ "UserId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_AssignUserId), global::Google.Protobuf.Protocol.C_AssignUserId.Parser, null, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_ExitRoom), global::Google.Protobuf.Protocol.S_ExitRoom.Parser, null, null, null, null, null),
@@ -377,6 +380,30 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("QUEST_OBJECTIVE_TYPE_REACH_LOCATION")] ReachLocation = 2,
     [pbr::OriginalName("QUEST_OBJECTIVE_TYPE_COLLECT_ITEM")] CollectItem = 3,
     [pbr::OriginalName("QUEST_OBJECTIVE_TYPE_TALK_TO_NPC")] TalkToNpc = 4,
+  }
+
+  public enum QuestStatus {
+    [pbr::OriginalName("QUEST_STATUS_NONE")] None = 0,
+    /// <summary>
+    /// 수락 안 함
+    /// </summary>
+    [pbr::OriginalName("NOT_ACCEPTED")] NotAccepted = 1,
+    /// <summary>
+    /// 수락해서 진행 중 (수락하고 다음 단계)
+    /// </summary>
+    [pbr::OriginalName("PROCEEDING")] Proceeding = 2,
+    /// <summary>
+    /// 완료 (보상 받기 전 단계)
+    /// </summary>
+    [pbr::OriginalName("COMPLETED")] Completed = 3,
+    /// <summary>
+    /// 보상까지 받은 상태
+    /// </summary>
+    [pbr::OriginalName("REWARD_CLAIMED")] RewardClaimed = 4,
+    /// <summary>
+    /// 실패 (ex: 타임 어택 실패)
+    /// </summary>
+    [pbr::OriginalName("FAILED")] Failed = 5,
   }
 
   #endregion

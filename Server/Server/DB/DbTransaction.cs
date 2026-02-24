@@ -15,6 +15,28 @@ namespace Server.DB
     {
         public static DbTransaction Instance { get; } = new DbTransaction();
 
+        public static void SavePlayerLogoutPosition(int playerDbId, float x, float y, float z, Action callback = null)
+        {
+            Instance.Push(SavePlayerLogoutPosition_Db, playerDbId, x, y, z, callback);
+        }
+
+        private static void SavePlayerLogoutPosition_Db(int playerDbId, float x, float y, float z, Action callback = null)
+        {
+            using (GameDbContext db = new GameDbContext())
+            {
+                var query = db.Players.Where(p => p.PlayerDbId == playerDbId);
+                int successRows = query.ExecuteUpdate(s => s
+                    .SetProperty(p => p.LastPosX, p => x)
+                    .SetProperty(p => p.LastPosY, p => y)
+                    .SetProperty(p => p.LastPosZ, p => z));
+
+                if (successRows > 0)
+                {
+                    callback?.Invoke();
+                }
+            }
+        }
+
         public static void SavePlayerCurrency(int playerId, CurrencyType currencyType, int amount, Action callBack = null, string reason = null)
         {
             Instance.Push<int, CurrencyType, int, Action, string>(SavePlayerCurrency_Db,
@@ -37,7 +59,7 @@ namespace Server.DB
                     CurrencyType.Gold => query
                         .ExecuteUpdate(s => s.SetProperty(p => p.Gold, amount)),
 
-                    _ => 0
+                    _ => 0  // default인 경우 0 반환하라는 의미
                 };
 
                 if (successRows > 0)

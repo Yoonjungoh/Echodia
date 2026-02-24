@@ -1,4 +1,5 @@
 ﻿using Google.Protobuf.Protocol;
+using Server.DB;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -17,7 +18,6 @@ namespace Server.Game
 
         // [UNUSED(1)][TYPE(7)][ID(24)]
         private int _counter = 0;
-
 		public T Add<T>() where T : GameObject, new()
 		{
 			T gameObject = new T();
@@ -103,5 +103,22 @@ namespace Server.Game
 
 			return null;
 		}
+
+		public Vector3 GetPlayerLastLogoutPos(int playerId)
+        {
+			using (GameDbContext db = new GameDbContext())
+			{
+				PlayerDb playerDb = db.Players.Find(playerId);
+                if (playerDb != null)
+                {
+					return playerDb.LastLogoutPosition;
+                }
+                else
+                {
+                    ConsoleLogManager.Instance.Log($"Player with ID {playerId} not found in database.");
+                    return Vector3.Zero;
+                }
+            }
+        }
 	}
 }
