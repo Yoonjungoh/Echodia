@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,6 +22,19 @@ namespace Server.DB
     [Table("Player")]
     public class PlayerDb
     {
+        public PlayerDb() { }
+
+        public PlayerDb(int accountDbId, string name)
+        {
+            AccountDbId = accountDbId;
+            Name = name;
+            Jewel = 0;
+            Gold = 1000;
+            LastPosX = int.MinValue;
+            LastPosY = int.MinValue;
+            LastPosZ = int.MinValue;
+        }
+        
         public int PlayerDbId { get; set; } // 게임 내에서 사용하는 고유 Id (ObjectManager에서 사용하는 Id는 다른 거임)
 
         [ForeignKey("Account")]
@@ -31,5 +45,21 @@ namespace Server.DB
         // TODO - 재화 자동화 필요
         public int Jewel { get; set; }
         public int Gold { get; set; }
+        public float LastPosX { get; set; }
+        public float LastPosY { get; set; }
+        public float LastPosZ { get; set; }
+
+        // 코드에서 편하게 쓰기 위한 가상 프로퍼티 (DB에는 저장 안 함)
+        [NotMapped]
+        public Vector3 LastLogoutPosition
+        {
+            get { return new Vector3(LastPosX, LastPosY, LastPosZ); }
+            set
+            {
+                LastPosX = value.X;
+                LastPosY = value.Y;
+                LastPosZ = value.Z;
+            }
+        }
     }
 }
