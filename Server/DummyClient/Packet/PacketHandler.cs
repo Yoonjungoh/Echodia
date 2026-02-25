@@ -226,4 +226,19 @@ class PacketHandler
     {
         throw new NotImplementedException();
     }
+
+    internal static void S_RequestInitGameRoomDataHandler(PacketSession session, IMessage message)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static void S_ChangeExpHandler(PacketSession session, IMessage message)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static void S_ChangeLevelHandler(PacketSession session, IMessage message)
+    {
+        throw new NotImplementedException();
+    }
 }

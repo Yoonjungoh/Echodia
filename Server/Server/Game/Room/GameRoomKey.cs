@@ -11,7 +11,7 @@ namespace Server.Game.Room
         public int ServerId;
         public int ChannelId;
         public int MapId;
-
+        
         public GameRoomKey(int serverId, int channelId, int mapId)
         {
             ServerId = serverId;

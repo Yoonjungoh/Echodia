@@ -30,6 +30,7 @@ public class UI_GameRoom : UI_Scene
         base.Init();
 
         Bind<TextMeshProUGUI>(typeof(Texts));
+        Bind<Slider>(typeof(Sliders));
         RequestInitGameRoomData();
     }
     
@@ -46,6 +47,26 @@ public class UI_GameRoom : UI_Scene
         _maxExp = initGameRoomData.MaxExp;
         
         UpdateUI();
+
+        if (Managers.GameRoomObject.MyPlayer != null)
+        {
+            Managers.GameRoomObject.MyPlayer.SetGameRoomUI();
+        }
+    }
+
+    public void SetExp(int exp, int maxExp)
+    {
+        _exp = exp;
+        _maxExp = maxExp;
+
+        UpdateUI();
+    }
+
+    public void SetLevel(int level)
+    {
+        _level = level;
+
+         UpdateUI();
     }
 
     private void UpdateUI()

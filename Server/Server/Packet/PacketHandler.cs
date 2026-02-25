@@ -217,7 +217,6 @@ class PacketHandler
         clientSession.HandleSelectServer(selectServerPacket.ServerId, selectServerPacket.ChannelId);
     }
 
-
     public static void C_SelectPlayerHandler(PacketSession session, IMessage packet)
     {
         C_SelectPlayer selectPlayerPacket = packet as C_SelectPlayer;

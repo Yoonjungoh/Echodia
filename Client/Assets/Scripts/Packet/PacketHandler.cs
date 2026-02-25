@@ -307,8 +307,11 @@ class PacketHandler
             Debug.Log("S_UpdateCurrencyData 패킷이 null입니다");
             return;
         }
-
-        Managers.Currency.UpdateCurrencyData(updateCurrencyDataPacket.CurrencyType, updateCurrencyDataPacket.Amount);
+        if ((updateCurrencyDataPacket.CurrencyType == CurrencyType.Exp ||
+            updateCurrencyDataPacket.CurrencyType == CurrencyType.Level) == false)
+        {
+            Managers.Currency.UpdateCurrencyData(updateCurrencyDataPacket.CurrencyType, updateCurrencyDataPacket.Amount);
+        }
     }
 
     public static void S_UpdateCurrencyDataAllHandler(PacketSession session, IMessage packet)
@@ -412,5 +415,41 @@ class PacketHandler
             return;
         }
         gameRoomUI.SetData(requestInitGameRoomDataPacket.InitGameRoomData);
+    }
+
+    public static void S_ChangeExpHandler(PacketSession session, IMessage packet)
+    {
+        S_ChangeExp changeExpPacket = packet as S_ChangeExp;
+        if (changeExpPacket == null)
+        {
+            Debug.Log("S_ChangeExp 패킷이 null입니다");
+            return;
+        }
+
+        UI_GameRoom gameRoomUI = Managers.UI.CurrentScene.GetComponent<UI_GameRoom>();
+        if (Managers.Scene.CurrentScene != Define.Scene.GameRoom)
+        {
+            Debug.Log("현재 게임룸이 아닙니다.");
+            return;
+        }
+        Managers.GameRoomObject.MyPlayer.SetExp(changeExpPacket.Exp, changeExpPacket.MaxExp);
+    }
+
+    public static void S_ChangeLevelHandler(PacketSession session, IMessage packet)
+    {
+        S_ChangeLevel changeLevelPacket = packet as S_ChangeLevel;
+        if (changeLevelPacket == null)
+        {
+            Debug.Log("S_ChangeLevel 패킷이 null입니다");
+            return;
+        }
+
+        UI_GameRoom gameRoomUI = Managers.UI.CurrentScene.GetComponent<UI_GameRoom>();
+        if (Managers.Scene.CurrentScene != Define.Scene.GameRoom)
+        {
+            Debug.Log("현재 게임룸이 아닙니다.");
+            return;
+        }
+        Managers.GameRoomObject.MyPlayer.SetLevel(changeLevelPacket.Level);
     }
 }

@@ -31,14 +31,15 @@ public class UI_Currency : UI_Scene
 
             foreach (CurrencyType currencyType in Enum.GetValues(typeof(CurrencyType)))
             {
-                if (currencyType == CurrencyType.None)
+                if (currencyType == CurrencyType.None || currencyType == CurrencyType.Level ||
+                    currencyType == CurrencyType.Exp)
                     continue;
 
                 string textName = currencyType + "Text";
 
                 if (Enum.TryParse<Texts>(textName, out var textEnum) == false)
                 {
-                    Debug.LogError($"[UI_Currency] Texts enum에 {textName} 없음");
+                    Debug.Log($"[UI_Currency] Texts enum에 {textName} 없음");
                     continue;
                 }
 
@@ -51,7 +52,8 @@ public class UI_Currency : UI_Scene
         // 재화 데이터 초기화
         foreach (CurrencyType currencyType in Enum.GetValues(typeof(CurrencyType)))
         {
-            if (currencyType == CurrencyType.None)
+            if (currencyType == CurrencyType.None || currencyType == CurrencyType.Level ||
+                currencyType == CurrencyType.Exp)
                 continue;
 
             string currencyName = currencyType.ToString();
@@ -66,7 +68,7 @@ public class UI_Currency : UI_Scene
             }
             else
             {
-                Debug.LogError($"CurrencyData에 {currencyName} 속성이 없습니다.");
+                Debug.Log($"CurrencyData에 {currencyName} 속성이 없습니다.");
             }
         }
     }
@@ -76,7 +78,7 @@ public class UI_Currency : UI_Scene
     {
         if (_currencyTextDictionary == null || _currencyDataDictionary.ContainsKey(currencyType) == false)
         {
-            Debug.LogError($"UI_Currency에 {currencyType} 텍스트 컴포넌트가 없습니다.");
+            Debug.Log($"UI_Currency에 {currencyType} 텍스트 컴포넌트가 없습니다.");
             return;
         }
 

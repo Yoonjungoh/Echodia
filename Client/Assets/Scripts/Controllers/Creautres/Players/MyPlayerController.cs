@@ -1,6 +1,8 @@
 ﻿using Google.Protobuf.Protocol;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static Cinemachine.DocumentationSortingAttribute;
 
 public class MyPlayerController : PlayerController
 {
@@ -26,6 +28,9 @@ public class MyPlayerController : PlayerController
 
     private Dictionary<AttackType, float> _attackCoolTimeDict;
     private ProjectileType _projectileType = ProjectileType.None;
+    
+    private Action<int> OnLevelChanged = null;
+    private Action<int, int> OnExpChanged = null;
 
     private void OnMeleeAttackInput() => MeleeAttack(_meleeAttackType);
 
@@ -262,6 +267,32 @@ public class MyPlayerController : PlayerController
     protected override void OnDestroy()
     {
         base.OnDestroy();
+    }
+
+    public void SetGameRoomUI()
+    {
+        // UI 적용
+        UI_GameRoom gameRoomUI = Managers.UI.CurrentScene.GetComponent<UI_GameRoom>();
+        if (gameRoomUI == null)
+            return;
+
+        OnLevelChanged -= gameRoomUI.SetLevel;
+        OnLevelChanged += gameRoomUI.SetLevel;
+        
+        OnExpChanged -= gameRoomUI.SetExp;
+        OnExpChanged += gameRoomUI.SetExp;
+    }
+
+    public override void SetExp(int exp, int maxExp)
+    {
+        base.SetExp(exp, maxExp);
+        OnExpChanged?.Invoke(exp, maxExp); // 등록된 UI 함수 실행
+    }
+
+    public override void SetLevel(int level)
+    {
+        base.SetLevel(level);
+        OnLevelChanged?.Invoke(level); // 등록된 UI 함수 실행
     }
 
     #region Gizmos 코드

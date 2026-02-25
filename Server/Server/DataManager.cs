@@ -21,7 +21,7 @@ namespace Server
         // 레벨업에 필요한 경험치 테이블 만들어야 함
         private static readonly Dictionary<int, int> _expDictionary = new Dictionary<int, int>()
         {
-            { 1, 0 },
+            { 1, 600 },
             { 2, 1000 },
             { 3, 3000 },
             { 4, 6000 },
@@ -29,7 +29,7 @@ namespace Server
             // TODO - 나머지 레벨업 경험치 테이블 채우기
         };
 
-        public int GetExpForLevel(int level)
+        public int GetExpForLevelUp(int level)
         {
             if (_expDictionary.ContainsKey(level))
                 return _expDictionary[level];
@@ -65,6 +65,7 @@ namespace Server
 
         public float GameStartCountdownTime { get; set; } = 3.0f; // 게임 시작 카운트다운 초기값 (클라 offset 영향 받음)
         
+        // 인게임 최대 체력
         public float MaxHp { get; set; } = 10000.0f;
 
         public float MaxDamage { get; set; } = 1000.0f;

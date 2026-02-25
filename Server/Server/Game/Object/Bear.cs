@@ -21,6 +21,8 @@ namespace Server.Game.Object
 
             // TODO
             _gold = 15;
+            Level = 1;
+            SetExp(500, needLevelUp: false);
         }
     }
 }

@@ -46,7 +46,7 @@ namespace Server.Currency
                 return false;
             }
 
-            DbTransaction.SavePlayerCurrency(playerId, currencyType, amount, callBack, reason);
+            DbTransaction.SavePlayerCurrency(playerId, currencyType, amount, callBack);
             
             return true;
         }

@@ -184,4 +184,15 @@ public class CreatureController : BaseController
         changeCreatureStatePacket.CreatureState = CreatureState;
         Managers.Network.Send(changeCreatureStatePacket);
     }
+
+    public virtual void SetExp(int exp, int maxExp)
+    {
+        ObjectState.Exp = exp;
+        ObjectState.MaxExp = maxExp;
+    }
+
+    public virtual void SetLevel(int level)
+    {
+        ObjectState.Level = level;
+    }
 }

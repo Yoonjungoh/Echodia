@@ -39,7 +39,7 @@ namespace Server.DB
 
         public static void SavePlayerCurrency(int playerId, CurrencyType currencyType, int amount, Action callBack = null, string reason = null)
         {
-            Instance.Push<int, CurrencyType, int, Action, string>(SavePlayerCurrency_Db,
+            Instance.Push(SavePlayerCurrency_Db,
                 playerId, currencyType, amount, callBack, reason);
         }
 

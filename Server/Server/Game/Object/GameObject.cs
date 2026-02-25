@@ -1,4 +1,5 @@
 ﻿using Google.Protobuf.Protocol;
+using Server.DB;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -40,6 +41,8 @@ namespace Server.Game
         public MonsterType MonsterType { get { return ObjectState.MonsterType; } set { ObjectState.MonsterType = value; } }
         public ProjectileType ProjectileType { get { return ObjectState.ProjectileType; } set { ObjectState.ProjectileType = value; } }
         public int OwnerId { get { return ObjectState.OwnerId; } set { ObjectState.OwnerId = value; } }
+        public int Level { get { return ObjectState.Level; } set { ObjectState.Level = value; } }
+        public int Exp { get { return ObjectState.Exp; } set { ObjectState.Exp = value; } }
         public float ProjectileSpawnOffset { get; set; } = 3.0f;   // 투사체 소환 오프셋 (기본은 주인 중앙에 스폰됨)
         public GameObject()
         {
@@ -80,7 +83,7 @@ namespace Server.Game
 		{
 			if (GameRoom == null)
 				return;
-
+            
 			ConsoleLogManager.Instance.Log($"Id: {Id}, Type: {ObjectType} is dead");
             CreatureState = CreatureState.Die;
             
@@ -89,12 +92,83 @@ namespace Server.Game
             diePacket.InstigatorId = instigator.Id;
             diePacket.CreatureState = CreatureState;
 
-            if (GameRoom != null)
+            // 경험치 올려주는 부분
+            // 플레이어 본인이 죽였거나 본인의 투사체가 죽여야 본인이 죽인걸로 인정
+            Player player = null;
+            bool isInstigatorPlayer = false;
+            if((instigator.ObjectType == GameObjectType.Player && ObjectType == GameObjectType.Monster))
+            {
+                player = instigator as Player;
+                isInstigatorPlayer = true;
+            }
+            if (isInstigatorPlayer == false && instigator.ObjectType == GameObjectType.Projectile)
+            {
+                Projectile projectile = instigator as Projectile;
+                Player owner = GameRoom.Find(projectile.OwnerId);
+                if (owner != null)
+                {
+                    player = owner;
+                    isInstigatorPlayer = true;
+                }
+            }
+            if (isInstigatorPlayer && player != null)
+            {
+                int totalExp = player.Exp + Exp;
+                bool isLevelUp = player.SetExp(totalExp, needLevelUp: true);
+                S_ChangeLevel changeLevelPacket = new S_ChangeLevel();
+                if (isLevelUp)
+                {
+                    changeLevelPacket.Level = player.Level;
+                }
+                S_ChangeExp changeExpPacket = new S_ChangeExp();
+                changeExpPacket.Exp = player.Exp;
+                changeExpPacket.MaxExp = DataManager.Instance.GetExpForLevelUp(player.Level);
+
+                ConsoleLogManager.Instance.Log($"Player {player.Name} gained {Exp} EXP. Total EXP: {player.Exp}");
+                // 레벨업 했으면, 디비 저장 끝내고 레벨, 경험치 패킷 같이 전송
+                // 레벨업 안 했으면, 디비 저장 끝내고 경험치 패킷만 전송
+                if (isLevelUp)
+                {
+                    DbTransaction.SavePlayerCurrency(player.Id, CurrencyType.Exp, player.Exp, 
+                        () => player.Session.Send(changeExpPacket));
+                }
+                else
+                {
+                    DbTransaction.SavePlayerCurrency(player.Id, CurrencyType.Exp, player.Exp, 
+                        () => player.Session.Send(changeExpPacket));
+                    DbTransaction.SavePlayerCurrency(player.Id, CurrencyType.Level, player.Level, 
+                        () => player.Session.Send(changeLevelPacket));
+                }
+            }
+            
+            if (GameRoom != null) 
             {
                 GameRoom.Push(GameRoom.Broadcast, CurrentPosition, diePacket);
                 GameRoom.Push(GameRoom.LeaveGame, Id);
             }
-            
         }
-	}
+
+        public bool SetExp(int exp, bool needLevelUp)
+        {
+            Exp = exp;
+            if (needLevelUp == false)
+                return false;
+            
+            // 현재 단계에서 레벨업에 필요한 경험치량
+            int expToLevelUp = DataManager.Instance.GetExpForLevelUp(Level);
+            while (expToLevelUp < Exp)
+            {
+                Exp -= expToLevelUp;
+                LevelUp(1);
+                expToLevelUp = DataManager.Instance.GetExpForLevelUp(Level);
+            }
+            return true;
+        }
+
+        public void LevelUp(int level)
+        {
+            Level += level;
+            ConsoleLogManager.Instance.Log($"Player {Name} leveled up! New Level: {Level}");
+        }
+    }
 }
