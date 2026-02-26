@@ -5,6 +5,7 @@ using Server.DB;
 using Server.Game.Room;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Server.Game
@@ -28,7 +29,7 @@ namespace Server.Game
             ObjectState.CreatureState = CreatureState.Idle;
             AOI = new AOIController(this);
 
-            InitStat();
+            InitDbData();
         }
 
         public void Init(int playerId, string name)
@@ -38,26 +39,40 @@ namespace Server.Game
             PlayerId = playerId;
             ObjectState.CreatureState = CreatureState.Idle;
 
-			InitStat();
+			InitDbData();
 		}
 
 		// TODO JSON - PlayerType에 따른 stat 변경
-		public void InitStat()
+		public void InitDbData()
 		{
             if (ObjectState.Stat == null)
             {
                 ObjectState.Stat = new Stat();
             }
 
-            ObjectState.Stat.MaxHp = 100.0f;
-            ObjectState.Stat.Hp = ObjectState.Stat.MaxHp;
-            ObjectState.Stat.CommonAttackDamage = 30.0f;
-            ObjectState.Stat.Defense = 0.0f;
-            ObjectState.Stat.MoveSpeed = 7.0f;
-            ObjectState.Stat.CommonAttackCoolTime = 2.0f;
-            ObjectState.Stat.AttackRange = 10.0f;
-            ObjectState.Stat.AttackHalfAngleDeg = 30.0f;
-            ObjectState.Stat.AttackHeight = 10.0f;
+            using (GameDbContext db = new GameDbContext())
+            {
+                PlayerDb player = db.Players
+                    .AsNoTracking()
+                    .Where(p => p.PlayerDbId == PlayerId)
+                    .FirstOrDefault();
+                if (player == null)
+                    return;
+
+                Level = player.Level;
+                Exp = player.Exp;
+
+                // TODO - DB에서 가져오기
+                ObjectState.Stat.MaxHp = 100.0f;
+                ObjectState.Stat.Hp = ObjectState.Stat.MaxHp;
+                ObjectState.Stat.CommonAttackDamage = 30.0f;
+                ObjectState.Stat.Defense = 0.0f;
+                ObjectState.Stat.MoveSpeed = 7.0f;
+                ObjectState.Stat.CommonAttackCoolTime = 2.0f;
+                ObjectState.Stat.AttackRange = 10.0f;
+                ObjectState.Stat.AttackHalfAngleDeg = 30.0f;
+                ObjectState.Stat.AttackHeight = 10.0f;
+            }
         }
 
         public override void OnDamaged(GameObject instigator, float damage)

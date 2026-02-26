@@ -45,8 +45,6 @@ enum MsgId {
   S_SELECT_PLAYER = 129;
   C_REQUEST_INIT_GAME_ROOM_DATA = 130;
   S_REQUEST_INIT_GAME_ROOM_DATA = 131;
-  S_CHANGE_EXP = 132;
-  S_CHANGE_LEVEL = 133;
 }
 
 enum CreatureState {
@@ -342,15 +340,6 @@ message C_RequestInitGameRoomData {
 // 게임룸 입장 시 초기 데이터 요청 (레벨, 경험치 등)
 message S_RequestInitGameRoomData {
   InitGameRoomData initGameRoomData = 1;
-}
-
-message S_ChangeExp {
-  int32 exp = 1;
-  int32 maxExp = 2;
-}
-
-message S_ChangeLevel {
-  int32 level = 1;
 }
 
 message ServerInfo {

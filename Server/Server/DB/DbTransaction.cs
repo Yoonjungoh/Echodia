@@ -61,7 +61,7 @@ namespace Server.DB
 
                     CurrencyType.Exp => query
                         .ExecuteUpdate(s => s.SetProperty(p => p.Exp, amount)),
-
+                        
                     CurrencyType.Level => query
                         .ExecuteUpdate(s => s.SetProperty(p => p.Level, amount)),
 

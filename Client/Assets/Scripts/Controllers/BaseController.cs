@@ -80,6 +80,8 @@ public abstract class BaseController : MonoBehaviour
         }
     }
     public Stat Stat { get { return ObjectState.Stat; } set { ObjectState.Stat = value; } }
+    public int Level { get { return ObjectState.Level; } set { ObjectState.Level = value; } }
+    public int Exp { get { return ObjectState.Exp; } set { ObjectState.Exp = value; } }
 
     protected virtual void OnUpdate()
     {

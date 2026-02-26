@@ -336,6 +336,10 @@ namespace Server.Game
             gameObject.CreatureState = CreatureState.Idle;
             enteGamePacket.ObjectState.CreatureState = CreatureState.Idle;
 
+            // 레벨, exp 초기화
+            enteGamePacket.ObjectState.Level = gameObject.Level;
+            enteGamePacket.ObjectState.Exp = gameObject.Exp;
+
             // Type 관련 분기 초기화
             Zone zone = GetZone(gameObject.CurrentPosition);
             if (zone != null)

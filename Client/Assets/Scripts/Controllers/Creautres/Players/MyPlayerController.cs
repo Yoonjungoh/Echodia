@@ -21,7 +21,7 @@ public class MyPlayerController : PlayerController
     private float _lastAttackTime = -999f;
 
     private readonly C_Move _movePacket = new C_Move();
-    private readonly ObjectState _moveState = new ObjectState();
+    private ObjectState _moveState = new ObjectState();
     private readonly ProtoVector3 _movePos = new ProtoVector3();
     private readonly ProtoVector3 _moveVel = new ProtoVector3();
     private readonly ProtoQuaternion _moveRot = new ProtoQuaternion();
@@ -29,8 +29,8 @@ public class MyPlayerController : PlayerController
     private Dictionary<AttackType, float> _attackCoolTimeDict;
     private ProjectileType _projectileType = ProjectileType.None;
     
-    private Action<int> OnLevelChanged = null;
-    private Action<int, int> OnExpChanged = null;
+    private Action<int> OnLevelChanged;
+    private Action<int, int> OnExpChanged;
 
     private void OnMeleeAttackInput() => MeleeAttack(_meleeAttackType);
 
@@ -250,7 +250,7 @@ public class MyPlayerController : PlayerController
         _moveVel.X = velocity.x; _moveVel.Y = velocity.y; _moveVel.Z = velocity.z;
 
         _moveRot.X = rot.x; _moveRot.Y = rot.y; _moveRot.Z = rot.z; _moveRot.W = rot.w;
-
+        _moveState = ObjectState.Clone();
         _moveState.ObjectId = Id;
         _moveState.Name = Name;
         _moveState.ClientSendTime = Util.GetTimestampMs();

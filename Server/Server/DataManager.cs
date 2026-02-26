@@ -18,23 +18,23 @@ namespace Server
     public class DataManager
     {
         public static DataManager Instance { get; } = new DataManager();
-        // 레벨업에 필요한 경험치 테이블 만들어야 함
-        private static readonly Dictionary<int, int> _expDictionary = new Dictionary<int, int>()
-        {
-            { 1, 600 },
-            { 2, 1000 },
-            { 3, 3000 },
-            { 4, 6000 },
-            { 5, 10000 },
-            // TODO - 나머지 레벨업 경험치 테이블 채우기
-        };
+        public LevelDataSheet LevelDataSheet { get; private set; }
 
-        public int GetExpForLevelUp(int level)
+        public void LoadLevelData(string path)
         {
-            if (_expDictionary.ContainsKey(level))
-                return _expDictionary[level];
-            
-            return int.MaxValue; // TODO - 레벨업 불가능한 최대 경험치 반환
+            string json = File.ReadAllText(path);
+            LevelDataSheet = JsonConvert.DeserializeObject<LevelDataSheet>(json);
+        }
+
+        public void Init()
+        {
+            LoadLevelData(@"..\..\..\..\..\Common\SpecData\LevelData.json");
+        }
+
+        public int GetMaxExpForLevelUp(int level)
+        {
+            var data = LevelDataSheet.Levels.Find(x => x.Level == level);
+            return data != null ? data.MaxExp : 0;
         }
 
         public Vector3 StartPositions = new Vector3(63, -20, 527);
@@ -103,4 +103,15 @@ namespace Server
             return "None";
         }
     }
+}
+
+public class LevelData
+{
+    public int Level { get; set; }
+    public int MaxExp { get; set; }
+}
+
+public class LevelDataSheet
+{
+    public List<LevelData> Levels { get; set; }
 }

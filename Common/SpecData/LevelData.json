@@ -1,0 +1,25 @@
+{
+  "Levels": [
+    {
+      "Level": 1,
+      "MaxExp": 600
+    },
+    {
+      "Level": 2,
+      "MaxExp": 1000
+    },
+    {
+      "Level": 3,
+      "MaxExp": 3000
+    },
+    {
+      "Level": 4,
+      "MaxExp": 6000
+    },
+    {
+      "Level": 5,
+      "MaxExp": 10000
+    }
+    // TODO - 나머지 레벨업 경험치 테이블 채우기
+  ]
+}

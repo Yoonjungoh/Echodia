@@ -1,4 +1,5 @@
 ﻿using Google.Protobuf.Protocol;
+using Server.Currency;
 using Server.DB;
 using System;
 using System.Collections.Generic;
@@ -96,7 +97,7 @@ namespace Server.Game
             // 플레이어 본인이 죽였거나 본인의 투사체가 죽여야 본인이 죽인걸로 인정
             Player player = null;
             bool isInstigatorPlayer = false;
-            if((instigator.ObjectType == GameObjectType.Player && ObjectType == GameObjectType.Monster))
+            if ((instigator.ObjectType == GameObjectType.Player && ObjectType == GameObjectType.Monster))
             {
                 player = instigator as Player;
                 isInstigatorPlayer = true;
@@ -115,29 +116,22 @@ namespace Server.Game
             {
                 int totalExp = player.Exp + Exp;
                 bool isLevelUp = player.SetExp(totalExp, needLevelUp: true);
-                S_ChangeLevel changeLevelPacket = new S_ChangeLevel();
-                if (isLevelUp)
-                {
-                    changeLevelPacket.Level = player.Level;
-                }
-                S_ChangeExp changeExpPacket = new S_ChangeExp();
-                changeExpPacket.Exp = player.Exp;
-                changeExpPacket.MaxExp = DataManager.Instance.GetExpForLevelUp(player.Level);
 
-                ConsoleLogManager.Instance.Log($"Player {player.Name} gained {Exp} EXP. Total EXP: {player.Exp}");
                 // 레벨업 했으면, 디비 저장 끝내고 레벨, 경험치 패킷 같이 전송
                 // 레벨업 안 했으면, 디비 저장 끝내고 경험치 패킷만 전송
+                CurrencyManager.Instance.AddCurrency(player.PlayerId, CurrencyType.Exp, player.Exp, () =>
+                {
+                    player.Session.HandleUpdateCurrencyData(CurrencyType.Exp);
+                });
+                ConsoleLogManager.Instance.Log($"Player {player.Name} gained {Exp} EXP. Total EXP: {player.Exp}");
+
                 if (isLevelUp)
                 {
-                    DbTransaction.SavePlayerCurrency(player.Id, CurrencyType.Exp, player.Exp, 
-                        () => player.Session.Send(changeExpPacket));
-                }
-                else
-                {
-                    DbTransaction.SavePlayerCurrency(player.Id, CurrencyType.Exp, player.Exp, 
-                        () => player.Session.Send(changeExpPacket));
-                    DbTransaction.SavePlayerCurrency(player.Id, CurrencyType.Level, player.Level, 
-                        () => player.Session.Send(changeLevelPacket));
+                    CurrencyManager.Instance.AddCurrency(player.PlayerId, CurrencyType.Level, player.Level, () =>
+                    {
+                        player.Session.HandleUpdateCurrencyData(CurrencyType.Level);
+                    });
+                    ConsoleLogManager.Instance.Log($"Player {player.Name} leveled up! New Level: {player.Level}");
                 }
             }
             
@@ -148,21 +142,25 @@ namespace Server.Game
             }
         }
 
+        // LevelUp 여부를 반환
         public bool SetExp(int exp, bool needLevelUp)
         {
             Exp = exp;
+            // 몬스터 같은 경우는 레벨업 시키지 않고 Exp만 세팅해줄 거라 넣은 플래그 값
             if (needLevelUp == false)
                 return false;
             
             // 현재 단계에서 레벨업에 필요한 경험치량
-            int expToLevelUp = DataManager.Instance.GetExpForLevelUp(Level);
-            while (expToLevelUp < Exp)
+            int expToLevelUp = DataManager.Instance.GetMaxExpForLevelUp(Level);
+            bool isLevelUp = false;
+            while (expToLevelUp <= Exp)
             {
                 Exp -= expToLevelUp;
                 LevelUp(1);
-                expToLevelUp = DataManager.Instance.GetExpForLevelUp(Level);
+                expToLevelUp = DataManager.Instance.GetMaxExpForLevelUp(Level);
+                isLevelUp = true;
             }
-            return true;
+            return isLevelUp;
         }
 
         public void LevelUp(int level)

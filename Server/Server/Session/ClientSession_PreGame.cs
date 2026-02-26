@@ -280,7 +280,9 @@ namespace Server
                             CurrencyData = new CurrencyData()
                             {
                                 Jewel = player.Jewel,
-                                Gold = player.Gold
+                                Gold = player.Gold,
+                                Exp = player.Exp,
+                                Level = player.Level,
                             }
                         };
 
@@ -463,7 +465,7 @@ namespace Server
                     {
                         Level = player.Level,
                         Exp = player.Exp,
-                        MaxExp = DataManager.Instance.GetExpForLevelUp(player.Level),
+                        MaxExp = DataManager.Instance.GetMaxExpForLevelUp(player.Level),
                     };
                     Send(initGameRoomDataPacket);
                 }
