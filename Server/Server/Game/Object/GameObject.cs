@@ -115,19 +115,21 @@ namespace Server.Game
             if (isInstigatorPlayer && player != null)
             {
                 int totalExp = player.Exp + Exp;
-                bool isLevelUp = player.SetExp(totalExp, needLevelUp: true);
-
+                int levelUpAmount = player.SetExp(totalExp, needLevelUp: true);
+                
                 // 레벨업 했으면, 디비 저장 끝내고 레벨, 경험치 패킷 같이 전송
                 // 레벨업 안 했으면, 디비 저장 끝내고 경험치 패킷만 전송
-                CurrencyManager.Instance.AddCurrency(player.PlayerId, CurrencyType.Exp, player.Exp, () =>
+                CurrencyManager.Instance.SetCurrency(player.PlayerId, CurrencyType.Exp, player.Exp, () =>
                 {
+                    // 경험치는 Add, Spend보다 이미 계산해놓은 값 바탕으로 Set하는 게 좋을듯
                     player.Session.HandleUpdateCurrencyData(CurrencyType.Exp);
                 });
                 ConsoleLogManager.Instance.Log($"Player {player.Name} gained {Exp} EXP. Total EXP: {player.Exp}");
 
-                if (isLevelUp)
+                if (levelUpAmount > 0)
                 {
-                    CurrencyManager.Instance.AddCurrency(player.PlayerId, CurrencyType.Level, player.Level, () =>
+                    // 레벨업 횟수는 카운팅이 퀘스트 연동면에서도 좋아보임
+                    CurrencyManager.Instance.AddCurrency(player.PlayerId, CurrencyType.Level, levelUpAmount, () =>
                     {
                         player.Session.HandleUpdateCurrencyData(CurrencyType.Level);
                     });
@@ -142,25 +144,25 @@ namespace Server.Game
             }
         }
 
-        // LevelUp 여부를 반환
-        public bool SetExp(int exp, bool needLevelUp)
+        // LevelUp 개수를 반환
+        public int SetExp(int exp, bool needLevelUp)
         {
+            int levelUpAmount = 0;
             Exp = exp;
             // 몬스터 같은 경우는 레벨업 시키지 않고 Exp만 세팅해줄 거라 넣은 플래그 값
             if (needLevelUp == false)
-                return false;
+                return levelUpAmount;
             
             // 현재 단계에서 레벨업에 필요한 경험치량
             int expToLevelUp = DataManager.Instance.GetMaxExpForLevelUp(Level);
-            bool isLevelUp = false;
             while (expToLevelUp <= Exp)
             {
                 Exp -= expToLevelUp;
                 LevelUp(1);
                 expToLevelUp = DataManager.Instance.GetMaxExpForLevelUp(Level);
-                isLevelUp = true;
+                ++levelUpAmount;
             }
-            return isLevelUp;
+            return levelUpAmount;
         }
 
         public void LevelUp(int level)

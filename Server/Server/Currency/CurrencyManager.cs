@@ -34,7 +34,14 @@ namespace Server.Currency
             currentCurrency -= cost;
             return InternalChange(playerId, currencyType, currentCurrency, callBack, reason);
         }
-        
+
+        // 재화 강제 세팅
+        public bool SetCurrency(int playerId, CurrencyType currencyType, int amount, Action callBack = null, string reason = null)
+        {
+            int currentCurrency = amount;
+            return InternalChange(playerId, currencyType, currentCurrency, callBack, reason);
+        }
+
         // 최종적으로 모든 재화 관련 변경이 이 함수로 오게 됨
         private bool InternalChange(int playerId, CurrencyType currencyType, int amount, Action callBack = null, string reason = null)
         {

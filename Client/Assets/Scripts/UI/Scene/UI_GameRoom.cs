@@ -47,11 +47,6 @@ public class UI_GameRoom : UI_Scene
         _maxExp = initGameRoomData.MaxExp;
         
         UpdateUI();
-
-        if (Managers.GameRoomObject.MyPlayer != null)
-        {
-            Managers.GameRoomObject.MyPlayer.SetGameRoomUI();
-        }
     }
 
     public void SetExp(int exp, int maxExp)
@@ -73,8 +68,9 @@ public class UI_GameRoom : UI_Scene
     {
         float expRate = (float)_exp / _maxExp;
         GetTextMeshProUGUI((int)Texts.LevelText).text = $"Level.{_level}";
-        GetTextMeshProUGUI((int)Texts.ExpText).text = $"{_exp}/{_maxExp}({expRate * 100}%)"; 
-        
+        // 소수점 2자리까지 표현하기 위해 100을 곱한 후 소수점 2자리로 포맷팅
+        GetTextMeshProUGUI((int)Texts.ExpText).text = $"{_exp}/{_maxExp}({expRate * 100:F2}%)";
+
         GetSlider((int)Sliders.ExpSlider).value = expRate;
     }
 }

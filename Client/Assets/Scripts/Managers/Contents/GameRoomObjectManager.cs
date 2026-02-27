@@ -59,9 +59,10 @@ public class GameRoomObjectManager
             MyPlayer.GameObjectType = objectType;
 
             _objects.Add(objectState.ObjectId, MyPlayer.gameObject);
-            Debug.Log($"소환: {MyPlayer.Id}, isMyPlayer: {isMyPlayer}");
 
             Camera.main.GetComponent<CameraController>().Init();   // 캐릭터 소환 후 카메라 부착
+
+            Managers.GameRoomObject.MyPlayer.SetGameRoomUI();   // GameRoom SceneUI 부착
         }
         else if (objectType == GameObjectType.Player && isMyPlayer == false)
         {

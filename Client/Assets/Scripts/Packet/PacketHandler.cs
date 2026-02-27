@@ -316,6 +316,7 @@ class PacketHandler
                 return;
             }
             int maxExp = Managers.Data.GetMaxExpForLevelUp(Managers.GameRoomObject.MyPlayer.Level);
+            //Managers.UI.ShowToastPopup($"현재 레벨: {Managers.GameRoomObject.MyPlayer.Level}, MaxExp: {maxExp}");
             Managers.GameRoomObject.MyPlayer.SetExp(updateCurrencyDataPacket.Amount, maxExp);
         }
         else if (updateCurrencyDataPacket.CurrencyType == CurrencyType.Level)
@@ -325,7 +326,10 @@ class PacketHandler
                 Debug.Log("현재 게임룸이 아닙니다.");
                 return;
             }
+            // 레벨 업에 따른 경험치 세팅 필요할 수도 있음
             Managers.GameRoomObject.MyPlayer.SetLevel(updateCurrencyDataPacket.Amount);
+            int maxExp = Managers.Data.GetMaxExpForLevelUp(Managers.GameRoomObject.MyPlayer.Level);
+            Managers.GameRoomObject.MyPlayer.SetExp(Managers.GameRoomObject.MyPlayer.Exp, maxExp);
         }
         else
         {
