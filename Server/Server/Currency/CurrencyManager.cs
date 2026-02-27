@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using DbTransaction = Server.DB.DbTransaction;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Concurrent;
+using System.Linq.Expressions;
 
 namespace Server.Currency
 {
@@ -51,30 +53,31 @@ namespace Server.Currency
             return true;
         }
 
+        private static readonly ConcurrentDictionary<CurrencyType, Func<PlayerDb, int>> _accessorCache = new();
+
         public int GetCurrentAmount(int playerId, CurrencyType currencyType)
         {
             using (GameDbContext db = new GameDbContext())
             {
-                var query = db.Players
+                PlayerDb player = db.Players
                     .AsNoTracking()
-                    .Where(p => p.PlayerDbId == playerId);
+                    .FirstOrDefault(p => p.PlayerDbId == playerId);
 
-                // TODO - 재화 자동화 필요
-                int amount = currencyType switch
-                {
-                    CurrencyType.Jewel => query.Select(p => p.Jewel).FirstOrDefault(),
-                    CurrencyType.Gold => query.Select(p => p.Gold).FirstOrDefault(),
-                    
-                    _ => -1
-                };
-
-                if (amount == -1)
+                if (player == null)
                 {
                     ConsoleLogManager.Instance.Log($"[Error] {playerId}의 {currencyType} 정보 없음");
                     return -1;
                 }
 
-                return amount;
+                var accessor = _accessorCache.GetOrAdd(currencyType, ct =>
+                {
+                    var param = Expression.Parameter(typeof(PlayerDb), "p");
+                    var property = Expression.Property(param, ct.ToString());
+                    var lambda = Expression.Lambda<Func<PlayerDb, int>>(property, param);
+                    return lambda.Compile();
+                });
+
+                return accessor(player);
             }
         }
     }
