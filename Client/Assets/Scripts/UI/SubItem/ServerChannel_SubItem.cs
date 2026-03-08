@@ -31,11 +31,11 @@ public class ServerChannel_SubItem : UI_SubItem<ServerInfo>
     {
         if (_data == null)
         {
-            Managers.UI.ShowToastPopup("ÇÃ·¹ÀÌ¾î Á¤º¸¸¦ ºÒ·¯¿Ã ¼ö ¾ø½À´Ï´Ù");
+            Managers.UI.ShowToastPopup("í”Œë ˆì´ì–´ ì •ë³´ë¥¼ ë¶ˆëŸ¬ì˜¬ ìˆ˜ ì—†ìŠµë‹ˆë‹¤");
             return;
         }
-        // ¼±ÅÃÇÑ ¼­¹ö¶û, Ã¤³Î Id ÀúÀå
-        // TODO - ÈÄ¿¡ È¥Àâµµ¿¡ µû¶ó¼­ ¸ø µé¾î¿À°Ô ÇØ¾ßÇÒµí
+        // ì„ íƒí•œ ì„œë²„ë‘, ì±„ë„ Id ì €ì¥
+        // TODO - í›„ì— í˜¼ì¡ë„ì— ë”°ë¼ì„œ ëª» ë“¤ì–´ì˜¤ê²Œ í•´ì•¼í• ë“¯
         C_SelectServer selectServerPacket = new C_SelectServer()
         {
             ServerId = _data.ServerId,

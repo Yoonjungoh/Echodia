@@ -7,9 +7,9 @@ using UnityEngine;
 
 public class GameRoomManager
 {
-    public int ServerId { get; set; } = -1; // ÇöÀç Á¢¼ÓÇÑ GameRoomÀÇ Server Id
-    public int ChannelId { get; set; } = -1;    // ÇöÀç Á¢¼ÓÇÑ GameRoomÀÇ Channel Id
-    public int MapId { get; set; } = -1;    // ¸Ê Id´Â ¼­¹ö¿¡¼­ ¹Ş¾Æ¿È
+    public int ServerId { get; set; } = -1; // í˜„ì¬ ì ‘ì†í•œ GameRoomì˜ Server Id
+    public int ChannelId { get; set; } = -1;    // í˜„ì¬ ì ‘ì†í•œ GameRoomì˜ Channel Id
+    public int MapId { get; set; } = -1;    // ë§µ IdëŠ” ì„œë²„ì—ì„œ ë°›ì•„ì˜´
 
     public void Init()
     {

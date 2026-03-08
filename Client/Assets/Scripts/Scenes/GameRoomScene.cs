@@ -9,7 +9,7 @@ public class GameRoomScene : BaseScene
     {
         base.Init();
 
-        // °ÔÀÓ ÀÔÀå ÇÏ°Ú´Ù°í ÆĞÅ¶ Àü¼Û
+        // ê²Œì„ ì…ì¥ í•˜ê² ë‹¤ê³  íŒ¨í‚· ì „ì†¡
         C_EnterGame enterGamePacket = new C_EnterGame()
         {
             PlayerId = Managers.GameRoomObject.PlayerId,

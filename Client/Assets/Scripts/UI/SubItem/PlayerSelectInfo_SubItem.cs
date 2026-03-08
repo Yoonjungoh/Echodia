@@ -37,18 +37,18 @@ public class PlayerSelectInfo_SubItem : UI_SubItem<PlayerSelectInfo>
     {
         if (_data == null)
         {
-            Managers.UI.ShowToastPopup("ÇÃ·¹ÀÌ¾î Á¤º¸¸¦ ºÒ·¯¿Ã ¼ö ¾ø½À´Ï´Ù");
+            Managers.UI.ShowToastPopup("í”Œë ˆì´ì–´ ì •ë³´ë¥¼ ë¶ˆëŸ¬ì˜¬ ìˆ˜ ì—†ìŠµë‹ˆë‹¤");
             return;
         }
 
         if (_isSelected)
         {
-            Managers.UI.ShowToastPopup("¼­¹ö¿¡¼­ ÀÔÀå Ã³¸® ÁßÀÔ´Ï´Ù");
+            Managers.UI.ShowToastPopup("ì„œë²„ì—ì„œ ì…ì¥ ì²˜ë¦¬ ì¤‘ì…ë‹ˆë‹¤");
             return;
         }
         
         _isSelected = true;
-        // ±³Â÷ °ËÁõÀ» À§ÇØ ¼­¹ö, Ã¤³Î Á¤º¸µµ ÇÔ²² º¸³¿
+        // êµì°¨ ê²€ì¦ì„ ìœ„í•´ ì„œë²„, ì±„ë„ ì •ë³´ë„ í•¨ê»˜ ë³´ëƒ„
         C_SelectPlayer selectPlayerPacket = new C_SelectPlayer()
         {
             PlayerId = _data.PlayerId,
@@ -60,7 +60,7 @@ public class PlayerSelectInfo_SubItem : UI_SubItem<PlayerSelectInfo>
 
     private void OnClickDeleteButton()
     {
-        // ÇØ´ç Ä³¸¯ÅÍ »èÁ¦ ¿äÃ»
+        // í•´ë‹¹ ìºë¦­í„° ì‚­ì œ ìš”ì²­
         C_DeletePlayer deletePlayerPacket = new C_DeletePlayer();
         deletePlayerPacket.PlayerId = _data.PlayerId;
         Managers.Network.Send(deletePlayerPacket);
@@ -75,8 +75,8 @@ public class PlayerSelectInfo_SubItem : UI_SubItem<PlayerSelectInfo>
     protected override void UpdateUI()
     {
         GetTextMeshProUGUI((int)Texts.PlayerIdText).text = $"UId: {_data.PlayerId}";
-        GetTextMeshProUGUI((int)Texts.PlayerNameText).text = $"´Ğ³×ÀÓ: {_data.Name}";
-        GetTextMeshProUGUI((int)Texts.JewelText).text = $"º¸¼®: {_data.CurrencyData.Jewel}";
-        GetTextMeshProUGUI((int)Texts.GoldText).text = $"°ñµå: {_data.CurrencyData.Gold}";
+        GetTextMeshProUGUI((int)Texts.PlayerNameText).text = $"ë‹‰ë„¤ì„: {_data.Name}";
+        GetTextMeshProUGUI((int)Texts.JewelText).text = $"ë³´ì„: {_data.CurrencyData.Jewel}";
+        GetTextMeshProUGUI((int)Texts.GoldText).text = $"ê³¨ë“œ: {_data.CurrencyData.Gold}";
     }
 }

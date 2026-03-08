@@ -30,20 +30,20 @@ public class UI_ServerSelect : UI_Scene
 
         _selectedServerId = Managers.Data.DefaultServerId;
 
-        // ¼­¹ö¿¡°Ô ÇÃ·¹ÀÌ¾î ¸®½ºÆ® ¿äÃ»
+        // ì„œë²„ì—ê²Œ í”Œë ˆì´ì–´ ë¦¬ìŠ¤íŠ¸ ìš”ì²­
         C_RequestServerSummaryList requestServerSummaryListPacket = new C_RequestServerSummaryList();
         Managers.Network.Send(requestServerSummaryListPacket);
     }
 
-    // ¼­¹ö ¿ä¾à Á¤º¸ ¾÷µ¥ÀÌÆ® (¼­¹öÀÇ Ã¤³Î Id, Á¢¼Ó À¯Àú¼ö °°Àº Á¤º¸)
+    // ì„œë²„ ìš”ì•½ ì •ë³´ ì—…ë°ì´íŠ¸ (ì„œë²„ì˜ ì±„ë„ Id, ì ‘ì† ìœ ì €ìˆ˜ ê°™ì€ ì •ë³´)
     public void InitServerSummaryInfos(RepeatedField<ServerInfo> serverInfoList)
     {
-        // 1. ÀÌ¹Ì Ãß°¡ÇÑ ¼­¹ö ID ÃßÀû¿ë
+        // 1. ì´ë¯¸ ì¶”ê°€í•œ ì„œë²„ ID ì¶”ì ìš©
         HashSet<int> addedServerIds = new HashSet<int>();
 
         foreach (ServerInfo serverInfo in serverInfoList)
         {
-            // ÀÌ¹Ì Ã³¸®ÇÑ ¼­¹ö¸é ½ºÅµ
+            // ì´ë¯¸ ì²˜ë¦¬í•œ ì„œë²„ë©´ ìŠ¤í‚µ
             if (addedServerIds.Contains(serverInfo.ServerId))
                 continue;
 
@@ -57,7 +57,7 @@ public class UI_ServerSelect : UI_Scene
 
             serverMain_SubItem.OnClickSelectButtonAction += () =>
             {
-                // ¼­¹ö Ã¤³Î Á¤º¸ ¿äÃ»
+                // ì„œë²„ ì±„ë„ ì •ë³´ ìš”ì²­
                 RequestServerChannelInfo(serverInfo.ServerId);
                 _selectedServerId = serverInfo.ServerId;
             };
@@ -66,7 +66,7 @@ public class UI_ServerSelect : UI_Scene
             addedServerIds.Add(serverInfo.ServerId);
         }
 
-        // ±âº»ÀûÀ¸·Î Ã¹ ¹øÂ° ¼­¹öÀÇ Ã¤³Î Á¤º¸ ¿äÃ»
+        // ê¸°ë³¸ì ìœ¼ë¡œ ì²« ë²ˆì§¸ ì„œë²„ì˜ ì±„ë„ ì •ë³´ ìš”ì²­
         if (addedServerIds.Contains(_selectedServerId))
         {
             RequestServerChannelInfo(_selectedServerId);
@@ -84,11 +84,11 @@ public class UI_ServerSelect : UI_Scene
 
     public void UpdateServerChannelInfos(int selectedServerId, RepeatedField<ServerInfo> serverInfoList)
     {
-        // ³»°¡ º¸°í ÀÖ´Â ¼­¹ö¿Í ´Ù¸¥ À¯Àú¿¡°Ô ºê·ÎµåÄ³½ºÆ® ¹ŞÀº ¼­¹ö°¡ ´Ù¸£¸é ·»´õ¸µ X
+        // ë‚´ê°€ ë³´ê³  ìˆëŠ” ì„œë²„ì™€ ë‹¤ë¥¸ ìœ ì €ì—ê²Œ ë¸Œë¡œë“œìºìŠ¤íŠ¸ ë°›ì€ ì„œë²„ê°€ ë‹¤ë¥´ë©´ ë Œë”ë§ X
         if (_selectedServerId != selectedServerId)
             return;
 
-        // ±âÁ¸ Ã¤³Î UI »èÁ¦
+        // ê¸°ì¡´ ì±„ë„ UI ì‚­ì œ
         foreach (Transform child in _serverChannelScrollView.transform)
         {
             Managers.Resource.Destroy(child.gameObject);
@@ -111,13 +111,13 @@ public class UI_ServerSelect : UI_Scene
     private void OnClickExitGameButton()
     {
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;   // ¿¡µğÅÍ Àç»ı Á¾·á
+        UnityEditor.EditorApplication.isPlaying = false;   // ì—ë””í„° ì¬ìƒ ì¢…ë£Œ
 #else
-    Application.Quit();                                // ºôµå¿¡¼­ °ÔÀÓ Á¾·á
+    Application.Quit();                                // ë¹Œë“œì—ì„œ ê²Œì„ ì¢…ë£Œ
 #endif
     }
 
-    // ¼­¹ö¶û Ã¤³Î ¼±ÅÃ ÈÄ ÀÔÀå °á°ú Ã³¸®
+    // ì„œë²„ë‘ ì±„ë„ ì„ íƒ í›„ ì…ì¥ ê²°ê³¼ ì²˜ë¦¬
     public void OnServerSelected(int serverId, int channelId, EnterServerResult enterServerResult)
     {
         switch (enterServerResult)
@@ -127,13 +127,13 @@ public class UI_ServerSelect : UI_Scene
                 Managers.Scene.LoadScene(Define.Scene.PlayerSelect);
                 break;
             case EnterServerResult.ChannelFull:
-                Managers.UI.ShowToastPopup("¼­¹ö°¡ °¡µæ Ã¡½À´Ï´Ù.");
+                Managers.UI.ShowToastPopup("ì„œë²„ê°€ ê°€ë“ ì°¼ìŠµë‹ˆë‹¤.");
                 break;
             case EnterServerResult.ServerMaintenance:
-                Managers.UI.ShowToastPopup("¼­¹ö Á¡°Ë ÁßÀÔ´Ï´Ù.");
+                Managers.UI.ShowToastPopup("ì„œë²„ ì ê²€ ì¤‘ì…ë‹ˆë‹¤.");
                 break;
             default:
-                Managers.UI.ShowToastPopup("¼­¹ö ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.");
+                Managers.UI.ShowToastPopup("ì„œë²„ ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.");
                 break;
         }
     }

@@ -26,7 +26,7 @@ public class UI_PlayerSelect : UI_Scene
 
         _playerScrollView = Util.FindChild(gameObject, "PlayerContent", recursive: true);
 
-        // ¼­¹ö¿¡°Ô ÇÃ·¹ÀÌ¾î ¸®½ºÆ® ¿äÃ»
+        // ì„œë²„ì—ê²Œ í”Œë ˆì´ì–´ ë¦¬ìŠ¤íŠ¸ ìš”ì²­
         C_RequestPlayerList requestPlayerListPacket = new C_RequestPlayerList();
         Managers.Network.Send(requestPlayerListPacket);
     }
@@ -64,7 +64,7 @@ public class UI_PlayerSelect : UI_Scene
     {
         if (canSelect == false)
         {
-            Managers.UI.ShowToastPopup("ÇØ´ç Ä³¸¯ÅÍ·Î ÀÔÀåÀÌ ºÒ°¡´ÉÇÕ´Ï´Ù");
+            Managers.UI.ShowToastPopup("í•´ë‹¹ ìºë¦­í„°ë¡œ ì…ì¥ì´ ë¶ˆê°€ëŠ¥í•©ë‹ˆë‹¤");
             return;
         }
         
@@ -80,9 +80,9 @@ public class UI_PlayerSelect : UI_Scene
     private void OnClickExitGameButton()
     {
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;   // ¿¡µğÅÍ Àç»ı Á¾·á
+        UnityEditor.EditorApplication.isPlaying = false;   // ì—ë””í„° ì¬ìƒ ì¢…ë£Œ
 #else
-    Application.Quit();                                // ºôµå¿¡¼­ °ÔÀÓ Á¾·á
+    Application.Quit();                                // ë¹Œë“œì—ì„œ ê²Œì„ ì¢…ë£Œ
 #endif
     }
 }

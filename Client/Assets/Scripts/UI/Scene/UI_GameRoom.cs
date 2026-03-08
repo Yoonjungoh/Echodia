@@ -68,7 +68,7 @@ public class UI_GameRoom : UI_Scene
     {
         float expRate = (float)_exp / _maxExp;
         GetTextMeshProUGUI((int)Texts.LevelText).text = $"Level.{_level}";
-        // ¼Ò¼öÁ¡ 2ÀÚ¸®±îÁö Ç¥ÇöÇÏ±â À§ÇØ 100À» °öÇÑ ÈÄ ¼Ò¼öÁ¡ 2ÀÚ¸®·Î Æ÷¸ËÆÃ
+        // ì†Œìˆ˜ì  2ìë¦¬ê¹Œì§€ í‘œí˜„í•˜ê¸° ìœ„í•´ 100ì„ ê³±í•œ í›„ ì†Œìˆ˜ì  2ìë¦¬ë¡œ í¬ë§·íŒ…
         GetTextMeshProUGUI((int)Texts.ExpText).text = $"{_exp}/{_maxExp}({expRate * 100:F2}%)";
 
         GetSlider((int)Sliders.ExpSlider).value = expRate;

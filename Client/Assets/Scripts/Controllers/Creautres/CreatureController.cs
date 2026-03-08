@@ -54,23 +54,23 @@ public class CreatureController : BaseController
         _rb = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
 
-        // ¾Ö´Ï¸ŞÀÌ¼Ç °ü·Ã ÃÊ±âÈ­
+        // ì• ë‹ˆë©”ì´ì…˜ ê´€ë ¨ ì´ˆê¸°í™”
         _commonAttackanimName = $"Common_Attack";
         _commonAttackAnimLength = _anim.GetAnimationClipLength(_commonAttackanimName) / _commonAttackAnimSpeedTime;
         _waitCommonAttackReturn ??= new WaitForSeconds(_commonAttackAnimLength);
 
-        // Ã¼·Â¹Ù ¼ÒÈ¯ (Åõ»çÃ¼´Â ÀÌÈÄ¿¡ Á¶Àı)
+        // ì²´ë ¥ë°” ì†Œí™˜ (íˆ¬ì‚¬ì²´ëŠ” ì´í›„ì— ì¡°ì ˆ)
         _hpBar = Managers.UI.MakeWorldSpaceUI<UI_HpBar>(transform, worldPositionStays: false);
         _hpBarPosOffset = Vector3.up * _collider.bounds.size.y;
         _hpBar.SetData(_hpBarPosOffset);
         _hpBar.UpdateHpBar(Stat.Hp, Stat.MaxHp);
 
-        // ÀÌ¸§¹Ù ¼ÒÈ¯
+        // ì´ë¦„ë°” ì†Œí™˜
         _nameBar = Managers.UI.MakeWorldSpaceUI<UI_NameBar>(transform, worldPositionStays: false);
         _nameBarPosOffset = Vector3.up * (_collider.bounds.size.y + 0.5f);
         _nameBar.SetData(Name, _nameBarPosOffset);
 
-        // ÀÌÆåÆ® °ü·Ã ÃÊ±âÈ­
+        // ì´í™íŠ¸ ê´€ë ¨ ì´ˆê¸°í™”
         _commonAttackHitEffectName = $"{_commonAttackanimName}HitEffect";
         _commonAttackHitEffectOffset = new Vector3(0, _collider.bounds.size.y / 2, 0);
 
@@ -98,11 +98,11 @@ public class CreatureController : BaseController
         double serverNowMs = Managers.Network.GetServerNowMs();
         double deltaSec = Mathf.Max(0f, (float)((serverNowMs - _serverReceivedTimeMs) / 1000.0));
 
-        // XZ¸¸ ¿¹Ãø
+        // XZë§Œ ì˜ˆì¸¡
         Vector3 predicted = _serverPosition;
         predicted.x += _serverVelocity.x * (float)deltaSec;
         predicted.z += _serverVelocity.z * (float)deltaSec;
-        predicted.y = _serverPosition.y; // Y´Â ¼­¹ö Æ÷Áö¼Ç °íÁ¤
+        predicted.y = _serverPosition.y; // YëŠ” ì„œë²„ í¬ì§€ì…˜ ê³ ì •
 
         transform.position = Vector3.Lerp(transform.position, predicted, Time.deltaTime * _lerpSpeed);
         transform.rotation = Quaternion.Slerp(transform.rotation, _serverRotation, Time.deltaTime * _lerpSpeed);
@@ -117,7 +117,7 @@ public class CreatureController : BaseController
     {
         base.OnDamaged(remainHp);
 
-        // È÷Æ® ÀÌÆåÆ®
+        // íˆíŠ¸ ì´í™íŠ¸
         ParticleSystem particleSystem = Managers.Resource.SpawnEffect(
             _commonAttackHitEffectName,
             _commonAttackHitEffectOffset,
@@ -128,11 +128,11 @@ public class CreatureController : BaseController
         float duration = particleSystem.main.duration + particleSystem.main.startLifetime.constantMax;
         Managers.Resource.Destroy(particleSystem.gameObject, duration);
 
-        // µ¥¹ÌÁö °è»ê
+        // ë°ë¯¸ì§€ ê³„ì‚°
         float damage = Stat.Hp - remainHp;
         Stat.Hp -= damage;
         
-        // Ã¼·Â¹Ù °»½Å
+        // ì²´ë ¥ë°” ê°±ì‹ 
         _hpBar.UpdateHpBar(Stat.Hp, Stat.MaxHp);
     }
 
@@ -143,10 +143,10 @@ public class CreatureController : BaseController
 
     public override void OnDead()
     {
-        // È¤½Ã ¸ğ¸£´Ï Ã¼·Â 0À¸·Î ¸ÂÃã
+        // í˜¹ì‹œ ëª¨ë¥´ë‹ˆ ì²´ë ¥ 0ìœ¼ë¡œ ë§ì¶¤
         _hpBar.UpdateHpBar(0, Stat.MaxHp);
 
-        // Á×´Â ÀÌÆåÆ®
+        // ì£½ëŠ” ì´í™íŠ¸
         ParticleSystem particleSystem = Managers.Resource.SpawnEffect(
             _dieEffectName,
             _dieEffectOffset,
@@ -157,7 +157,7 @@ public class CreatureController : BaseController
         float duration = particleSystem.main.duration + particleSystem.main.startLifetime.constantMax;
         Managers.Resource.Destroy(particleSystem.gameObject, duration);
 
-        // Á×Àº ¿ÀºêÁ§Æ®°¡ ¹æÇØ ¾ÈÇÏ°Ô ÇÏ±â
+        // ì£½ì€ ì˜¤ë¸Œì íŠ¸ê°€ ë°©í•´ ì•ˆí•˜ê²Œ í•˜ê¸°
         _collider.isTrigger = true;
         _rb.isKinematic = true;
     }
@@ -179,7 +179,7 @@ public class CreatureController : BaseController
 
         CreatureState = CreatureState.Idle;
 
-        // »óÅÂ º¯È­ ÆĞÅ¶ Àü¼Û
+        // ìƒíƒœ ë³€í™” íŒ¨í‚· ì „ì†¡
         C_ChangeCreatureState changeCreatureStatePacket = new C_ChangeCreatureState();
         changeCreatureStatePacket.CreatureState = CreatureState;
         Managers.Network.Send(changeCreatureStatePacket);

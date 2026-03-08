@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerController : CreatureController
 {
-    [SerializeField] protected float _transitionTime = 0.1f; // ¾Ö´Ï¸ŞÀÌ¼Ç ÀüÈ¯ ½Ã°£
+    [SerializeField] protected float _transitionTime = 0.1f; // ì• ë‹ˆë©”ì´ì…˜ ì „í™˜ ì‹œê°„
     private CreatureState _lastAnimState = CreatureState.Idle;
 
     public override void Init()
@@ -13,7 +13,7 @@ public class PlayerController : CreatureController
         base.Init();
     }
 
-    // ¸Å ÇÁ·¹ÀÓ CrossFade È£Ãâ ¹æÁö ¿ëµµ
+    // ë§¤ í”„ë ˆì„ CrossFade í˜¸ì¶œ ë°©ì§€ ìš©ë„
     protected override void UpdateIdle()
     {
         base.UpdateIdle();

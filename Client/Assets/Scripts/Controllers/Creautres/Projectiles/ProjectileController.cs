@@ -20,7 +20,7 @@ public class ProjectileController : BaseController
     {
         base.UpdateMove();
 
-        // ¼­¹ö¿¡¼­ ¹ŞÀº Velocity·Î ÀÌµ¿
+        // ì„œë²„ì—ì„œ ë°›ì€ Velocityë¡œ ì´ë™
         Vector3 moveVelocity = new Vector3(Velocity.X, Velocity.Y, Velocity.Z);
         transform.position += moveVelocity * Time.deltaTime;
     }
@@ -29,20 +29,20 @@ public class ProjectileController : BaseController
     {
         int layer = other.gameObject.layer;
 
-        // 1. ¹«½ÃÇØ¾ß ÇÏ´Â ·¹ÀÌ¾î¸é ¹Ù·Î Å»Ãâ (°¡Àå ºü¸¥ ÇÊÅÍ)
+        // 1. ë¬´ì‹œí•´ì•¼ í•˜ëŠ” ë ˆì´ì–´ë©´ ë°”ë¡œ íƒˆì¶œ (ê°€ì¥ ë¹ ë¥¸ í•„í„°)
         if (Managers.GameRoomObject.IsLayerIgnoredByProjectile(layer))
             return;
 
-        // 2. µ¥¹ÌÁö¸¦ ÀÔÀ» ¼ö ¾ø´Â ·¹ÀÌ¾î¸é ¹Ù·Î Å»Ãâ
+        // 2. ë°ë¯¸ì§€ë¥¼ ì…ì„ ìˆ˜ ì—†ëŠ” ë ˆì´ì–´ë©´ ë°”ë¡œ íƒˆì¶œ
         if (!Managers.GameRoomObject.IsDamageable(layer))
         {
-            // µ¥¹ÌÁö ºÒ°¡ -> ±×³É »èÁ¦
+            // ë°ë¯¸ì§€ ë¶ˆê°€ -> ê·¸ëƒ¥ ì‚­ì œ
             Managers.GameRoomObject.Remove(Id, isDead: false);
             return;
         }
 
-        // 3. ¿©±â±îÁö ¿Ô´Ù´Â °Ç 'µ¥¹ÌÁö °¡´ÉÇÑ ·¹ÀÌ¾î'
-        // ÀÌÁ¦¼­¾ß GetComponent È£Ãâ (ÃÖ¼Ò ºñ¿ë)
+        // 3. ì—¬ê¸°ê¹Œì§€ ì™”ë‹¤ëŠ” ê±´ 'ë°ë¯¸ì§€ ê°€ëŠ¥í•œ ë ˆì´ì–´'
+        // ì´ì œì„œì•¼ GetComponent í˜¸ì¶œ (ìµœì†Œ ë¹„ìš©)
         CreatureController creature = other.gameObject.GetComponent<CreatureController>();
         if (creature == null)
         {
@@ -50,12 +50,12 @@ public class ProjectileController : BaseController
             return;
         }
 
-        // 4. ÁÖÀÎ ID Ã¼Å©
+        // 4. ì£¼ì¸ ID ì²´í¬
         int ownerId = Managers.GameRoomObject.GetProjectileOwnerId(Id);
         if (ownerId == -1 || creature.Id == ownerId)
             return;
 
-        // 5. µ¥¹ÌÁö ¿äÃ» Àü¼Û
+        // 5. ë°ë¯¸ì§€ ìš”ì²­ ì „ì†¡
         C_Attack attackPacket = new C_Attack()
         {
             AttackType = AttackType.RangedAttack,

@@ -5,17 +5,17 @@ using UnityEngine;
 
 public class UI_ToastPopup : UI_Popup
 {
-    [SerializeField] private float _fadeLerpTime = 1.0f;  // »ç¶óÁö´Â ¼Óµµ
-    private TextMeshProUGUI _toastPopupText;             // ³ëÃâµÇ´Â ÅØ½ºÆ®
+    [SerializeField] private float _fadeLerpTime = 1.0f;  // ì‚¬ë¼ì§€ëŠ” ì†ë„
+    private TextMeshProUGUI _toastPopupText;             // ë…¸ì¶œë˜ëŠ” í…ìŠ¤íŠ¸
     private Coroutine _loopCoroutine;
 
-    // ÇöÀç Ç¥½ÃÇÒ ¸Ş½ÃÁö »óÅÂ
+    // í˜„ì¬ í‘œì‹œí•  ë©”ì‹œì§€ ìƒíƒœ
     private string _currentMessage;
     private float _currentDuration;
     private Color _currentColor;
     private bool _hasMessage = false;
 
-    // Ä«¿îÆ®´Ù¿î º¯¼ö
+    // ì¹´ìš´íŠ¸ë‹¤ìš´ ë³€ìˆ˜
     private const float COUNTDOWN_DLEAY_TIME = 0.1f;
     private WaitForSeconds _countdownDelay = new WaitForSeconds(0);
     private bool _countdownActive = false;
@@ -36,15 +36,15 @@ public class UI_ToastPopup : UI_Popup
 
     public void ShowCountdown(float time, Action callBack = null, bool isHideCountdownText = false)
     {
-        // ÀÌ¹Ì Ä«¿îÆ®´Ù¿î ÁßÀÌ¸é ¹«½Ã
+        // ì´ë¯¸ ì¹´ìš´íŠ¸ë‹¤ìš´ ì¤‘ì´ë©´ ë¬´ì‹œ
         if (_countdownActive)
             return;
 
-        // Åä½ºÆ® ·çÇÁ ¸Ş½ÃÁö ¹«½Ã »óÅÂ·Î ÀüÈ¯
+        // í† ìŠ¤íŠ¸ ë£¨í”„ ë©”ì‹œì§€ ë¬´ì‹œ ìƒíƒœë¡œ ì „í™˜
         _countdownActive = true;
         _hasMessage = false;
 
-        // ±âÁ¸ Ä«¿îÆ®´Ù¿î ÄÚ·çÆ¾ ÀÖÀ¸¸é Áß´Ü
+        // ê¸°ì¡´ ì¹´ìš´íŠ¸ë‹¤ìš´ ì½”ë£¨í‹´ ìˆìœ¼ë©´ ì¤‘ë‹¨
         if (_countdownCoroutine != null)
             StopCoroutine(_countdownCoroutine);
 
@@ -58,7 +58,7 @@ public class UI_ToastPopup : UI_Popup
 
         while (remain > 0f)
         {
-            // 0.1 ´ÜÀ§ Ç¥½Ã
+            // 0.1 ë‹¨ìœ„ í‘œì‹œ
             float displayValue = Mathf.Max(0f, remain);
             _toastPopupText.text = displayValue.ToString("0.0");
 
@@ -70,7 +70,7 @@ public class UI_ToastPopup : UI_Popup
             yield return _countdownDelay;
         }
 
-        // Ä«¿îÆ®´Ù¿î Á¾·á
+        // ì¹´ìš´íŠ¸ë‹¤ìš´ ì¢…ë£Œ
         _toastPopupText.text = "";
         Color fade = _toastPopupText.color;
         fade.a = 0f;
@@ -79,46 +79,46 @@ public class UI_ToastPopup : UI_Popup
         _countdownActive = false;
         _countdownCoroutine = null;
 
-        // Äİ¹é È£Ãâ
+        // ì½œë°± í˜¸ì¶œ
         callBack?.Invoke();
     }
 
     public void ShowToastPopup(string message, float duration, Color? colorOverride = null)
     {
-        // »õ·Î¿î ¸Ş½ÃÁö·Î µ¤¾î¾²±â (Ç×»ó ¸¶Áö¸· È£ÃâÀÌ ¿ì¼±)
+        // ìƒˆë¡œìš´ ë©”ì‹œì§€ë¡œ ë®ì–´ì“°ê¸° (í•­ìƒ ë§ˆì§€ë§‰ í˜¸ì¶œì´ ìš°ì„ )
         _currentMessage = message;
         _currentDuration = duration;
         _currentColor = colorOverride ?? _toastPopupText.color;
         _currentColor.a = 1f;
         _hasMessage = true;
 
-        // ÄÚ·çÆ¾ÀÌ Á¸ÀçÇÏÁö ¾ÊÀ¸¸é ½ÃÀÛ (µû¶ó¼­ ÃÖÃÊ 1È¸¸¸ ÇÒ´ç)
+        // ì½”ë£¨í‹´ì´ ì¡´ì¬í•˜ì§€ ì•Šìœ¼ë©´ ì‹œì‘ (ë”°ë¼ì„œ ìµœì´ˆ 1íšŒë§Œ í• ë‹¹)
         if (_loopCoroutine == null)
         {
             _loopCoroutine = StartCoroutine(CoToastLoop());
         }
     }
 
-    // ÇÏ³ªÀÇ Áö¼Ó ·çÇÁ¸¦ µ¹¸ç, ¸Ş½ÃÁö°¡ µé¾î¿Ã ¶§¸¸ Ã³¸®
+    // í•˜ë‚˜ì˜ ì§€ì† ë£¨í”„ë¥¼ ëŒë©°, ë©”ì‹œì§€ê°€ ë“¤ì–´ì˜¬ ë•Œë§Œ ì²˜ë¦¬
     private IEnumerator CoToastLoop()
     {
         while (true)
         {
-            // ¸Ş½ÃÁö°¡ µé¾î¿Ã ¶§±îÁö ºó ·çÇÁ
+            // ë©”ì‹œì§€ê°€ ë“¤ì–´ì˜¬ ë•Œê¹Œì§€ ë¹ˆ ë£¨í”„
             while (_hasMessage == false)
             {
                 yield return null;
             }
 
-            // ¸Ş½ÃÁö Ç¥½Ã
+            // ë©”ì‹œì§€ í‘œì‹œ
             _toastPopupText.text = _currentMessage;
             _toastPopupText.color = _currentColor;
 
-            // ÁöÁ¤µÈ ½Ã°£ µ¿¾È À¯Áö
+            // ì§€ì •ëœ ì‹œê°„ ë™ì•ˆ ìœ ì§€
             float elapsed = 0f;
             while (elapsed < _currentDuration)
             {
-                // Ç¥½Ã Áß¿¡ »õ·Î¿î ¸Ş½ÃÁö°¡ µé¾î¿À¸é Áï½Ã Áß´ÜÇÏ°í ´ÙÀ½ ¸Ş½ÃÁö¸¦ Ç¥½Ã
+                // í‘œì‹œ ì¤‘ì— ìƒˆë¡œìš´ ë©”ì‹œì§€ê°€ ë“¤ì–´ì˜¤ë©´ ì¦‰ì‹œ ì¤‘ë‹¨í•˜ê³  ë‹¤ìŒ ë©”ì‹œì§€ë¥¼ í‘œì‹œ
                 if (_hasMessage == false)
                     break;
 
@@ -127,12 +127,12 @@ public class UI_ToastPopup : UI_Popup
                 yield return null;
             }
 
-            // Fade out Ã³¸®
+            // Fade out ì²˜ë¦¬
             float fadeElapsed = 0f;
             Color colorBeforeFade = _toastPopupText.color;
             while (fadeElapsed < _fadeLerpTime)
             {
-                // »õ·Î¿î ¸Ş½ÃÁö°¡ µé¾î¿À¸é Áï½Ã Áß´ÜÇÏ°í ´ÙÀ½ ¸Ş½ÃÁö¸¦ Ç¥½Ã
+                // ìƒˆë¡œìš´ ë©”ì‹œì§€ê°€ ë“¤ì–´ì˜¤ë©´ ì¦‰ì‹œ ì¤‘ë‹¨í•˜ê³  ë‹¤ìŒ ë©”ì‹œì§€ë¥¼ í‘œì‹œ
                 if (_currentMessage != _toastPopupText.text)
                     break;
 
@@ -145,7 +145,7 @@ public class UI_ToastPopup : UI_Popup
                 yield return null;
             }
 
-            // ¸¸¾à ¸¶Áö¸·¿¡ ÆäÀÌµå°¡ ¿Ï·áµÇ¾ú°í ¸Ş½ÃÁö°¡ º¯°æµÇÁö ¾Ê¾Ò´Ù¸é ÅØ½ºÆ®¸¦ ¼û±è
+            // ë§Œì•½ ë§ˆì§€ë§‰ì— í˜ì´ë“œê°€ ì™„ë£Œë˜ì—ˆê³  ë©”ì‹œì§€ê°€ ë³€ê²½ë˜ì§€ ì•Šì•˜ë‹¤ë©´ í…ìŠ¤íŠ¸ë¥¼ ìˆ¨ê¹€
             if (_currentMessage == _toastPopupText.text)
             {
                 var c = _toastPopupText.color;

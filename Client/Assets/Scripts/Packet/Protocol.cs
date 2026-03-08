@@ -331,19 +331,19 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("LOGIN_STATUS_NONE")] None = 0,
     [pbr::OriginalName("LOGIN_STATUS_SUCCESS")] Success = 1,
     /// <summary>
-    /// ID°¡ Æ²¸²
+    /// IDê°€ í‹€ë¦¼
     /// </summary>
     [pbr::OriginalName("LOGIN_STATUS_ID_WRONG")] IdWrong = 2,
     /// <summary>
-    /// ºñ¹Ğ¹øÈ£°¡ Æ²¸²
+    /// ë¹„ë°€ë²ˆí˜¸ê°€ í‹€ë¦¼
     /// </summary>
     [pbr::OriginalName("LOGIN_STATUS_PASSWORD_WRONG")] PasswordWrong = 3,
     /// <summary>
-    /// ÀÌ¹Ì ·Î±×ÀÎ µÇ¾î ÀÖÀ½
+    /// ì´ë¯¸ ë¡œê·¸ì¸ ë˜ì–´ ìˆìŒ
     /// </summary>
     [pbr::OriginalName("LOGIN_STATUS_ALREADY_LOGGED_IN")] AlreadyLoggedIn = 4,
     /// <summary>
-    /// È¸¿ø°¡ÀÔ ¼º°ø (TODO - ³ªÁß¿¡ È¸¿ø°¡ÀÔ µû·Î »©±â)
+    /// íšŒì›ê°€ì… ì„±ê³µ (TODO - ë‚˜ì¤‘ì— íšŒì›ê°€ì… ë”°ë¡œ ë¹¼ê¸°)
     /// </summary>
     [pbr::OriginalName("SIGN_UP_SUCCESS")] SignUpSuccess = 5,
   }
@@ -383,7 +383,7 @@ namespace Google.Protobuf.Protocol {
   }
 
   /// <summary>
-  /// QuestObjectiveDefinition°ú ¿¬µ¿
+  /// QuestObjectiveDefinitionê³¼ ì—°ë™
   /// </summary>
   public enum QuestObjectiveType {
     [pbr::OriginalName("QUEST_OBJECTIVE_TYPE_NONE")] None = 0,
@@ -396,23 +396,23 @@ namespace Google.Protobuf.Protocol {
   public enum QuestStatus {
     [pbr::OriginalName("QUEST_STATUS_NONE")] None = 0,
     /// <summary>
-    /// ¼ö¶ô ¾È ÇÔ
+    /// ìˆ˜ë½ ì•ˆ í•¨
     /// </summary>
     [pbr::OriginalName("NOT_ACCEPTED")] NotAccepted = 1,
     /// <summary>
-    /// ¼ö¶ôÇØ¼­ ÁøÇà Áß (¼ö¶ôÇÏ°í ´ÙÀ½ ´Ü°è)
+    /// ìˆ˜ë½í•´ì„œ ì§„í–‰ ì¤‘ (ìˆ˜ë½í•˜ê³  ë‹¤ìŒ ë‹¨ê³„)
     /// </summary>
     [pbr::OriginalName("PROCEEDING")] Proceeding = 2,
     /// <summary>
-    /// ¿Ï·á (º¸»ó ¹Ş±â Àü ´Ü°è)
+    /// ì™„ë£Œ (ë³´ìƒ ë°›ê¸° ì „ ë‹¨ê³„)
     /// </summary>
     [pbr::OriginalName("COMPLETED")] Completed = 3,
     /// <summary>
-    /// º¸»ó±îÁö ¹ŞÀº »óÅÂ
+    /// ë³´ìƒê¹Œì§€ ë°›ì€ ìƒíƒœ
     /// </summary>
     [pbr::OriginalName("REWARD_CLAIMED")] RewardClaimed = 4,
     /// <summary>
-    /// ½ÇÆĞ (ex: Å¸ÀÓ ¾îÅÃ ½ÇÆĞ)
+    /// ì‹¤íŒ¨ (ex: íƒ€ì„ ì–´íƒ ì‹¤íŒ¨)
     /// </summary>
     [pbr::OriginalName("FAILED")] Failed = 5,
   }
@@ -1234,7 +1234,7 @@ namespace Google.Protobuf.Protocol {
     public const int RoomExitReasonFieldNumber = 3;
     private global::Google.Protobuf.Protocol.RoomExitReason roomExitReason_ = global::Google.Protobuf.Protocol.RoomExitReason.None;
     /// <summary>
-    /// ¶°³ª´Â »çÀ¯
+    /// ë– ë‚˜ëŠ” ì‚¬ìœ 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.RoomExitReason RoomExitReason {
@@ -1980,7 +1980,7 @@ namespace Google.Protobuf.Protocol {
     public const int InstigatorIdFieldNumber = 2;
     private int instigatorId_;
     /// <summary>
-    /// µ¥¹ÌÁö¸¦ ÀÔÈù ÀÚ
+    /// ë°ë¯¸ì§€ë¥¼ ì…íŒ ì
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int InstigatorId {
@@ -1994,7 +1994,7 @@ namespace Google.Protobuf.Protocol {
     public const int DamagedObjectIdFieldNumber = 3;
     private int damagedObjectId_;
     /// <summary>
-    /// Åõ»çÃ¼°¡ ¸ÂÃá ´ë»ó (¼­¹ö Ãæµ¹ Ã³¸®ÇÏ´Â ºÎºĞÀº ÇØ´ç ºÎºĞ ºñ¿ö¼­ º¸³»µµ µÊ)
+    /// íˆ¬ì‚¬ì²´ê°€ ë§ì¶˜ ëŒ€ìƒ (ì„œë²„ ì¶©ëŒ ì²˜ë¦¬í•˜ëŠ” ë¶€ë¶„ì€ í•´ë‹¹ ë¶€ë¶„ ë¹„ì›Œì„œ ë³´ë‚´ë„ ë¨)
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int DamagedObjectId {
@@ -2160,7 +2160,7 @@ namespace Google.Protobuf.Protocol {
     public const int AttackTypeFieldNumber = 1;
     private global::Google.Protobuf.Protocol.AttackType attackType_ = global::Google.Protobuf.Protocol.AttackType.None;
     /// <summary>
-    /// ¾Ö´Ï¸ŞÀÌ¼Ç Àç»ı¿ë
+    /// ì• ë‹ˆë©”ì´ì…˜ ì¬ìƒìš©
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.AttackType AttackType {
@@ -2174,7 +2174,7 @@ namespace Google.Protobuf.Protocol {
     public const int InstigatorIdFieldNumber = 2;
     private int instigatorId_;
     /// <summary>
-    /// ÇÇÇØ ÀÔÈùÀÚ ¾Ë¸®±â¿ë
+    /// í”¼í•´ ì…íŒì ì•Œë¦¬ê¸°ìš©
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int InstigatorId {
@@ -4151,7 +4151,7 @@ namespace Google.Protobuf.Protocol {
     public const int CanCreateFieldNumber = 1;
     private bool canCreate_;
     /// <summary>
-    /// Áßº¹ ÀÌ¸§Àº ºÒ°¡
+    /// ì¤‘ë³µ ì´ë¦„ì€ ë¶ˆê°€
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool CanCreate {
@@ -4167,7 +4167,7 @@ namespace Google.Protobuf.Protocol {
         = pb::FieldCodec.ForMessage(18, global::Google.Protobuf.Protocol.PlayerSelectInfo.Parser);
     private readonly pbc::RepeatedField<global::Google.Protobuf.Protocol.PlayerSelectInfo> playerInfoList_ = new pbc::RepeatedField<global::Google.Protobuf.Protocol.PlayerSelectInfo>();
     /// <summary>
-    /// º¸À¯ ÇÃ·¹ÀÌ¾î ¸ñ·Ï
+    /// ë³´ìœ  í”Œë ˆì´ì–´ ëª©ë¡
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::Google.Protobuf.Protocol.PlayerSelectInfo> PlayerInfoList {
@@ -4435,7 +4435,7 @@ namespace Google.Protobuf.Protocol {
     public const int CanDeleteFieldNumber = 1;
     private bool canDelete_;
     /// <summary>
-    /// ÇØ´ç ÇÃ·¹ÀÌ¾î »èÁ¦¿¡ ¼º°øÇß´ÂÁö
+    /// í•´ë‹¹ í”Œë ˆì´ì–´ ì‚­ì œì— ì„±ê³µí–ˆëŠ”ì§€
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool CanDelete {
@@ -4451,7 +4451,7 @@ namespace Google.Protobuf.Protocol {
         = pb::FieldCodec.ForMessage(18, global::Google.Protobuf.Protocol.PlayerSelectInfo.Parser);
     private readonly pbc::RepeatedField<global::Google.Protobuf.Protocol.PlayerSelectInfo> playerInfoList_ = new pbc::RepeatedField<global::Google.Protobuf.Protocol.PlayerSelectInfo>();
     /// <summary>
-    /// º¸À¯ ÇÃ·¹ÀÌ¾î ¸ñ·Ï
+    /// ë³´ìœ  í”Œë ˆì´ì–´ ëª©ë¡
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::Google.Protobuf.Protocol.PlayerSelectInfo> PlayerInfoList {
@@ -4838,7 +4838,7 @@ namespace Google.Protobuf.Protocol {
   }
 
   /// <summary>
-  /// ¸ğµç ÀçÈ­ Á¤º¸ ¿äÃ»
+  /// ëª¨ë“  ì¬í™” ì •ë³´ ìš”ì²­
   /// </summary>
   public sealed partial class C_UpdateCurrencyDataAll : pb::IMessage<C_UpdateCurrencyDataAll> {
     private static readonly pb::MessageParser<C_UpdateCurrencyDataAll> _parser = new pb::MessageParser<C_UpdateCurrencyDataAll>(() => new C_UpdateCurrencyDataAll());
@@ -5114,7 +5114,7 @@ namespace Google.Protobuf.Protocol {
     public const int ServerIdFieldNumber = 1;
     private int serverId_;
     /// <summary>
-    /// Æ¯Á¤ ¼­¹öÀÇ »ó¼¼ Á¤º¸¸¦ ¿äÃ»ÇÒ ¶§ »ç¿ë (0ÀÌ¸é ÀüÃ¼ ¼­¹ö ¸®½ºÆ® ¿äÃ»)
+    /// íŠ¹ì • ì„œë²„ì˜ ìƒì„¸ ì •ë³´ë¥¼ ìš”ì²­í•  ë•Œ ì‚¬ìš© (0ì´ë©´ ì „ì²´ ì„œë²„ ë¦¬ìŠ¤íŠ¸ ìš”ì²­)
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int ServerId {
@@ -6365,7 +6365,7 @@ namespace Google.Protobuf.Protocol {
   }
 
   /// <summary>
-  /// °ÔÀÓ·ë ÀÔÀå ½Ã ÃÊ±â µ¥ÀÌÅÍ ¿äÃ» (·¹º§, °æÇèÄ¡ µî)
+  /// ê²Œì„ë£¸ ì…ì¥ ì‹œ ì´ˆê¸° ë°ì´í„° ìš”ì²­ (ë ˆë²¨, ê²½í—˜ì¹˜ ë“±)
   /// </summary>
   public sealed partial class S_RequestInitGameRoomData : pb::IMessage<S_RequestInitGameRoomData> {
     private static readonly pb::MessageParser<S_RequestInitGameRoomData> _parser = new pb::MessageParser<S_RequestInitGameRoomData>(() => new S_RequestInitGameRoomData());
@@ -6544,7 +6544,7 @@ namespace Google.Protobuf.Protocol {
     public const int ServerIdFieldNumber = 1;
     private int serverId_;
     /// <summary>
-    /// ³»ºÎ ¼­¹ö Id
+    /// ë‚´ë¶€ ì„œë²„ Id
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int ServerId {
@@ -6558,7 +6558,7 @@ namespace Google.Protobuf.Protocol {
     public const int ServerNameFieldNumber = 2;
     private string serverName_ = "";
     /// <summary>
-    /// Ç¥½Ã¿ë ÀÌ¸§
+    /// í‘œì‹œìš© ì´ë¦„
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string ServerName {
@@ -6572,7 +6572,7 @@ namespace Google.Protobuf.Protocol {
     public const int ChannelIdFieldNumber = 3;
     private int channelId_;
     /// <summary>
-    /// Ã¤³Î Id
+    /// ì±„ë„ Id
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int ChannelId {
@@ -7579,7 +7579,7 @@ namespace Google.Protobuf.Protocol {
     public const int ObjectIdFieldNumber = 1;
     private int objectId_;
     /// <summary>
-    /// À¯Àú ½Äº°ÀÚ
+    /// ìœ ì € ì‹ë³„ì
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int ObjectId {
@@ -7593,7 +7593,7 @@ namespace Google.Protobuf.Protocol {
     public const int ClientSendTimeFieldNumber = 2;
     private long clientSendTime_;
     /// <summary>
-    /// Å¬¶ó ±âÁØ º¸³½ ½ÃÁ¡
+    /// í´ë¼ ê¸°ì¤€ ë³´ë‚¸ ì‹œì 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public long ClientSendTime {
@@ -7607,7 +7607,7 @@ namespace Google.Protobuf.Protocol {
     public const int ServerReceivedTimeFieldNumber = 3;
     private long serverReceivedTime_;
     /// <summary>
-    /// ¼­¹ö ±âÁØ º¸³½ ½ÃÁ¡
+    /// ì„œë²„ ê¸°ì¤€ ë³´ë‚¸ ì‹œì 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public long ServerReceivedTime {
@@ -7621,7 +7621,7 @@ namespace Google.Protobuf.Protocol {
     public const int PositionFieldNumber = 4;
     private global::Google.Protobuf.Protocol.ProtoVector3 position_;
     /// <summary>
-    /// ÇöÀç À§Ä¡
+    /// í˜„ì¬ ìœ„ì¹˜
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.ProtoVector3 Position {
@@ -7635,7 +7635,7 @@ namespace Google.Protobuf.Protocol {
     public const int VelocityFieldNumber = 5;
     private global::Google.Protobuf.Protocol.ProtoVector3 velocity_;
     /// <summary>
-    /// ÀÌµ¿ ¼Óµµ
+    /// ì´ë™ ì†ë„
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.ProtoVector3 Velocity {
@@ -7649,7 +7649,7 @@ namespace Google.Protobuf.Protocol {
     public const int RotationFieldNumber = 6;
     private global::Google.Protobuf.Protocol.ProtoQuaternion rotation_;
     /// <summary>
-    /// È¸Àü »óÅÂ
+    /// íšŒì „ ìƒíƒœ
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.ProtoQuaternion Rotation {
@@ -7663,7 +7663,7 @@ namespace Google.Protobuf.Protocol {
     public const int NameFieldNumber = 7;
     private string name_ = "";
     /// <summary>
-    /// À¯Àú ÀÌ¸§ (todo)
+    /// ìœ ì € ì´ë¦„ (todo)
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Name {
@@ -7677,7 +7677,7 @@ namespace Google.Protobuf.Protocol {
     public const int CreatureStateFieldNumber = 8;
     private global::Google.Protobuf.Protocol.CreatureState creatureState_ = global::Google.Protobuf.Protocol.CreatureState.None;
     /// <summary>
-    /// Ä³¸¯ÅÍ »óÅÂ
+    /// ìºë¦­í„° ìƒíƒœ
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.CreatureState CreatureState {
@@ -7691,7 +7691,7 @@ namespace Google.Protobuf.Protocol {
     public const int StatFieldNumber = 9;
     private global::Google.Protobuf.Protocol.Stat stat_;
     /// <summary>
-    /// Ä³¸¯ÅÍ ½ºÅÈ
+    /// ìºë¦­í„° ìŠ¤íƒ¯
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.Stat Stat {
@@ -7705,7 +7705,7 @@ namespace Google.Protobuf.Protocol {
     public const int ObjectTypeFieldNumber = 10;
     private global::Google.Protobuf.Protocol.GameObjectType objectType_ = global::Google.Protobuf.Protocol.GameObjectType.None;
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾îÀÎÁö ¸ó½ºÅÍÀÎÁö
+    /// í”Œë ˆì´ì–´ì¸ì§€ ëª¬ìŠ¤í„°ì¸ì§€
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.GameObjectType ObjectType {
@@ -7719,7 +7719,7 @@ namespace Google.Protobuf.Protocol {
     public const int MonsterTypeFieldNumber = 11;
     private global::Google.Protobuf.Protocol.MonsterType monsterType_ = global::Google.Protobuf.Protocol.MonsterType.None;
     /// <summary>
-    /// ¸ó½ºÅÍ¸é ¹«½¼ Å¸ÀÔÀÎÁö
+    /// ëª¬ìŠ¤í„°ë©´ ë¬´ìŠ¨ íƒ€ì…ì¸ì§€
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.MonsterType MonsterType {
@@ -7733,7 +7733,7 @@ namespace Google.Protobuf.Protocol {
     public const int ProjectileTypeFieldNumber = 12;
     private global::Google.Protobuf.Protocol.ProjectileType projectileType_ = global::Google.Protobuf.Protocol.ProjectileType.None;
     /// <summary>
-    /// Åõ»çÃ¼¸é ¹«½¼ Å¸ÀÔÀÎÁö
+    /// íˆ¬ì‚¬ì²´ë©´ ë¬´ìŠ¨ íƒ€ì…ì¸ì§€
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.ProjectileType ProjectileType {
@@ -7747,7 +7747,7 @@ namespace Google.Protobuf.Protocol {
     public const int OwnerIdFieldNumber = 13;
     private int ownerId_;
     /// <summary>
-    /// Åõ»çÃ¼ ¼ÒÀ¯ÀÚ°¡ ´©±¸ÀÎÁö ´Ù¸¥ ÇÃ·¹ÀÌ¾î¿¡°Ô ¾Ë¸®±â
+    /// íˆ¬ì‚¬ì²´ ì†Œìœ ìê°€ ëˆ„êµ¬ì¸ì§€ ë‹¤ë¥¸ í”Œë ˆì´ì–´ì—ê²Œ ì•Œë¦¬ê¸°
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int OwnerId {
@@ -8431,7 +8431,7 @@ namespace Google.Protobuf.Protocol {
     public const int AttackRangeFieldNumber = 9;
     private float attackRange_;
     /// <summary>
-    /// ¹İÁö¸§ r
+    /// ë°˜ì§€ë¦„ r
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public float AttackRange {
@@ -8445,7 +8445,7 @@ namespace Google.Protobuf.Protocol {
     public const int AttackHalfAngleDegFieldNumber = 10;
     private float attackHalfAngleDeg_;
     /// <summary>
-    /// ºÎÃ¤²ÃÀÇ ¹İ°¢ d(µµ)
+    /// ë¶€ì±„ê¼´ì˜ ë°˜ê° d(ë„)
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public float AttackHalfAngleDeg {
@@ -8459,7 +8459,7 @@ namespace Google.Protobuf.Protocol {
     public const int AttackHeightFieldNumber = 11;
     private float attackHeight_;
     /// <summary>
-    /// ³ôÀÌ
+    /// ë†’ì´
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public float AttackHeight {
@@ -9105,7 +9105,7 @@ namespace Google.Protobuf.Protocol {
   }
 
   /// <summary>
-  /// Äù½ºÆ® Á¤ÀÇ
+  /// í€˜ìŠ¤íŠ¸ ì •ì˜
   /// </summary>
   public sealed partial class QuestDefinition : pb::IMessage<QuestDefinition> {
     private static readonly pb::MessageParser<QuestDefinition> _parser = new pb::MessageParser<QuestDefinition>(() => new QuestDefinition());
@@ -9207,7 +9207,7 @@ namespace Google.Protobuf.Protocol {
     public const int PrerequisiteQuestIdFieldNumber = 6;
     private int prerequisiteQuestId_;
     /// <summary>
-    /// ¼±Çà Äù½ºÆ® ID (¾øÀ¸¸é 0
+    /// ì„ í–‰ í€˜ìŠ¤íŠ¸ ID (ì—†ìœ¼ë©´ 0
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int PrerequisiteQuestId {
@@ -9509,7 +9509,7 @@ namespace Google.Protobuf.Protocol {
     public const int TargetIdFieldNumber = 4;
     private int targetId_;
     /// <summary>
-    /// ¸ó½ºÅÍ, NPC, ¾ÆÀÌÅÛ, ¿ÀºêÁ§Æ® ID
+    /// ëª¬ìŠ¤í„°, NPC, ì•„ì´í…œ, ì˜¤ë¸Œì íŠ¸ ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int TargetId {
@@ -9534,7 +9534,7 @@ namespace Google.Protobuf.Protocol {
     public const int RewardFieldNumber = 6;
     private global::Google.Protobuf.Protocol.QuestReward reward_;
     /// <summary>
-    /// subµµ º¸»ó ÁÜ
+    /// subë„ ë³´ìƒ ì¤Œ
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.QuestReward Reward {

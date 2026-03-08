@@ -16,15 +16,15 @@ public class UI_Currency : UI_Scene
         GoldText,
     }
 
-    // ÀçÈ­ UI¿¡ ÇÊ¿äÇÑ UI ÅØ½ºÆ® ÄÄÆ÷³ÍÆ®
+    // ì¬í™” UIì— í•„ìš”í•œ UI í…ìŠ¤íŠ¸ ì»´í¬ë„ŒíŠ¸
     private Dictionary<CurrencyType, TextMeshProUGUI> _currencyTextDictionary;
 
-    // ÀçÈ­ UI¿¡ ÇÊ¿äÇÑ ÀçÈ­ µ¥ÀÌÅÍ
+    // ì¬í™” UIì— í•„ìš”í•œ ì¬í™” ë°ì´í„°
     private Dictionary<CurrencyType, int> _currencyDataDictionary = new Dictionary<CurrencyType, int>();
 
     public void SetData(CurrencyData currencyData)
     {
-        // ÀçÈ­ ÅØ½ºÆ® ÄÄÆ÷³ÍÆ® ÃÊ±âÈ­
+        // ì¬í™” í…ìŠ¤íŠ¸ ì»´í¬ë„ŒíŠ¸ ì´ˆê¸°í™”
         if (_currencyTextDictionary == null)
         {
             _currencyTextDictionary = new Dictionary<CurrencyType, TextMeshProUGUI>();
@@ -39,7 +39,7 @@ public class UI_Currency : UI_Scene
 
                 if (Enum.TryParse<Texts>(textName, out var textEnum) == false)
                 {
-                    Debug.Log($"[UI_Currency] Texts enum¿¡ {textName} ¾øÀ½");
+                    Debug.Log($"[UI_Currency] Texts enumì— {textName} ì—†ìŒ");
                     continue;
                 }
 
@@ -49,7 +49,7 @@ public class UI_Currency : UI_Scene
             }
         }
 
-        // ÀçÈ­ µ¥ÀÌÅÍ ÃÊ±âÈ­
+        // ì¬í™” ë°ì´í„° ì´ˆê¸°í™”
         foreach (CurrencyType currencyType in Enum.GetValues(typeof(CurrencyType)))
         {
             if (currencyType == CurrencyType.None || currencyType == CurrencyType.Level ||
@@ -68,17 +68,17 @@ public class UI_Currency : UI_Scene
             }
             else
             {
-                Debug.Log($"CurrencyData¿¡ {currencyName} ¼Ó¼ºÀÌ ¾ø½À´Ï´Ù.");
+                Debug.Log($"CurrencyDataì— {currencyName} ì†ì„±ì´ ì—†ìŠµë‹ˆë‹¤.");
             }
         }
     }
     
-    // Æ¯Á¤ ÀçÈ­ Å¸ÀÔ°ú Á¤º¸¸¦ ¼³Á¤ (¹İµå½Ã _currencyText, _currencyData °¡ ÃÊ±âÈ­ µÈ »óÅÂ¿¡¼­¸¸ ¼³Á¤)
+    // íŠ¹ì • ì¬í™” íƒ€ì…ê³¼ ì •ë³´ë¥¼ ì„¤ì • (ë°˜ë“œì‹œ _currencyText, _currencyData ê°€ ì´ˆê¸°í™” ëœ ìƒíƒœì—ì„œë§Œ ì„¤ì •)
     public void SetData(CurrencyType currencyType, int amount)
     {
         if (_currencyTextDictionary == null || _currencyDataDictionary.ContainsKey(currencyType) == false)
         {
-            Debug.Log($"UI_Currency¿¡ {currencyType} ÅØ½ºÆ® ÄÄÆ÷³ÍÆ®°¡ ¾ø½À´Ï´Ù.");
+            Debug.Log($"UI_Currencyì— {currencyType} í…ìŠ¤íŠ¸ ì»´í¬ë„ŒíŠ¸ê°€ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -92,10 +92,10 @@ public class UI_Currency : UI_Scene
 
         Bind<TextMeshProUGUI>(typeof(Texts));
 
-        // º»ÀÎÀ» ÇØ´ç SceneÀÇ Currency UI·Î ¼³Á¤
+        // ë³¸ì¸ì„ í•´ë‹¹ Sceneì˜ Currency UIë¡œ ì„¤ì •
         Managers.UI.CurrencyUI = this;
 
-        // ÃÖÃÊ UI ÃÊ±âÈ­ ½Ã ÀçÈ­ µ¥ÀÌÅÍ¸¦ ¼­¹ö¿¡ ¿äÃ»
+        // ìµœì´ˆ UI ì´ˆê¸°í™” ì‹œ ì¬í™” ë°ì´í„°ë¥¼ ì„œë²„ì— ìš”ì²­
         Managers.Currency.RequestCurrencyDataAll();
     }
 }

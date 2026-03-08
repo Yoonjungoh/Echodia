@@ -21,7 +21,7 @@ public class UI_Login : UI_Scene
 
     private TMP_InputField _idInputField;
     private TMP_InputField _passwordInputField;
-    private bool _isLoginInProgress = false;    // ·Î±×ÀÎ ½Ãµµ ÁßÀÎÁö ¿©ºÎ
+    private bool _isLoginInProgress = false;    // ë¡œê·¸ì¸ ì‹œë„ ì¤‘ì¸ì§€ ì—¬ë¶€
 
     public override void Init()
     {
@@ -46,13 +46,13 @@ public class UI_Login : UI_Scene
                 OnLoginSuccess();
                 break;
             case LoginStatus.PasswordWrong:
-                Managers.UI.ShowToastPopup("ºñ¹Ğ¹øÈ£°¡ Æ²·È½À´Ï´Ù.");
+                Managers.UI.ShowToastPopup("ë¹„ë°€ë²ˆí˜¸ê°€ í‹€ë ¸ìŠµë‹ˆë‹¤.");
                 break;
             case LoginStatus.AlreadyLoggedIn:
-                Managers.UI.ShowToastPopup("ÀÌ¹Ì Á¢¼Ó ÁßÀÎ °èÁ¤ÀÔ´Ï´Ù.");
+                Managers.UI.ShowToastPopup("ì´ë¯¸ ì ‘ì† ì¤‘ì¸ ê³„ì •ì…ë‹ˆë‹¤.");
                 break;
             case LoginStatus.SignUpSuccess:
-                Managers.UI.ShowToastPopup("È¸¿ø °¡ÀÔ¿¡ ¼º°øÇß½À´Ï´Ù.");
+                Managers.UI.ShowToastPopup("íšŒì› ê°€ì…ì— ì„±ê³µí–ˆìŠµë‹ˆë‹¤.");
                 _idInputField.text = "";
                 _passwordInputField.text = "";
                 break;
@@ -63,7 +63,7 @@ public class UI_Login : UI_Scene
     {
         if (_isLoginInProgress)
         {
-            Managers.UI.ShowToastPopup("·Î±×ÀÎ Ã³¸® ÁßÀÔ´Ï´Ù. Àá½Ã¸¸ ±â´Ù·ÁÁÖ¼¼¿ä.");
+            Managers.UI.ShowToastPopup("ë¡œê·¸ì¸ ì²˜ë¦¬ ì¤‘ì…ë‹ˆë‹¤. ì ì‹œë§Œ ê¸°ë‹¤ë ¤ì£¼ì„¸ìš”.");
             return;
         }
 
@@ -73,7 +73,7 @@ public class UI_Login : UI_Scene
 
     private void OnClickLoginButton()
     {
-        // TODO - ¹«ÇÑ ÆĞÅ¶ ¹ß»ç ¹æÁöÇÏ±â À§ÇØ Àü¼Û ÁÖ±â Å¸ÀÌ¸Ó ³Ö±â
+        // TODO - ë¬´í•œ íŒ¨í‚· ë°œì‚¬ ë°©ì§€í•˜ê¸° ìœ„í•´ ì „ì†¡ ì£¼ê¸° íƒ€ì´ë¨¸ ë„£ê¸°
         C_Login loginPacket = new C_Login();
         loginPacket.Id = _idInputField.text;
         loginPacket.Password = _passwordInputField.text;
@@ -83,9 +83,9 @@ public class UI_Login : UI_Scene
     private void OnClickExitGameButton()
     {
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;   // ¿¡µğÅÍ Àç»ı Á¾·á
+        UnityEditor.EditorApplication.isPlaying = false;   // ì—ë””í„° ì¬ìƒ ì¢…ë£Œ
 #else
-    Application.Quit();                                // ºôµå¿¡¼­ °ÔÀÓ Á¾·á
+    Application.Quit();                                // ë¹Œë“œì—ì„œ ê²Œì„ ì¢…ë£Œ
 #endif
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public abstract class UI_SubItem<TData> : UI_Base
 {
-    // TData Å¸ÀÔÀÇ µ¥ÀÌÅÍ¸¦ ¹Şµµ·Ï ÅëÀÏ
+    // TData íƒ€ì…ì˜ ë°ì´í„°ë¥¼ ë°›ë„ë¡ í†µì¼
     protected TData _data;
 
     public virtual void SetData(TData data)

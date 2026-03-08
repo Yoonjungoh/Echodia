@@ -9,7 +9,7 @@ public class LoginScene : BaseScene
     {
         base.Init();
         
-        // ·Î±×ÀÎ Ã¢ ÀÔÀå Ã³À½¿¡¸¸ Ä¿³ØÆÃ ½Ãµµ
+        // ë¡œê·¸ì¸ ì°½ ì…ì¥ ì²˜ìŒì—ë§Œ ì»¤ë„¥íŒ… ì‹œë„
         if (Managers.Network.IsInitialized == false)
         {
             StartCoroutine(Managers.Network.CoDownloadServerURL(() => Managers.UI.ShowSceneUI<UI_Login>()));
@@ -19,7 +19,7 @@ public class LoginScene : BaseScene
             Managers.UI.ShowSceneUI<UI_Login>();
         }
 
-        Managers.Scene.CurrentScene = Define.Scene.Login;   // Ã³À½ ½ÃÀÛÇÏ´Â Scene °­Á¦ ÇÒ´ç
+        Managers.Scene.CurrentScene = Define.Scene.Login;   // ì²˜ìŒ ì‹œì‘í•˜ëŠ” Scene ê°•ì œ í• ë‹¹
     }
 
     private void Awake()

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class URLManager
 {
-    // ÆÄ½ÌÇÒ JSON ÆÄÀÏÀÇ ¼­¹ö ÁÖ¼Ò
+    // íŒŒì‹±í•  JSON íŒŒì¼ì˜ ì„œë²„ ì£¼ì†Œ
     public string JsonPath = "https://evenidemonickitchen.s3.ap-northeast-2.amazonaws.com/CouponData.json";
 
     public string Ec2Url = "https://evenidemonickitchen.s3.ap-northeast-2.amazonaws.com/EC2Url.json";

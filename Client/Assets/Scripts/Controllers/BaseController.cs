@@ -5,12 +5,12 @@ using UnityEngine;
 
 public abstract class BaseController : MonoBehaviour
 {
-    // ¼­¹ö µ¥ÀÌÅÍ
-    protected float _lerpSpeed = 10f; // µ¥µå ·¹Ä¿´× º¸°£ ¼Óµµ Á¶Àı
+    // ì„œë²„ ë°ì´í„°
+    protected float _lerpSpeed = 10f; // ë°ë“œ ë ˆì»¤ë‹ ë³´ê°„ ì†ë„ ì¡°ì ˆ
     protected Vector3 _serverPosition;
     protected Quaternion _serverRotation;
     protected Vector3 _serverVelocity;
-    protected double _serverReceivedTimeMs = 0.0;  // ¼­¹ö¿¡¼­ ÆĞÅ¶À» º¸³½ ½Ã°£
+    protected double _serverReceivedTimeMs = 0.0;  // ì„œë²„ì—ì„œ íŒ¨í‚·ì„ ë³´ë‚¸ ì‹œê°„
     
     public ObjectState ObjectState { get; set; } = new ObjectState();
     public string Name { get { return ObjectState.Name; } set { ObjectState.Name = value; } }
@@ -125,6 +125,6 @@ public abstract class BaseController : MonoBehaviour
         return Stat.Hp <= 0.0f;
     }
 
-    // °ÔÀÓ·ë¿¡¼­ »ç¶óÁö¸é È£ÃâµÇ´Â ÇÔ¼ö
+    // ê²Œì„ë£¸ì—ì„œ ì‚¬ë¼ì§€ë©´ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜
     public abstract void OnDead();
 }

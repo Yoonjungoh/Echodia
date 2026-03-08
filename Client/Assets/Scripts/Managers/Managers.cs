@@ -8,6 +8,7 @@ public class Managers : MonoBehaviour
     private static Managers s_instance; // 유일성이 보장된다
     private static Managers Instance { get { Init(); return s_instance; } } // 유일한 매니저를 갖고온다
 
+    private ConfigManager _config = new ConfigManager();
     private CurrencyManager _currency = new CurrencyManager();
     private GameRoomManager _gameRoom = new GameRoomManager();
     private GameRoomObjectManager _gameRoomObject = new GameRoomObjectManager();
@@ -20,9 +21,11 @@ public class Managers : MonoBehaviour
     private ResourceManager _resource = new ResourceManager();
     private SceneManagerEx _scene = new SceneManagerEx();
     private SoundManager _sound = new SoundManager();
+    private SpecDataManager _specData = new SpecDataManager();
     private UIManager _ui = new UIManager();
     private URLManager _url = new URLManager();
 
+    public static ConfigManager Config { get { return Instance._config; } }
     public static CurrencyManager Currency { get { return Instance._currency; } }
     public static GameRoomManager GameRoom { get { return Instance._gameRoom; } }
     public static GameRoomObjectManager GameRoomObject { get { return Instance._gameRoomObject; } }
@@ -35,6 +38,7 @@ public class Managers : MonoBehaviour
     public static ResourceManager Resource { get { return Instance._resource; } }
     public static SceneManagerEx Scene { get { return Instance._scene; } }
     public static SoundManager Sound { get { return Instance._sound; } }
+    public static SpecDataManager SpecData { get { return Instance._specData; } }
     public static UIManager UI { get { return Instance._ui; } }
     public static URLManager URL { get { return Instance._url; } }
 
@@ -72,6 +76,29 @@ public class Managers : MonoBehaviour
             s_instance._map.Init();
             s_instance._gameRoomObject.Init();
         }
+    }
+
+    public IEnumerator CoInit()
+    {
+        yield return StartCoroutine(SpecData.CoDownloadDataSheet());
+        yield return StartCoroutine(Config.CoDownloadConfig());
+
+        OnAllDataReady();
+    }
+
+
+    public static bool IsDataReady { get; private set; }
+
+    private void OnAllDataReady()
+    {
+        IsDataReady = true;
+        Debug.Log("[Managers] 모든 데이터 준비 완료. 게임 시작 가능.");
+
+        // 최초에만 적용 (이후에는 LoadScene에서 CurrentScene 자동으로 바뀜)
+        // UI는 각 Scene의 SceneStarter에서 주로 호출
+        // 최초만 예외
+        // Managers.UI.ShowSceneUI<UI_Splash>();
+        // Managers.Scene.CurrentScene = Define.Scene.Splash;
     }
 
     public static void Clear()

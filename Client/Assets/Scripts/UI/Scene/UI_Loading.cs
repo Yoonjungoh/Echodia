@@ -117,7 +117,7 @@ public class UI_Loading : UI_Scene
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        // ¸ğµÎ ºÒ·¯¿ÍÁ³À½
+        // ëª¨ë‘ ë¶ˆëŸ¬ì™€ì¡ŒìŒ
         if (scene.name == _loadSceneName)
         {
             StartCoroutine(CoFade(false));

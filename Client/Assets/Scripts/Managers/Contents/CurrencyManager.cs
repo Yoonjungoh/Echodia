@@ -18,14 +18,14 @@ public class CurrencyManager
     }
 
 
-    // ¼­¹ö¿¡ ¸ğµç ÃÖ½Å ÀçÈ­ µ¥ÀÌÅÍ ¿äÃ» 
+    // ì„œë²„ì— ëª¨ë“  ìµœì‹  ì¬í™” ë°ì´í„° ìš”ì²­ 
     public void RequestCurrencyDataAll()
     {
         C_UpdateCurrencyDataAll updateCurrencyDataAllPacket = new C_UpdateCurrencyDataAll();
         Managers.Network.Send(updateCurrencyDataAllPacket);
     }
 
-    // ¼­¹ö¿¡ Æ¯Á¤ ÃÖ½Å ÀçÈ­ µ¥ÀÌÅÍ ¿äÃ» 
+    // ì„œë²„ì— íŠ¹ì • ìµœì‹  ì¬í™” ë°ì´í„° ìš”ì²­ 
     public void RequestCurrencyData(CurrencyType currencyType)
     {
         C_UpdateCurrencyData updateCurrencyDataPacket = new C_UpdateCurrencyData();

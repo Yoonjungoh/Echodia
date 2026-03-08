@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MonsterController : CreatureController
 {
-    [SerializeField] protected float _transitionTime = 0.1f; // ¾Ö´Ï¸ŞÀÌ¼Ç ÀüÈ¯ ½Ã°£
+    [SerializeField] protected float _transitionTime = 0.1f; // ì• ë‹ˆë©”ì´ì…˜ ì „í™˜ ì‹œê°„
     protected CreatureState _lastAnimState = CreatureState.Idle;
     protected MonsterType MonsterType { get { return ObjectState.MonsterType; } }
 
@@ -14,7 +14,7 @@ public class MonsterController : CreatureController
         base.Init();
     }
 
-    // ¸Å ÇÁ·¹ÀÓ CrossFade È£Ãâ ¹æÁö ¿ëµµ
+    // ë§¤ í”„ë ˆì„ CrossFade í˜¸ì¶œ ë°©ì§€ ìš©ë„
     protected override void UpdateIdle()
     {
         base.UpdateIdle();

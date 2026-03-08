@@ -34,7 +34,7 @@ public class UI_CreatePlayer : UI_Popup
 
     private void OnClickConfirmButton()
     {
-        // ¼­¹ö¿¡ ¹æ »ı¼º ÆĞÅ¶ Àü¼Û
+        // ì„œë²„ì— ë°© ìƒì„± íŒ¨í‚· ì „ì†¡
         C_CreatePlayer createPlayerPacket = new C_CreatePlayer();
         createPlayerPacket.Name = _playerNameText.text;
         Managers.Network.Send(createPlayerPacket);
