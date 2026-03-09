@@ -59,14 +59,16 @@ public class CreatureController : BaseController
         _commonAttackAnimLength = _anim.GetAnimationClipLength(_commonAttackanimName) / _commonAttackAnimSpeedTime;
         _waitCommonAttackReturn ??= new WaitForSeconds(_commonAttackAnimLength);
 
-        // 체력바 소환 (투사체는 이후에 조절)
-        _hpBar = Managers.UI.MakeWorldSpaceUI<UI_HpBar>(transform, worldPositionStays: false);
+        // 체력바 소환 (풀링 재사용 시 중복 생성 방지)
+        if (_hpBar == null)
+            _hpBar = Managers.UI.MakeWorldSpaceUI<UI_HpBar>(transform, worldPositionStays: false);
         _hpBarPosOffset = Vector3.up * _collider.bounds.size.y;
         _hpBar.SetData(_hpBarPosOffset);
         _hpBar.UpdateHpBar(Stat.Hp, Stat.MaxHp);
 
-        // 이름바 소환
-        _nameBar = Managers.UI.MakeWorldSpaceUI<UI_NameBar>(transform, worldPositionStays: false);
+        // 이름바 소환 (풀링 재사용 시 중복 생성 방지)
+        if (_nameBar == null)
+            _nameBar = Managers.UI.MakeWorldSpaceUI<UI_NameBar>(transform, worldPositionStays: false);
         _nameBarPosOffset = Vector3.up * (_collider.bounds.size.y + 0.5f);
         _nameBar.SetData(Name, _nameBarPosOffset);
 
@@ -76,6 +78,39 @@ public class CreatureController : BaseController
 
         _dieEffectName = $"{CreatureState.Die}Effect";
         _dieEffectOffset = new Vector3(0, _collider.bounds.size.y / 2, 0);
+    }
+
+    // 풀에서 꺼낼 때 자동 호출 (SetActive(true) → OnEnable)
+    protected virtual void OnEnable()
+    {
+        if (!_initialized)
+            return;
+
+        ResetPoolState();
+    }
+
+    // 풀에서 꺼낼 때 상태 초기화
+    protected virtual void ResetPoolState()
+    {
+        StopAllCoroutines();
+        CreatureState = CreatureState.Idle;
+
+        if (_collider != null)
+            _collider.isTrigger = false;
+
+        if (_rb != null)
+        {
+            _rb.isKinematic = false;
+            _rb.useGravity = true;
+            _rb.velocity = Vector3.zero;
+        }
+    }
+
+    // ObjectState 세팅 후 GameRoomObjectManager에서 호출 → HP바/이름바 갱신
+    public virtual void OnSpawnSetup()
+    {
+        _hpBar?.UpdateHpBar(Stat.Hp, Stat.MaxHp);
+        _nameBar?.SetData(Name, _nameBarPosOffset);
     }
 
     protected override void UpdateMove() 

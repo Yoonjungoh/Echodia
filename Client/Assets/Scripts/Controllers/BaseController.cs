@@ -99,7 +99,12 @@ public abstract class BaseController : MonoBehaviour
         }
     }
 
-    public virtual void Init() { }
+    protected bool _initialized = false;
+
+    public virtual void Init()
+    {
+        _initialized = true;
+    }
 
     protected virtual void UpdateMove() { }
     protected virtual void UpdateIdle() { }

@@ -6,11 +6,18 @@ using UnityEngine;
 public class PlayerController : CreatureController
 {
     [SerializeField] protected float _transitionTime = 0.1f; // 애니메이션 전환 시간
-    private CreatureState _lastAnimState = CreatureState.Idle;
+    protected CreatureState _lastAnimState = CreatureState.Idle;
 
     public override void Init()
     {
         base.Init();
+    }
+
+    protected override void ResetPoolState()
+    {
+        base.ResetPoolState();
+        _lastAnimState = CreatureState.Idle;
+        _anim?.CrossFade("Idle", 0f);
     }
 
     // 매 프레임 CrossFade 호출 방지 용도
@@ -47,7 +54,7 @@ public class PlayerController : CreatureController
     public override void OnDead()
     {
         base.OnDead();
-        gameObject.SetActive(false);
+        Managers.Resource.Destroy(gameObject);
     }
 
     protected override void OnDestroy()

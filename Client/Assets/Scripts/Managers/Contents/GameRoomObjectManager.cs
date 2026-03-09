@@ -78,6 +78,7 @@ public class GameRoomObjectManager
                 objectState.Velocity,
                 objectState.ServerReceivedTime
             );
+            otherPlayer.OnSpawnSetup();
             _objects.Add(objectState.ObjectId, otherPlayer.gameObject);
             Debug.Log($"다른 유저 소환");
         }
@@ -95,6 +96,7 @@ public class GameRoomObjectManager
                 objectState.Velocity,
                 objectState.ServerReceivedTime
             );
+            monster.OnSpawnSetup();
             _objects.Add(objectState.ObjectId, monster.gameObject);
         }
         else if (objectType == GameObjectType.Projectile)

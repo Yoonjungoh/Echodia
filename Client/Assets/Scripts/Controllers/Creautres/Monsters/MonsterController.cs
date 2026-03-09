@@ -14,6 +14,13 @@ public class MonsterController : CreatureController
         base.Init();
     }
 
+    protected override void ResetPoolState()
+    {
+        base.ResetPoolState();
+        _lastAnimState = CreatureState.Idle;
+        _anim?.Play("Idle", 0, 0f);
+    }
+
     // 매 프레임 CrossFade 호출 방지 용도
     protected override void UpdateIdle()
     {

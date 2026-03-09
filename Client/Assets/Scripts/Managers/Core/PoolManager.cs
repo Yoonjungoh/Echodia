@@ -102,6 +102,7 @@ public class PoolManager
         if (_pool.ContainsKey(original.name) == false)
             CreatePool(original);
 
+        Debug.Log($"Get Pool: {original.name}");
         return _pool[original.name].Pop(parent);
     }
 

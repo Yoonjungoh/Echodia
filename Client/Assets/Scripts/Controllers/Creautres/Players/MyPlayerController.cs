@@ -264,6 +264,15 @@ public class MyPlayerController : PlayerController
         Managers.Network.Send(_movePacket);
     }
 
+    protected override void ResetPoolState()
+    {
+        base.ResetPoolState();
+        _moveDir = Vector3.zero;
+        _prevVelocity = Vector3.zero;
+        _prevRotation = transform.rotation;
+        _lastAttackTime = -999f;
+    }
+
     protected override void OnDestroy()
     {
         base.OnDestroy();
