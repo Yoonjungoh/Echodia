@@ -20,7 +20,7 @@ namespace Server.Game.Object
             Stat.Defense = 0;
             Stat.MoveSpeed = 7;
             _searchRange = 7f;
-            ObjectUId = 30001;
+            TemplateId = 30001;
             
             _gold = 15;
             Level = 1;
