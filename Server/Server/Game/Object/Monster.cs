@@ -13,6 +13,7 @@ namespace Server.Game
         protected float _searchRange = 7.0f;
         protected Player _target;
         protected int _gold;
+        protected float _respawnTime;
         public Monster()
         {
             ObjectType = GameObjectType.Monster;
@@ -38,7 +39,7 @@ namespace Server.Game
 
         long _nextSearchTick = 0;
         int _searchTick = 500;
-        
+
         public virtual void UpdateIdle()
         {
             if (_nextSearchTick > Environment.TickCount64)
@@ -50,7 +51,7 @@ namespace Server.Game
             {
                 if (p == null)
                     return false;
-                
+
                 Vector3 playerPos = p.CurrentPosition;
                 Vector3 dir = playerPos - CurrentPosition;
                 float cellDist = Math.Abs(dir.X) + Math.Abs(dir.Y);
@@ -244,6 +245,9 @@ namespace Server.Game
 
         public override void OnDead(GameObject instigator)
         {
+            // 리스폰 큐에 넣기
+            GameRoom.Push(GameRoom.ReserveRespawn, Id, SpawnPosition, _respawnTime);
+
             GameObjectType gameObjectType = ObjectManager.Instance.GetObjectTypeById(instigator.Id);
             if (gameObjectType == GameObjectType.Player)
             {

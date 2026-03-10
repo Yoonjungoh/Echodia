@@ -84,7 +84,7 @@ public class PoolManager
 
         _pool.Add(original.name, pool);
     }
-
+    
     public void Push(Poolable poolable)
     {
         string name = poolable.gameObject.name;

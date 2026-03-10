@@ -23,6 +23,7 @@ namespace Server.Game.Object
             _gold = 15;
             Level = 1;
             SetExp(500, needLevelUp: false);
+            _respawnTime = 5f;
         }
     }
 }

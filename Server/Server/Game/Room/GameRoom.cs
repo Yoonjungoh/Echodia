@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf;
 using Google.Protobuf.Protocol;
+using Microsoft.Extensions.Logging.Console;
 using Server.Currency;
 using Server.DB;
 using Server.Game.Object;
@@ -37,6 +38,8 @@ namespace Server.Game
         public bool IsRoomFull { get { return _players.Count == DataManager.Instance.MaxRoomPlayerCount; } }
 
         public event Action OnPlayerInfoChanged;  // 방 정보 바뀌었을 때 알림 (roomId)
+
+        private PriorityQueue<int, DateTime> _respawnQueue = new PriorityQueue<int, DateTime>();
 
         public GameRoom(int serverId, int channelId, int mapId)
         {
@@ -96,6 +99,7 @@ namespace Server.Game
             Flush();
             UpdateMonsters();
             UpdateProjectiles();
+            UpdateRespawn();
         }
 
         private void UpdateMonsters()
@@ -136,7 +140,32 @@ namespace Server.Game
                 LeaveGame(id);
             }
         }
-        
+
+        private void UpdateRespawn()
+        {
+            while (_respawnQueue.TryPeek(out int monsterId, out DateTime respawnTime))
+            {
+                // 아직 부활 시간이 안 됐으면 중단 (정렬되어 있으므로 뒤는 볼 필요 없음)
+                if (respawnTime > DateTime.UtcNow) break;
+
+                // 시간 됐으면 큐에서 빼고 리스폰 처리
+                _respawnQueue.Dequeue();
+                ExecuteRespawn(monsterId);
+            }
+        }
+
+        private void ExecuteRespawn(int monsterId)
+        {
+            if (_monsters.TryGetValue(monsterId, out Monster monster))
+            {
+                ConsoleLogManager.Instance.Log($"Respawn Monster: {monsterId}");
+                EnterGame(monster);
+                return;
+            }
+
+            ConsoleLogManager.Instance.Log($"Dont Exist Monster: {monsterId} in {ServerId}-{ChannelId}");
+        }
+
         public void SpawnMonster(MonsterType monsterType, Vector3 spawnPos)
         {
             Monster monster = MonsterFactory.Create(monsterType);
@@ -144,6 +173,13 @@ namespace Server.Game
             monster.MonsterType = monsterType;
             monster.Name = $"{monsterType}_{monster.ObjectState.ObjectId}";
             monster.Position = MovementHelper.Vec3ToProtoVec3(spawnPos);
+            monster.SpawnPosition =
+            new ProtoVector3
+            {
+                X = spawnPos.X,
+                Y = spawnPos.Y,
+                Z = spawnPos.Z
+            };
 
             Push(EnterGame, monster);
         }
@@ -435,7 +471,7 @@ namespace Server.Game
                 p.ObjectState.ServerReceivedTime = serverReceivedTime;
                 ConsoleLogManager.Instance.Log($"[GameRoom Update] Player {p.Id} Pos({p.Position.X}, {p.Position.Y}, {p.Position.Z})");
             }
-            
+
             S_Spawn spawnToOthersPacket = new S_Spawn();
             spawnToOthersPacket.ObjectStateList.Add(gameObject.ObjectState);
             Broadcast(MovementHelper.ProtoVec3ToVec3(gameObject.Position), spawnToOthersPacket);
@@ -620,7 +656,7 @@ namespace Server.Game
             {
                 return _players[id];
             }
-            
+
             return null;
         }
 
@@ -714,17 +750,20 @@ namespace Server.Game
             _gameObjects.Add(gameObject.Id, gameObject);
 
             // 분기별로 추가
-            if (gameObject.ObjectType == GameObjectType.Player)
+            if (gameObject.ObjectType == GameObjectType.Player &&
+                _players.ContainsKey(gameObject.Id) == false)
             {
                 Player player = (Player)gameObject;
                 _players.Add(player.Id, player);
             }
-            else if (gameObject.ObjectType == GameObjectType.Monster)
+            else if (gameObject.ObjectType == GameObjectType.Monster &&
+                _monsters.ContainsKey(gameObject.Id) == false)
             {
                 Monster monster = (Monster)gameObject;
                 _monsters.Add(monster.Id, monster);
             }
-            else if (gameObject.ObjectType == GameObjectType.Projectile)
+            else if (gameObject.ObjectType == GameObjectType.Projectile &&
+                _projectiles.ContainsKey(gameObject.Id) == false)
             {
                 Projectile projectile = (Projectile)gameObject;
                 _projectiles.Add(projectile.Id, projectile);
@@ -744,7 +783,7 @@ namespace Server.Game
                 }
                 else if (gameObjectType == GameObjectType.Monster)
                 {
-                    _monsters.Remove(id);
+                    // _monsters.Remove(id);
                 }
                 else if (gameObjectType == GameObjectType.Projectile)
                 {
@@ -778,6 +817,11 @@ namespace Server.Game
             }
 
             return zones.ToList();
+        }
+
+        public void ReserveRespawn(int monsterId, ProtoVector3 respawnPosition, float respawnTime)
+        {
+            _respawnQueue.Enqueue(monsterId, DateTime.UtcNow.AddSeconds(respawnTime));
         }
 
         private void InitMonsters()
