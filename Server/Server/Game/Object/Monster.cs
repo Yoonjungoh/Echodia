@@ -10,7 +10,7 @@ namespace Server.Game
 {
     public class Monster : GameObject
     {
-        protected float _searchRange = 7.0f;
+        protected float _searchRange;
         protected Player _target;
         protected int _gold;
         protected float _respawnTime;

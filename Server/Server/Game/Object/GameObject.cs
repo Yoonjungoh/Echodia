@@ -18,6 +18,7 @@ namespace Server.Game
             get { return ObjectState.ObjectId; }
             set { ObjectState.ObjectId = value; }
         }
+        public int ObjectUId { get; set; }  // 데이터 시트에 명시된 고유 Id
         public GameRoom GameRoom { get; set; }
 
         public ObjectState ObjectState { get; set; }

@@ -11,6 +11,7 @@ namespace Server.Game.Object
         {
             MonsterType = MonsterType.Bear;
 
+            // TODO - 데이터 시트에서 파싱
             Stat.MaxHp = 50;
             Stat.Hp = Stat.MaxHp;
             Stat.CommonAttackDamage = 15;
@@ -18,8 +19,9 @@ namespace Server.Game.Object
             Stat.AttackRange = 4;
             Stat.Defense = 0;
             Stat.MoveSpeed = 7;
-
-            // TODO
+            _searchRange = 7f;
+            ObjectUId = 30001;
+            
             _gold = 15;
             Level = 1;
             SetExp(500, needLevelUp: false);

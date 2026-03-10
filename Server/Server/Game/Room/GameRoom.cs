@@ -146,7 +146,8 @@ namespace Server.Game
             while (_respawnQueue.TryPeek(out int monsterId, out DateTime respawnTime))
             {
                 // 아직 부활 시간이 안 됐으면 중단 (정렬되어 있으므로 뒤는 볼 필요 없음)
-                if (respawnTime > DateTime.UtcNow) break;
+                if (respawnTime > DateTime.UtcNow)
+                    break;
 
                 // 시간 됐으면 큐에서 빼고 리스폰 처리
                 _respawnQueue.Dequeue();

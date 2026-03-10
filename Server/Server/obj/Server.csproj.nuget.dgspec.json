@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\Server\\Server.csproj": {}
+    "C:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\Server\\Server.csproj": {}
   },
   "projects": {
-    "c:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\ServerCore\\ServerCore.csproj": {
+    "C:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\ServerCore\\ServerCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\ServerCore\\ServerCore.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\ServerCore\\ServerCore.csproj",
         "projectName": "ServerCore",
-        "projectPath": "c:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\ServerCore\\ServerCore.csproj",
+        "projectPath": "C:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\ServerCore\\ServerCore.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\ServerCore\\obj\\",
+        "outputPath": "C:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\ServerCore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -69,14 +69,14 @@
         }
       }
     },
-    "c:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\Server\\Server.csproj": {
+    "C:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\Server\\Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\Server\\Server.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\Server\\Server.csproj",
         "projectName": "Server",
-        "projectPath": "c:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\Server\\Server.csproj",
+        "projectPath": "C:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\Server\\Server.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\Server\\obj\\",
+        "outputPath": "C:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\Server\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -98,8 +98,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "c:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\ServerCore\\ServerCore.csproj": {
-                "projectPath": "c:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\ServerCore\\ServerCore.csproj"
+              "C:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\ServerCore\\ServerCore.csproj": {
+                "projectPath": "C:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Server\\ServerCore\\ServerCore.csproj"
               }
             }
           }
