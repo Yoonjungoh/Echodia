@@ -171,15 +171,15 @@ namespace Google.Protobuf.Protocol {
             "TEQQAhIVChFDVVJSRU5DWV9UWVBFX0VYUBADEhcKE0NVUlJFTkNZX1RZUEVf",
             "TEVWRUwQBCp3CglRdWVzdFR5cGUSEwoPUVVFU1RfVFlQRV9OT05FEAASEwoP",
             "UVVFU1RfVFlQRV9NQUlOEAESEwoPUVVFU1RfVFlQRV9TSURFEAISFAoQUVVF",
-            "U1RfVFlQRV9EQUlMWRADEhUKEVFVRVNUX1RZUEVfV0VFS0xZEAQq0AEKElF1",
+            "U1RfVFlQRV9EQUlMWRADEhUKEVFVRVNUX1RZUEVfV0VFS0xZEAQqyAEKElF1",
             "ZXN0T2JqZWN0aXZlVHlwZRIdChlRVUVTVF9PQkpFQ1RJVkVfVFlQRV9OT05F",
-            "EAASJQohUVVFU1RfT0JKRUNUSVZFX1RZUEVfS0lMTF9NT05TVEVSEAESJwoj",
-            "UVVFU1RfT0JKRUNUSVZFX1RZUEVfUkVBQ0hfTE9DQVRJT04QAhIlCiFRVUVT",
-            "VF9PQkpFQ1RJVkVfVFlQRV9DT0xMRUNUX0lURU0QAxIkCiBRVUVTVF9PQkpF",
-            "Q1RJVkVfVFlQRV9UQUxLX1RPX05QQxAEKnUKC1F1ZXN0U3RhdHVzEhUKEVFV",
-            "RVNUX1NUQVRVU19OT05FEAASEAoMTk9UX0FDQ0VQVEVEEAESDgoKUFJPQ0VF",
-            "RElORxACEg0KCUNPTVBMRVRFRBADEhIKDlJFV0FSRF9DTEFJTUVEEAQSCgoG",
-            "RkFJTEVEEAVCG6oCGEdvb2dsZS5Qcm90b2J1Zi5Qcm90b2NvbGIGcHJvdG8z"));
+            "EAASHQoZUVVFU1RfT0JKRUNUSVZFX1RZUEVfS0lMTBABEicKI1FVRVNUX09C",
+            "SkVDVElWRV9UWVBFX1JFQUNIX0xPQ0FUSU9OEAISJQohUVVFU1RfT0JKRUNU",
+            "SVZFX1RZUEVfQ09MTEVDVF9JVEVNEAMSJAogUVVFU1RfT0JKRUNUSVZFX1RZ",
+            "UEVfVEFMS19UT19OUEMQBCp1CgtRdWVzdFN0YXR1cxIVChFRVUVTVF9TVEFU",
+            "VVNfTk9ORRAAEhAKDE5PVF9BQ0NFUFRFRBABEg4KClBST0NFRURJTkcQAhIN",
+            "CglDT01QTEVURUQQAxISCg5SRVdBUkRfQ0xBSU1FRBAEEgoKBkZBSUxFRBAF",
+            "QhuqAhhHb29nbGUuUHJvdG9idWYuUHJvdG9jb2xiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.CreatureState), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.AttackType), typeof(global::Google.Protobuf.Protocol.MonsterType), typeof(global::Google.Protobuf.Protocol.ProjectileType), typeof(global::Google.Protobuf.Protocol.RoomExitReason), typeof(global::Google.Protobuf.Protocol.LoginStatus), typeof(global::Google.Protobuf.Protocol.ClientServerState), typeof(global::Google.Protobuf.Protocol.EnterServerResult), typeof(global::Google.Protobuf.Protocol.CurrencyType), typeof(global::Google.Protobuf.Protocol.QuestType), typeof(global::Google.Protobuf.Protocol.QuestObjectiveType), typeof(global::Google.Protobuf.Protocol.QuestStatus), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -387,7 +387,7 @@ namespace Google.Protobuf.Protocol {
   /// </summary>
   public enum QuestObjectiveType {
     [pbr::OriginalName("QUEST_OBJECTIVE_TYPE_NONE")] None = 0,
-    [pbr::OriginalName("QUEST_OBJECTIVE_TYPE_KILL_MONSTER")] KillMonster = 1,
+    [pbr::OriginalName("QUEST_OBJECTIVE_TYPE_KILL")] Kill = 1,
     [pbr::OriginalName("QUEST_OBJECTIVE_TYPE_REACH_LOCATION")] ReachLocation = 2,
     [pbr::OriginalName("QUEST_OBJECTIVE_TYPE_COLLECT_ITEM")] CollectItem = 3,
     [pbr::OriginalName("QUEST_OBJECTIVE_TYPE_TALK_TO_NPC")] TalkToNpc = 4,

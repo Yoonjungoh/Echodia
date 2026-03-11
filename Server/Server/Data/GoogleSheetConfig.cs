@@ -16,7 +16,6 @@ namespace Server.Data
             "Currency",
             "QuestDefinition",
             "QuestObjectiveDefinition",
-            "abc",
             "Monster",
             "Player",
             "Config",

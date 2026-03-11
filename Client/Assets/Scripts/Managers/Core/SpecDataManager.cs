@@ -13,7 +13,7 @@ using Google.Protobuf.Protocol;
 /// Google Sheets JSON API를 런타임에 직접 호출하여 MetaData를 파싱합니다.
 /// 빌드 후에도 시트 데이터 변경이 즉시 반영됩니다 (재빌드 불필요).
 /// </summary>
-public class SpecDataManager
+public partial class SpecDataManager
 {
     public bool IsReady { get; private set; }
 
@@ -23,8 +23,6 @@ public class SpecDataManager
     List<QuestDefinitionMetaData>            _questDefinitionList = new List<QuestDefinitionMetaData>();
     Dictionary<int, QuestObjectiveDefinitionMetaData> _questObjectiveDefinitionDict = new Dictionary<int, QuestObjectiveDefinitionMetaData>();
     List<QuestObjectiveDefinitionMetaData>            _questObjectiveDefinitionList = new List<QuestObjectiveDefinitionMetaData>();
-    Dictionary<int, abcMetaData> _abcDict = new Dictionary<int, abcMetaData>();
-    List<abcMetaData>            _abcList = new List<abcMetaData>();
     Dictionary<int, MonsterMetaData> _monsterDict = new Dictionary<int, MonsterMetaData>();
     List<MonsterMetaData>            _monsterList = new List<MonsterMetaData>();
     Dictionary<int, PlayerMetaData> _playerDict = new Dictionary<int, PlayerMetaData>();
@@ -38,7 +36,6 @@ public class SpecDataManager
         yield return CoFetch_Currency();
         yield return CoFetch_QuestDefinition();
         yield return CoFetch_QuestObjectiveDefinition();
-        yield return CoFetch_abc();
         yield return CoFetch_Monster();
         yield return CoFetch_Player();
 
@@ -159,7 +156,7 @@ public class SpecDataManager
                     {
                         Id = ParseInt(cells[0]),
                         MainQuestId = ParseInt(cells[1]),
-                        SubQuestId = cells[2],
+                        SubQuestId = ParseInt(cells[2]),
                         QuestObjectiveType = ParseEnum<QuestObjectiveType>(cells[3]),
                         TargetId = ParseInt(cells[4]),
                         RequiredCount = ParseInt(cells[5]),
@@ -177,45 +174,6 @@ public class SpecDataManager
             }
 
             Debug.Log("[SpecDataManager] QuestObjectiveDefinition 로드 완료: " + _questObjectiveDefinitionList.Count + "개");
-        }
-    }
-
-    IEnumerator CoFetch_abc()
-    {
-        string url = GoogleSheetConfig.BuildJsonUrl("abc");
-        using (UnityWebRequest req = UnityWebRequest.Get(url))
-        {
-            yield return req.SendWebRequest();
-            if (req.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError("[SpecDataManager] abc 다운로드 실패: " + req.error);
-                yield break;
-            }
-
-            _abcDict.Clear();
-            _abcList.Clear();
-
-            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 1);
-            for (int i = 2; i < rows.Count; i++)
-            {
-                string[] cells = rows[i];
-                if (string.IsNullOrEmpty(cells[0])) continue;
-                try
-                {
-                    abcMetaData data = new abcMetaData
-                    {
-                        Id = ParseInt(cells[0]),
-                    };
-                    _abcDict[data.Id] = data;
-                    _abcList.Add(data);
-                }
-                catch (Exception e)
-                {
-                    Debug.LogWarning("[SpecDataManager] abc 파싱 오류 row" + i + ": " + e.Message + " | " + string.Join(",", cells));
-                }
-            }
-
-            Debug.Log("[SpecDataManager] abc 로드 완료: " + _abcList.Count + "개");
         }
     }
 
@@ -355,17 +313,6 @@ public class SpecDataManager
     public List<QuestObjectiveDefinitionMetaData> GetAllQuestObjectiveDefinition()
     {
         return _questObjectiveDefinitionList;
-    }
-
-    public abcMetaData Getabc(int id)
-    {
-        _abcDict.TryGetValue(id, out abcMetaData result);
-        return result;
-    }
-
-    public List<abcMetaData> GetAllabc()
-    {
-        return _abcList;
     }
 
     public MonsterMetaData GetMonster(int id)

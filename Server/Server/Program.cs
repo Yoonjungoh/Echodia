@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Google.Protobuf;
 using Google.Protobuf.Protocol;
 using Google.Protobuf.WellKnownTypes;
+using Server.Data;
 using Server.DB;
 using Server.Game;
 using ServerCore;
@@ -47,7 +48,7 @@ namespace Server
             }
         }
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
 		{
 			// Json 데이터 역직렬화
 			//DataManager.Instance.LoadAllData();
@@ -59,6 +60,7 @@ namespace Server
             IPAddress ipAddr = ipHost.AddressList[0]; // for test
             IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
+            await SpecDataManager.Instance.Init();
             MapManager.Instance.Init();
             DataManager.Instance.Init();
             ServerManager.Instance.Init();

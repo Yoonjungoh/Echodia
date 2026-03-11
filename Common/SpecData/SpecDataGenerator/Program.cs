@@ -524,7 +524,7 @@ class Program
         sb.AppendLine("/// Google Sheets JSON API를 런타임에 직접 호출하여 MetaData를 파싱합니다.");
         sb.AppendLine("/// 빌드 후에도 시트 데이터 변경이 즉시 반영됩니다 (재빌드 불필요).");
         sb.AppendLine("/// </summary>");
-        sb.AppendLine("public class SpecDataManager");
+        sb.AppendLine("public partial class SpecDataManager");
         sb.AppendLine("{");
         sb.AppendLine("    public bool IsReady { get; private set; }");
         sb.AppendLine();
@@ -624,7 +624,7 @@ class Program
         sb.AppendLine();
         sb.AppendLine("namespace Server.Data");
         sb.AppendLine("{");
-        sb.AppendLine("public class SpecDataManager");
+        sb.AppendLine("public partial class SpecDataManager");
         sb.AppendLine("{");
         sb.AppendLine("    #region Singleton");
         sb.AppendLine("    public static SpecDataManager Instance { get; } = new SpecDataManager();");

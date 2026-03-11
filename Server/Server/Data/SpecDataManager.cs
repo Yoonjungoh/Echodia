@@ -10,7 +10,7 @@ using Google.Protobuf.Protocol;
 
 namespace Server.Data
 {
-public class SpecDataManager
+public partial class SpecDataManager
 {
     #region Singleton
     public static SpecDataManager Instance { get; } = new SpecDataManager();
@@ -26,8 +26,6 @@ public class SpecDataManager
     List<QuestDefinitionMetaData>            _questDefinitionList = new List<QuestDefinitionMetaData>();
     Dictionary<int, QuestObjectiveDefinitionMetaData> _questObjectiveDefinitionDict = new Dictionary<int, QuestObjectiveDefinitionMetaData>();
     List<QuestObjectiveDefinitionMetaData>            _questObjectiveDefinitionList = new List<QuestObjectiveDefinitionMetaData>();
-    Dictionary<int, abcMetaData> _abcDict = new Dictionary<int, abcMetaData>();
-    List<abcMetaData>            _abcList = new List<abcMetaData>();
     Dictionary<int, MonsterMetaData> _monsterDict = new Dictionary<int, MonsterMetaData>();
     List<MonsterMetaData>            _monsterList = new List<MonsterMetaData>();
     Dictionary<int, PlayerMetaData> _playerDict = new Dictionary<int, PlayerMetaData>();
@@ -41,7 +39,6 @@ public class SpecDataManager
         await Fetch_Currency();
         await Fetch_QuestDefinition();
         await Fetch_QuestObjectiveDefinition();
-        await Fetch_abc();
         await Fetch_Monster();
         await Fetch_Player();
 
@@ -150,7 +147,7 @@ public class SpecDataManager
                     {
                         Id = ParseInt(cells[0]),
                         MainQuestId = ParseInt(cells[1]),
-                        SubQuestId = cells[2],
+                        SubQuestId = ParseInt(cells[2]),
                         QuestObjectiveType = ParseEnum<QuestObjectiveType>(cells[3]),
                         TargetId = ParseInt(cells[4]),
                         RequiredCount = ParseInt(cells[5]),
@@ -171,42 +168,6 @@ public class SpecDataManager
         catch (Exception ex)
         {
             Console.Error.WriteLine("[SpecDataManager] QuestObjectiveDefinition 다운로드 실패: " + ex.Message);
-        }
-    }
-
-    async Task Fetch_abc()
-    {
-        string url = GoogleSheetConfig.BuildJsonUrl("abc");
-        try
-        {
-            string raw = await Http.GetStringAsync(url);
-            _abcDict.Clear();
-            _abcList.Clear();
-
-            List<string[]> rows = GvizParser.Parse(raw, colCount: 1);
-            for (int i = 2; i < rows.Count; i++)
-            {
-                string[] cells = rows[i];
-                if (string.IsNullOrEmpty(cells[0])) continue;
-                try
-                {
-                    abcMetaData data = new abcMetaData
-                    {
-                        Id = ParseInt(cells[0]),
-                    };
-                    _abcDict[data.Id] = data;
-                    _abcList.Add(data);
-                }
-                catch (Exception e)
-                {
-                    Console.Error.WriteLine("[SpecDataManager] abc 파싱 오류 row" + i + ": " + e.Message);
-                }
-            }
-            Console.WriteLine("[SpecDataManager] abc 로드 완료: " + _abcList.Count + "개");
-        }
-        catch (Exception ex)
-        {
-            Console.Error.WriteLine("[SpecDataManager] abc 다운로드 실패: " + ex.Message);
         }
     }
 
@@ -340,17 +301,6 @@ public class SpecDataManager
     public List<QuestObjectiveDefinitionMetaData> GetAllQuestObjectiveDefinition()
     {
         return _questObjectiveDefinitionList;
-    }
-
-    public abcMetaData Getabc(int id)
-    {
-        _abcDict.TryGetValue(id, out abcMetaData result);
-        return result;
-    }
-
-    public List<abcMetaData> GetAllabc()
-    {
-        return _abcList;
     }
 
     public MonsterMetaData GetMonster(int id)

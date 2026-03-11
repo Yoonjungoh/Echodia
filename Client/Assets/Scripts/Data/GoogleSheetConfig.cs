@@ -14,7 +14,6 @@ public static class GoogleSheetConfig
         "Currency",
         "QuestDefinition",
         "QuestObjectiveDefinition",
-        "abc",
         "Monster",
         "Player",
         "Config",

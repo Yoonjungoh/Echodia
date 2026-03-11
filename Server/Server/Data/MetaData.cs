@@ -38,20 +38,13 @@ namespace Server.Data
     {
         public int Id;
         public int MainQuestId;
-        public string SubQuestId;
+        public int SubQuestId;
         public QuestObjectiveType QuestObjectiveType;
         public int TargetId;
         public int RequiredCount;
         public int RewardId;
         public int RewardAmount;
         public string Description;
-    }
-
-    // ── abc
-    [Serializable]
-    public class abcMetaData
-    {
-        public int Id;
     }
 
     // ── Monster
