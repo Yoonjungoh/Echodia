@@ -25,12 +25,21 @@ public class UI_GameRoom : UI_Scene
     private int _exp = -1;
     private int _maxExp = -1;
 
+    private TextMeshProUGUI _levelText;
+    private TextMeshProUGUI _expText;
+    private Slider _expSlider;
+
     public override void Init()
     {
         base.Init();
 
         Bind<TextMeshProUGUI>(typeof(Texts));
         Bind<Slider>(typeof(Sliders));
+
+        _levelText = GetTextMeshProUGUI((int)Texts.LevelText);
+        _expText = GetTextMeshProUGUI((int)Texts.ExpText);
+        _expSlider = Get<Slider>((int)Sliders.ExpSlider);
+
         RequestInitGameRoomData();
     }
     
@@ -67,10 +76,10 @@ public class UI_GameRoom : UI_Scene
     private void UpdateUI()
     {
         float expRate = (float)_exp / _maxExp;
-        GetTextMeshProUGUI((int)Texts.LevelText).text = $"Level.{_level}";
+        _levelText.text = $"Level.{_level}";
         // 소수점 2자리까지 표현하기 위해 100을 곱한 후 소수점 2자리로 포맷팅
-        GetTextMeshProUGUI((int)Texts.ExpText).text = $"{_exp}/{_maxExp}({expRate * 100:F2}%)";
+        _expText.text = $"{_exp}/{_maxExp}({expRate * 100:F2}%)";
 
-        GetSlider((int)Sliders.ExpSlider).value = expRate;
+        _expSlider.value = expRate;
     }
 }

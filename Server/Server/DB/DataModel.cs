@@ -76,7 +76,6 @@ namespace Server.DB
         public int QuestDbId { get; set; } // PK
         [ForeignKey("Player")]
         public int PlayerDbId { get; set; } // FK
-        public PlayerDb Player { get; set; }
         public int MainQuestId { get; set; } // 메인 퀘스트 번호
         public int SubQuestId { get; set; } // 서브 퀘스트 번호
         public int RequiredCount { get; set; }  // 퀘스트 클리어에 필요한 목표 수량

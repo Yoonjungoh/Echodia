@@ -194,18 +194,27 @@ namespace Server
                         return;
                     }
 
-                    // 2. PlayerId 자동 생성 (모든 계정의 전체 캐릭터 수 기반)
-                    //int newPlayerId = db.Players.Any() ? db.Players.Max(p => p.PlayerId) + 1 : 1;
-
-                    // 3. 새 PlayerDb 생성
+                    // 2. 새 PlayerDb 생성
                     PlayerDb newPlayerDb = new PlayerDb(account.AccountDbId, name);
 
-                    // 4. DB 저장
+                    // 3. DB 저장
                     db.Players.Add(newPlayerDb);
 
-                    bool success = db.SaveChangesEx();
-                    if (success == false)
-                        return;
+                    // SaveChangesEx 성공하면 PlayerDbId인 PK 생성
+                    {
+                        bool success = db.SaveChangesEx();
+                        if (success == false)
+                            return;
+                    }
+
+                    // 4. 첫 퀘스트 생성
+                    // TODO - 하드 코딩
+                    QuestManager.Instance.CreateQuest(newPlayerDb, 1001, 1);
+                    {
+                        bool success = db.SaveChangesEx();
+                        if (success == false)
+                            return;
+                    }
 
                     // 혹시 모르니 최신 상태 다시 불러오기
                     account = db.Accounts
@@ -214,7 +223,7 @@ namespace Server
                         .Where(a => a.AccountDbId == account.AccountDbId)
                         .FirstOrDefault();
 
-                    // 5. 생성 성공 결과 패킷 전송
+                    // 4. 생성 성공 결과 패킷 전송
                     serverCreatePlayerPacket.CanCreate = true;
 
                     foreach (PlayerDb player in account.Players)

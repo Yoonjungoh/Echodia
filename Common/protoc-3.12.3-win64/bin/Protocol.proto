@@ -90,10 +90,10 @@ enum RoomExitReason {
 enum LoginStatus {
   LOGIN_STATUS_NONE = 0; 
   LOGIN_STATUS_SUCCESS = 1; 
-  LOGIN_STATUS_ID_WRONG = 2; // ID°¡ Æ²¸²
-  LOGIN_STATUS_PASSWORD_WRONG = 3;	// ºñ¹Ð¹øÈ£°¡ Æ²¸²
-  LOGIN_STATUS_ALREADY_LOGGED_IN = 4;	// ÀÌ¹Ì ·Î±×ÀÎ µÇ¾î ÀÖÀ½
-  SIGN_UP_SUCCESS = 5;	// È¸¿ø°¡ÀÔ ¼º°ø (TODO - ³ªÁß¿¡ È¸¿ø°¡ÀÔ µû·Î »©±â)
+  LOGIN_STATUS_ID_WRONG = 2; // IDï¿½ï¿½ Æ²ï¿½ï¿½
+  LOGIN_STATUS_PASSWORD_WRONG = 3;	// ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ Æ²ï¿½ï¿½
+  LOGIN_STATUS_ALREADY_LOGGED_IN = 4;	// ï¿½Ì¹ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½ï¿½
+  SIGN_UP_SUCCESS = 5;	// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (TODO - ï¿½ï¿½ï¿½ß¿ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 }
 
 enum ClientServerState {
@@ -130,7 +130,7 @@ enum QuestType {
   QUEST_TYPE_WEEKLY = 4;
 }
 
-// QuestObjectiveDefinition°ú ¿¬µ¿
+// QuestObjectiveDefinitionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 enum QuestObjectiveType {
   QUEST_OBJECTIVE_TYPE_NONE = 0;
   QUEST_OBJECTIVE_TYPE_KILL_MONSTER = 1;
@@ -141,11 +141,11 @@ enum QuestObjectiveType {
 
 enum QuestStatus {
   QUEST_STATUS_NONE = 0;
-  NOT_ACCEPTED = 1;	// ¼ö¶ô ¾È ÇÔ
-  PROCEEDING = 2;	// ¼ö¶ôÇØ¼­ ÁøÇà Áß (¼ö¶ôÇÏ°í ´ÙÀ½ ´Ü°è)
-  COMPLETED = 3;	// ¿Ï·á (º¸»ó ¹Þ±â Àü ´Ü°è)
-  REWARD_CLAIMED = 4;	// º¸»ó±îÁö ¹ÞÀº »óÅÂ
-  FAILED = 5;	// ½ÇÆÐ (ex: Å¸ÀÓ ¾îÅÃ ½ÇÆÐ)
+  NOT_ACCEPTED = 1;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½
+  PROCEEDING = 2;	// ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ü°ï¿½)
+  COMPLETED = 3;	// ï¿½Ï·ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½Þ±ï¿½ ï¿½ï¿½ ï¿½Ü°ï¿½)
+  REWARD_CLAIMED = 4;	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+  FAILED = 5;	// ï¿½ï¿½ï¿½ï¿½ (ex: Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 }
 
 message S_AssignUserId {
@@ -175,7 +175,7 @@ message C_EnterGame {
 message S_LeaveGame {
   int32 playerCount = 1;
   bool isAttacked = 2;
-  RoomExitReason roomExitReason = 3;	// ¶°³ª´Â »çÀ¯
+  RoomExitReason roomExitReason = 3;	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 }
 
 message S_Spawn {
@@ -198,13 +198,13 @@ message S_Move {
 
 message C_Attack {
   AttackType attackType = 1;
-  int32 InstigatorId = 2;	// µ¥¹ÌÁö¸¦ ÀÔÈù ÀÚ
-  int32 damagedObjectId = 3;	// Åõ»çÃ¼°¡ ¸ÂÃá ´ë»ó (¼­¹ö Ãæµ¹ Ã³¸®ÇÏ´Â ºÎºÐÀº ÇØ´ç ºÎºÐ ºñ¿ö¼­ º¸³»µµ µÊ)
+  int32 InstigatorId = 2;	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+  int32 damagedObjectId = 3;	// ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½æµ¹ Ã³ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Îºï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½Îºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)
 }
 
 message S_Attack {
-  AttackType attackType = 1;	// ¾Ö´Ï¸ÞÀÌ¼Ç Àç»ý¿ë
-  int32 instigatorId = 2;	// ÇÇÇØ ÀÔÈùÀÚ ¾Ë¸®±â¿ë
+  AttackType attackType = 1;	// ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+  int32 instigatorId = 2;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½ï¿½
   repeated DamagedInfo damagedObjectList = 3;
 }
 
@@ -266,8 +266,8 @@ message C_CreatePlayer {
 }
 
 message S_CreatePlayer {
-  bool canCreate = 1;	// Áßº¹ ÀÌ¸§Àº ºÒ°¡
-  repeated PlayerSelectInfo playerInfoList = 2;	// º¸À¯ ÇÃ·¹ÀÌ¾î ¸ñ·Ï
+  bool canCreate = 1;	// ï¿½ßºï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½
+  repeated PlayerSelectInfo playerInfoList = 2;	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½
 }
 
 message C_DeletePlayer {
@@ -275,8 +275,8 @@ message C_DeletePlayer {
 }
 
 message S_DeletePlayer {
-  bool canDelete = 1;	// ÇØ´ç ÇÃ·¹ÀÌ¾î »èÁ¦¿¡ ¼º°øÇß´ÂÁö
-  repeated PlayerSelectInfo playerInfoList = 2;	// º¸À¯ ÇÃ·¹ÀÌ¾î ¸ñ·Ï
+  bool canDelete = 1;	// ï¿½Ø´ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½
+  repeated PlayerSelectInfo playerInfoList = 2;	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½
 }
 
 message C_UpdateCurrencyData {
@@ -289,7 +289,7 @@ message S_UpdateCurrencyData {
 }
 
 message C_UpdateCurrencyDataAll {
-  // ¸ðµç ÀçÈ­ Á¤º¸ ¿äÃ»
+  // ï¿½ï¿½ï¿½ ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»
 }
 
 message S_UpdateCurrencyDataAll {
@@ -297,7 +297,7 @@ message S_UpdateCurrencyDataAll {
 }
 
 message C_RequestServerList {
-  int32 serverId = 1;	// Æ¯Á¤ ¼­¹öÀÇ »ó¼¼ Á¤º¸¸¦ ¿äÃ»ÇÒ ¶§ »ç¿ë (0ÀÌ¸é ÀüÃ¼ ¼­¹ö ¸®½ºÆ® ¿äÃ»)
+  int32 serverId = 1;	// Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ (0ï¿½Ì¸ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½Ã»)
 }
 
 message S_RequestServerList {
@@ -337,15 +337,15 @@ message S_SelectPlayer {
 message C_RequestInitGameRoomData {
 }
 
-// °ÔÀÓ·ë ÀÔÀå ½Ã ÃÊ±â µ¥ÀÌÅÍ ¿äÃ» (·¹º§, °æÇèÄ¡ µî)
+// ï¿½ï¿½ï¿½Ó·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» (ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½)
 message S_RequestInitGameRoomData {
   InitGameRoomData initGameRoomData = 1;
 }
 
 message ServerInfo {
-  int32 serverId = 1;	// ³»ºÎ ¼­¹ö Id
-  string serverName = 2;	// Ç¥½Ã¿ë ÀÌ¸§
-  int32 channelId = 3;	// Ã¤³Î Id
+  int32 serverId = 1;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Id
+  string serverName = 2;	// Ç¥ï¿½Ã¿ï¿½ ï¿½Ì¸ï¿½
+  int32 channelId = 3;	// Ã¤ï¿½ï¿½ Id
   int32 currentPlayerCount = 4;
   int32 maxPlayerCount = 5;
 }
@@ -376,19 +376,19 @@ message ProtoQuaternion {
 }
 
 message ObjectState {
-  int32 objectId = 1;                // À¯Àú ½Äº°ÀÚ
-  int64 clientSendTime = 2;          // Å¬¶ó ±âÁØ º¸³½ ½ÃÁ¡
-  int64 serverReceivedTime = 3;		 // ¼­¹ö ±âÁØ º¸³½ ½ÃÁ¡
-  ProtoVector3 position = 4;         // ÇöÀç À§Ä¡
-  ProtoVector3 velocity = 5;         // ÀÌµ¿ ¼Óµµ
-  ProtoQuaternion rotation = 6;      // È¸Àü »óÅÂ
-  string name = 7;					 // À¯Àú ÀÌ¸§ (todo)
-  CreatureState creatureState = 8;	 // Ä³¸¯ÅÍ »óÅÂ
-  Stat stat = 9;                     // Ä³¸¯ÅÍ ½ºÅÈ
-  GameObjectType objectType = 10;	 // ÇÃ·¹ÀÌ¾îÀÎÁö ¸ó½ºÅÍÀÎÁö
-  MonsterType monsterType = 11;		 // ¸ó½ºÅÍ¸é ¹«½¼ Å¸ÀÔÀÎÁö
-  ProjectileType projectileType = 12;		 // Åõ»çÃ¼¸é ¹«½¼ Å¸ÀÔÀÎÁö
-  int32 ownerId = 13;		 // Åõ»çÃ¼ ¼ÒÀ¯ÀÚ°¡ ´©±¸ÀÎÁö ´Ù¸¥ ÇÃ·¹ÀÌ¾î¿¡°Ô ¾Ë¸®±â
+  int32 objectId = 1;                // ï¿½ï¿½ï¿½ï¿½ ï¿½Äºï¿½ï¿½ï¿½
+  int64 clientSendTime = 2;          // Å¬ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+  int64 serverReceivedTime = 3;		 // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+  ProtoVector3 position = 4;         // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+  ProtoVector3 velocity = 5;         // ï¿½Ìµï¿½ ï¿½Óµï¿½
+  ProtoQuaternion rotation = 6;      // È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+  string name = 7;					 // ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ (todo)
+  CreatureState creatureState = 8;	 // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+  Stat stat = 9;                     // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+  GameObjectType objectType = 10;	 // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  MonsterType monsterType = 11;		 // ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  ProjectileType projectileType = 12;		 // ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  int32 ownerId = 13;		 // ï¿½ï¿½ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½
   int32 level = 14;
   int32 exp = 15;
   int32 maxExp = 16;
@@ -408,9 +408,9 @@ message Stat {
   float commonAttackCoolTime = 6;
   float magicMissileAttakDamage = 7;
   float magicMissileAttackCoolTime = 8;
-  float attackRange = 9;          // ¹ÝÁö¸§ r
-  float attackHalfAngleDeg = 10;  // ºÎÃ¤²ÃÀÇ ¹Ý°¢ d(µµ)
-  float attackHeight = 11;        // ³ôÀÌ
+  float attackRange = 9;          // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ r
+  float attackHalfAngleDeg = 10;  // ï¿½ï¿½Ã¤ï¿½ï¿½ï¿½ï¿½ ï¿½Ý°ï¿½ d(ï¿½ï¿½)
+  float attackHeight = 11;        // ï¿½ï¿½ï¿½ï¿½
 }
 
 message CurrencyData {
@@ -426,14 +426,14 @@ message QuestReward {
   repeated int32 itemIdList = 3;
 }
 
-// Äù½ºÆ® Á¤ÀÇ
+// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 message QuestDefinition {
   QuestType questType = 1;
   int32 mainQuestId = 2;
   string title = 3;
   string description = 4;
   int32 requiredLevel = 5;
-  int32 prerequisiteQuestId = 6;	// ¼±Çà Äù½ºÆ® ID (¾øÀ¸¸é 0
+  int32 prerequisiteQuestId = 6;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ID (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0
   repeated QuestObjectiveDefinition objectives = 7;
   QuestReward reward  = 8;
 }
@@ -442,7 +442,7 @@ message QuestObjectiveDefinition {
   int32 subQuestId = 1;
   QuestObjectiveType type = 2;
   string description = 3;
-  int32 targetId = 4;	// ¸ó½ºÅÍ, NPC, ¾ÆÀÌÅÛ, ¿ÀºêÁ§Æ® ID
+  int32 targetId = 4;	// ï¿½ï¿½ï¿½ï¿½, NPC, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ID
   int32 requiredCount = 5;
-  QuestReward reward  = 6;	// subµµ º¸»ó ÁÜ
+  QuestReward reward  = 6;	// subï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 }

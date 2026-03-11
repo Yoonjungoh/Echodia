@@ -18,7 +18,7 @@ namespace Server.DB
         public DbSet<QuestDb> Quests { get; set; }
 
 
-        private static readonly ILoggerFactory _logger= LoggerFactory.Create(builder => { builder.AddConsole(); } );
+        private static readonly ILoggerFactory _logger = LoggerFactory.Create(builder => { builder.AddConsole(); });
         // TODO - JSON으로 옮기기
         private string _connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=GameDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
         protected override void OnConfiguring(DbContextOptionsBuilder options)
@@ -33,12 +33,15 @@ namespace Server.DB
             builder.Entity<AccountDb>()
                 .HasIndex(a => a.AccountId)
                 .IsUnique();
-            
+
             builder.Entity<PlayerDb>()
                 .HasIndex(p => p.Name)
                 .IsUnique();
-            
-            builder.Entity<QuestDb>();
+
+            builder.Entity<QuestDb>()
+                .HasOne<PlayerDb>()      // 퀘스트는 하나의 플레이어에 속함
+                .WithMany(p => p.Quests)    // 플레이어는 여러 퀘스트를 가질 수 있음
+                .HasForeignKey(q => q.PlayerDbId); // FK 설정
         }
     }
 }
