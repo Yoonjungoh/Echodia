@@ -747,6 +747,9 @@ namespace Server.Game
 
         private void AddObject(GameObject gameObject)
         {
+            if (gameObject == null)
+                return;
+                
             // 모든 오브젝트 관리하는 딕셔너리에 추가
             _gameObjects.Add(gameObject.Id, gameObject);
 

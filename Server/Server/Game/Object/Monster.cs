@@ -248,33 +248,30 @@ namespace Server.Game
             // 리스폰 큐에 넣기
             GameRoom.Push(GameRoom.ReserveRespawn, Id, SpawnPosition, _respawnTime);
 
+            Player killer = null;
             GameObjectType gameObjectType = ObjectManager.Instance.GetObjectTypeById(instigator.Id);
             if (gameObjectType == GameObjectType.Player)
             {
-                Player player = instigator as Player;
-                if (player != null)
-                {
-                    CurrencyManager.Instance.AddCurrency(player.PlayerId, CurrencyType.Gold, _gold, () =>
-                    {
-                        player.Session.HandleUpdateCurrencyData(CurrencyType.Gold);
-                    });
-                }
+                killer = instigator as Player;
             }
             else if (gameObjectType == GameObjectType.Projectile)
             {
                 Projectile projectile = instigator as Projectile;
                 if (projectile != null)
                 {
-                    Player player = GameRoom.Find(projectile.OwnerId);
-                    if (player != null)
-                    {
-                        CurrencyManager.Instance.AddCurrency(player.PlayerId, CurrencyType.Gold, _gold, () =>
-                        {
-                            player.Session.HandleUpdateCurrencyData(CurrencyType.Gold);
-                        });
-                    }
+                    killer = GameRoom.Find(projectile.OwnerId);
                 }
             }
+
+            if (killer != null)
+            {
+                CurrencyManager.Instance.AddCurrency(killer.PlayerId, CurrencyType.Gold, _gold, () =>
+                {
+                    killer.Session.HandleUpdateCurrencyData(CurrencyType.Gold);
+                });
+                QuestManager.Instance.OnMonsterKilled(GameRoom, killer, TemplateId);
+            }
+
             base.OnDead(instigator);
         }
 

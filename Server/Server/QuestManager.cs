@@ -6,6 +6,7 @@ using Server.Game;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Server
 {
@@ -30,8 +31,67 @@ namespace Server
                     // 킬 관련 퀘스트 진행도 확인
                     break;
                 default:
-                    break;  
+                    break;
             }
+        }
+
+        // 몬스터 처치 시 진입 -> 크레딧 받을 플레이어를 결정하고 각자의 퀘스트 진행도 업데이트
+        public void OnMonsterKilled(GameRoom room, Player killer, int monsterTemplateId)
+        {
+            List<Player> creditedPlayers = GetCreditedPlayers(room, killer);
+            foreach (Player player in creditedPlayers)
+            {
+                player.OnMonsterKilled(monsterTemplateId);
+            }
+        }
+
+        // 처치 크레딧을 받을 플레이어 목록 반환
+        // 현재: 직접 킬한 플레이어만 (파티 시스템 추가 시 여기서 파티원 포함)
+        private List<Player> GetCreditedPlayers(GameRoom room, Player killer)
+        {
+            // TODO: 파티 시스템 구현 시 파티원 중 같은 맵에 있는 플레이어 포함
+            List<Player> players = new List<Player>();
+            players.Add(killer);
+
+            return players;
+        }
+
+        // 퀘스트 완료 시 즉시 DB에 반영
+        public void CompleteQuestsAsync(List<QuestDb> quests)
+        {
+            Task.Run(() =>
+            {
+                using GameDbContext db = new GameDbContext();
+                foreach (QuestDb quest in quests)
+                {
+                    QuestDb dbQuest = db.Quests.Find(quest.QuestDbId);
+                    if (dbQuest == null) 
+                        continue;
+
+                    dbQuest.RequiredCount = quest.RequiredCount;
+                    dbQuest.Status = quest.Status;
+                    dbQuest.ClearedDate = quest.ClearedDate;
+                }
+                db.SaveChanges();
+            });
+        }
+
+        // 로그아웃 시 메모리의 진행도를 DB에 일괄 저장
+        public void SaveQuestProgressAsync(List<QuestDb> quests)
+        {
+            if (quests.Count == 0) return;
+
+            Task.Run(() =>
+            {
+                using GameDbContext db = new GameDbContext();
+                foreach (QuestDb quest in quests)
+                {
+                    QuestDb dbQuest = db.Quests.Find(quest.QuestDbId);
+                    if (dbQuest == null) continue;
+                    dbQuest.RequiredCount = quest.RequiredCount;
+                }
+                db.SaveChanges();
+            });
         }
 
         public bool CanClear(int playerDbId, int mainQuestId, int subQuestId)
@@ -103,10 +163,17 @@ namespace Server
                 MainQuestId = mainQuestId,
                 SubQuestId = subQuestId,
                 RequiredCount = 0,
-                Status = QuestStatus.NotAccepted,
+                Status = QuestStatus.Proceeding,   // TODO - 플레이어가 클라에서 Accept 해야 Proceeding으로 가는 거임
                 StartedDate = DateTime.UtcNow,
             };
             playerDb.Quests.Add(quest);
         }
     }
+}
+
+// 킬 퀘스트 진행 항목: 스펙 시트의 목표 킬 수를 캐싱
+public class KillQuestEntry
+{
+    public QuestDb Quest { get; set; }
+    public int TargetCount { get; set; } // 스펙 시트의 RequiredCount (목표 킬 수)
 }

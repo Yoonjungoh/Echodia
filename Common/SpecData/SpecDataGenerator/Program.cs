@@ -587,19 +587,41 @@ class Program
         sb.AppendLine("            {");
         sb.AppendLine("                string[] cells = rows[i];");
         sb.AppendLine("                if (string.IsNullOrEmpty(cells[0])) continue;");
-        sb.AppendLine("                try");
-        sb.AppendLine("                {");
-        sb.AppendLine($"                    {name}MetaData data = new {name}MetaData");
-        sb.AppendLine("                    {");
+        sb.AppendLine("                int sheetRow = i + 1;");
+        sb.AppendLine($"                {name}MetaData data = new {name}MetaData();");
+        sb.AppendLine("                bool rowOk = true;");
+        sb.AppendLine();
+
         foreach (var col in cols)
-            sb.AppendLine($"                        {GetAssignLine(col)},");
-        sb.AppendLine("                    };");
+        {
+            string target       = col.TypeHint == "protoenum" ? $"data.{col.FieldName}Value" : $"data.{col.FieldName}";
+            string expr         = col.TypeHint == "protoenum" ? $"ParseInt(cells[{col.ColIndex}])" : BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, col.FieldName);
+            string displayField = col.TypeHint == "protoenum" ? $"{col.FieldName}Value" : col.FieldName;
+            string displayType  = col.TypeHint == "protoenum" ? "protoenum (int)" : col.TypeHint;
+            int    dispCol      = col.ColIndex + 1;
+
+            sb.AppendLine($"                // {displayField} ({displayType})");
+            sb.AppendLine("                try { " + target + " = " + expr + "; }");
+            sb.AppendLine("                catch (Exception e)");
+            sb.AppendLine("                {");
+            sb.AppendLine($"                    Debug.LogWarning(\"[SpecDataManager] [{name}] 파싱 오류\\n\" +");
+            sb.AppendLine($"                        \"  위치: 시트 행 \" + sheetRow + \", 열 {dispCol} ({displayField})\\n\" +");
+            sb.AppendLine($"                        \"  타입: {displayType}\\n\" +");
+            sb.AppendLine($"                        \"  값: \\\"\" + cells[{col.ColIndex}] + \"\\\"\\n\" +");
+            sb.AppendLine($"                        \"  원인: \" + e.Message);");
+            sb.AppendLine("                    rowOk = false;");
+            sb.AppendLine("                }");
+        }
+
+        sb.AppendLine();
+        sb.AppendLine("                if (rowOk)");
+        sb.AppendLine("                {");
         sb.AppendLine($"                    _{ln}Dict[data.Id] = data;");
         sb.AppendLine($"                    _{ln}List.Add(data);");
         sb.AppendLine("                }");
-        sb.AppendLine("                catch (Exception e)");
+        sb.AppendLine("                else");
         sb.AppendLine("                {");
-        sb.AppendLine($"                    Debug.LogWarning(\"[SpecDataManager] {name} 파싱 오류 row\" + i + \": \" + e.Message + \" | \" + string.Join(\",\", cells));");
+        sb.AppendLine($"                    Debug.LogWarning(\"[SpecDataManager] [{name}] 행 \" + sheetRow + \" 파싱 오류로 스킵됨.\");");
         sb.AppendLine("                }");
         sb.AppendLine("            }");
         sb.AppendLine();
@@ -688,19 +710,41 @@ class Program
         sb.AppendLine("            {");
         sb.AppendLine("                string[] cells = rows[i];");
         sb.AppendLine("                if (string.IsNullOrEmpty(cells[0])) continue;");
-        sb.AppendLine("                try");
-        sb.AppendLine("                {");
-        sb.AppendLine($"                    {name}MetaData data = new {name}MetaData");
-        sb.AppendLine("                    {");
+        sb.AppendLine("                int sheetRow = i + 1;");
+        sb.AppendLine($"                {name}MetaData data = new {name}MetaData();");
+        sb.AppendLine("                bool rowOk = true;");
+        sb.AppendLine();
+
         foreach (var col in cols)
-            sb.AppendLine($"                        {GetAssignLine(col)},");
-        sb.AppendLine("                    };");
+        {
+            string target       = col.TypeHint == "protoenum" ? $"data.{col.FieldName}Value" : $"data.{col.FieldName}";
+            string expr         = col.TypeHint == "protoenum" ? $"ParseInt(cells[{col.ColIndex}])" : BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, col.FieldName);
+            string displayField = col.TypeHint == "protoenum" ? $"{col.FieldName}Value" : col.FieldName;
+            string displayType  = col.TypeHint == "protoenum" ? "protoenum (int)" : col.TypeHint;
+            int    dispCol      = col.ColIndex + 1;
+
+            sb.AppendLine($"                // {displayField} ({displayType})");
+            sb.AppendLine("                try { " + target + " = " + expr + "; }");
+            sb.AppendLine("                catch (Exception e)");
+            sb.AppendLine("                {");
+            sb.AppendLine($"                    Console.Error.WriteLine(\"[SpecDataManager] [{name}] 파싱 오류\\n\" +");
+            sb.AppendLine($"                        \"  위치: 시트 행 \" + sheetRow + \", 열 {dispCol} ({displayField})\\n\" +");
+            sb.AppendLine($"                        \"  타입: {displayType}\\n\" +");
+            sb.AppendLine($"                        \"  값: \\\"\" + cells[{col.ColIndex}] + \"\\\"\\n\" +");
+            sb.AppendLine($"                        \"  원인: \" + e.Message);");
+            sb.AppendLine("                    rowOk = false;");
+            sb.AppendLine("                }");
+        }
+
+        sb.AppendLine();
+        sb.AppendLine("                if (rowOk)");
+        sb.AppendLine("                {");
         sb.AppendLine($"                    _{ln}Dict[data.Id] = data;");
         sb.AppendLine($"                    _{ln}List.Add(data);");
         sb.AppendLine("                }");
-        sb.AppendLine("                catch (Exception e)");
+        sb.AppendLine("                else");
         sb.AppendLine("                {");
-        sb.AppendLine("                    Console.Error.WriteLine(\"[SpecDataManager] " + name + " 파싱 오류 row\" + i + \": \" + e.Message);");
+        sb.AppendLine($"                    Console.Error.WriteLine(\"[SpecDataManager] [{name}] 행 \" + sheetRow + \" 파싱 오류로 스킵됨.\");");
         sb.AppendLine("                }");
         sb.AppendLine("            }");
         sb.AppendLine("            Console.WriteLine(\"[SpecDataManager] " + name + " 로드 완료: \" + _" + ln + "List.Count + \"개\");");
@@ -863,25 +907,31 @@ class Program
 
     static void AppendConfigParseLoop(StringBuilder sb, int idIdx, int dtIdx, int ctIdx, int valIdx, bool isServer)
     {
-        string warn = isServer
-            ? "Console.Error.WriteLine(\"[ConfigManager] 파싱 오류 row\" + i + \": \" + e.Message);"
-            : "Debug.LogWarning(\"[ConfigManager] 파싱 오류 row\" + i + \": \" + e.Message);";
+        string log = isServer ? "Console.Error.WriteLine" : "Debug.LogWarning";
 
         sb.AppendLine("            for (int i = 2; i < rows.Count; i++)");
         sb.AppendLine("            {");
         sb.AppendLine("                string[] cells = rows[i];");
         sb.AppendLine($"                if (string.IsNullOrEmpty(cells[{idIdx}])) continue;");
+        sb.AppendLine("                int sheetRow = i + 1;");
         sb.AppendLine("                try");
         sb.AppendLine("                {");
         sb.AppendLine($"                    string dataType  = cells[{dtIdx}];");
         sb.AppendLine($"                    string configKey = cells[{ctIdx}];");
         sb.AppendLine($"                    string value     = cells[{valIdx}];");
-        sb.AppendLine("                    if (!Enum.TryParse(configKey, true, out ConfigType key)) continue;");
+        sb.AppendLine("                    if (!Enum.TryParse(configKey, true, out ConfigType key))");
+        sb.AppendLine("                    {");
+        sb.AppendLine($"                        {log}(\"[ConfigManager] [Config] 알 수 없는 ConfigType: \\\"\" + configKey + \"\\\" (시트 행 \" + sheetRow + \", 열 {ctIdx + 1})\");");
+        sb.AppendLine("                        continue;");
+        sb.AppendLine("                    }");
         sb.AppendLine("                    _dict[key] = new ConfigEntry { DataType = dataType, Value = value };");
         sb.AppendLine("                }");
         sb.AppendLine("                catch (Exception e)");
         sb.AppendLine("                {");
-        sb.AppendLine("                    " + warn);
+        sb.AppendLine($"                    {log}(\"[ConfigManager] [Config] 파싱 오류\\n\" +");
+        sb.AppendLine($"                        \"  위치: 시트 행 \" + sheetRow + \"\\n\" +");
+        sb.AppendLine($"                        \"  값: [\" + cells[{dtIdx}] + \", \" + cells[{ctIdx}] + \", \" + cells[{valIdx}] + \"]\\n\" +");
+        sb.AppendLine($"                        \"  원인: \" + e.Message);");
         sb.AppendLine("                }");
         sb.AppendLine("            }");
     }
