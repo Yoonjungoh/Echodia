@@ -14,6 +14,34 @@ namespace Server.DB
     public class DbTransaction : JobSerializer
     {
         public static DbTransaction Instance { get; } = new DbTransaction();
+        
+        public static void SaveQuestComplete(QuestDb quest, Action callback = null)
+        {
+            Instance.Push(SaveQuestComplete_Db, quest, callback);
+        }
+
+        private static void SaveQuestComplete_Db(QuestDb quest, Action callback = null)
+        {
+            using (GameDbContext db = new GameDbContext())
+            {
+                // ExecuteUpdate를 사용하여 SELECT 없이 즉시 업데이트
+                int successRows = db.Quests
+                    .Where(q => q.QuestDbId == quest.QuestDbId)
+                    .ExecuteUpdate(s => s
+                        .SetProperty(q => q.RequiredCount, q => quest.RequiredCount)
+                        .SetProperty(q => q.Status, q => quest.Status)
+                        .SetProperty(q => q.ClearedDate, q => quest.ClearedDate));
+
+                if (successRows > 0)
+                {
+                    callback?.Invoke();
+                }
+                else
+                {
+                    Console.WriteLine($"[DB Error] SaveQuestComplete Failed. QuestDbId: {quest.QuestDbId}");
+                }
+            }
+        }
 
         public static void SavePlayerLogoutPosition(int playerDbId, float x, float y, float z, Action callback = null)
         {
@@ -61,7 +89,7 @@ namespace Server.DB
 
                     CurrencyType.Exp => query
                         .ExecuteUpdate(s => s.SetProperty(p => p.Exp, amount)),
-                        
+
                     CurrencyType.Level => query
                         .ExecuteUpdate(s => s.SetProperty(p => p.Level, amount)),
 

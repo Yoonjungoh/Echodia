@@ -16,7 +16,6 @@ namespace Server
         public static QuestManager Instance { get; } = new QuestManager();
 
         // 퀘스트 생성 조건 달성했는지 확인 후, 패킷 전송
-        // 퀘스트 관련 패킷 유저에게 전송
         // 퀘스트 생성 조건 (레벨업, 퀘스트 클리어)
         public void UpdateAvailableQuests(Player player)
         {
@@ -35,13 +34,13 @@ namespace Server
             }
         }
 
-        // 몬스터 처치 시 진입 -> 크레딧 받을 플레이어를 결정하고 각자의 퀘스트 진행도 업데이트
+        // 몬스터 처치 시 진입점: 크레딧 받을 플레이어를 결정하고 각자의 QuestTracker에 통지
         public void OnMonsterKilled(GameRoom room, Player killer, int monsterTemplateId)
         {
             List<Player> creditedPlayers = GetCreditedPlayers(room, killer);
             foreach (Player player in creditedPlayers)
             {
-                player.OnMonsterKilled(monsterTemplateId);
+                player.QuestTracker.OnMonsterKilled(monsterTemplateId);
             }
         }
 
@@ -50,36 +49,27 @@ namespace Server
         private List<Player> GetCreditedPlayers(GameRoom room, Player killer)
         {
             // TODO: 파티 시스템 구현 시 파티원 중 같은 맵에 있는 플레이어 포함
-            List<Player> players = new List<Player>();
-            players.Add(killer);
-
-            return players;
+            return new List<Player> { killer };
         }
 
-        // 퀘스트 완료 시 즉시 DB에 반영
-        public void CompleteQuestsAsync(List<QuestDb> quests)
+        // 퀘스트 완료 처리: Status/Date 변경, DB 즉시 저장, S_QuestCompleted 패킷 전송
+        // QuestTracker가 완료 조건을 감지한 뒤 여기에서 처리해줌
+        public void CompleteQuest(Player player, QuestDb quest)
         {
-            Task.Run(() =>
-            {
-                using GameDbContext db = new GameDbContext();
-                foreach (QuestDb quest in quests)
-                {
-                    QuestDb dbQuest = db.Quests.Find(quest.QuestDbId);
-                    if (dbQuest == null) 
-                        continue;
+            quest.Status = QuestStatus.Completed;
+            quest.ClearedDate = DateTime.UtcNow;
 
-                    dbQuest.RequiredCount = quest.RequiredCount;
-                    dbQuest.Status = quest.Status;
-                    dbQuest.ClearedDate = quest.ClearedDate;
-                }
-                db.SaveChanges();
+            DbTransaction.SaveQuestComplete(quest, () =>
+            {
+                SendQuestCompleted(player, quest);
             });
         }
 
         // 로그아웃 시 메모리의 진행도를 DB에 일괄 저장
         public void SaveQuestProgressAsync(List<QuestDb> quests)
         {
-            if (quests.Count == 0) return;
+            if (quests.Count == 0)
+                return;
 
             Task.Run(() =>
             {
@@ -94,6 +84,7 @@ namespace Server
             });
         }
 
+        // 쌩으로 DB 조회하는 거라 느림
         public bool CanClear(int playerDbId, int mainQuestId, int subQuestId)
         {
             // 1. 시트에 있는 데이터 바탕으로 목표치를 채웠나 확인하기 위해 데이터 가져오기
@@ -120,16 +111,15 @@ namespace Server
                         return true;
                     }
                 }
-
             }
             return false;
         }
 
+        // 쌩으로 DB 조회하는 거라 느림
         public ICollection<QuestDb> GetPlayerQuestDb(int playerDbId)
         {
             using (GameDbContext db = new GameDbContext())
             {
-                // 1. DB에서 플레이어의 퀘스트 진행 이력 가져오기
                 PlayerDb playerDb = db.Players
                     .AsNoTracking()
                     .Where(p => p.PlayerDbId == playerDbId)
@@ -138,7 +128,6 @@ namespace Server
                 if (playerDb == null)
                     return null;
 
-                // 2. 가져온 데이터랑 시트에 정의된 데이터를 비교해서 클리어 가능한 진행도인지 확인
                 return playerDb.Quests;
             }
         }
@@ -168,12 +157,16 @@ namespace Server
             };
             playerDb.Quests.Add(quest);
         }
-    }
-}
 
-// 킬 퀘스트 진행 항목: 스펙 시트의 목표 킬 수를 캐싱
-public class KillQuestEntry
-{
-    public QuestDb Quest { get; set; }
-    public int TargetCount { get; set; } // 스펙 시트의 RequiredCount (목표 킬 수)
+        // 퀘스트 완료 알림을 클라이언트에 전송
+        // QuestManager가 담당하는 이유 = 완료 비즈니스 로직(Status/Date/DB) 주인이므로 알림도 여기서
+        private void SendQuestCompleted(Player player, QuestDb quest)
+        {
+            // TODO: proto에 S_QuestCompleted 메시지 정의 후 구현
+            // S_QuestCompleted packet = new S_QuestCompleted();
+            // packet.MainQuestId = quest.MainQuestId;
+            // packet.SubQuestId = quest.SubQuestId;
+            // player.Session?.Send(packet);
+        }
+    }
 }
