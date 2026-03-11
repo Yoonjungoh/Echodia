@@ -331,19 +331,19 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("LOGIN_STATUS_NONE")] None = 0,
     [pbr::OriginalName("LOGIN_STATUS_SUCCESS")] Success = 1,
     /// <summary>
-    /// ID가 틀림
+    /// ID�� Ʋ��
     /// </summary>
     [pbr::OriginalName("LOGIN_STATUS_ID_WRONG")] IdWrong = 2,
     /// <summary>
-    /// 비밀번호가 틀림
+    /// ��й�ȣ�� Ʋ��
     /// </summary>
     [pbr::OriginalName("LOGIN_STATUS_PASSWORD_WRONG")] PasswordWrong = 3,
     /// <summary>
-    /// 이미 로그인 되어 있음
+    /// �̹� �α��� �Ǿ� ����
     /// </summary>
     [pbr::OriginalName("LOGIN_STATUS_ALREADY_LOGGED_IN")] AlreadyLoggedIn = 4,
     /// <summary>
-    /// 회원가입 성공 (TODO - 나중에 회원가입 따로 빼기)
+    /// ȸ������ ���� (TODO - ���߿� ȸ������ ���� ����)
     /// </summary>
     [pbr::OriginalName("SIGN_UP_SUCCESS")] SignUpSuccess = 5,
   }
@@ -383,7 +383,7 @@ namespace Google.Protobuf.Protocol {
   }
 
   /// <summary>
-  /// QuestObjectiveDefinition과 연동
+  /// QuestObjectiveDefinition�� ����
   /// </summary>
   public enum QuestObjectiveType {
     [pbr::OriginalName("QUEST_OBJECTIVE_TYPE_NONE")] None = 0,
@@ -396,23 +396,23 @@ namespace Google.Protobuf.Protocol {
   public enum QuestStatus {
     [pbr::OriginalName("QUEST_STATUS_NONE")] None = 0,
     /// <summary>
-    /// 수락 안 함
+    /// ���� �� ��
     /// </summary>
     [pbr::OriginalName("NOT_ACCEPTED")] NotAccepted = 1,
     /// <summary>
-    /// 수락해서 진행 중 (수락하고 다음 단계)
+    /// �����ؼ� ���� �� (�����ϰ� ���� �ܰ�)
     /// </summary>
     [pbr::OriginalName("PROCEEDING")] Proceeding = 2,
     /// <summary>
-    /// 완료 (보상 받기 전 단계)
+    /// �Ϸ� (���� �ޱ� �� �ܰ�)
     /// </summary>
     [pbr::OriginalName("COMPLETED")] Completed = 3,
     /// <summary>
-    /// 보상까지 받은 상태
+    /// ������� ���� ����
     /// </summary>
     [pbr::OriginalName("REWARD_CLAIMED")] RewardClaimed = 4,
     /// <summary>
-    /// 실패 (ex: 타임 어택 실패)
+    /// ���� (ex: Ÿ�� ���� ����)
     /// </summary>
     [pbr::OriginalName("FAILED")] Failed = 5,
   }
@@ -1234,7 +1234,7 @@ namespace Google.Protobuf.Protocol {
     public const int RoomExitReasonFieldNumber = 3;
     private global::Google.Protobuf.Protocol.RoomExitReason roomExitReason_ = global::Google.Protobuf.Protocol.RoomExitReason.None;
     /// <summary>
-    /// 떠나는 사유
+    /// ������ ����
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.RoomExitReason RoomExitReason {
@@ -1980,7 +1980,7 @@ namespace Google.Protobuf.Protocol {
     public const int InstigatorIdFieldNumber = 2;
     private int instigatorId_;
     /// <summary>
-    /// 데미지를 입힌 자
+    /// �������� ���� ��
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int InstigatorId {
@@ -1994,7 +1994,7 @@ namespace Google.Protobuf.Protocol {
     public const int DamagedObjectIdFieldNumber = 3;
     private int damagedObjectId_;
     /// <summary>
-    /// 투사체가 맞춘 대상 (서버 충돌 처리하는 부분은 해당 부분 비워서 보내도 됨)
+    /// ����ü�� ���� ��� (���� �浹 ó���ϴ� �κ��� �ش� �κ� ����� ������ ��)
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int DamagedObjectId {
@@ -2160,7 +2160,7 @@ namespace Google.Protobuf.Protocol {
     public const int AttackTypeFieldNumber = 1;
     private global::Google.Protobuf.Protocol.AttackType attackType_ = global::Google.Protobuf.Protocol.AttackType.None;
     /// <summary>
-    /// 애니메이션 재생용
+    /// �ִϸ��̼� �����
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.AttackType AttackType {
@@ -2174,7 +2174,7 @@ namespace Google.Protobuf.Protocol {
     public const int InstigatorIdFieldNumber = 2;
     private int instigatorId_;
     /// <summary>
-    /// 피해 입힌자 알리기용
+    /// ���� ������ �˸����
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int InstigatorId {
@@ -4151,7 +4151,7 @@ namespace Google.Protobuf.Protocol {
     public const int CanCreateFieldNumber = 1;
     private bool canCreate_;
     /// <summary>
-    /// 중복 이름은 불가
+    /// �ߺ� �̸��� �Ұ�
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool CanCreate {
@@ -4167,7 +4167,7 @@ namespace Google.Protobuf.Protocol {
         = pb::FieldCodec.ForMessage(18, global::Google.Protobuf.Protocol.PlayerSelectInfo.Parser);
     private readonly pbc::RepeatedField<global::Google.Protobuf.Protocol.PlayerSelectInfo> playerInfoList_ = new pbc::RepeatedField<global::Google.Protobuf.Protocol.PlayerSelectInfo>();
     /// <summary>
-    /// 보유 플레이어 목록
+    /// ���� �÷��̾� ���
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::Google.Protobuf.Protocol.PlayerSelectInfo> PlayerInfoList {
@@ -4435,7 +4435,7 @@ namespace Google.Protobuf.Protocol {
     public const int CanDeleteFieldNumber = 1;
     private bool canDelete_;
     /// <summary>
-    /// 해당 플레이어 삭제에 성공했는지
+    /// �ش� �÷��̾� ������ �����ߴ���
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool CanDelete {
@@ -4451,7 +4451,7 @@ namespace Google.Protobuf.Protocol {
         = pb::FieldCodec.ForMessage(18, global::Google.Protobuf.Protocol.PlayerSelectInfo.Parser);
     private readonly pbc::RepeatedField<global::Google.Protobuf.Protocol.PlayerSelectInfo> playerInfoList_ = new pbc::RepeatedField<global::Google.Protobuf.Protocol.PlayerSelectInfo>();
     /// <summary>
-    /// 보유 플레이어 목록
+    /// ���� �÷��̾� ���
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::Google.Protobuf.Protocol.PlayerSelectInfo> PlayerInfoList {
@@ -4838,7 +4838,7 @@ namespace Google.Protobuf.Protocol {
   }
 
   /// <summary>
-  /// 모든 재화 정보 요청
+  /// ��� ��ȭ ���� ��û
   /// </summary>
   public sealed partial class C_UpdateCurrencyDataAll : pb::IMessage<C_UpdateCurrencyDataAll> {
     private static readonly pb::MessageParser<C_UpdateCurrencyDataAll> _parser = new pb::MessageParser<C_UpdateCurrencyDataAll>(() => new C_UpdateCurrencyDataAll());
@@ -5114,7 +5114,7 @@ namespace Google.Protobuf.Protocol {
     public const int ServerIdFieldNumber = 1;
     private int serverId_;
     /// <summary>
-    /// 특정 서버의 상세 정보를 요청할 때 사용 (0이면 전체 서버 리스트 요청)
+    /// Ư�� ������ �� ������ ��û�� �� ��� (0�̸� ��ü ���� ����Ʈ ��û)
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int ServerId {
@@ -6365,7 +6365,7 @@ namespace Google.Protobuf.Protocol {
   }
 
   /// <summary>
-  /// 게임룸 입장 시 초기 데이터 요청 (레벨, 경험치 등)
+  /// ���ӷ� ���� �� �ʱ� ������ ��û (����, ����ġ ��)
   /// </summary>
   public sealed partial class S_RequestInitGameRoomData : pb::IMessage<S_RequestInitGameRoomData> {
     private static readonly pb::MessageParser<S_RequestInitGameRoomData> _parser = new pb::MessageParser<S_RequestInitGameRoomData>(() => new S_RequestInitGameRoomData());
@@ -6544,7 +6544,7 @@ namespace Google.Protobuf.Protocol {
     public const int ServerIdFieldNumber = 1;
     private int serverId_;
     /// <summary>
-    /// 내부 서버 Id
+    /// ���� ���� Id
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int ServerId {
@@ -6558,7 +6558,7 @@ namespace Google.Protobuf.Protocol {
     public const int ServerNameFieldNumber = 2;
     private string serverName_ = "";
     /// <summary>
-    /// 표시용 이름
+    /// ǥ�ÿ� �̸�
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string ServerName {
@@ -6572,7 +6572,7 @@ namespace Google.Protobuf.Protocol {
     public const int ChannelIdFieldNumber = 3;
     private int channelId_;
     /// <summary>
-    /// 채널 Id
+    /// ä�� Id
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int ChannelId {
@@ -7579,7 +7579,7 @@ namespace Google.Protobuf.Protocol {
     public const int ObjectIdFieldNumber = 1;
     private int objectId_;
     /// <summary>
-    /// 유저 식별자
+    /// ���� �ĺ���
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int ObjectId {
@@ -7593,7 +7593,7 @@ namespace Google.Protobuf.Protocol {
     public const int ClientSendTimeFieldNumber = 2;
     private long clientSendTime_;
     /// <summary>
-    /// 클라 기준 보낸 시점
+    /// Ŭ�� ���� ���� ����
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public long ClientSendTime {
@@ -7607,7 +7607,7 @@ namespace Google.Protobuf.Protocol {
     public const int ServerReceivedTimeFieldNumber = 3;
     private long serverReceivedTime_;
     /// <summary>
-    /// 서버 기준 보낸 시점
+    /// ���� ���� ���� ����
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public long ServerReceivedTime {
@@ -7621,7 +7621,7 @@ namespace Google.Protobuf.Protocol {
     public const int PositionFieldNumber = 4;
     private global::Google.Protobuf.Protocol.ProtoVector3 position_;
     /// <summary>
-    /// 현재 위치
+    /// ���� ��ġ
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.ProtoVector3 Position {
@@ -7635,7 +7635,7 @@ namespace Google.Protobuf.Protocol {
     public const int VelocityFieldNumber = 5;
     private global::Google.Protobuf.Protocol.ProtoVector3 velocity_;
     /// <summary>
-    /// 이동 속도
+    /// �̵� �ӵ�
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.ProtoVector3 Velocity {
@@ -7649,7 +7649,7 @@ namespace Google.Protobuf.Protocol {
     public const int RotationFieldNumber = 6;
     private global::Google.Protobuf.Protocol.ProtoQuaternion rotation_;
     /// <summary>
-    /// 회전 상태
+    /// ȸ�� ����
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.ProtoQuaternion Rotation {
@@ -7663,7 +7663,7 @@ namespace Google.Protobuf.Protocol {
     public const int NameFieldNumber = 7;
     private string name_ = "";
     /// <summary>
-    /// 유저 이름 (todo)
+    /// ���� �̸� (todo)
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Name {
@@ -7677,7 +7677,7 @@ namespace Google.Protobuf.Protocol {
     public const int CreatureStateFieldNumber = 8;
     private global::Google.Protobuf.Protocol.CreatureState creatureState_ = global::Google.Protobuf.Protocol.CreatureState.None;
     /// <summary>
-    /// 캐릭터 상태
+    /// ĳ���� ����
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.CreatureState CreatureState {
@@ -7691,7 +7691,7 @@ namespace Google.Protobuf.Protocol {
     public const int StatFieldNumber = 9;
     private global::Google.Protobuf.Protocol.Stat stat_;
     /// <summary>
-    /// 캐릭터 스탯
+    /// ĳ���� ����
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.Stat Stat {
@@ -7705,7 +7705,7 @@ namespace Google.Protobuf.Protocol {
     public const int ObjectTypeFieldNumber = 10;
     private global::Google.Protobuf.Protocol.GameObjectType objectType_ = global::Google.Protobuf.Protocol.GameObjectType.None;
     /// <summary>
-    /// 플레이어인지 몬스터인지
+    /// �÷��̾����� ��������
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.GameObjectType ObjectType {
@@ -7719,7 +7719,7 @@ namespace Google.Protobuf.Protocol {
     public const int MonsterTypeFieldNumber = 11;
     private global::Google.Protobuf.Protocol.MonsterType monsterType_ = global::Google.Protobuf.Protocol.MonsterType.None;
     /// <summary>
-    /// 몬스터면 무슨 타입인지
+    /// ���͸� ���� Ÿ������
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.MonsterType MonsterType {
@@ -7733,7 +7733,7 @@ namespace Google.Protobuf.Protocol {
     public const int ProjectileTypeFieldNumber = 12;
     private global::Google.Protobuf.Protocol.ProjectileType projectileType_ = global::Google.Protobuf.Protocol.ProjectileType.None;
     /// <summary>
-    /// 투사체면 무슨 타입인지
+    /// ����ü�� ���� Ÿ������
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.ProjectileType ProjectileType {
@@ -7747,7 +7747,7 @@ namespace Google.Protobuf.Protocol {
     public const int OwnerIdFieldNumber = 13;
     private int ownerId_;
     /// <summary>
-    /// 투사체 소유자가 누구인지 다른 플레이어에게 알리기
+    /// ����ü �����ڰ� �������� �ٸ� �÷��̾�� �˸���
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int OwnerId {
@@ -8431,7 +8431,7 @@ namespace Google.Protobuf.Protocol {
     public const int AttackRangeFieldNumber = 9;
     private float attackRange_;
     /// <summary>
-    /// 반지름 r
+    /// ������ r
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public float AttackRange {
@@ -8445,7 +8445,7 @@ namespace Google.Protobuf.Protocol {
     public const int AttackHalfAngleDegFieldNumber = 10;
     private float attackHalfAngleDeg_;
     /// <summary>
-    /// 부채꼴의 반각 d(도)
+    /// ��ä���� �ݰ� d(��)
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public float AttackHalfAngleDeg {
@@ -8459,7 +8459,7 @@ namespace Google.Protobuf.Protocol {
     public const int AttackHeightFieldNumber = 11;
     private float attackHeight_;
     /// <summary>
-    /// 높이
+    /// ����
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public float AttackHeight {
@@ -9105,7 +9105,7 @@ namespace Google.Protobuf.Protocol {
   }
 
   /// <summary>
-  /// 퀘스트 정의
+  /// ����Ʈ ����
   /// </summary>
   public sealed partial class QuestDefinition : pb::IMessage<QuestDefinition> {
     private static readonly pb::MessageParser<QuestDefinition> _parser = new pb::MessageParser<QuestDefinition>(() => new QuestDefinition());
@@ -9207,7 +9207,7 @@ namespace Google.Protobuf.Protocol {
     public const int PrerequisiteQuestIdFieldNumber = 6;
     private int prerequisiteQuestId_;
     /// <summary>
-    /// 선행 퀘스트 ID (없으면 0
+    /// ���� ����Ʈ ID (������ 0
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int PrerequisiteQuestId {
@@ -9509,7 +9509,7 @@ namespace Google.Protobuf.Protocol {
     public const int TargetIdFieldNumber = 4;
     private int targetId_;
     /// <summary>
-    /// 몬스터, NPC, 아이템, 오브젝트 ID
+    /// ����, NPC, ������, ������Ʈ ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int TargetId {
@@ -9534,7 +9534,7 @@ namespace Google.Protobuf.Protocol {
     public const int RewardFieldNumber = 6;
     private global::Google.Protobuf.Protocol.QuestReward reward_;
     /// <summary>
-    /// sub도 보상 줌
+    /// sub�� ���� ��
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.QuestReward Reward {

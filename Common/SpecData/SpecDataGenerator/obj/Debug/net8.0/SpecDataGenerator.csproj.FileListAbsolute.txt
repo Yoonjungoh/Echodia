@@ -1,0 +1,15 @@
+C:\Users\user\Desktop\Development\Echodia\Common\SpecData\SpecDataGenerator\bin\Debug\net8.0\SpecDataGenerator.exe
+C:\Users\user\Desktop\Development\Echodia\Common\SpecData\SpecDataGenerator\bin\Debug\net8.0\SpecDataGenerator.deps.json
+C:\Users\user\Desktop\Development\Echodia\Common\SpecData\SpecDataGenerator\bin\Debug\net8.0\SpecDataGenerator.runtimeconfig.json
+C:\Users\user\Desktop\Development\Echodia\Common\SpecData\SpecDataGenerator\bin\Debug\net8.0\SpecDataGenerator.dll
+C:\Users\user\Desktop\Development\Echodia\Common\SpecData\SpecDataGenerator\bin\Debug\net8.0\SpecDataGenerator.pdb
+C:\Users\user\Desktop\Development\Echodia\Common\SpecData\SpecDataGenerator\obj\Debug\net8.0\SpecDataGenerator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\Development\Echodia\Common\SpecData\SpecDataGenerator\obj\Debug\net8.0\SpecDataGenerator.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\Development\Echodia\Common\SpecData\SpecDataGenerator\obj\Debug\net8.0\SpecDataGenerator.AssemblyInfo.cs
+C:\Users\user\Desktop\Development\Echodia\Common\SpecData\SpecDataGenerator\obj\Debug\net8.0\SpecDataGenerator.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\Development\Echodia\Common\SpecData\SpecDataGenerator\obj\Debug\net8.0\SpecDataGenerator.sourcelink.json
+C:\Users\user\Desktop\Development\Echodia\Common\SpecData\SpecDataGenerator\obj\Debug\net8.0\SpecDataGenerator.dll
+C:\Users\user\Desktop\Development\Echodia\Common\SpecData\SpecDataGenerator\obj\Debug\net8.0\refint\SpecDataGenerator.dll
+C:\Users\user\Desktop\Development\Echodia\Common\SpecData\SpecDataGenerator\obj\Debug\net8.0\SpecDataGenerator.pdb
+C:\Users\user\Desktop\Development\Echodia\Common\SpecData\SpecDataGenerator\obj\Debug\net8.0\SpecDataGenerator.genruntimeconfig.cache
+C:\Users\user\Desktop\Development\Echodia\Common\SpecData\SpecDataGenerator\obj\Debug\net8.0\ref\SpecDataGenerator.dll

@@ -1,6 +1,7 @@
 using Google.Protobuf.Protocol;
 using Newtonsoft;
 using Newtonsoft.Json;
+using Server.Data;
 using Server.DB;
 using Server.Game;
 using System;
@@ -37,6 +38,7 @@ namespace Server
         public bool CanClear(Player player)
         {
             // 시트에 있는 데이터 바탕으로 목표치를 채웠나 확인
+            
             return false;
         }
 
