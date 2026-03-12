@@ -34,7 +34,7 @@ namespace Server
             }
         }
 
-        // 몬스터 처치 시 진입점: 크레딧 받을 플레이어를 결정하고 각자의 QuestTracker에 통지
+        // 몬스터 처치 시 진입점 -> 크레딧 받을 플레이어를 결정하고 각자의 QuestTracker에 통지
         public void OnMonsterKilled(GameRoom room, Player killer, int monsterTemplateId)
         {
             List<Player> creditedPlayers = GetCreditedPlayers(room, killer);
@@ -45,14 +45,14 @@ namespace Server
         }
 
         // 처치 크레딧을 받을 플레이어 목록 반환
-        // 현재: 직접 킬한 플레이어만 (파티 시스템 추가 시 여기서 파티원 포함)
+        // 현재 -> 직접 킬한 플레이어만 (파티 시스템 추가 시 여기서 파티원 포함)
         private List<Player> GetCreditedPlayers(GameRoom room, Player killer)
         {
-            // TODO: 파티 시스템 구현 시 파티원 중 같은 맵에 있는 플레이어 포함
+            // TODO - 파티 시스템 구현 시 파티원 중 같은 맵에 있는 플레이어 포함
             return new List<Player> { killer };
         }
 
-        // 퀘스트 완료 처리: Status/Date 변경, DB 즉시 저장, S_QuestCompleted 패킷 전송
+        // 퀘스트 완료 처리 -> Status/Date 변경, DB 즉시 저장, S_QuestCompleted 패킷 전송
         // QuestTracker가 완료 조건을 감지한 뒤 여기에서 처리해줌
         public void CompleteQuest(Player player, QuestDb quest)
         {
@@ -162,7 +162,7 @@ namespace Server
         // QuestManager가 담당하는 이유 = 완료 비즈니스 로직(Status/Date/DB) 주인이므로 알림도 여기서
         private void SendQuestCompleted(Player player, QuestDb quest)
         {
-            // TODO: proto에 S_QuestCompleted 메시지 정의 후 구현
+            // TODO - proto에 S_QuestCompleted 메시지 정의 후 구현
             // S_QuestCompleted packet = new S_QuestCompleted();
             // packet.MainQuestId = quest.MainQuestId;
             // packet.SubQuestId = quest.SubQuestId;

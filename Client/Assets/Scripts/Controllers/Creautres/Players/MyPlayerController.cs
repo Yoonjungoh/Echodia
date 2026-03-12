@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static Cinemachine.DocumentationSortingAttribute;
 
 public class MyPlayerController : PlayerController
 {
@@ -28,7 +27,7 @@ public class MyPlayerController : PlayerController
 
     private Dictionary<AttackType, float> _attackCoolTimeDict;
     private ProjectileType _projectileType = ProjectileType.None;
-    
+
     private Action<int> OnLevelChanged;
     private Action<int, int> OnExpChanged;
 
@@ -47,12 +46,12 @@ public class MyPlayerController : PlayerController
         if (Managers.Scene.CurrentScene == Define.Scene.GameRoom)
         {
             _projectileType = ProjectileType.MagicMissile;
-           _attackCoolTimeDict = new Dictionary<AttackType, float>()
+            _attackCoolTimeDict = new Dictionary<AttackType, float>()
            {
                 { AttackType.CommonAttack, Stat.CommonAttackCoolTime },
                 { AttackType.RangedAttack, Stat.MagicMissileAttackCoolTime }
            };
-            
+
             // 커서 잠금
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -80,8 +79,13 @@ public class MyPlayerController : PlayerController
         );
 
         Managers.Input.RegisterKeyAction(
-            KeyCode.F,
+            KeySettings.SpawnProjectile,
             Managers.GameRoomObject.MyPlayer.OnProjectileSpawnInput
+        );
+
+        Managers.Input.RegisterKeyAction(
+            KeySettings.ActivationQuestPopup,
+            Managers.GameRoomObject.MyPlayer.OnQuestPopupInput
         );
 
         // TODO - 우선 타이밍 이슈로 어쩔 수 없이 여기서 초기화
@@ -104,7 +108,7 @@ public class MyPlayerController : PlayerController
 
         _lastAttackTime = Time.time;
         CreatureState = CreatureState.Attack;
-        
+
         C_SpawnProjectile spawnProjectilePacket = new C_SpawnProjectile();
         spawnProjectilePacket.OwnerId = Id;
         spawnProjectilePacket.ProjectileType = _projectileType;
@@ -138,7 +142,7 @@ public class MyPlayerController : PlayerController
             return false;
         if (Time.time - _lastAttackTime < _attackCoolTimeDict[AttackType.CommonAttack])
             return false;
-        
+
         return true;
     }
 
@@ -287,7 +291,7 @@ public class MyPlayerController : PlayerController
 
         OnLevelChanged -= gameRoomUI.SetLevel;
         OnLevelChanged += gameRoomUI.SetLevel;
-        
+
         OnExpChanged -= gameRoomUI.SetExp;
         OnExpChanged += gameRoomUI.SetExp;
     }
@@ -302,6 +306,18 @@ public class MyPlayerController : PlayerController
     {
         base.SetLevel(level);
         OnLevelChanged?.Invoke(level); // 등록된 UI 함수 실행
+    }
+
+    private void OnQuestPopupInput()
+    {
+        if (Managers.UI.IsPopupActive<UI_Quest>())
+        {
+            Managers.UI.CloseSpecificPopup<UI_Quest>();
+        }
+        else
+        {
+            Managers.UI.ShowPopupUI<UI_Quest>();
+        }
     }
 
     #region Gizmos 코드
