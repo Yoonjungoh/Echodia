@@ -11,6 +11,9 @@ public class UI_Quest : UI_Popup
     {
         ExitButton,
         BackgroundButton,
+        AcceptButton,
+        CompleteButton,
+        AbandonButton,
     }
 
 
@@ -42,6 +45,12 @@ public class UI_Quest : UI_Popup
         Bind<TextMeshProUGUI>(typeof(Texts));
         Bind<Transform>(typeof(Transforms));
 
+        GetButton((int)Buttons.AcceptButton).onClick.AddListener(OnClickAcceptButton);
+        GetButton((int)Buttons.CompleteButton).onClick.AddListener(OnClickCompleteButton);
+        GetButton((int)Buttons.AbandonButton).onClick.AddListener(OnClickAbandonButton);
+        GetButton((int)Buttons.ExitButton).onClick.AddListener(OnClickExitButton);
+        GetButton((int)Buttons.BackgroundButton).onClick.AddListener(OnClickBackgroundButton);
+
         _questContent = Get<Transform>((int)Transforms.QuestContent);
         _questRewardContent = Get<Transform>((int)Transforms.QuestRewardContent);
 
@@ -65,6 +74,22 @@ public class UI_Quest : UI_Popup
     {
         // TODO - DB에 갖고 있는 모든 퀘스트 요청하기
     }
+
+    private void OnClickAcceptButton()
+    {
+        
+    }
+
+    private void OnClickCompleteButton()
+    {
+        
+    }
+
+    private void OnClickAbandonButton()
+    {
+        
+    }
+
 
     private void OnClickExitButton()
     {
