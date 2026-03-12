@@ -63,19 +63,41 @@ public partial class SpecDataManager
             {
                 string[] cells = rows[i];
                 if (string.IsNullOrEmpty(cells[0])) continue;
-                try
+                int sheetRow = i + 1;
+                CurrencyMetaData data = new CurrencyMetaData();
+                bool rowOk = true;
+
+                // Id (int)
+                try { data.Id = ParseInt(cells[0]); }
+                catch (Exception e)
                 {
-                    CurrencyMetaData data = new CurrencyMetaData
-                    {
-                        Id = ParseInt(cells[0]),
-                        CurrencyType = ParseEnum<CurrencyType>(cells[1]),
-                    };
+                    Debug.LogWarning("[SpecDataManager] [Currency] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 1 (Id)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[0] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // CurrencyType (enum)
+                try { data.CurrencyType = ParseEnum<CurrencyType>(cells[1]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Currency] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 2 (CurrencyType)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[1] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+
+                if (rowOk)
+                {
                     _currencyDict[data.Id] = data;
                     _currencyList.Add(data);
                 }
-                catch (Exception e)
+                else
                 {
-                    Debug.LogWarning("[SpecDataManager] Currency 파싱 오류 row" + i + ": " + e.Message + " | " + string.Join(",", cells));
+                    Debug.LogWarning("[SpecDataManager] [Currency] 행 " + sheetRow + " 파싱 오류로 스킵됨.");
                 }
             }
 
@@ -103,26 +125,118 @@ public partial class SpecDataManager
             {
                 string[] cells = rows[i];
                 if (string.IsNullOrEmpty(cells[0])) continue;
-                try
+                int sheetRow = i + 1;
+                QuestDefinitionMetaData data = new QuestDefinitionMetaData();
+                bool rowOk = true;
+
+                // Id (int)
+                try { data.Id = ParseInt(cells[0]); }
+                catch (Exception e)
                 {
-                    QuestDefinitionMetaData data = new QuestDefinitionMetaData
-                    {
-                        Id = ParseInt(cells[0]),
-                        QuestId = ParseInt(cells[1]),
-                        QuestType = ParseEnum<QuestType>(cells[2]),
-                        Title = cells[3],
-                        ReqLevel = ParseInt(cells[4]),
-                        PrereqQuestId = ParseInt(cells[5]),
-                        RewardId = ParseInt(cells[6]),
-                        RewardAmount = ParseInt(cells[7]),
-                        Description = cells[8],
-                    };
+                    Debug.LogWarning("[SpecDataManager] [QuestDefinition] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 1 (Id)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[0] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // MainQuestId (int)
+                try { data.MainQuestId = ParseInt(cells[1]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [QuestDefinition] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 2 (MainQuestId)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[1] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // QuestType (enum)
+                try { data.QuestType = ParseEnum<QuestType>(cells[2]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [QuestDefinition] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (QuestType)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[2] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Title (string)
+                try { data.Title = cells[3]; }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [QuestDefinition] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 4 (Title)\n" +
+                        "  타입: string\n" +
+                        "  값: \"" + cells[3] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // ReqLevel (int)
+                try { data.ReqLevel = ParseInt(cells[4]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [QuestDefinition] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 5 (ReqLevel)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[4] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // PrereqQuestId (int)
+                try { data.PrereqQuestId = ParseInt(cells[5]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [QuestDefinition] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 6 (PrereqQuestId)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[5] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // RewardId (int)
+                try { data.RewardId = ParseInt(cells[6]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [QuestDefinition] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 7 (RewardId)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[6] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // RewardAmount (int)
+                try { data.RewardAmount = ParseInt(cells[7]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [QuestDefinition] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 8 (RewardAmount)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[7] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Description (string)
+                try { data.Description = cells[8]; }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [QuestDefinition] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 9 (Description)\n" +
+                        "  타입: string\n" +
+                        "  값: \"" + cells[8] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+
+                if (rowOk)
+                {
                     _questDefinitionDict[data.Id] = data;
                     _questDefinitionList.Add(data);
                 }
-                catch (Exception e)
+                else
                 {
-                    Debug.LogWarning("[SpecDataManager] QuestDefinition 파싱 오류 row" + i + ": " + e.Message + " | " + string.Join(",", cells));
+                    Debug.LogWarning("[SpecDataManager] [QuestDefinition] 행 " + sheetRow + " 파싱 오류로 스킵됨.");
                 }
             }
 
@@ -150,26 +264,118 @@ public partial class SpecDataManager
             {
                 string[] cells = rows[i];
                 if (string.IsNullOrEmpty(cells[0])) continue;
-                try
+                int sheetRow = i + 1;
+                QuestObjectiveDefinitionMetaData data = new QuestObjectiveDefinitionMetaData();
+                bool rowOk = true;
+
+                // Id (int)
+                try { data.Id = ParseInt(cells[0]); }
+                catch (Exception e)
                 {
-                    QuestObjectiveDefinitionMetaData data = new QuestObjectiveDefinitionMetaData
-                    {
-                        Id = ParseInt(cells[0]),
-                        MainQuestId = ParseInt(cells[1]),
-                        SubQuestId = ParseInt(cells[2]),
-                        QuestObjectiveType = ParseEnum<QuestObjectiveType>(cells[3]),
-                        TargetId = ParseInt(cells[4]),
-                        RequiredCount = ParseInt(cells[5]),
-                        RewardId = ParseInt(cells[6]),
-                        RewardAmount = ParseInt(cells[7]),
-                        Description = cells[8],
-                    };
+                    Debug.LogWarning("[SpecDataManager] [QuestObjectiveDefinition] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 1 (Id)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[0] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // MainQuestId (int)
+                try { data.MainQuestId = ParseInt(cells[1]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [QuestObjectiveDefinition] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 2 (MainQuestId)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[1] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // SubQuestId (int)
+                try { data.SubQuestId = ParseInt(cells[2]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [QuestObjectiveDefinition] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (SubQuestId)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[2] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // QuestObjectiveType (enum)
+                try { data.QuestObjectiveType = ParseEnum<QuestObjectiveType>(cells[3]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [QuestObjectiveDefinition] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 4 (QuestObjectiveType)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[3] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // TargetId (int)
+                try { data.TargetId = ParseInt(cells[4]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [QuestObjectiveDefinition] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 5 (TargetId)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[4] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // RequiredCount (int)
+                try { data.RequiredCount = ParseInt(cells[5]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [QuestObjectiveDefinition] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 6 (RequiredCount)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[5] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // RewardId (int)
+                try { data.RewardId = ParseInt(cells[6]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [QuestObjectiveDefinition] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 7 (RewardId)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[6] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // RewardAmount (int)
+                try { data.RewardAmount = ParseInt(cells[7]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [QuestObjectiveDefinition] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 8 (RewardAmount)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[7] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Description (string)
+                try { data.Description = cells[8]; }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [QuestObjectiveDefinition] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 9 (Description)\n" +
+                        "  타입: string\n" +
+                        "  값: \"" + cells[8] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+
+                if (rowOk)
+                {
                     _questObjectiveDefinitionDict[data.Id] = data;
                     _questObjectiveDefinitionList.Add(data);
                 }
-                catch (Exception e)
+                else
                 {
-                    Debug.LogWarning("[SpecDataManager] QuestObjectiveDefinition 파싱 오류 row" + i + ": " + e.Message + " | " + string.Join(",", cells));
+                    Debug.LogWarning("[SpecDataManager] [QuestObjectiveDefinition] 행 " + sheetRow + " 파싱 오류로 스킵됨.");
                 }
             }
 
@@ -197,30 +403,162 @@ public partial class SpecDataManager
             {
                 string[] cells = rows[i];
                 if (string.IsNullOrEmpty(cells[0])) continue;
-                try
+                int sheetRow = i + 1;
+                MonsterMetaData data = new MonsterMetaData();
+                bool rowOk = true;
+
+                // Id (int)
+                try { data.Id = ParseInt(cells[0]); }
+                catch (Exception e)
                 {
-                    MonsterMetaData data = new MonsterMetaData
-                    {
-                        Id = ParseInt(cells[0]),
-                        MonsterType = ParseEnum<MonsterType>(cells[1]),
-                        MaxHp = ParseInt(cells[2]),
-                        CommonAttackDamage = ParseFloat(cells[3]),
-                        CommonAttackCoolTime = ParseFloat(cells[4]),
-                        AttackRange = ParseFloat(cells[5]),
-                        Defense = ParseFloat(cells[6]),
-                        MoveSpeed = ParseFloat(cells[7]),
-                        Level = ParseInt(cells[8]),
-                        Exp = ParseInt(cells[9]),
-                        Gold = ParseInt(cells[10]),
-                        SearchRange = ParseFloat(cells[11]),
-                        RespawnTime = ParseFloat(cells[12]),
-                    };
+                    Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 1 (Id)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[0] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // MonsterType (enum)
+                try { data.MonsterType = ParseEnum<MonsterType>(cells[1]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 2 (MonsterType)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[1] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // MaxHp (int)
+                try { data.MaxHp = ParseInt(cells[2]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (MaxHp)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[2] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // CommonAttackDamage (float)
+                try { data.CommonAttackDamage = ParseFloat(cells[3]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 4 (CommonAttackDamage)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[3] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // CommonAttackCoolTime (float)
+                try { data.CommonAttackCoolTime = ParseFloat(cells[4]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 5 (CommonAttackCoolTime)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[4] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // AttackRange (float)
+                try { data.AttackRange = ParseFloat(cells[5]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 6 (AttackRange)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[5] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Defense (float)
+                try { data.Defense = ParseFloat(cells[6]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 7 (Defense)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[6] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // MoveSpeed (float)
+                try { data.MoveSpeed = ParseFloat(cells[7]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 8 (MoveSpeed)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[7] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Level (int)
+                try { data.Level = ParseInt(cells[8]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 9 (Level)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[8] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Exp (int)
+                try { data.Exp = ParseInt(cells[9]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 10 (Exp)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[9] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Gold (int)
+                try { data.Gold = ParseInt(cells[10]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 11 (Gold)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[10] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // SearchRange (float)
+                try { data.SearchRange = ParseFloat(cells[11]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 12 (SearchRange)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[11] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // RespawnTime (float)
+                try { data.RespawnTime = ParseFloat(cells[12]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 13 (RespawnTime)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[12] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+
+                if (rowOk)
+                {
                     _monsterDict[data.Id] = data;
                     _monsterList.Add(data);
                 }
-                catch (Exception e)
+                else
                 {
-                    Debug.LogWarning("[SpecDataManager] Monster 파싱 오류 row" + i + ": " + e.Message + " | " + string.Join(",", cells));
+                    Debug.LogWarning("[SpecDataManager] [Monster] 행 " + sheetRow + " 파싱 오류로 스킵됨.");
                 }
             }
 
@@ -248,18 +586,30 @@ public partial class SpecDataManager
             {
                 string[] cells = rows[i];
                 if (string.IsNullOrEmpty(cells[0])) continue;
-                try
+                int sheetRow = i + 1;
+                PlayerMetaData data = new PlayerMetaData();
+                bool rowOk = true;
+
+                // Id (int)
+                try { data.Id = ParseInt(cells[0]); }
+                catch (Exception e)
                 {
-                    PlayerMetaData data = new PlayerMetaData
-                    {
-                        Id = ParseInt(cells[0]),
-                    };
+                    Debug.LogWarning("[SpecDataManager] [Player] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 1 (Id)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[0] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+
+                if (rowOk)
+                {
                     _playerDict[data.Id] = data;
                     _playerList.Add(data);
                 }
-                catch (Exception e)
+                else
                 {
-                    Debug.LogWarning("[SpecDataManager] Player 파싱 오류 row" + i + ": " + e.Message + " | " + string.Join(",", cells));
+                    Debug.LogWarning("[SpecDataManager] [Player] 행 " + sheetRow + " 파싱 오류로 스킵됨.");
                 }
             }
 

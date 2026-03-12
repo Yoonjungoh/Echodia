@@ -12,17 +12,35 @@ public class UI_Quest : UI_Popup
         BackgroundButton,
     }
 
+
     enum Texts
     {
-        
+        QuestMainTitleText,
+        QuestSubTitleText,
+        QuestDescriptionText,
+
     }
+
+    enum Transforms
+    {
+        QuestContent,
+        QuestRewardContent,
+    }
+
+    private Transform _questContent;
+    private Transform _questRewardContent;
     
     public override void Init()
     {
         base.Init();
         Bind<Button>(typeof(Buttons));
         Bind<TextMeshProUGUI>(typeof(Texts));
+        Bind<Transform>(typeof(Transforms));
 
+
+        _questContent = Get<Transform>((int)Transforms.QuestContent);
+        _questRewardContent = Get<Transform>((int)Transforms.QuestRewardContent);
+        
         InitQuestData();
     }
 

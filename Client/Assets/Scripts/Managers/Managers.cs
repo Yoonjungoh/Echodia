@@ -10,6 +10,7 @@ public class Managers : MonoBehaviour
 
     private ConfigManager _config = new ConfigManager();
     private CurrencyManager _currency = new CurrencyManager();
+    private ImageManager _image = new ImageManager();
     private GameRoomManager _gameRoom = new GameRoomManager();
     private GameRoomObjectManager _gameRoomObject = new GameRoomObjectManager();
     private MapManager _map = new MapManager();
@@ -27,6 +28,7 @@ public class Managers : MonoBehaviour
 
     public static ConfigManager Config { get { return Instance._config; } }
     public static CurrencyManager Currency { get { return Instance._currency; } }
+    public static ImageManager Image { get { return Instance._image; } }
     public static GameRoomManager GameRoom { get { return Instance._gameRoom; } }
     public static GameRoomObjectManager GameRoomObject { get { return Instance._gameRoomObject; } }
     public static MapManager Map { get { return Instance._map; } }
@@ -75,6 +77,7 @@ public class Managers : MonoBehaviour
             s_instance._resource.Init();
             s_instance._map.Init();
             s_instance._gameRoomObject.Init();
+            s_instance._image.Init();
         }
     }
 

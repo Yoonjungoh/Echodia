@@ -20,7 +20,7 @@ public class CurrencyMetaData
 public class QuestDefinitionMetaData
 {
     public int Id;
-    public int QuestId;
+    public int MainQuestId;
     public QuestType QuestType;
     public string Title;
     public int ReqLevel;

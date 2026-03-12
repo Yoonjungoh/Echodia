@@ -446,3 +446,8 @@ message QuestObjectiveDefinition {
   int32 requiredCount = 5;
   QuestReward reward  = 6;	// sub�� ���� ��
 }
+
+message RewardItem {
+  int32 rewardId = 1;
+  int32 rewardAmount = 2;
+}

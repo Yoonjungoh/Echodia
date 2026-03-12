@@ -35,17 +35,25 @@ public class ConfigManager
             {
                 string[] cells = rows[i];
                 if (string.IsNullOrEmpty(cells[0])) continue;
+                int sheetRow = i + 1;
                 try
                 {
                     string dataType  = cells[1];
                     string configKey = cells[2];
                     string value     = cells[3];
-                    if (!Enum.TryParse(configKey, true, out ConfigType key)) continue;
+                    if (!Enum.TryParse(configKey, true, out ConfigType key))
+                    {
+                        Console.Error.WriteLine("[ConfigManager] [Config] 알 수 없는 ConfigType: \"" + configKey + "\" (시트 행 " + sheetRow + ", 열 3)");
+                        continue;
+                    }
                     _dict[key] = new ConfigEntry { DataType = dataType, Value = value };
                 }
                 catch (Exception e)
                 {
-                    Console.Error.WriteLine("[ConfigManager] 파싱 오류 row" + i + ": " + e.Message);
+                    Console.Error.WriteLine("[ConfigManager] [Config] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + "\n" +
+                        "  값: [" + cells[1] + ", " + cells[2] + ", " + cells[3] + "]\n" +
+                        "  원인: " + e.Message);
                 }
             }
             Console.WriteLine("[ConfigManager] 로드 완료: " + _dict.Count + "개");
