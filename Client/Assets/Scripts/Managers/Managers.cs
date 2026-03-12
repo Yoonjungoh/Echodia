@@ -15,6 +15,7 @@ public class Managers : MonoBehaviour
     private GameRoomObjectManager _gameRoomObject = new GameRoomObjectManager();
     private MapManager _map = new MapManager();
     private NetworkManager _network = new NetworkManager();
+    private QuestManager _quest = new QuestManager();
     private TimeManager _time = new TimeManager();
     private PoolManager _pool = new PoolManager();
     private InputManager _input = new InputManager();
@@ -33,6 +34,7 @@ public class Managers : MonoBehaviour
     public static GameRoomObjectManager GameRoomObject { get { return Instance._gameRoomObject; } }
     public static MapManager Map { get { return Instance._map; } }
     public static NetworkManager Network { get { return Instance._network; } }
+    public static QuestManager Quest { get { return Instance._quest; } }
     public static TimeManager Time { get { return Instance._time; } }
     public static PoolManager Pool { get { return Instance._pool; } }
     public static DataManager Data { get { return Instance._data; } }
@@ -78,6 +80,7 @@ public class Managers : MonoBehaviour
             s_instance._map.Init();
             s_instance._gameRoomObject.Init();
             s_instance._image.Init();
+            s_instance._quest.Init();
         }
     }
 

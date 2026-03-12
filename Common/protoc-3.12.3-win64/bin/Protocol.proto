@@ -439,12 +439,13 @@ message QuestDefinition {
 }
 
 message QuestObjectiveDefinition {
-  int32 subQuestId = 1;
-  QuestObjectiveType type = 2;
-  string description = 3;
-  int32 targetId = 4;	// ����, NPC, ������, ������Ʈ ID
-  int32 requiredCount = 5;
-  QuestReward reward  = 6;	// sub�� ���� ��
+  int32 mainQuestId = 1;
+  int32 subQuestId = 2;
+  QuestObjectiveType type = 3;
+  string description = 4;
+  int32 targetId = 5;	// ����, NPC, ������, ������Ʈ ID
+  int32 requiredCount = 6;
+  QuestReward reward  = 7;	// sub�� ���� ��
 }
 
 message RewardItem {

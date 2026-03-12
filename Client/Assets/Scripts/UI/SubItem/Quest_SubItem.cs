@@ -7,9 +7,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Quest_SubItem : UI_SubItem<QuestDefinitionMetaData>
+public class Quest_SubItem : UI_SubItem<QuestObjectiveDefinition>
 {
-    public Action OnClickSelectButtonAction;
 
     enum Images
     {
@@ -26,7 +25,8 @@ public class Quest_SubItem : UI_SubItem<QuestDefinitionMetaData>
         SelectButton,
     }
 
-    
+    public Action OnClickSelectButtonAction;
+    private QuestDefinitionMetaData _mainQuestData;
 
     public override void Init()
     {
@@ -42,14 +42,17 @@ public class Quest_SubItem : UI_SubItem<QuestDefinitionMetaData>
         OnClickSelectButtonAction.Invoke();
     }
 
-    public override void SetData(QuestDefinitionMetaData data)
+    public override void SetData(QuestObjectiveDefinition data)
     {
         base.SetData(data);
+        _mainQuestData = Managers.SpecData.GetQuestDefinition(_data.MainQuestId);
+        
         UpdateUI();
     }
 
     protected override void UpdateUI()
     {
-        GetImage((int)Images.QuestImage) = Managers.Image.GetQuestImage()
+        GetImage((int)Images.QuestImage).sprite = Managers.Image.GetQuestImage(_data.MainQuestId, _data.SubQuestId);
+        GetTextMeshProUGUI((int)Texts.QuestTitleText).text = $"{_mainQuestData.MainQuestId}-{_data.SubQuestId}: {_mainQuestData.Title}";
     }
 }

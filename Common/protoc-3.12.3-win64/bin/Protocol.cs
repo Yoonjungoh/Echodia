@@ -121,67 +121,67 @@ namespace Google.Protobuf.Protocol {
             "dWlyZWRMZXZlbBgFIAEoBRIbChNwcmVyZXF1aXNpdGVRdWVzdElkGAYgASgF",
             "EjYKCm9iamVjdGl2ZXMYByADKAsyIi5Qcm90b2NvbC5RdWVzdE9iamVjdGl2",
             "ZURlZmluaXRpb24SJQoGcmV3YXJkGAggASgLMhUuUHJvdG9jb2wuUXVlc3RS",
-            "ZXdhcmQivwEKGFF1ZXN0T2JqZWN0aXZlRGVmaW5pdGlvbhISCgpzdWJRdWVz",
-            "dElkGAEgASgFEioKBHR5cGUYAiABKA4yHC5Qcm90b2NvbC5RdWVzdE9iamVj",
-            "dGl2ZVR5cGUSEwoLZGVzY3JpcHRpb24YAyABKAkSEAoIdGFyZ2V0SWQYBCAB",
-            "KAUSFQoNcmVxdWlyZWRDb3VudBgFIAEoBRIlCgZyZXdhcmQYBiABKAsyFS5Q",
-            "cm90b2NvbC5RdWVzdFJld2FyZCI0CgpSZXdhcmRJdGVtEhAKCHJld2FyZElk",
-            "GAEgASgFEhQKDHJld2FyZEFtb3VudBgCIAEoBSr/BgoFTXNnSWQSFAoQU19B",
-            "U1NJR05fVVNFUl9JRBAAEhQKEENfQVNTSUdOX1VTRVJfSUQQARIQCgxDX0VO",
-            "VEVSX0dBTUUQEBIQCgxTX0VOVEVSX0dBTUUQERIMCghDX0FUVEFDSxASEgwK",
-            "CFNfQVRUQUNLEBMSEAoMU19MRUFWRV9HQU1FEBQSCwoHU19TUEFXThAVEg0K",
-            "CVNfREVTUEFXThAWEgoKBkNfTU9WRRAXEgoKBlNfTU9WRRAYEgkKBVNfRElF",
-            "EBoSFgoSQ19TUEFXTl9QUk9KRUNUSUxFEB0SDwoLQ19USU1FU1RBTVAQaRIP",
-            "CgtTX1RJTUVTVEFNUBBqEhsKF0NfQ0hBTkdFX0NSRUFUVVJFX1NUQVRFEGsS",
-            "GwoXU19DSEFOR0VfQ1JFQVRVUkVfU1RBVEUQbBIPCgtTX0NPTk5FQ1RFRBBt",
-            "EgsKB0NfTE9HSU4QbhILCgdTX0xPR0lOEG8SGQoVQ19SRVFVRVNUX1BMQVlF",
-            "Ul9MSVNUEHASGQoVU19SRVFVRVNUX1BMQVlFUl9MSVNUEHESEwoPQ19DUkVB",
-            "VEVfUExBWUVSEHISEwoPU19DUkVBVEVfUExBWUVSEHMSEwoPQ19ERUxFVEVf",
-            "UExBWUVSEHQSEwoPU19ERUxFVEVfUExBWUVSEHUSGgoWQ19VUERBVEVfQ1VS",
-            "UkVOQ1lfREFUQRB2EhoKFlNfVVBEQVRFX0NVUlJFTkNZX0RBVEEQdxIeChpD",
-            "X1VQREFURV9DVVJSRU5DWV9EQVRBX0FMTBB4Eh4KGlNfVVBEQVRFX0NVUlJF",
-            "TkNZX0RBVEFfQUxMEHkSEwoPQ19TRUxFQ1RfU0VSVkVSEHoSEwoPU19TRUxF",
-            "Q1RfU0VSVkVSEHsSGQoVQ19SRVFVRVNUX1NFUlZFUl9MSVNUEHwSGQoVU19S",
-            "RVFVRVNUX1NFUlZFUl9MSVNUEH0SIQodQ19SRVFVRVNUX1NFUlZFUl9TVU1N",
-            "QVJZX0xJU1QQfhIhCh1TX1JFUVVFU1RfU0VSVkVSX1NVTU1BUllfTElTVBB/",
-            "EhQKD0NfU0VMRUNUX1BMQVlFUhCAARIUCg9TX1NFTEVDVF9QTEFZRVIQgQES",
-            "IgodQ19SRVFVRVNUX0lOSVRfR0FNRV9ST09NX0RBVEEQggESIgodU19SRVFV",
-            "RVNUX0lOSVRfR0FNRV9ST09NX0RBVEEQgwEqbAoNQ3JlYXR1cmVTdGF0ZRIX",
-            "ChNDUkVBVFVSRV9TVEFURV9OT05FEAASCAoESURMRRABEggKBE1PVkUQAhIK",
-            "CgZBVFRBQ0sQAxIOCgpPTl9EQU1BR0VEEAQSCQoFU0tJTEwQBRIHCgNESUUQ",
-            "BipUCg5HYW1lT2JqZWN0VHlwZRIZChVHQU1FX09CSkVDVF9UWVBFX05PTkUQ",
-            "ABIKCgZQTEFZRVIQARILCgdNT05TVEVSEAISDgoKUFJPSkVDVElMRRADKkgK",
-            "CkF0dGFja1R5cGUSFAoQQVRUQUNLX1RZUEVfTk9ORRAAEhEKDUNPTU1PTl9B",
-            "VFRBQ0sQARIRCg1SQU5HRURfQVRUQUNLEAIqLgoLTW9uc3RlclR5cGUSFQoR",
-            "TU9OU1RFUl9UWVBFX05PTkUQABIICgRCRUFSEAEqPQoOUHJvamVjdGlsZVR5",
-            "cGUSGAoUUFJPSkVDVElMRV9UWVBFX05PTkUQABIRCg1NQUdJQ19NSVNTSUxF",
-            "EAEqWQoOUm9vbUV4aXRSZWFzb24SGQoVUk9PTV9FWElUX1JFQVNPTl9OT05F",
-            "EAASDAoIR0FNRV9XSU4QARINCglHQU1FX0xPU0UQAhIPCgtNQU5VQUxfRVhJ",
-            "VBADKrMBCgtMb2dpblN0YXR1cxIVChFMT0dJTl9TVEFUVVNfTk9ORRAAEhgK",
-            "FExPR0lOX1NUQVRVU19TVUNDRVNTEAESGQoVTE9HSU5fU1RBVFVTX0lEX1dS",
-            "T05HEAISHwobTE9HSU5fU1RBVFVTX1BBU1NXT1JEX1dST05HEAMSIgoeTE9H",
-            "SU5fU1RBVFVTX0FMUkVBRFlfTE9HR0VEX0lOEAQSEwoPU0lHTl9VUF9TVUND",
-            "RVNTEAUqcQoRQ2xpZW50U2VydmVyU3RhdGUSHAoYQ0xJRU5UX1NFUlZFUl9T",
-            "VEFURV9OT05FEAASCQoFTE9HSU4QARIRCg1TRVJWRVJfU0VMRUNUEAISEQoN",
-            "UExBWUVSX1NFTEVDVBADEg0KCUdBTUVfUk9PTRAEKqABChFFbnRlclNlcnZl",
-            "clJlc3VsdBIcChhFTlRFUl9TRVJWRVJfUkVTVUxUX05PTkUQABILCgdTVUND",
-            "RVNTEAESEAoMQ0hBTk5FTF9GVUxMEAISDgoKQUxSRUFEWV9JThADEhIKDklO",
-            "VkFMSURfUExBWUVSEAQSEgoOSU5WQUxJRF9TRVJWRVIQBRIWChJTRVJWRVJf",
-            "TUFJTlRFTkFOQ0UQBiqHAQoMQ3VycmVuY3lUeXBlEhYKEkNVUlJFTkNZX1RZ",
-            "UEVfTk9ORRAAEhcKE0NVUlJFTkNZX1RZUEVfSkVXRUwQARIWChJDVVJSRU5D",
-            "WV9UWVBFX0dPTEQQAhIVChFDVVJSRU5DWV9UWVBFX0VYUBADEhcKE0NVUlJF",
-            "TkNZX1RZUEVfTEVWRUwQBCp3CglRdWVzdFR5cGUSEwoPUVVFU1RfVFlQRV9O",
-            "T05FEAASEwoPUVVFU1RfVFlQRV9NQUlOEAESEwoPUVVFU1RfVFlQRV9TSURF",
-            "EAISFAoQUVVFU1RfVFlQRV9EQUlMWRADEhUKEVFVRVNUX1RZUEVfV0VFS0xZ",
-            "EAQqyAEKElF1ZXN0T2JqZWN0aXZlVHlwZRIdChlRVUVTVF9PQkpFQ1RJVkVf",
-            "VFlQRV9OT05FEAASHQoZUVVFU1RfT0JKRUNUSVZFX1RZUEVfS0lMTBABEicK",
-            "I1FVRVNUX09CSkVDVElWRV9UWVBFX1JFQUNIX0xPQ0FUSU9OEAISJQohUVVF",
-            "U1RfT0JKRUNUSVZFX1RZUEVfQ09MTEVDVF9JVEVNEAMSJAogUVVFU1RfT0JK",
-            "RUNUSVZFX1RZUEVfVEFMS19UT19OUEMQBCp1CgtRdWVzdFN0YXR1cxIVChFR",
-            "VUVTVF9TVEFUVVNfTk9ORRAAEhAKDE5PVF9BQ0NFUFRFRBABEg4KClBST0NF",
-            "RURJTkcQAhINCglDT01QTEVURUQQAxISCg5SRVdBUkRfQ0xBSU1FRBAEEgoK",
-            "BkZBSUxFRBAFQhuqAhhHb29nbGUuUHJvdG9idWYuUHJvdG9jb2xiBnByb3Rv",
-            "Mw=="));
+            "ZXdhcmQi1AEKGFF1ZXN0T2JqZWN0aXZlRGVmaW5pdGlvbhITCgttYWluUXVl",
+            "c3RJZBgBIAEoBRISCgpzdWJRdWVzdElkGAIgASgFEioKBHR5cGUYAyABKA4y",
+            "HC5Qcm90b2NvbC5RdWVzdE9iamVjdGl2ZVR5cGUSEwoLZGVzY3JpcHRpb24Y",
+            "BCABKAkSEAoIdGFyZ2V0SWQYBSABKAUSFQoNcmVxdWlyZWRDb3VudBgGIAEo",
+            "BRIlCgZyZXdhcmQYByABKAsyFS5Qcm90b2NvbC5RdWVzdFJld2FyZCI0CgpS",
+            "ZXdhcmRJdGVtEhAKCHJld2FyZElkGAEgASgFEhQKDHJld2FyZEFtb3VudBgC",
+            "IAEoBSr/BgoFTXNnSWQSFAoQU19BU1NJR05fVVNFUl9JRBAAEhQKEENfQVNT",
+            "SUdOX1VTRVJfSUQQARIQCgxDX0VOVEVSX0dBTUUQEBIQCgxTX0VOVEVSX0dB",
+            "TUUQERIMCghDX0FUVEFDSxASEgwKCFNfQVRUQUNLEBMSEAoMU19MRUFWRV9H",
+            "QU1FEBQSCwoHU19TUEFXThAVEg0KCVNfREVTUEFXThAWEgoKBkNfTU9WRRAX",
+            "EgoKBlNfTU9WRRAYEgkKBVNfRElFEBoSFgoSQ19TUEFXTl9QUk9KRUNUSUxF",
+            "EB0SDwoLQ19USU1FU1RBTVAQaRIPCgtTX1RJTUVTVEFNUBBqEhsKF0NfQ0hB",
+            "TkdFX0NSRUFUVVJFX1NUQVRFEGsSGwoXU19DSEFOR0VfQ1JFQVRVUkVfU1RB",
+            "VEUQbBIPCgtTX0NPTk5FQ1RFRBBtEgsKB0NfTE9HSU4QbhILCgdTX0xPR0lO",
+            "EG8SGQoVQ19SRVFVRVNUX1BMQVlFUl9MSVNUEHASGQoVU19SRVFVRVNUX1BM",
+            "QVlFUl9MSVNUEHESEwoPQ19DUkVBVEVfUExBWUVSEHISEwoPU19DUkVBVEVf",
+            "UExBWUVSEHMSEwoPQ19ERUxFVEVfUExBWUVSEHQSEwoPU19ERUxFVEVfUExB",
+            "WUVSEHUSGgoWQ19VUERBVEVfQ1VSUkVOQ1lfREFUQRB2EhoKFlNfVVBEQVRF",
+            "X0NVUlJFTkNZX0RBVEEQdxIeChpDX1VQREFURV9DVVJSRU5DWV9EQVRBX0FM",
+            "TBB4Eh4KGlNfVVBEQVRFX0NVUlJFTkNZX0RBVEFfQUxMEHkSEwoPQ19TRUxF",
+            "Q1RfU0VSVkVSEHoSEwoPU19TRUxFQ1RfU0VSVkVSEHsSGQoVQ19SRVFVRVNU",
+            "X1NFUlZFUl9MSVNUEHwSGQoVU19SRVFVRVNUX1NFUlZFUl9MSVNUEH0SIQod",
+            "Q19SRVFVRVNUX1NFUlZFUl9TVU1NQVJZX0xJU1QQfhIhCh1TX1JFUVVFU1Rf",
+            "U0VSVkVSX1NVTU1BUllfTElTVBB/EhQKD0NfU0VMRUNUX1BMQVlFUhCAARIU",
+            "Cg9TX1NFTEVDVF9QTEFZRVIQgQESIgodQ19SRVFVRVNUX0lOSVRfR0FNRV9S",
+            "T09NX0RBVEEQggESIgodU19SRVFVRVNUX0lOSVRfR0FNRV9ST09NX0RBVEEQ",
+            "gwEqbAoNQ3JlYXR1cmVTdGF0ZRIXChNDUkVBVFVSRV9TVEFURV9OT05FEAAS",
+            "CAoESURMRRABEggKBE1PVkUQAhIKCgZBVFRBQ0sQAxIOCgpPTl9EQU1BR0VE",
+            "EAQSCQoFU0tJTEwQBRIHCgNESUUQBipUCg5HYW1lT2JqZWN0VHlwZRIZChVH",
+            "QU1FX09CSkVDVF9UWVBFX05PTkUQABIKCgZQTEFZRVIQARILCgdNT05TVEVS",
+            "EAISDgoKUFJPSkVDVElMRRADKkgKCkF0dGFja1R5cGUSFAoQQVRUQUNLX1RZ",
+            "UEVfTk9ORRAAEhEKDUNPTU1PTl9BVFRBQ0sQARIRCg1SQU5HRURfQVRUQUNL",
+            "EAIqLgoLTW9uc3RlclR5cGUSFQoRTU9OU1RFUl9UWVBFX05PTkUQABIICgRC",
+            "RUFSEAEqPQoOUHJvamVjdGlsZVR5cGUSGAoUUFJPSkVDVElMRV9UWVBFX05P",
+            "TkUQABIRCg1NQUdJQ19NSVNTSUxFEAEqWQoOUm9vbUV4aXRSZWFzb24SGQoV",
+            "Uk9PTV9FWElUX1JFQVNPTl9OT05FEAASDAoIR0FNRV9XSU4QARINCglHQU1F",
+            "X0xPU0UQAhIPCgtNQU5VQUxfRVhJVBADKrMBCgtMb2dpblN0YXR1cxIVChFM",
+            "T0dJTl9TVEFUVVNfTk9ORRAAEhgKFExPR0lOX1NUQVRVU19TVUNDRVNTEAES",
+            "GQoVTE9HSU5fU1RBVFVTX0lEX1dST05HEAISHwobTE9HSU5fU1RBVFVTX1BB",
+            "U1NXT1JEX1dST05HEAMSIgoeTE9HSU5fU1RBVFVTX0FMUkVBRFlfTE9HR0VE",
+            "X0lOEAQSEwoPU0lHTl9VUF9TVUNDRVNTEAUqcQoRQ2xpZW50U2VydmVyU3Rh",
+            "dGUSHAoYQ0xJRU5UX1NFUlZFUl9TVEFURV9OT05FEAASCQoFTE9HSU4QARIR",
+            "Cg1TRVJWRVJfU0VMRUNUEAISEQoNUExBWUVSX1NFTEVDVBADEg0KCUdBTUVf",
+            "Uk9PTRAEKqABChFFbnRlclNlcnZlclJlc3VsdBIcChhFTlRFUl9TRVJWRVJf",
+            "UkVTVUxUX05PTkUQABILCgdTVUNDRVNTEAESEAoMQ0hBTk5FTF9GVUxMEAIS",
+            "DgoKQUxSRUFEWV9JThADEhIKDklOVkFMSURfUExBWUVSEAQSEgoOSU5WQUxJ",
+            "RF9TRVJWRVIQBRIWChJTRVJWRVJfTUFJTlRFTkFOQ0UQBiqHAQoMQ3VycmVu",
+            "Y3lUeXBlEhYKEkNVUlJFTkNZX1RZUEVfTk9ORRAAEhcKE0NVUlJFTkNZX1RZ",
+            "UEVfSkVXRUwQARIWChJDVVJSRU5DWV9UWVBFX0dPTEQQAhIVChFDVVJSRU5D",
+            "WV9UWVBFX0VYUBADEhcKE0NVUlJFTkNZX1RZUEVfTEVWRUwQBCp3CglRdWVz",
+            "dFR5cGUSEwoPUVVFU1RfVFlQRV9OT05FEAASEwoPUVVFU1RfVFlQRV9NQUlO",
+            "EAESEwoPUVVFU1RfVFlQRV9TSURFEAISFAoQUVVFU1RfVFlQRV9EQUlMWRAD",
+            "EhUKEVFVRVNUX1RZUEVfV0VFS0xZEAQqyAEKElF1ZXN0T2JqZWN0aXZlVHlw",
+            "ZRIdChlRVUVTVF9PQkpFQ1RJVkVfVFlQRV9OT05FEAASHQoZUVVFU1RfT0JK",
+            "RUNUSVZFX1RZUEVfS0lMTBABEicKI1FVRVNUX09CSkVDVElWRV9UWVBFX1JF",
+            "QUNIX0xPQ0FUSU9OEAISJQohUVVFU1RfT0JKRUNUSVZFX1RZUEVfQ09MTEVD",
+            "VF9JVEVNEAMSJAogUVVFU1RfT0JKRUNUSVZFX1RZUEVfVEFMS19UT19OUEMQ",
+            "BCp1CgtRdWVzdFN0YXR1cxIVChFRVUVTVF9TVEFUVVNfTk9ORRAAEhAKDE5P",
+            "VF9BQ0NFUFRFRBABEg4KClBST0NFRURJTkcQAhINCglDT01QTEVURUQQAxIS",
+            "Cg5SRVdBUkRfQ0xBSU1FRBAEEgoKBkZBSUxFRBAFQhuqAhhHb29nbGUuUHJv",
+            "dG9idWYuUHJvdG9jb2xiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.CreatureState), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.AttackType), typeof(global::Google.Protobuf.Protocol.MonsterType), typeof(global::Google.Protobuf.Protocol.ProjectileType), typeof(global::Google.Protobuf.Protocol.RoomExitReason), typeof(global::Google.Protobuf.Protocol.LoginStatus), typeof(global::Google.Protobuf.Protocol.ClientServerState), typeof(global::Google.Protobuf.Protocol.EnterServerResult), typeof(global::Google.Protobuf.Protocol.CurrencyType), typeof(global::Google.Protobuf.Protocol.QuestType), typeof(global::Google.Protobuf.Protocol.QuestObjectiveType), typeof(global::Google.Protobuf.Protocol.QuestStatus), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -239,7 +239,7 @@ namespace Google.Protobuf.Protocol {
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.CurrencyData), global::Google.Protobuf.Protocol.CurrencyData.Parser, new[]{ "Jewel", "Gold", "Exp", "Level" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.QuestReward), global::Google.Protobuf.Protocol.QuestReward.Parser, new[]{ "Exp", "Gold", "ItemIdList" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.QuestDefinition), global::Google.Protobuf.Protocol.QuestDefinition.Parser, new[]{ "QuestType", "MainQuestId", "Title", "Description", "RequiredLevel", "PrerequisiteQuestId", "Objectives", "Reward" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.QuestObjectiveDefinition), global::Google.Protobuf.Protocol.QuestObjectiveDefinition.Parser, new[]{ "SubQuestId", "Type", "Description", "TargetId", "RequiredCount", "Reward" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.QuestObjectiveDefinition), global::Google.Protobuf.Protocol.QuestObjectiveDefinition.Parser, new[]{ "MainQuestId", "SubQuestId", "Type", "Description", "TargetId", "RequiredCount", "Reward" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.RewardItem), global::Google.Protobuf.Protocol.RewardItem.Parser, new[]{ "RewardId", "RewardAmount" }, null, null, null, null)
           }));
     }
@@ -9461,6 +9461,7 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public QuestObjectiveDefinition(QuestObjectiveDefinition other) : this() {
+      mainQuestId_ = other.mainQuestId_;
       subQuestId_ = other.subQuestId_;
       type_ = other.type_;
       description_ = other.description_;
@@ -9475,8 +9476,19 @@ namespace Google.Protobuf.Protocol {
       return new QuestObjectiveDefinition(this);
     }
 
+    /// <summary>Field number for the "mainQuestId" field.</summary>
+    public const int MainQuestIdFieldNumber = 1;
+    private int mainQuestId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int MainQuestId {
+      get { return mainQuestId_; }
+      set {
+        mainQuestId_ = value;
+      }
+    }
+
     /// <summary>Field number for the "subQuestId" field.</summary>
-    public const int SubQuestIdFieldNumber = 1;
+    public const int SubQuestIdFieldNumber = 2;
     private int subQuestId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int SubQuestId {
@@ -9487,7 +9499,7 @@ namespace Google.Protobuf.Protocol {
     }
 
     /// <summary>Field number for the "type" field.</summary>
-    public const int TypeFieldNumber = 2;
+    public const int TypeFieldNumber = 3;
     private global::Google.Protobuf.Protocol.QuestObjectiveType type_ = global::Google.Protobuf.Protocol.QuestObjectiveType.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Google.Protobuf.Protocol.QuestObjectiveType Type {
@@ -9498,7 +9510,7 @@ namespace Google.Protobuf.Protocol {
     }
 
     /// <summary>Field number for the "description" field.</summary>
-    public const int DescriptionFieldNumber = 3;
+    public const int DescriptionFieldNumber = 4;
     private string description_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Description {
@@ -9509,7 +9521,7 @@ namespace Google.Protobuf.Protocol {
     }
 
     /// <summary>Field number for the "targetId" field.</summary>
-    public const int TargetIdFieldNumber = 4;
+    public const int TargetIdFieldNumber = 5;
     private int targetId_;
     /// <summary>
     /// ����, NPC, ������, ������Ʈ ID
@@ -9523,7 +9535,7 @@ namespace Google.Protobuf.Protocol {
     }
 
     /// <summary>Field number for the "requiredCount" field.</summary>
-    public const int RequiredCountFieldNumber = 5;
+    public const int RequiredCountFieldNumber = 6;
     private int requiredCount_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int RequiredCount {
@@ -9534,7 +9546,7 @@ namespace Google.Protobuf.Protocol {
     }
 
     /// <summary>Field number for the "reward" field.</summary>
-    public const int RewardFieldNumber = 6;
+    public const int RewardFieldNumber = 7;
     private global::Google.Protobuf.Protocol.QuestReward reward_;
     /// <summary>
     /// sub�� ���� ��
@@ -9560,6 +9572,7 @@ namespace Google.Protobuf.Protocol {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (MainQuestId != other.MainQuestId) return false;
       if (SubQuestId != other.SubQuestId) return false;
       if (Type != other.Type) return false;
       if (Description != other.Description) return false;
@@ -9572,6 +9585,7 @@ namespace Google.Protobuf.Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
+      if (MainQuestId != 0) hash ^= MainQuestId.GetHashCode();
       if (SubQuestId != 0) hash ^= SubQuestId.GetHashCode();
       if (Type != global::Google.Protobuf.Protocol.QuestObjectiveType.None) hash ^= Type.GetHashCode();
       if (Description.Length != 0) hash ^= Description.GetHashCode();
@@ -9591,28 +9605,32 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (SubQuestId != 0) {
+      if (MainQuestId != 0) {
         output.WriteRawTag(8);
+        output.WriteInt32(MainQuestId);
+      }
+      if (SubQuestId != 0) {
+        output.WriteRawTag(16);
         output.WriteInt32(SubQuestId);
       }
       if (Type != global::Google.Protobuf.Protocol.QuestObjectiveType.None) {
-        output.WriteRawTag(16);
+        output.WriteRawTag(24);
         output.WriteEnum((int) Type);
       }
       if (Description.Length != 0) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(34);
         output.WriteString(Description);
       }
       if (TargetId != 0) {
-        output.WriteRawTag(32);
+        output.WriteRawTag(40);
         output.WriteInt32(TargetId);
       }
       if (RequiredCount != 0) {
-        output.WriteRawTag(40);
+        output.WriteRawTag(48);
         output.WriteInt32(RequiredCount);
       }
       if (reward_ != null) {
-        output.WriteRawTag(50);
+        output.WriteRawTag(58);
         output.WriteMessage(Reward);
       }
       if (_unknownFields != null) {
@@ -9623,6 +9641,9 @@ namespace Google.Protobuf.Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
+      if (MainQuestId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MainQuestId);
+      }
       if (SubQuestId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(SubQuestId);
       }
@@ -9651,6 +9672,9 @@ namespace Google.Protobuf.Protocol {
     public void MergeFrom(QuestObjectiveDefinition other) {
       if (other == null) {
         return;
+      }
+      if (other.MainQuestId != 0) {
+        MainQuestId = other.MainQuestId;
       }
       if (other.SubQuestId != 0) {
         SubQuestId = other.SubQuestId;
@@ -9685,26 +9709,30 @@ namespace Google.Protobuf.Protocol {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            SubQuestId = input.ReadInt32();
+            MainQuestId = input.ReadInt32();
             break;
           }
           case 16: {
+            SubQuestId = input.ReadInt32();
+            break;
+          }
+          case 24: {
             Type = (global::Google.Protobuf.Protocol.QuestObjectiveType) input.ReadEnum();
             break;
           }
-          case 26: {
+          case 34: {
             Description = input.ReadString();
             break;
           }
-          case 32: {
+          case 40: {
             TargetId = input.ReadInt32();
             break;
           }
-          case 40: {
+          case 48: {
             RequiredCount = input.ReadInt32();
             break;
           }
-          case 50: {
+          case 58: {
             if (reward_ == null) {
               Reward = new global::Google.Protobuf.Protocol.QuestReward();
             }

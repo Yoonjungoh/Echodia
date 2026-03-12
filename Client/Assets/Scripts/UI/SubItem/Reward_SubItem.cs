@@ -31,6 +31,6 @@ public class Reward_SubItem : UI_SubItem<RewardItem>
 
     protected override void UpdateUI()
     {
-        GetImage((int)Images.RewardImage).sprite = Managers.Image.GetRewardImage(_data.RewardId);
+        GetImage((int)Images.RewardImage).sprite = Managers.Image.GetCurrencyImage(_data.RewardId);
     }
 }
