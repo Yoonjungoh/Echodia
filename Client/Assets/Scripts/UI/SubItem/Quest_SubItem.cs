@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Quest_SubItem : UI_SubItem<QuestObjectiveDefinition>
+public class Quest_SubItem : UI_SubItem<QuestInfo>
 {
 
     enum Images
@@ -39,10 +39,11 @@ public class Quest_SubItem : UI_SubItem<QuestObjectiveDefinition>
 
     private void OnClickSelectButton()
     {
+        // UI_Quest에게 이벤트 전달
         OnClickSelectButtonAction.Invoke();
     }
 
-    public override void SetData(QuestObjectiveDefinition data)
+    public override void SetData(QuestInfo data)
     {
         base.SetData(data);
         _mainQuestData = Managers.SpecData.GetQuestDefinition(_data.MainQuestId);
