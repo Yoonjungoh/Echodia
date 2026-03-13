@@ -9,14 +9,13 @@ public class GameRoomScene : BaseScene
     {
         base.Init();
 
-        // 게임 입장 하겠다고 패킷 전송
+        // 게임 입장 하겠다고 패킷 전송 (퀘스트도 여기서 같이 받음)
         C_EnterGame enterGamePacket = new C_EnterGame()
         {
             PlayerId = Managers.GameRoomObject.PlayerId,
             ServerId = Managers.GameRoom.ServerId,
             ChannelId = Managers.GameRoom.ChannelId,
         };
-        
         Managers.Network.Send(enterGamePacket);
         
         Managers.UI.ShowSceneUI<UI_GameRoom>();

@@ -9,6 +9,8 @@ namespace Server.Data
     {
         None = 0,
         RequiredIdleTime,
+        DefaultCreationMainQuestId,
+        DefaultCreationSubQuestId,
     }
     
     

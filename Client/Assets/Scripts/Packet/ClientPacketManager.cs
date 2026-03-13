@@ -66,7 +66,17 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.SSelectPlayer, MakePacket<S_SelectPlayer>);
 		_handler.Add((ushort)MsgId.SSelectPlayer, PacketHandler.S_SelectPlayerHandler);		
 		_onRecv.Add((ushort)MsgId.SRequestInitGameRoomData, MakePacket<S_RequestInitGameRoomData>);
-		_handler.Add((ushort)MsgId.SRequestInitGameRoomData, PacketHandler.S_RequestInitGameRoomDataHandler);
+		_handler.Add((ushort)MsgId.SRequestInitGameRoomData, PacketHandler.S_RequestInitGameRoomDataHandler);		
+		_onRecv.Add((ushort)MsgId.SCreateQuest, MakePacket<S_CreateQuest>);
+		_handler.Add((ushort)MsgId.SCreateQuest, PacketHandler.S_CreateQuestHandler);		
+		_onRecv.Add((ushort)MsgId.SCompleteQuest, MakePacket<S_CompleteQuest>);
+		_handler.Add((ushort)MsgId.SCompleteQuest, PacketHandler.S_CompleteQuestHandler);		
+		_onRecv.Add((ushort)MsgId.SAbandonQuest, MakePacket<S_AbandonQuest>);
+		_handler.Add((ushort)MsgId.SAbandonQuest, PacketHandler.S_AbandonQuestHandler);		
+		_onRecv.Add((ushort)MsgId.SGiveReward, MakePacket<S_GiveReward>);
+		_handler.Add((ushort)MsgId.SGiveReward, PacketHandler.S_GiveRewardHandler);		
+		_onRecv.Add((ushort)MsgId.SRequestQuestData, MakePacket<S_RequestQuestData>);
+		_handler.Add((ushort)MsgId.SRequestQuestData, PacketHandler.S_RequestQuestDataHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

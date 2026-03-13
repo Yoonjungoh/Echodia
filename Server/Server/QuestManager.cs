@@ -143,7 +143,22 @@ namespace Server
 
         }
 
-        public void CreateQuest(PlayerDb playerDb, int mainQuestId, int subQuestId)
+        public void SendQuest(Player player, int mainQuestId, int subQuestId)
+        {
+
+            // int mainQuestId = ConfigManager.Instance.GetInt(ConfigType.DefaultCreationMainQuestId);
+            // int subQuestId = ConfigManager.Instance.GetInt(ConfigType.DefaultCreationSubQuestId);
+            // QuestManager.Instance.CreateQuest(newPlayerDb, 
+            // mainQuestId, subQuestId);
+            // {
+            //     bool success = db.SaveChangesEx();
+            //     if (success == false)
+            //         return;
+            // }
+        }
+
+        // 퀘스트 생성하고 DB에 저장하고 패킷도 클라에게 전송
+        public void CreateQuest(GameDbContext db, PlayerDb playerDb, ClientSession session, int mainQuestId, int subQuestId)
         {
             // playerDbId에게 퀘스트 생성해서 Db에 저장
             QuestDb quest = new QuestDb()
@@ -152,10 +167,19 @@ namespace Server
                 MainQuestId = mainQuestId,
                 SubQuestId = subQuestId,
                 RequiredCount = 0,
-                Status = QuestStatus.Proceeding,   // TODO - 플레이어가 클라에서 Accept 해야 Proceeding으로 가는 거임
+                Status = QuestStatus.NotAccepted, // 플레이어가 클라에서 Accept 해야 Proceeding으로 가는 거임
                 StartedDate = DateTime.UtcNow,
             };
             playerDb.Quests.Add(quest);
+
+            bool success = db.SaveChangesEx();
+            if (success == false)
+                return;
+
+            S_CreateQuest createQuestPacket = new S_CreateQuest();
+            createQuestPacket.MainQuestId = mainQuestId;
+            createQuestPacket.SubQuestId = subQuestId;
+            session.Send(createQuestPacket);
         }
 
         // 퀘스트 완료 알림을 클라이언트에 전송

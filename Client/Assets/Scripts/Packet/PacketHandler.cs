@@ -62,7 +62,7 @@ class PacketHandler
             GameObject go = Managers.GameRoomObject.FindById(damagedInfo.ObjectId);
             if (go == null)
                 continue;
-            
+
             CreatureController cc = go.GetComponent<CreatureController>();
             if (cc == null)
                 continue;
@@ -75,7 +75,7 @@ class PacketHandler
     public static void S_LeaveGameHandler(PacketSession session, IMessage packet)
     {
         S_LeaveGame leaveGamePacket = packet as S_LeaveGame;
-        
+
         // 커서 잠금 풀기
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -94,7 +94,7 @@ class PacketHandler
             }
         }
     }
-    
+
     public static void S_DespawnHandler(PacketSession session, IMessage packet)
     {
         S_Despawn despawnPacket = packet as S_Despawn;
@@ -345,7 +345,7 @@ class PacketHandler
             Debug.Log("S_UpdateCurrencyDataAll 패킷이 null입니다");
             return;
         }
-        
+
         Managers.Currency.UpdateCurrencyDataAll(updateCurrencyDataAllPacket.CurrencyData);
     }
 
@@ -439,4 +439,48 @@ class PacketHandler
         }
         gameRoomUI.SetData(requestInitGameRoomDataPacket.InitGameRoomData);
     }
+
+    public static void S_CreateQuestHandler(PacketSession session, IMessage packet)
+    {
+        S_CreateQuest creatQuestPacket = packet as S_CreateQuest;
+        if (creatQuestPacket == null)
+        {
+            Debug.Log("S_CreateQuest 패킷이 null입니다");
+            return;
+        }
+
+        // 가져온 데이터 바탕으로 퀘스트 생성
+        UI_Quest questUI = Managers.Quest.GetQuestPopup();
+        questUI.AddQuestData(creatQuestPacket.MainQuestId, creatQuestPacket.SubQuestId);
+    }
+
+    public static void S_RequestQuestDataHandler(PacketSession session, IMessage packet)
+    {
+        S_RequestQuestData requestQuestData = packet as S_RequestQuestData;
+        if (requestQuestData == null)
+        {
+            Debug.Log("S_RequestQuestData 패킷이 null입니다");
+            return;
+        }
+
+        UI_Quest questUI = Managers.Quest.GetQuestPopup();
+        questUI.InitQuestData(requestQuestData.QuestInfoList);
+        questUI.UpdateUI();
+    }
+
+    internal static void S_CompleteQuestHandler(PacketSession session, IMessage packet)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static void S_AbandonQuestHandler(PacketSession session, IMessage packet)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static void S_GiveRewardHandler(PacketSession session, IMessage packet)
+    {
+        throw new NotImplementedException();
+    }
+
 }

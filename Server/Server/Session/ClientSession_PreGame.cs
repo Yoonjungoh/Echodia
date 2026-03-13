@@ -14,6 +14,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Server.Session;
+using Server.Data;
 
 namespace Server
 {
@@ -201,15 +202,6 @@ namespace Server
                     db.Players.Add(newPlayerDb);
 
                     // SaveChangesEx 성공하면 PlayerDbId인 PK 생성
-                    {
-                        bool success = db.SaveChangesEx();
-                        if (success == false)
-                            return;
-                    }
-
-                    // 4. 첫 퀘스트 생성
-                    // TODO - 하드 코딩
-                    QuestManager.Instance.CreateQuest(newPlayerDb, 1001, 1);
                     {
                         bool success = db.SaveChangesEx();
                         if (success == false)

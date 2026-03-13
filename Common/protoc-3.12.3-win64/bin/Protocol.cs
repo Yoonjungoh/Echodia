@@ -85,103 +85,126 @@ namespace Google.Protobuf.Protocol {
             "IAEoBRIRCgljYW5TZWxlY3QYAiABKAgiGwoZQ19SZXF1ZXN0SW5pdEdhbWVS",
             "b29tRGF0YSJRChlTX1JlcXVlc3RJbml0R2FtZVJvb21EYXRhEjQKEGluaXRH",
             "YW1lUm9vbURhdGEYASABKAsyGi5Qcm90b2NvbC5Jbml0R2FtZVJvb21EYXRh",
-            "InkKClNlcnZlckluZm8SEAoIc2VydmVySWQYASABKAUSEgoKc2VydmVyTmFt",
-            "ZRgCIAEoCRIRCgljaGFubmVsSWQYAyABKAUSGgoSY3VycmVudFBsYXllckNv",
-            "dW50GAQgASgFEhYKDm1heFBsYXllckNvdW50GAUgASgFImAKEFBsYXllclNl",
-            "bGVjdEluZm8SEAoIcGxheWVySWQYASABKAUSDAoEbmFtZRgCIAEoCRIsCgxj",
-            "dXJyZW5jeURhdGEYAyABKAsyFi5Qcm90b2NvbC5DdXJyZW5jeURhdGEiPgoQ",
-            "SW5pdEdhbWVSb29tRGF0YRINCgVsZXZlbBgBIAEoBRILCgNleHAYAiABKAUS",
-            "DgoGbWF4RXhwGAMgASgFIi8KDFByb3RvVmVjdG9yMxIJCgF4GAEgASgCEgkK",
-            "AXkYAiABKAISCQoBehgDIAEoAiI9Cg9Qcm90b1F1YXRlcm5pb24SCQoBeBgB",
-            "IAEoAhIJCgF5GAIgASgCEgkKAXoYAyABKAISCQoBdxgEIAEoAiL5AwoLT2Jq",
-            "ZWN0U3RhdGUSEAoIb2JqZWN0SWQYASABKAUSFgoOY2xpZW50U2VuZFRpbWUY",
-            "AiABKAMSGgoSc2VydmVyUmVjZWl2ZWRUaW1lGAMgASgDEigKCHBvc2l0aW9u",
-            "GAQgASgLMhYuUHJvdG9jb2wuUHJvdG9WZWN0b3IzEigKCHZlbG9jaXR5GAUg",
-            "ASgLMhYuUHJvdG9jb2wuUHJvdG9WZWN0b3IzEisKCHJvdGF0aW9uGAYgASgL",
-            "MhkuUHJvdG9jb2wuUHJvdG9RdWF0ZXJuaW9uEgwKBG5hbWUYByABKAkSLgoN",
-            "Y3JlYXR1cmVTdGF0ZRgIIAEoDjIXLlByb3RvY29sLkNyZWF0dXJlU3RhdGUS",
-            "HAoEc3RhdBgJIAEoCzIOLlByb3RvY29sLlN0YXQSLAoKb2JqZWN0VHlwZRgK",
-            "IAEoDjIYLlByb3RvY29sLkdhbWVPYmplY3RUeXBlEioKC21vbnN0ZXJUeXBl",
-            "GAsgASgOMhUuUHJvdG9jb2wuTW9uc3RlclR5cGUSMAoOcHJvamVjdGlsZVR5",
-            "cGUYDCABKA4yGC5Qcm90b2NvbC5Qcm9qZWN0aWxlVHlwZRIPCgdvd25lcklk",
-            "GA0gASgFEg0KBWxldmVsGA4gASgFEgsKA2V4cBgPIAEoBRIOCgZtYXhFeHAY",
-            "ECABKAUiMQoLRGFtYWdlZEluZm8SEAoIb2JqZWN0SWQYASABKAUSEAoIcmVt",
-            "YWluSHAYAiABKAIiiwIKBFN0YXQSDQoFbWF4SHAYASABKAISCgoCaHAYAiAB",
-            "KAISDwoHZGVmZW5zZRgDIAEoAhIRCgltb3ZlU3BlZWQYBCABKAISGgoSY29t",
-            "bW9uQXR0YWNrRGFtYWdlGAUgASgCEhwKFGNvbW1vbkF0dGFja0Nvb2xUaW1l",
-            "GAYgASgCEh8KF21hZ2ljTWlzc2lsZUF0dGFrRGFtYWdlGAcgASgCEiIKGm1h",
-            "Z2ljTWlzc2lsZUF0dGFja0Nvb2xUaW1lGAggASgCEhMKC2F0dGFja1Jhbmdl",
-            "GAkgASgCEhoKEmF0dGFja0hhbGZBbmdsZURlZxgKIAEoAhIUCgxhdHRhY2tI",
-            "ZWlnaHQYCyABKAIiRwoMQ3VycmVuY3lEYXRhEg0KBWpld2VsGAEgASgFEgwK",
-            "BGdvbGQYAiABKAUSCwoDZXhwGAMgASgFEg0KBWxldmVsGAQgASgFIjwKC1F1",
-            "ZXN0UmV3YXJkEgsKA2V4cBgBIAEoAxIMCgRnb2xkGAIgASgDEhIKCml0ZW1J",
-            "ZExpc3QYAyADKAUihQIKD1F1ZXN0RGVmaW5pdGlvbhImCglxdWVzdFR5cGUY",
-            "ASABKA4yEy5Qcm90b2NvbC5RdWVzdFR5cGUSEwoLbWFpblF1ZXN0SWQYAiAB",
-            "KAUSDQoFdGl0bGUYAyABKAkSEwoLZGVzY3JpcHRpb24YBCABKAkSFQoNcmVx",
-            "dWlyZWRMZXZlbBgFIAEoBRIbChNwcmVyZXF1aXNpdGVRdWVzdElkGAYgASgF",
-            "EjYKCm9iamVjdGl2ZXMYByADKAsyIi5Qcm90b2NvbC5RdWVzdE9iamVjdGl2",
-            "ZURlZmluaXRpb24SJQoGcmV3YXJkGAggASgLMhUuUHJvdG9jb2wuUXVlc3RS",
-            "ZXdhcmQi1AEKGFF1ZXN0T2JqZWN0aXZlRGVmaW5pdGlvbhITCgttYWluUXVl",
-            "c3RJZBgBIAEoBRISCgpzdWJRdWVzdElkGAIgASgFEioKBHR5cGUYAyABKA4y",
-            "HC5Qcm90b2NvbC5RdWVzdE9iamVjdGl2ZVR5cGUSEwoLZGVzY3JpcHRpb24Y",
-            "BCABKAkSEAoIdGFyZ2V0SWQYBSABKAUSFQoNcmVxdWlyZWRDb3VudBgGIAEo",
-            "BRIlCgZyZXdhcmQYByABKAsyFS5Qcm90b2NvbC5RdWVzdFJld2FyZCI0CgpS",
-            "ZXdhcmRJdGVtEhAKCHJld2FyZElkGAEgASgFEhQKDHJld2FyZEFtb3VudBgC",
-            "IAEoBSr/BgoFTXNnSWQSFAoQU19BU1NJR05fVVNFUl9JRBAAEhQKEENfQVNT",
-            "SUdOX1VTRVJfSUQQARIQCgxDX0VOVEVSX0dBTUUQEBIQCgxTX0VOVEVSX0dB",
-            "TUUQERIMCghDX0FUVEFDSxASEgwKCFNfQVRUQUNLEBMSEAoMU19MRUFWRV9H",
-            "QU1FEBQSCwoHU19TUEFXThAVEg0KCVNfREVTUEFXThAWEgoKBkNfTU9WRRAX",
-            "EgoKBlNfTU9WRRAYEgkKBVNfRElFEBoSFgoSQ19TUEFXTl9QUk9KRUNUSUxF",
-            "EB0SDwoLQ19USU1FU1RBTVAQaRIPCgtTX1RJTUVTVEFNUBBqEhsKF0NfQ0hB",
-            "TkdFX0NSRUFUVVJFX1NUQVRFEGsSGwoXU19DSEFOR0VfQ1JFQVRVUkVfU1RB",
-            "VEUQbBIPCgtTX0NPTk5FQ1RFRBBtEgsKB0NfTE9HSU4QbhILCgdTX0xPR0lO",
-            "EG8SGQoVQ19SRVFVRVNUX1BMQVlFUl9MSVNUEHASGQoVU19SRVFVRVNUX1BM",
-            "QVlFUl9MSVNUEHESEwoPQ19DUkVBVEVfUExBWUVSEHISEwoPU19DUkVBVEVf",
-            "UExBWUVSEHMSEwoPQ19ERUxFVEVfUExBWUVSEHQSEwoPU19ERUxFVEVfUExB",
-            "WUVSEHUSGgoWQ19VUERBVEVfQ1VSUkVOQ1lfREFUQRB2EhoKFlNfVVBEQVRF",
-            "X0NVUlJFTkNZX0RBVEEQdxIeChpDX1VQREFURV9DVVJSRU5DWV9EQVRBX0FM",
-            "TBB4Eh4KGlNfVVBEQVRFX0NVUlJFTkNZX0RBVEFfQUxMEHkSEwoPQ19TRUxF",
-            "Q1RfU0VSVkVSEHoSEwoPU19TRUxFQ1RfU0VSVkVSEHsSGQoVQ19SRVFVRVNU",
-            "X1NFUlZFUl9MSVNUEHwSGQoVU19SRVFVRVNUX1NFUlZFUl9MSVNUEH0SIQod",
-            "Q19SRVFVRVNUX1NFUlZFUl9TVU1NQVJZX0xJU1QQfhIhCh1TX1JFUVVFU1Rf",
-            "U0VSVkVSX1NVTU1BUllfTElTVBB/EhQKD0NfU0VMRUNUX1BMQVlFUhCAARIU",
-            "Cg9TX1NFTEVDVF9QTEFZRVIQgQESIgodQ19SRVFVRVNUX0lOSVRfR0FNRV9S",
-            "T09NX0RBVEEQggESIgodU19SRVFVRVNUX0lOSVRfR0FNRV9ST09NX0RBVEEQ",
-            "gwEqbAoNQ3JlYXR1cmVTdGF0ZRIXChNDUkVBVFVSRV9TVEFURV9OT05FEAAS",
-            "CAoESURMRRABEggKBE1PVkUQAhIKCgZBVFRBQ0sQAxIOCgpPTl9EQU1BR0VE",
-            "EAQSCQoFU0tJTEwQBRIHCgNESUUQBipUCg5HYW1lT2JqZWN0VHlwZRIZChVH",
-            "QU1FX09CSkVDVF9UWVBFX05PTkUQABIKCgZQTEFZRVIQARILCgdNT05TVEVS",
-            "EAISDgoKUFJPSkVDVElMRRADKkgKCkF0dGFja1R5cGUSFAoQQVRUQUNLX1RZ",
-            "UEVfTk9ORRAAEhEKDUNPTU1PTl9BVFRBQ0sQARIRCg1SQU5HRURfQVRUQUNL",
-            "EAIqLgoLTW9uc3RlclR5cGUSFQoRTU9OU1RFUl9UWVBFX05PTkUQABIICgRC",
-            "RUFSEAEqPQoOUHJvamVjdGlsZVR5cGUSGAoUUFJPSkVDVElMRV9UWVBFX05P",
-            "TkUQABIRCg1NQUdJQ19NSVNTSUxFEAEqWQoOUm9vbUV4aXRSZWFzb24SGQoV",
-            "Uk9PTV9FWElUX1JFQVNPTl9OT05FEAASDAoIR0FNRV9XSU4QARINCglHQU1F",
-            "X0xPU0UQAhIPCgtNQU5VQUxfRVhJVBADKrMBCgtMb2dpblN0YXR1cxIVChFM",
-            "T0dJTl9TVEFUVVNfTk9ORRAAEhgKFExPR0lOX1NUQVRVU19TVUNDRVNTEAES",
-            "GQoVTE9HSU5fU1RBVFVTX0lEX1dST05HEAISHwobTE9HSU5fU1RBVFVTX1BB",
-            "U1NXT1JEX1dST05HEAMSIgoeTE9HSU5fU1RBVFVTX0FMUkVBRFlfTE9HR0VE",
-            "X0lOEAQSEwoPU0lHTl9VUF9TVUNDRVNTEAUqcQoRQ2xpZW50U2VydmVyU3Rh",
-            "dGUSHAoYQ0xJRU5UX1NFUlZFUl9TVEFURV9OT05FEAASCQoFTE9HSU4QARIR",
-            "Cg1TRVJWRVJfU0VMRUNUEAISEQoNUExBWUVSX1NFTEVDVBADEg0KCUdBTUVf",
-            "Uk9PTRAEKqABChFFbnRlclNlcnZlclJlc3VsdBIcChhFTlRFUl9TRVJWRVJf",
-            "UkVTVUxUX05PTkUQABILCgdTVUNDRVNTEAESEAoMQ0hBTk5FTF9GVUxMEAIS",
-            "DgoKQUxSRUFEWV9JThADEhIKDklOVkFMSURfUExBWUVSEAQSEgoOSU5WQUxJ",
-            "RF9TRVJWRVIQBRIWChJTRVJWRVJfTUFJTlRFTkFOQ0UQBiqHAQoMQ3VycmVu",
-            "Y3lUeXBlEhYKEkNVUlJFTkNZX1RZUEVfTk9ORRAAEhcKE0NVUlJFTkNZX1RZ",
-            "UEVfSkVXRUwQARIWChJDVVJSRU5DWV9UWVBFX0dPTEQQAhIVChFDVVJSRU5D",
-            "WV9UWVBFX0VYUBADEhcKE0NVUlJFTkNZX1RZUEVfTEVWRUwQBCp3CglRdWVz",
-            "dFR5cGUSEwoPUVVFU1RfVFlQRV9OT05FEAASEwoPUVVFU1RfVFlQRV9NQUlO",
-            "EAESEwoPUVVFU1RfVFlQRV9TSURFEAISFAoQUVVFU1RfVFlQRV9EQUlMWRAD",
-            "EhUKEVFVRVNUX1RZUEVfV0VFS0xZEAQqyAEKElF1ZXN0T2JqZWN0aXZlVHlw",
-            "ZRIdChlRVUVTVF9PQkpFQ1RJVkVfVFlQRV9OT05FEAASHQoZUVVFU1RfT0JK",
-            "RUNUSVZFX1RZUEVfS0lMTBABEicKI1FVRVNUX09CSkVDVElWRV9UWVBFX1JF",
-            "QUNIX0xPQ0FUSU9OEAISJQohUVVFU1RfT0JKRUNUSVZFX1RZUEVfQ09MTEVD",
-            "VF9JVEVNEAMSJAogUVVFU1RfT0JKRUNUSVZFX1RZUEVfVEFMS19UT19OUEMQ",
-            "BCp1CgtRdWVzdFN0YXR1cxIVChFRVUVTVF9TVEFUVVNfTk9ORRAAEhAKDE5P",
-            "VF9BQ0NFUFRFRBABEg4KClBST0NFRURJTkcQAhINCglDT01QTEVURUQQAxIS",
-            "Cg5SRVdBUkRfQ0xBSU1FRBAEEgoKBkZBSUxFRBAFQhuqAhhHb29nbGUuUHJv",
-            "dG9idWYuUHJvdG9jb2xiBnByb3RvMw=="));
+            "ImQKDVNfQ3JlYXRlUXVlc3QSEwoLbWFpblF1ZXN0SWQYASABKAUSEgoKc3Vi",
+            "UXVlc3RJZBgCIAEoBRIqCgtRdWVzdFN0YXR1cxgDIAEoDjIVLlByb3RvY29s",
+            "LlF1ZXN0U3RhdHVzIkoKDUNfQWNjZXB0UXVlc3QSEwoLbWFpblF1ZXN0SWQY",
+            "ASABKAUSEgoKc3ViUXVlc3RJZBgCIAEoBRIQCghpc0FjY2VwdBgDIAEoCCI6",
+            "Cg9DX0NvbXBsZXRlUXVlc3QSEwoLbWFpblF1ZXN0SWQYASABKAUSEgoKc3Vi",
+            "UXVlc3RJZBgCIAEoBSJmCg9TX0NvbXBsZXRlUXVlc3QSEwoLbWFpblF1ZXN0",
+            "SWQYASABKAUSEgoKc3ViUXVlc3RJZBgCIAEoBRIqCgtRdWVzdFN0YXR1cxgD",
+            "IAEoDjIVLlByb3RvY29sLlF1ZXN0U3RhdHVzIjkKDkNfQWJhbmRvblF1ZXN0",
+            "EhMKC21haW5RdWVzdElkGAEgASgFEhIKCnN1YlF1ZXN0SWQYAiABKAUiZQoO",
+            "U19BYmFuZG9uUXVlc3QSEwoLbWFpblF1ZXN0SWQYASABKAUSEgoKc3ViUXVl",
+            "c3RJZBgCIAEoBRIqCgtRdWVzdFN0YXR1cxgDIAEoDjIVLlByb3RvY29sLlF1",
+            "ZXN0U3RhdHVzIjwKDFNfR2l2ZVJld2FyZBIsCg5yZXdhcmRJdGVtTGlzdBgB",
+            "IAMoCzIULlByb3RvY29sLlJld2FyZEl0ZW0iQAoSU19SZXF1ZXN0UXVlc3RE",
+            "YXRhEioKDXF1ZXN0SW5mb0xpc3QYASADKAsyEy5Qcm90b2NvbC5RdWVzdElu",
+            "Zm8iFAoSQ19SZXF1ZXN0UXVlc3REYXRhIncKCVF1ZXN0SW5mbxITCgttYWlu",
+            "UXVlc3RJZBgBIAEoBRISCgpzdWJRdWVzdElkGAIgASgFEhUKDXJlcXVpcmVk",
+            "Q291bnQYAyABKAUSKgoLUXVlc3RTdGF0dXMYBCABKA4yFS5Qcm90b2NvbC5R",
+            "dWVzdFN0YXR1cyJ5CgpTZXJ2ZXJJbmZvEhAKCHNlcnZlcklkGAEgASgFEhIK",
+            "CnNlcnZlck5hbWUYAiABKAkSEQoJY2hhbm5lbElkGAMgASgFEhoKEmN1cnJl",
+            "bnRQbGF5ZXJDb3VudBgEIAEoBRIWCg5tYXhQbGF5ZXJDb3VudBgFIAEoBSJg",
+            "ChBQbGF5ZXJTZWxlY3RJbmZvEhAKCHBsYXllcklkGAEgASgFEgwKBG5hbWUY",
+            "AiABKAkSLAoMY3VycmVuY3lEYXRhGAMgASgLMhYuUHJvdG9jb2wuQ3VycmVu",
+            "Y3lEYXRhIj4KEEluaXRHYW1lUm9vbURhdGESDQoFbGV2ZWwYASABKAUSCwoD",
+            "ZXhwGAIgASgFEg4KBm1heEV4cBgDIAEoBSIvCgxQcm90b1ZlY3RvcjMSCQoB",
+            "eBgBIAEoAhIJCgF5GAIgASgCEgkKAXoYAyABKAIiPQoPUHJvdG9RdWF0ZXJu",
+            "aW9uEgkKAXgYASABKAISCQoBeRgCIAEoAhIJCgF6GAMgASgCEgkKAXcYBCAB",
+            "KAIi+QMKC09iamVjdFN0YXRlEhAKCG9iamVjdElkGAEgASgFEhYKDmNsaWVu",
+            "dFNlbmRUaW1lGAIgASgDEhoKEnNlcnZlclJlY2VpdmVkVGltZRgDIAEoAxIo",
+            "Cghwb3NpdGlvbhgEIAEoCzIWLlByb3RvY29sLlByb3RvVmVjdG9yMxIoCgh2",
+            "ZWxvY2l0eRgFIAEoCzIWLlByb3RvY29sLlByb3RvVmVjdG9yMxIrCghyb3Rh",
+            "dGlvbhgGIAEoCzIZLlByb3RvY29sLlByb3RvUXVhdGVybmlvbhIMCgRuYW1l",
+            "GAcgASgJEi4KDWNyZWF0dXJlU3RhdGUYCCABKA4yFy5Qcm90b2NvbC5DcmVh",
+            "dHVyZVN0YXRlEhwKBHN0YXQYCSABKAsyDi5Qcm90b2NvbC5TdGF0EiwKCm9i",
+            "amVjdFR5cGUYCiABKA4yGC5Qcm90b2NvbC5HYW1lT2JqZWN0VHlwZRIqCgtt",
+            "b25zdGVyVHlwZRgLIAEoDjIVLlByb3RvY29sLk1vbnN0ZXJUeXBlEjAKDnBy",
+            "b2plY3RpbGVUeXBlGAwgASgOMhguUHJvdG9jb2wuUHJvamVjdGlsZVR5cGUS",
+            "DwoHb3duZXJJZBgNIAEoBRINCgVsZXZlbBgOIAEoBRILCgNleHAYDyABKAUS",
+            "DgoGbWF4RXhwGBAgASgFIjEKC0RhbWFnZWRJbmZvEhAKCG9iamVjdElkGAEg",
+            "ASgFEhAKCHJlbWFpbkhwGAIgASgCIosCCgRTdGF0Eg0KBW1heEhwGAEgASgC",
+            "EgoKAmhwGAIgASgCEg8KB2RlZmVuc2UYAyABKAISEQoJbW92ZVNwZWVkGAQg",
+            "ASgCEhoKEmNvbW1vbkF0dGFja0RhbWFnZRgFIAEoAhIcChRjb21tb25BdHRh",
+            "Y2tDb29sVGltZRgGIAEoAhIfChdtYWdpY01pc3NpbGVBdHRha0RhbWFnZRgH",
+            "IAEoAhIiChptYWdpY01pc3NpbGVBdHRhY2tDb29sVGltZRgIIAEoAhITCgth",
+            "dHRhY2tSYW5nZRgJIAEoAhIaChJhdHRhY2tIYWxmQW5nbGVEZWcYCiABKAIS",
+            "FAoMYXR0YWNrSGVpZ2h0GAsgASgCIkcKDEN1cnJlbmN5RGF0YRINCgVqZXdl",
+            "bBgBIAEoBRIMCgRnb2xkGAIgASgFEgsKA2V4cBgDIAEoBRINCgVsZXZlbBgE",
+            "IAEoBSI8CgtRdWVzdFJld2FyZBILCgNleHAYASABKAMSDAoEZ29sZBgCIAEo",
+            "AxISCgppdGVtSWRMaXN0GAMgAygFIoUCCg9RdWVzdERlZmluaXRpb24SJgoJ",
+            "cXVlc3RUeXBlGAEgASgOMhMuUHJvdG9jb2wuUXVlc3RUeXBlEhMKC21haW5R",
+            "dWVzdElkGAIgASgFEg0KBXRpdGxlGAMgASgJEhMKC2Rlc2NyaXB0aW9uGAQg",
+            "ASgJEhUKDXJlcXVpcmVkTGV2ZWwYBSABKAUSGwoTcHJlcmVxdWlzaXRlUXVl",
+            "c3RJZBgGIAEoBRI2CgpvYmplY3RpdmVzGAcgAygLMiIuUHJvdG9jb2wuUXVl",
+            "c3RPYmplY3RpdmVEZWZpbml0aW9uEiUKBnJld2FyZBgIIAEoCzIVLlByb3Rv",
+            "Y29sLlF1ZXN0UmV3YXJkItQBChhRdWVzdE9iamVjdGl2ZURlZmluaXRpb24S",
+            "EwoLbWFpblF1ZXN0SWQYASABKAUSEgoKc3ViUXVlc3RJZBgCIAEoBRIqCgR0",
+            "eXBlGAMgASgOMhwuUHJvdG9jb2wuUXVlc3RPYmplY3RpdmVUeXBlEhMKC2Rl",
+            "c2NyaXB0aW9uGAQgASgJEhAKCHRhcmdldElkGAUgASgFEhUKDXJlcXVpcmVk",
+            "Q291bnQYBiABKAUSJQoGcmV3YXJkGAcgASgLMhUuUHJvdG9jb2wuUXVlc3RS",
+            "ZXdhcmQiNAoKUmV3YXJkSXRlbRIQCghyZXdhcmRJZBgBIAEoBRIUCgxyZXdh",
+            "cmRBbW91bnQYAiABKAUqzQgKBU1zZ0lkEhQKEFNfQVNTSUdOX1VTRVJfSUQQ",
+            "ABIUChBDX0FTU0lHTl9VU0VSX0lEEAESEAoMQ19FTlRFUl9HQU1FEBASEAoM",
+            "U19FTlRFUl9HQU1FEBESDAoIQ19BVFRBQ0sQEhIMCghTX0FUVEFDSxATEhAK",
+            "DFNfTEVBVkVfR0FNRRAUEgsKB1NfU1BBV04QFRINCglTX0RFU1BBV04QFhIK",
+            "CgZDX01PVkUQFxIKCgZTX01PVkUQGBIJCgVTX0RJRRAaEhYKEkNfU1BBV05f",
+            "UFJPSkVDVElMRRAdEg8KC0NfVElNRVNUQU1QEGkSDwoLU19USU1FU1RBTVAQ",
+            "ahIbChdDX0NIQU5HRV9DUkVBVFVSRV9TVEFURRBrEhsKF1NfQ0hBTkdFX0NS",
+            "RUFUVVJFX1NUQVRFEGwSDwoLU19DT05ORUNURUQQbRILCgdDX0xPR0lOEG4S",
+            "CwoHU19MT0dJThBvEhkKFUNfUkVRVUVTVF9QTEFZRVJfTElTVBBwEhkKFVNf",
+            "UkVRVUVTVF9QTEFZRVJfTElTVBBxEhMKD0NfQ1JFQVRFX1BMQVlFUhByEhMK",
+            "D1NfQ1JFQVRFX1BMQVlFUhBzEhMKD0NfREVMRVRFX1BMQVlFUhB0EhMKD1Nf",
+            "REVMRVRFX1BMQVlFUhB1EhoKFkNfVVBEQVRFX0NVUlJFTkNZX0RBVEEQdhIa",
+            "ChZTX1VQREFURV9DVVJSRU5DWV9EQVRBEHcSHgoaQ19VUERBVEVfQ1VSUkVO",
+            "Q1lfREFUQV9BTEwQeBIeChpTX1VQREFURV9DVVJSRU5DWV9EQVRBX0FMTBB5",
+            "EhMKD0NfU0VMRUNUX1NFUlZFUhB6EhMKD1NfU0VMRUNUX1NFUlZFUhB7EhkK",
+            "FUNfUkVRVUVTVF9TRVJWRVJfTElTVBB8EhkKFVNfUkVRVUVTVF9TRVJWRVJf",
+            "TElTVBB9EiEKHUNfUkVRVUVTVF9TRVJWRVJfU1VNTUFSWV9MSVNUEH4SIQod",
+            "U19SRVFVRVNUX1NFUlZFUl9TVU1NQVJZX0xJU1QQfxIUCg9DX1NFTEVDVF9Q",
+            "TEFZRVIQgAESFAoPU19TRUxFQ1RfUExBWUVSEIEBEiIKHUNfUkVRVUVTVF9J",
+            "TklUX0dBTUVfUk9PTV9EQVRBEIIBEiIKHVNfUkVRVUVTVF9JTklUX0dBTUVf",
+            "Uk9PTV9EQVRBEIMBEhMKDlNfQ1JFQVRFX1FVRVNUEIQBEhMKDkNfQUNDRVBU",
+            "X1FVRVNUEIUBEhUKEENfQ09NUExFVEVfUVVFU1QQhgESFQoQU19DT01QTEVU",
+            "RV9RVUVTVBCHARIUCg9DX0FCQU5ET05fUVVFU1QQiAESFAoPU19BQkFORE9O",
+            "X1FVRVNUEIkBEhIKDVNfR0lWRV9SRVdBUkQQigESGQoUQ19SRVFVRVNUX1FV",
+            "RVNUX0RBVEEQiwESGQoUU19SRVFVRVNUX1FVRVNUX0RBVEEQjAEqbAoNQ3Jl",
+            "YXR1cmVTdGF0ZRIXChNDUkVBVFVSRV9TVEFURV9OT05FEAASCAoESURMRRAB",
+            "EggKBE1PVkUQAhIKCgZBVFRBQ0sQAxIOCgpPTl9EQU1BR0VEEAQSCQoFU0tJ",
+            "TEwQBRIHCgNESUUQBipUCg5HYW1lT2JqZWN0VHlwZRIZChVHQU1FX09CSkVD",
+            "VF9UWVBFX05PTkUQABIKCgZQTEFZRVIQARILCgdNT05TVEVSEAISDgoKUFJP",
+            "SkVDVElMRRADKkgKCkF0dGFja1R5cGUSFAoQQVRUQUNLX1RZUEVfTk9ORRAA",
+            "EhEKDUNPTU1PTl9BVFRBQ0sQARIRCg1SQU5HRURfQVRUQUNLEAIqLgoLTW9u",
+            "c3RlclR5cGUSFQoRTU9OU1RFUl9UWVBFX05PTkUQABIICgRCRUFSEAEqPQoO",
+            "UHJvamVjdGlsZVR5cGUSGAoUUFJPSkVDVElMRV9UWVBFX05PTkUQABIRCg1N",
+            "QUdJQ19NSVNTSUxFEAEqWQoOUm9vbUV4aXRSZWFzb24SGQoVUk9PTV9FWElU",
+            "X1JFQVNPTl9OT05FEAASDAoIR0FNRV9XSU4QARINCglHQU1FX0xPU0UQAhIP",
+            "CgtNQU5VQUxfRVhJVBADKrMBCgtMb2dpblN0YXR1cxIVChFMT0dJTl9TVEFU",
+            "VVNfTk9ORRAAEhgKFExPR0lOX1NUQVRVU19TVUNDRVNTEAESGQoVTE9HSU5f",
+            "U1RBVFVTX0lEX1dST05HEAISHwobTE9HSU5fU1RBVFVTX1BBU1NXT1JEX1dS",
+            "T05HEAMSIgoeTE9HSU5fU1RBVFVTX0FMUkVBRFlfTE9HR0VEX0lOEAQSEwoP",
+            "U0lHTl9VUF9TVUNDRVNTEAUqcQoRQ2xpZW50U2VydmVyU3RhdGUSHAoYQ0xJ",
+            "RU5UX1NFUlZFUl9TVEFURV9OT05FEAASCQoFTE9HSU4QARIRCg1TRVJWRVJf",
+            "U0VMRUNUEAISEQoNUExBWUVSX1NFTEVDVBADEg0KCUdBTUVfUk9PTRAEKqAB",
+            "ChFFbnRlclNlcnZlclJlc3VsdBIcChhFTlRFUl9TRVJWRVJfUkVTVUxUX05P",
+            "TkUQABILCgdTVUNDRVNTEAESEAoMQ0hBTk5FTF9GVUxMEAISDgoKQUxSRUFE",
+            "WV9JThADEhIKDklOVkFMSURfUExBWUVSEAQSEgoOSU5WQUxJRF9TRVJWRVIQ",
+            "BRIWChJTRVJWRVJfTUFJTlRFTkFOQ0UQBiqHAQoMQ3VycmVuY3lUeXBlEhYK",
+            "EkNVUlJFTkNZX1RZUEVfTk9ORRAAEhcKE0NVUlJFTkNZX1RZUEVfSkVXRUwQ",
+            "ARIWChJDVVJSRU5DWV9UWVBFX0dPTEQQAhIVChFDVVJSRU5DWV9UWVBFX0VY",
+            "UBADEhcKE0NVUlJFTkNZX1RZUEVfTEVWRUwQBCp3CglRdWVzdFR5cGUSEwoP",
+            "UVVFU1RfVFlQRV9OT05FEAASEwoPUVVFU1RfVFlQRV9NQUlOEAESEwoPUVVF",
+            "U1RfVFlQRV9TSURFEAISFAoQUVVFU1RfVFlQRV9EQUlMWRADEhUKEVFVRVNU",
+            "X1RZUEVfV0VFS0xZEAQqyAEKElF1ZXN0T2JqZWN0aXZlVHlwZRIdChlRVUVT",
+            "VF9PQkpFQ1RJVkVfVFlQRV9OT05FEAASHQoZUVVFU1RfT0JKRUNUSVZFX1RZ",
+            "UEVfS0lMTBABEicKI1FVRVNUX09CSkVDVElWRV9UWVBFX1JFQUNIX0xPQ0FU",
+            "SU9OEAISJQohUVVFU1RfT0JKRUNUSVZFX1RZUEVfQ09MTEVDVF9JVEVNEAMS",
+            "JAogUVVFU1RfT0JKRUNUSVZFX1RZUEVfVEFMS19UT19OUEMQBCq2AQoLUXVl",
+            "c3RTdGF0dXMSFQoRUVVFU1RfU1RBVFVTX05PTkUQABIdChlRVUVTVF9TVEFU",
+            "VVNfTk9UX0FDQ0VQVEVEEAESGwoXUVVFU1RfU1RBVFVTX1BST0NFRURJTkcQ",
+            "AhIaChZRVUVTVF9TVEFUVVNfQ09NUExFVEVEEAMSHwobUVVFU1RfU1RBVFVT",
+            "X1JFV0FSRF9DTEFJTUVEEAQSFwoTUVVFU1RfU1RBVFVTX0ZBSUxFRBAFQhuq",
+            "AhhHb29nbGUuUHJvdG9idWYuUHJvdG9jb2xiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.CreatureState), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.AttackType), typeof(global::Google.Protobuf.Protocol.MonsterType), typeof(global::Google.Protobuf.Protocol.ProjectileType), typeof(global::Google.Protobuf.Protocol.RoomExitReason), typeof(global::Google.Protobuf.Protocol.LoginStatus), typeof(global::Google.Protobuf.Protocol.ClientServerState), typeof(global::Google.Protobuf.Protocol.EnterServerResult), typeof(global::Google.Protobuf.Protocol.CurrencyType), typeof(global::Google.Protobuf.Protocol.QuestType), typeof(global::Google.Protobuf.Protocol.QuestObjectiveType), typeof(global::Google.Protobuf.Protocol.QuestStatus), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -228,6 +251,16 @@ namespace Google.Protobuf.Protocol {
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_SelectPlayer), global::Google.Protobuf.Protocol.S_SelectPlayer.Parser, new[]{ "PlayerId", "CanSelect" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_RequestInitGameRoomData), global::Google.Protobuf.Protocol.C_RequestInitGameRoomData.Parser, null, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_RequestInitGameRoomData), global::Google.Protobuf.Protocol.S_RequestInitGameRoomData.Parser, new[]{ "InitGameRoomData" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_CreateQuest), global::Google.Protobuf.Protocol.S_CreateQuest.Parser, new[]{ "MainQuestId", "SubQuestId", "QuestStatus" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_AcceptQuest), global::Google.Protobuf.Protocol.C_AcceptQuest.Parser, new[]{ "MainQuestId", "SubQuestId", "IsAccept" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_CompleteQuest), global::Google.Protobuf.Protocol.C_CompleteQuest.Parser, new[]{ "MainQuestId", "SubQuestId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_CompleteQuest), global::Google.Protobuf.Protocol.S_CompleteQuest.Parser, new[]{ "MainQuestId", "SubQuestId", "QuestStatus" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_AbandonQuest), global::Google.Protobuf.Protocol.C_AbandonQuest.Parser, new[]{ "MainQuestId", "SubQuestId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_AbandonQuest), global::Google.Protobuf.Protocol.S_AbandonQuest.Parser, new[]{ "MainQuestId", "SubQuestId", "QuestStatus" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_GiveReward), global::Google.Protobuf.Protocol.S_GiveReward.Parser, new[]{ "RewardItemList" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_RequestQuestData), global::Google.Protobuf.Protocol.S_RequestQuestData.Parser, new[]{ "QuestInfoList" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_RequestQuestData), global::Google.Protobuf.Protocol.C_RequestQuestData.Parser, null, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.QuestInfo), global::Google.Protobuf.Protocol.QuestInfo.Parser, new[]{ "MainQuestId", "SubQuestId", "RequiredCount", "QuestStatus" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.ServerInfo), global::Google.Protobuf.Protocol.ServerInfo.Parser, new[]{ "ServerId", "ServerName", "ChannelId", "CurrentPlayerCount", "MaxPlayerCount" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.PlayerSelectInfo), global::Google.Protobuf.Protocol.PlayerSelectInfo.Parser, new[]{ "PlayerId", "Name", "CurrencyData" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.InitGameRoomData), global::Google.Protobuf.Protocol.InitGameRoomData.Parser, new[]{ "Level", "Exp", "MaxExp" }, null, null, null, null),
@@ -288,6 +321,39 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("S_SELECT_PLAYER")] SSelectPlayer = 129,
     [pbr::OriginalName("C_REQUEST_INIT_GAME_ROOM_DATA")] CRequestInitGameRoomData = 130,
     [pbr::OriginalName("S_REQUEST_INIT_GAME_ROOM_DATA")] SRequestInitGameRoomData = 131,
+    /// <summary>
+    /// 퀘스트 생성
+    /// </summary>
+    [pbr::OriginalName("S_CREATE_QUEST")] SCreateQuest = 132,
+    /// <summary>
+    /// 퀘스트 수락
+    /// </summary>
+    [pbr::OriginalName("C_ACCEPT_QUEST")] CAcceptQuest = 133,
+    /// <summary>
+    /// 퀘스트 완료
+    /// </summary>
+    [pbr::OriginalName("C_COMPLETE_QUEST")] CCompleteQuest = 134,
+    /// <summary>
+    /// 퀘스트 완료 (완료에 따른 보상은 S_GIVE_REWARD 패킷)
+    /// </summary>
+    [pbr::OriginalName("S_COMPLETE_QUEST")] SCompleteQuest = 135,
+    /// <summary>
+    /// 퀘스트 포기
+    /// </summary>
+    [pbr::OriginalName("C_ABANDON_QUEST")] CAbandonQuest = 136,
+    /// <summary>
+    /// 퀘스트 포기
+    /// </summary>
+    [pbr::OriginalName("S_ABANDON_QUEST")] SAbandonQuest = 137,
+    /// <summary>
+    /// 서버에서 클라한테 보상 줄 때 패킷
+    /// </summary>
+    [pbr::OriginalName("S_GIVE_REWARD")] SGiveReward = 138,
+    [pbr::OriginalName("C_REQUEST_QUEST_DATA")] CRequestQuestData = 139,
+    /// <summary>
+    /// 유저가 보유중인 퀘스트 전송
+    /// </summary>
+    [pbr::OriginalName("S_REQUEST_QUEST_DATA")] SRequestQuestData = 140,
   }
 
   public enum CreatureState {
@@ -401,23 +467,23 @@ namespace Google.Protobuf.Protocol {
     /// <summary>
     /// ���� �� ��
     /// </summary>
-    [pbr::OriginalName("NOT_ACCEPTED")] NotAccepted = 1,
+    [pbr::OriginalName("QUEST_STATUS_NOT_ACCEPTED")] NotAccepted = 1,
     /// <summary>
     /// �����ؼ� ���� �� (�����ϰ� ���� �ܰ�)
     /// </summary>
-    [pbr::OriginalName("PROCEEDING")] Proceeding = 2,
+    [pbr::OriginalName("QUEST_STATUS_PROCEEDING")] Proceeding = 2,
     /// <summary>
     /// �Ϸ� (���� �ޱ� �� �ܰ�)
     /// </summary>
-    [pbr::OriginalName("COMPLETED")] Completed = 3,
+    [pbr::OriginalName("QUEST_STATUS_COMPLETED")] Completed = 3,
     /// <summary>
     /// ������� ���� ����
     /// </summary>
-    [pbr::OriginalName("REWARD_CLAIMED")] RewardClaimed = 4,
+    [pbr::OriginalName("QUEST_STATUS_REWARD_CLAIMED")] RewardClaimed = 4,
     /// <summary>
     /// ���� (ex: Ÿ�� ���� ����)
     /// </summary>
-    [pbr::OriginalName("FAILED")] Failed = 5,
+    [pbr::OriginalName("QUEST_STATUS_FAILED")] Failed = 5,
   }
 
   #endregion
@@ -6367,9 +6433,6 @@ namespace Google.Protobuf.Protocol {
 
   }
 
-  /// <summary>
-  /// ���ӷ� ���� �� �ʱ� ������ ��û (����, ����ġ ��)
-  /// </summary>
   public sealed partial class S_RequestInitGameRoomData : pb::IMessage<S_RequestInitGameRoomData> {
     private static readonly pb::MessageParser<S_RequestInitGameRoomData> _parser = new pb::MessageParser<S_RequestInitGameRoomData>(() => new S_RequestInitGameRoomData());
     private pb::UnknownFieldSet _unknownFields;
@@ -6505,6 +6568,1619 @@ namespace Google.Protobuf.Protocol {
 
   }
 
+  public sealed partial class S_CreateQuest : pb::IMessage<S_CreateQuest> {
+    private static readonly pb::MessageParser<S_CreateQuest> _parser = new pb::MessageParser<S_CreateQuest>(() => new S_CreateQuest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<S_CreateQuest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[43]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_CreateQuest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_CreateQuest(S_CreateQuest other) : this() {
+      mainQuestId_ = other.mainQuestId_;
+      subQuestId_ = other.subQuestId_;
+      questStatus_ = other.questStatus_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_CreateQuest Clone() {
+      return new S_CreateQuest(this);
+    }
+
+    /// <summary>Field number for the "mainQuestId" field.</summary>
+    public const int MainQuestIdFieldNumber = 1;
+    private int mainQuestId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int MainQuestId {
+      get { return mainQuestId_; }
+      set {
+        mainQuestId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "subQuestId" field.</summary>
+    public const int SubQuestIdFieldNumber = 2;
+    private int subQuestId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int SubQuestId {
+      get { return subQuestId_; }
+      set {
+        subQuestId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "QuestStatus" field.</summary>
+    public const int QuestStatusFieldNumber = 3;
+    private global::Google.Protobuf.Protocol.QuestStatus questStatus_ = global::Google.Protobuf.Protocol.QuestStatus.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Google.Protobuf.Protocol.QuestStatus QuestStatus {
+      get { return questStatus_; }
+      set {
+        questStatus_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as S_CreateQuest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(S_CreateQuest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (MainQuestId != other.MainQuestId) return false;
+      if (SubQuestId != other.SubQuestId) return false;
+      if (QuestStatus != other.QuestStatus) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (MainQuestId != 0) hash ^= MainQuestId.GetHashCode();
+      if (SubQuestId != 0) hash ^= SubQuestId.GetHashCode();
+      if (QuestStatus != global::Google.Protobuf.Protocol.QuestStatus.None) hash ^= QuestStatus.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (MainQuestId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(MainQuestId);
+      }
+      if (SubQuestId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(SubQuestId);
+      }
+      if (QuestStatus != global::Google.Protobuf.Protocol.QuestStatus.None) {
+        output.WriteRawTag(24);
+        output.WriteEnum((int) QuestStatus);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (MainQuestId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MainQuestId);
+      }
+      if (SubQuestId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SubQuestId);
+      }
+      if (QuestStatus != global::Google.Protobuf.Protocol.QuestStatus.None) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) QuestStatus);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(S_CreateQuest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.MainQuestId != 0) {
+        MainQuestId = other.MainQuestId;
+      }
+      if (other.SubQuestId != 0) {
+        SubQuestId = other.SubQuestId;
+      }
+      if (other.QuestStatus != global::Google.Protobuf.Protocol.QuestStatus.None) {
+        QuestStatus = other.QuestStatus;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            MainQuestId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            SubQuestId = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            QuestStatus = (global::Google.Protobuf.Protocol.QuestStatus) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class C_AcceptQuest : pb::IMessage<C_AcceptQuest> {
+    private static readonly pb::MessageParser<C_AcceptQuest> _parser = new pb::MessageParser<C_AcceptQuest>(() => new C_AcceptQuest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<C_AcceptQuest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[44]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public C_AcceptQuest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public C_AcceptQuest(C_AcceptQuest other) : this() {
+      mainQuestId_ = other.mainQuestId_;
+      subQuestId_ = other.subQuestId_;
+      isAccept_ = other.isAccept_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public C_AcceptQuest Clone() {
+      return new C_AcceptQuest(this);
+    }
+
+    /// <summary>Field number for the "mainQuestId" field.</summary>
+    public const int MainQuestIdFieldNumber = 1;
+    private int mainQuestId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int MainQuestId {
+      get { return mainQuestId_; }
+      set {
+        mainQuestId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "subQuestId" field.</summary>
+    public const int SubQuestIdFieldNumber = 2;
+    private int subQuestId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int SubQuestId {
+      get { return subQuestId_; }
+      set {
+        subQuestId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "isAccept" field.</summary>
+    public const int IsAcceptFieldNumber = 3;
+    private bool isAccept_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool IsAccept {
+      get { return isAccept_; }
+      set {
+        isAccept_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as C_AcceptQuest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(C_AcceptQuest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (MainQuestId != other.MainQuestId) return false;
+      if (SubQuestId != other.SubQuestId) return false;
+      if (IsAccept != other.IsAccept) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (MainQuestId != 0) hash ^= MainQuestId.GetHashCode();
+      if (SubQuestId != 0) hash ^= SubQuestId.GetHashCode();
+      if (IsAccept != false) hash ^= IsAccept.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (MainQuestId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(MainQuestId);
+      }
+      if (SubQuestId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(SubQuestId);
+      }
+      if (IsAccept != false) {
+        output.WriteRawTag(24);
+        output.WriteBool(IsAccept);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (MainQuestId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MainQuestId);
+      }
+      if (SubQuestId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SubQuestId);
+      }
+      if (IsAccept != false) {
+        size += 1 + 1;
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(C_AcceptQuest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.MainQuestId != 0) {
+        MainQuestId = other.MainQuestId;
+      }
+      if (other.SubQuestId != 0) {
+        SubQuestId = other.SubQuestId;
+      }
+      if (other.IsAccept != false) {
+        IsAccept = other.IsAccept;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            MainQuestId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            SubQuestId = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            IsAccept = input.ReadBool();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class C_CompleteQuest : pb::IMessage<C_CompleteQuest> {
+    private static readonly pb::MessageParser<C_CompleteQuest> _parser = new pb::MessageParser<C_CompleteQuest>(() => new C_CompleteQuest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<C_CompleteQuest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[45]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public C_CompleteQuest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public C_CompleteQuest(C_CompleteQuest other) : this() {
+      mainQuestId_ = other.mainQuestId_;
+      subQuestId_ = other.subQuestId_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public C_CompleteQuest Clone() {
+      return new C_CompleteQuest(this);
+    }
+
+    /// <summary>Field number for the "mainQuestId" field.</summary>
+    public const int MainQuestIdFieldNumber = 1;
+    private int mainQuestId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int MainQuestId {
+      get { return mainQuestId_; }
+      set {
+        mainQuestId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "subQuestId" field.</summary>
+    public const int SubQuestIdFieldNumber = 2;
+    private int subQuestId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int SubQuestId {
+      get { return subQuestId_; }
+      set {
+        subQuestId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as C_CompleteQuest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(C_CompleteQuest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (MainQuestId != other.MainQuestId) return false;
+      if (SubQuestId != other.SubQuestId) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (MainQuestId != 0) hash ^= MainQuestId.GetHashCode();
+      if (SubQuestId != 0) hash ^= SubQuestId.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (MainQuestId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(MainQuestId);
+      }
+      if (SubQuestId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(SubQuestId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (MainQuestId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MainQuestId);
+      }
+      if (SubQuestId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SubQuestId);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(C_CompleteQuest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.MainQuestId != 0) {
+        MainQuestId = other.MainQuestId;
+      }
+      if (other.SubQuestId != 0) {
+        SubQuestId = other.SubQuestId;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            MainQuestId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            SubQuestId = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class S_CompleteQuest : pb::IMessage<S_CompleteQuest> {
+    private static readonly pb::MessageParser<S_CompleteQuest> _parser = new pb::MessageParser<S_CompleteQuest>(() => new S_CompleteQuest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<S_CompleteQuest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[46]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_CompleteQuest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_CompleteQuest(S_CompleteQuest other) : this() {
+      mainQuestId_ = other.mainQuestId_;
+      subQuestId_ = other.subQuestId_;
+      questStatus_ = other.questStatus_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_CompleteQuest Clone() {
+      return new S_CompleteQuest(this);
+    }
+
+    /// <summary>Field number for the "mainQuestId" field.</summary>
+    public const int MainQuestIdFieldNumber = 1;
+    private int mainQuestId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int MainQuestId {
+      get { return mainQuestId_; }
+      set {
+        mainQuestId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "subQuestId" field.</summary>
+    public const int SubQuestIdFieldNumber = 2;
+    private int subQuestId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int SubQuestId {
+      get { return subQuestId_; }
+      set {
+        subQuestId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "QuestStatus" field.</summary>
+    public const int QuestStatusFieldNumber = 3;
+    private global::Google.Protobuf.Protocol.QuestStatus questStatus_ = global::Google.Protobuf.Protocol.QuestStatus.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Google.Protobuf.Protocol.QuestStatus QuestStatus {
+      get { return questStatus_; }
+      set {
+        questStatus_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as S_CompleteQuest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(S_CompleteQuest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (MainQuestId != other.MainQuestId) return false;
+      if (SubQuestId != other.SubQuestId) return false;
+      if (QuestStatus != other.QuestStatus) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (MainQuestId != 0) hash ^= MainQuestId.GetHashCode();
+      if (SubQuestId != 0) hash ^= SubQuestId.GetHashCode();
+      if (QuestStatus != global::Google.Protobuf.Protocol.QuestStatus.None) hash ^= QuestStatus.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (MainQuestId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(MainQuestId);
+      }
+      if (SubQuestId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(SubQuestId);
+      }
+      if (QuestStatus != global::Google.Protobuf.Protocol.QuestStatus.None) {
+        output.WriteRawTag(24);
+        output.WriteEnum((int) QuestStatus);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (MainQuestId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MainQuestId);
+      }
+      if (SubQuestId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SubQuestId);
+      }
+      if (QuestStatus != global::Google.Protobuf.Protocol.QuestStatus.None) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) QuestStatus);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(S_CompleteQuest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.MainQuestId != 0) {
+        MainQuestId = other.MainQuestId;
+      }
+      if (other.SubQuestId != 0) {
+        SubQuestId = other.SubQuestId;
+      }
+      if (other.QuestStatus != global::Google.Protobuf.Protocol.QuestStatus.None) {
+        QuestStatus = other.QuestStatus;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            MainQuestId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            SubQuestId = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            QuestStatus = (global::Google.Protobuf.Protocol.QuestStatus) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class C_AbandonQuest : pb::IMessage<C_AbandonQuest> {
+    private static readonly pb::MessageParser<C_AbandonQuest> _parser = new pb::MessageParser<C_AbandonQuest>(() => new C_AbandonQuest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<C_AbandonQuest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[47]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public C_AbandonQuest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public C_AbandonQuest(C_AbandonQuest other) : this() {
+      mainQuestId_ = other.mainQuestId_;
+      subQuestId_ = other.subQuestId_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public C_AbandonQuest Clone() {
+      return new C_AbandonQuest(this);
+    }
+
+    /// <summary>Field number for the "mainQuestId" field.</summary>
+    public const int MainQuestIdFieldNumber = 1;
+    private int mainQuestId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int MainQuestId {
+      get { return mainQuestId_; }
+      set {
+        mainQuestId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "subQuestId" field.</summary>
+    public const int SubQuestIdFieldNumber = 2;
+    private int subQuestId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int SubQuestId {
+      get { return subQuestId_; }
+      set {
+        subQuestId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as C_AbandonQuest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(C_AbandonQuest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (MainQuestId != other.MainQuestId) return false;
+      if (SubQuestId != other.SubQuestId) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (MainQuestId != 0) hash ^= MainQuestId.GetHashCode();
+      if (SubQuestId != 0) hash ^= SubQuestId.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (MainQuestId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(MainQuestId);
+      }
+      if (SubQuestId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(SubQuestId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (MainQuestId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MainQuestId);
+      }
+      if (SubQuestId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SubQuestId);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(C_AbandonQuest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.MainQuestId != 0) {
+        MainQuestId = other.MainQuestId;
+      }
+      if (other.SubQuestId != 0) {
+        SubQuestId = other.SubQuestId;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            MainQuestId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            SubQuestId = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class S_AbandonQuest : pb::IMessage<S_AbandonQuest> {
+    private static readonly pb::MessageParser<S_AbandonQuest> _parser = new pb::MessageParser<S_AbandonQuest>(() => new S_AbandonQuest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<S_AbandonQuest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[48]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_AbandonQuest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_AbandonQuest(S_AbandonQuest other) : this() {
+      mainQuestId_ = other.mainQuestId_;
+      subQuestId_ = other.subQuestId_;
+      questStatus_ = other.questStatus_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_AbandonQuest Clone() {
+      return new S_AbandonQuest(this);
+    }
+
+    /// <summary>Field number for the "mainQuestId" field.</summary>
+    public const int MainQuestIdFieldNumber = 1;
+    private int mainQuestId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int MainQuestId {
+      get { return mainQuestId_; }
+      set {
+        mainQuestId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "subQuestId" field.</summary>
+    public const int SubQuestIdFieldNumber = 2;
+    private int subQuestId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int SubQuestId {
+      get { return subQuestId_; }
+      set {
+        subQuestId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "QuestStatus" field.</summary>
+    public const int QuestStatusFieldNumber = 3;
+    private global::Google.Protobuf.Protocol.QuestStatus questStatus_ = global::Google.Protobuf.Protocol.QuestStatus.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Google.Protobuf.Protocol.QuestStatus QuestStatus {
+      get { return questStatus_; }
+      set {
+        questStatus_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as S_AbandonQuest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(S_AbandonQuest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (MainQuestId != other.MainQuestId) return false;
+      if (SubQuestId != other.SubQuestId) return false;
+      if (QuestStatus != other.QuestStatus) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (MainQuestId != 0) hash ^= MainQuestId.GetHashCode();
+      if (SubQuestId != 0) hash ^= SubQuestId.GetHashCode();
+      if (QuestStatus != global::Google.Protobuf.Protocol.QuestStatus.None) hash ^= QuestStatus.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (MainQuestId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(MainQuestId);
+      }
+      if (SubQuestId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(SubQuestId);
+      }
+      if (QuestStatus != global::Google.Protobuf.Protocol.QuestStatus.None) {
+        output.WriteRawTag(24);
+        output.WriteEnum((int) QuestStatus);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (MainQuestId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MainQuestId);
+      }
+      if (SubQuestId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SubQuestId);
+      }
+      if (QuestStatus != global::Google.Protobuf.Protocol.QuestStatus.None) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) QuestStatus);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(S_AbandonQuest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.MainQuestId != 0) {
+        MainQuestId = other.MainQuestId;
+      }
+      if (other.SubQuestId != 0) {
+        SubQuestId = other.SubQuestId;
+      }
+      if (other.QuestStatus != global::Google.Protobuf.Protocol.QuestStatus.None) {
+        QuestStatus = other.QuestStatus;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            MainQuestId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            SubQuestId = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            QuestStatus = (global::Google.Protobuf.Protocol.QuestStatus) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class S_GiveReward : pb::IMessage<S_GiveReward> {
+    private static readonly pb::MessageParser<S_GiveReward> _parser = new pb::MessageParser<S_GiveReward>(() => new S_GiveReward());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<S_GiveReward> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[49]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_GiveReward() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_GiveReward(S_GiveReward other) : this() {
+      rewardItemList_ = other.rewardItemList_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_GiveReward Clone() {
+      return new S_GiveReward(this);
+    }
+
+    /// <summary>Field number for the "rewardItemList" field.</summary>
+    public const int RewardItemListFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::Google.Protobuf.Protocol.RewardItem> _repeated_rewardItemList_codec
+        = pb::FieldCodec.ForMessage(10, global::Google.Protobuf.Protocol.RewardItem.Parser);
+    private readonly pbc::RepeatedField<global::Google.Protobuf.Protocol.RewardItem> rewardItemList_ = new pbc::RepeatedField<global::Google.Protobuf.Protocol.RewardItem>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::Google.Protobuf.Protocol.RewardItem> RewardItemList {
+      get { return rewardItemList_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as S_GiveReward);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(S_GiveReward other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!rewardItemList_.Equals(other.rewardItemList_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= rewardItemList_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      rewardItemList_.WriteTo(output, _repeated_rewardItemList_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      size += rewardItemList_.CalculateSize(_repeated_rewardItemList_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(S_GiveReward other) {
+      if (other == null) {
+        return;
+      }
+      rewardItemList_.Add(other.rewardItemList_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            rewardItemList_.AddEntriesFrom(input, _repeated_rewardItemList_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class S_RequestQuestData : pb::IMessage<S_RequestQuestData> {
+    private static readonly pb::MessageParser<S_RequestQuestData> _parser = new pb::MessageParser<S_RequestQuestData>(() => new S_RequestQuestData());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<S_RequestQuestData> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[50]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_RequestQuestData() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_RequestQuestData(S_RequestQuestData other) : this() {
+      questInfoList_ = other.questInfoList_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_RequestQuestData Clone() {
+      return new S_RequestQuestData(this);
+    }
+
+    /// <summary>Field number for the "questInfoList" field.</summary>
+    public const int QuestInfoListFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::Google.Protobuf.Protocol.QuestInfo> _repeated_questInfoList_codec
+        = pb::FieldCodec.ForMessage(10, global::Google.Protobuf.Protocol.QuestInfo.Parser);
+    private readonly pbc::RepeatedField<global::Google.Protobuf.Protocol.QuestInfo> questInfoList_ = new pbc::RepeatedField<global::Google.Protobuf.Protocol.QuestInfo>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::Google.Protobuf.Protocol.QuestInfo> QuestInfoList {
+      get { return questInfoList_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as S_RequestQuestData);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(S_RequestQuestData other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!questInfoList_.Equals(other.questInfoList_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= questInfoList_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      questInfoList_.WriteTo(output, _repeated_questInfoList_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      size += questInfoList_.CalculateSize(_repeated_questInfoList_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(S_RequestQuestData other) {
+      if (other == null) {
+        return;
+      }
+      questInfoList_.Add(other.questInfoList_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            questInfoList_.AddEntriesFrom(input, _repeated_questInfoList_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class C_RequestQuestData : pb::IMessage<C_RequestQuestData> {
+    private static readonly pb::MessageParser<C_RequestQuestData> _parser = new pb::MessageParser<C_RequestQuestData>(() => new C_RequestQuestData());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<C_RequestQuestData> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[51]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public C_RequestQuestData() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public C_RequestQuestData(C_RequestQuestData other) : this() {
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public C_RequestQuestData Clone() {
+      return new C_RequestQuestData(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as C_RequestQuestData);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(C_RequestQuestData other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(C_RequestQuestData other) {
+      if (other == null) {
+        return;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  /// 클라가 퀘스트 초기화 할 때 필요한 존재
+  /// </summary>
+  public sealed partial class QuestInfo : pb::IMessage<QuestInfo> {
+    private static readonly pb::MessageParser<QuestInfo> _parser = new pb::MessageParser<QuestInfo>(() => new QuestInfo());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<QuestInfo> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[52]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public QuestInfo() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public QuestInfo(QuestInfo other) : this() {
+      mainQuestId_ = other.mainQuestId_;
+      subQuestId_ = other.subQuestId_;
+      requiredCount_ = other.requiredCount_;
+      questStatus_ = other.questStatus_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public QuestInfo Clone() {
+      return new QuestInfo(this);
+    }
+
+    /// <summary>Field number for the "mainQuestId" field.</summary>
+    public const int MainQuestIdFieldNumber = 1;
+    private int mainQuestId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int MainQuestId {
+      get { return mainQuestId_; }
+      set {
+        mainQuestId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "subQuestId" field.</summary>
+    public const int SubQuestIdFieldNumber = 2;
+    private int subQuestId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int SubQuestId {
+      get { return subQuestId_; }
+      set {
+        subQuestId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "requiredCount" field.</summary>
+    public const int RequiredCountFieldNumber = 3;
+    private int requiredCount_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int RequiredCount {
+      get { return requiredCount_; }
+      set {
+        requiredCount_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "QuestStatus" field.</summary>
+    public const int QuestStatusFieldNumber = 4;
+    private global::Google.Protobuf.Protocol.QuestStatus questStatus_ = global::Google.Protobuf.Protocol.QuestStatus.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Google.Protobuf.Protocol.QuestStatus QuestStatus {
+      get { return questStatus_; }
+      set {
+        questStatus_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as QuestInfo);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(QuestInfo other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (MainQuestId != other.MainQuestId) return false;
+      if (SubQuestId != other.SubQuestId) return false;
+      if (RequiredCount != other.RequiredCount) return false;
+      if (QuestStatus != other.QuestStatus) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (MainQuestId != 0) hash ^= MainQuestId.GetHashCode();
+      if (SubQuestId != 0) hash ^= SubQuestId.GetHashCode();
+      if (RequiredCount != 0) hash ^= RequiredCount.GetHashCode();
+      if (QuestStatus != global::Google.Protobuf.Protocol.QuestStatus.None) hash ^= QuestStatus.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (MainQuestId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(MainQuestId);
+      }
+      if (SubQuestId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(SubQuestId);
+      }
+      if (RequiredCount != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(RequiredCount);
+      }
+      if (QuestStatus != global::Google.Protobuf.Protocol.QuestStatus.None) {
+        output.WriteRawTag(32);
+        output.WriteEnum((int) QuestStatus);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (MainQuestId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MainQuestId);
+      }
+      if (SubQuestId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SubQuestId);
+      }
+      if (RequiredCount != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(RequiredCount);
+      }
+      if (QuestStatus != global::Google.Protobuf.Protocol.QuestStatus.None) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) QuestStatus);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(QuestInfo other) {
+      if (other == null) {
+        return;
+      }
+      if (other.MainQuestId != 0) {
+        MainQuestId = other.MainQuestId;
+      }
+      if (other.SubQuestId != 0) {
+        SubQuestId = other.SubQuestId;
+      }
+      if (other.RequiredCount != 0) {
+        RequiredCount = other.RequiredCount;
+      }
+      if (other.QuestStatus != global::Google.Protobuf.Protocol.QuestStatus.None) {
+        QuestStatus = other.QuestStatus;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            MainQuestId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            SubQuestId = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            RequiredCount = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            QuestStatus = (global::Google.Protobuf.Protocol.QuestStatus) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   public sealed partial class ServerInfo : pb::IMessage<ServerInfo> {
     private static readonly pb::MessageParser<ServerInfo> _parser = new pb::MessageParser<ServerInfo>(() => new ServerInfo());
     private pb::UnknownFieldSet _unknownFields;
@@ -6513,7 +8189,7 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[43]; }
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[53]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6763,7 +8439,7 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[44]; }
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[54]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6954,7 +8630,7 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[45]; }
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[55]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7139,7 +8815,7 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[46]; }
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[56]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7324,7 +9000,7 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[47]; }
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[57]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7537,7 +9213,7 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[48]; }
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[58]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8149,7 +9825,7 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[49]; }
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[59]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8306,7 +9982,7 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[50]; }
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[60]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8724,7 +10400,7 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[51]; }
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[61]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8937,7 +10613,7 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[52]; }
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[62]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9107,9 +10783,6 @@ namespace Google.Protobuf.Protocol {
 
   }
 
-  /// <summary>
-  /// ����Ʈ ����
-  /// </summary>
   public sealed partial class QuestDefinition : pb::IMessage<QuestDefinition> {
     private static readonly pb::MessageParser<QuestDefinition> _parser = new pb::MessageParser<QuestDefinition>(() => new QuestDefinition());
     private pb::UnknownFieldSet _unknownFields;
@@ -9118,7 +10791,7 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[53]; }
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[63]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9444,7 +11117,7 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[54]; }
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[64]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9753,7 +11426,7 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[55]; }
+      get { return global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor.MessageTypes[65]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

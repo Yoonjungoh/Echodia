@@ -14,12 +14,69 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Server.Session;
+using System.Collections;
+using Server.Data;
 
 namespace Server
 {
     // PreGame 관련 핸들러들 (로그인, 캐릭터 선택까지를 PreGame이라 칭하자)
     public partial class ClientSession : PacketSession
     {
+        public void CheckAndAssignInitialQuest()
+        {
+            lock (_lock)
+            {
+                using (GameDbContext db = new GameDbContext())
+                {
+                    // 1. 해당 유저의 메인 퀘스트가 하나라도 있는지 확인
+                    bool hasQuest = db.Quests.Any(q => q.PlayerDbId == MyPlayer.PlayerId);
+                    // 2. 없으면 초반 퀘스트 실행
+                    if (hasQuest == false)
+                    {
+                        PlayerDb playerDb = db.Players
+                                            .Where(p => p.PlayerDbId == MyPlayer.PlayerId)
+                                            .FirstOrDefault();
+                        int mainQuestId = ConfigManager.Instance.GetInt(ConfigType.DefaultCreationMainQuestId);
+                        int subQuestId = ConfigManager.Instance.GetInt(ConfigType.DefaultCreationSubQuestId);
+                        
+                        QuestManager.Instance.CreateQuest(db, playerDb, this, mainQuestId, subQuestId);
+                        
+                        Console.WriteLine($"[Quest] Player {MyPlayer.PlayerId} assigned to initial quest.");
+                    }
+                }
+            }
+        }
+        
+        public void SendQuestList()
+        {
+            lock (_lock)
+            {
+                using (GameDbContext db = new GameDbContext())
+                {
+                    List<QuestInfo> questList = db.Quests
+                        .AsNoTracking()
+                        .Where(q => q.PlayerDbId == MyPlayer.PlayerId)
+                        // Include로 다 가져오는 것보다 Select로 필요한 컬럼만 쿼리에 넣기
+                        .Select(q => new QuestInfo
+                        {
+                            MainQuestId = q.MainQuestId,
+                            SubQuestId = q.SubQuestId,
+                            RequiredCount = q.RequiredCount,
+                            QuestStatus = q.Status,
+                        })
+                        .ToList();
+
+                    if (questList == null)
+                        return;
+
+                    S_RequestQuestData requestQuestDataPacket = new S_RequestQuestData();
+                    requestQuestDataPacket.QuestInfoList.AddRange(questList);
+
+                    Send(requestQuestDataPacket);
+                }
+            }
+        }
+
         public void HandleUpdateCurrencyDataAll()
         {
             lock (_lock)

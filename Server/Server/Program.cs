@@ -61,6 +61,7 @@ namespace Server
             IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
             await SpecDataManager.Instance.Init();
+            await ConfigManager.Instance.Init();
             MapManager.Instance.Init();
             DataManager.Instance.Init();
             ServerManager.Instance.Init();

@@ -26,6 +26,7 @@ class PacketHandler
 
     public static void C_EnterGameHandler(PacketSession session, IMessage packet)
     {
+        // 여기까지 온거면 클라이언트는 GameRoomScene에 있음
         C_EnterGame enterGamePacket = packet as C_EnterGame;
         ClientSession clientSession = session as ClientSession;
 
@@ -33,6 +34,8 @@ class PacketHandler
             return;
 
         clientSession.EnterGame(enterGamePacket.PlayerId);
+        // 새로 만든 캐릭터가 접속할 경우 첫 퀘스트 부여
+        clientSession.CheckAndAssignInitialQuest();
 
         if (clientSession.MyPlayer == null)
             return;
@@ -49,7 +52,7 @@ class PacketHandler
         GameRoom gameRoom = channel.GameRoomManager.Find(mapId);
         if (gameRoom == null)
             return;
-        
+
         gameRoom.Push(gameRoom.EnterGame, clientSession.MyPlayer);
     }
 
@@ -76,18 +79,18 @@ class PacketHandler
 
         player.GameRoom.Push
             (player.GameRoom.SpawnProjectile,
-            spawnProjectilePacket.OwnerId, 
+            spawnProjectilePacket.OwnerId,
             spawnProjectilePacket.ProjectileType);
     }
 
     public static void C_MoveHandler(PacketSession session, IMessage packet)
-	{
-		C_Move movePacket = packet as C_Move;
-		ClientSession clientSession = session as ClientSession;
+    {
+        C_Move movePacket = packet as C_Move;
+        ClientSession clientSession = session as ClientSession;
 
-		Player player = clientSession.MyPlayer;
-		if (player == null)
-			return;
+        Player player = clientSession.MyPlayer;
+        if (player == null)
+            return;
 
         // 게임 룸이면 게임 룸에 전달
         GameRoom gameRoom = player.GameRoom;
@@ -96,8 +99,8 @@ class PacketHandler
             gameRoom.Push(gameRoom.HandleMove, player, movePacket);
             return;
         }
-	}
-    
+    }
+
     public static void C_TimestampHandler(PacketSession session, IMessage packet)
     {
         C_Timestamp clientTimestampPacket = packet as C_Timestamp;
@@ -152,7 +155,7 @@ class PacketHandler
 
         clientSession.HandleCreatePlayer(createPlayerPacket.Name);
     }
-    
+
     public static void C_DeletePlayerHandler(PacketSession session, IMessage packet)
     {
         C_DeletePlayer deletePlayerPacket = packet as C_DeletePlayer;
@@ -171,7 +174,7 @@ class PacketHandler
 
         if (clientSession == null)
             return;
-        
+
         clientSession.HandleUpdateCurrencyDataAll();
     }
 
@@ -205,7 +208,7 @@ class PacketHandler
 
         clientSession.HandleRequestServerList(requestServerListPacket.ServerId);
     }
-    
+
     public static void C_SelectServerHandler(PacketSession session, IMessage packet)
     {
         C_SelectServer selectServerPacket = packet as C_SelectServer;
@@ -236,5 +239,42 @@ class PacketHandler
             return;
 
         clientSession.HandleRequestInitGameRoomData(clientSession.MyPlayer.PlayerId);
+    }
+
+    public static void C_RequestQuestDataHandler(PacketSession session, IMessage packet)
+    {
+        C_RequestQuestData requestInitGameroomDataPacket = packet as C_RequestQuestData;
+        ClientSession clientSession = session as ClientSession;
+        if (clientSession == null)
+            return;
+
+        clientSession.SendQuestList();  // DB에 있는 퀘스트 리스트 보내기
+    }
+
+    public static void C_AcceptQuestHandler(PacketSession session, IMessage packet)
+    {
+        C_AcceptQuest acceptQuestPacket = packet as C_AcceptQuest;
+        ClientSession clientSession = session as ClientSession;
+        if (clientSession == null)
+            return;
+
+    }
+
+    public static void C_CompleteQuestHandler(PacketSession session, IMessage packet)
+    {
+        C_CompleteQuest completeQuestPacket = packet as C_CompleteQuest;
+        ClientSession clientSession = session as ClientSession;
+        if (clientSession == null)
+            return;
+
+    }
+
+    internal static void C_AbandonQuestHandler(PacketSession session, IMessage packet)
+    {
+        C_AbandonQuest abandonQuestPacket = packet as C_AbandonQuest;
+        ClientSession clientSession = session as ClientSession;
+        if (clientSession == null)
+            return;
+
     }
 }

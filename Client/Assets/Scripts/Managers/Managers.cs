@@ -50,7 +50,7 @@ public class Managers : MonoBehaviour
     {
         Init();
         // 주석 해제하면 s3의 json 정보 가져옴
-        //StartCoroutine(CoDataManagerInit());
+        StartCoroutine(CoInit());
     }
 
     void Update()
@@ -88,7 +88,7 @@ public class Managers : MonoBehaviour
     {
         yield return StartCoroutine(SpecData.CoDownloadDataSheet());
         yield return StartCoroutine(Config.CoDownloadConfig());
-
+        SpecData.Init();    // 자동 생성 안되는 SpecData의 데이터 로딩 (보통 가공해서 쓰는 값들이 많음)
         OnAllDataReady();
     }
 

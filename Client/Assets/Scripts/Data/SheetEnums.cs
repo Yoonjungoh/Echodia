@@ -7,5 +7,7 @@ public enum ConfigType
 {
     None = 0,
     RequiredIdleTime,
+    DefaultCreationMainQuestId,
+    DefaultCreationSubQuestId,
 }
 

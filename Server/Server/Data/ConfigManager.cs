@@ -21,7 +21,7 @@ public class ConfigManager
     struct ConfigEntry { public string DataType; public string Value; }
     readonly Dictionary<ConfigType, ConfigEntry> _dict = new Dictionary<ConfigType, ConfigEntry>();
 
-    public async Task DownloadConfig()
+    public async Task Init()
     {
         IsReady = false;
         Console.WriteLine("[ConfigManager] Config 다운로드 시작");
