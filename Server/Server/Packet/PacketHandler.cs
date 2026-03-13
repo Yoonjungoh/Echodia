@@ -258,20 +258,12 @@ class PacketHandler
         if (clientSession == null)
             return;
 
+        clientSession.AcceptQuest(acceptQuestPacket.MainQuestId, acceptQuestPacket.SubQuestId);
     }
 
     public static void C_CompleteQuestHandler(PacketSession session, IMessage packet)
     {
         C_CompleteQuest completeQuestPacket = packet as C_CompleteQuest;
-        ClientSession clientSession = session as ClientSession;
-        if (clientSession == null)
-            return;
-
-    }
-
-    internal static void C_AbandonQuestHandler(PacketSession session, IMessage packet)
-    {
-        C_AbandonQuest abandonQuestPacket = packet as C_AbandonQuest;
         ClientSession clientSession = session as ClientSession;
         if (clientSession == null)
             return;

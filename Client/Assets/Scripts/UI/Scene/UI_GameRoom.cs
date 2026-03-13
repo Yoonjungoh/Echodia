@@ -21,6 +21,11 @@ public class UI_GameRoom : UI_Scene
         ExpSlider,
     }
 
+    enum Buttons
+    {
+        QuestPopupButton,
+    }
+
     private int _level = -1;
     private int _exp = -1;
     private int _maxExp = -1;
@@ -35,14 +40,29 @@ public class UI_GameRoom : UI_Scene
 
         Bind<TextMeshProUGUI>(typeof(Texts));
         Bind<Slider>(typeof(Sliders));
+        Bind<Button>(typeof(Buttons));
 
         _levelText = GetTextMeshProUGUI((int)Texts.LevelText);
         _expText = GetTextMeshProUGUI((int)Texts.ExpText);
         _expSlider = Get<Slider>((int)Sliders.ExpSlider);
+        
+        GetButton((int)Buttons.QuestPopupButton).onClick.AddListener(OnClickQuestPopupInput);
 
         RequestInitGameRoomData();
     }
     
+    private void OnClickQuestPopupInput()
+    {
+        if (Managers.UI.IsPopupActive<UI_Quest>())
+        {
+            Managers.UI.CloseSpecificPopup<UI_Quest>();
+        }
+        else
+        {
+            Managers.UI.ShowPopupUI<UI_Quest>();
+        }
+    }
+
     public void RequestInitGameRoomData()
     {
         C_RequestInitGameRoomData requestInitGameRoomDataPacket = new C_RequestInitGameRoomData();

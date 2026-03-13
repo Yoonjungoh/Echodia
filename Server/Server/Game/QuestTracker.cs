@@ -19,8 +19,9 @@ namespace Server.Game
 
         private readonly Player _owner;
 
-        // key: 몬스터 TemplateId → 해당 몬스터를 목표로 하는 킬 퀘스트 목록
+        // key: 몬스터 TemplateId -> 해당 몬스터를 목표로 하는 킬 퀘스트 목록
         private readonly Dictionary<int, List<KillQuestEntry>> _killQuestByTargetId = new();
+
         // 메모리에서만 변경되고 DB에 아직 반영 안 된 퀘스트 ID 목록 (로그아웃 시 일괄 저장)
         private readonly HashSet<int> _dirtyQuestIds = new();
 

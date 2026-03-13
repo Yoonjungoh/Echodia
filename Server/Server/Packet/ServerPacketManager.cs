@@ -63,8 +63,6 @@ class PacketManager
 		_handler.Add((ushort)MsgId.CAcceptQuest, PacketHandler.C_AcceptQuestHandler);		
 		_onRecv.Add((ushort)MsgId.CCompleteQuest, MakePacket<C_CompleteQuest>);
 		_handler.Add((ushort)MsgId.CCompleteQuest, PacketHandler.C_CompleteQuestHandler);		
-		_onRecv.Add((ushort)MsgId.CAbandonQuest, MakePacket<C_AbandonQuest>);
-		_handler.Add((ushort)MsgId.CAbandonQuest, PacketHandler.C_AbandonQuestHandler);		
 		_onRecv.Add((ushort)MsgId.CRequestQuestData, MakePacket<C_RequestQuestData>);
 		_handler.Add((ushort)MsgId.CRequestQuestData, PacketHandler.C_RequestQuestDataHandler);
 	}

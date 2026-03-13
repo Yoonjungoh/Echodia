@@ -11,6 +11,11 @@ public abstract class UI_SubItem<TData> : UI_Base
     {
         _data = data;
     }
+
+    public TData GetData()
+    {
+        return _data;
+    }
     
     protected abstract void UpdateUI();
 }

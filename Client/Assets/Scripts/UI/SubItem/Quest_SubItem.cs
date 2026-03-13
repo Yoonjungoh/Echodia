@@ -51,9 +51,16 @@ public class Quest_SubItem : UI_SubItem<QuestInfo>
         UpdateUI();
     }
 
+    public void ChangeQuestStatus(QuestStatus questStatus)
+    {
+        _data.QuestStatus = questStatus;
+        
+        UpdateUI();
+    }
+
     protected override void UpdateUI()
     {
         GetImage((int)Images.QuestImage).sprite = Managers.Image.GetQuestImage(_data.MainQuestId, _data.SubQuestId);
-        GetTextMeshProUGUI((int)Texts.QuestTitleText).text = $"{_mainQuestData.MainQuestId}-{_data.SubQuestId}: {_mainQuestData.Title}";
+        GetTextMeshProUGUI((int)Texts.QuestTitleText).text = $"{_mainQuestData.MainQuestId}-{_data.SubQuestId}: {_mainQuestData.Title} ({_data.QuestStatus})";
     }
 }

@@ -22,6 +22,23 @@ namespace Server
     // PreGame 관련 핸들러들 (로그인, 캐릭터 선택까지를 PreGame이라 칭하자)
     public partial class ClientSession : PacketSession
     {
+        private void ChangeQuestStatus(int mainQuestId, int subQuestId, QuestStatus questStatus)
+        {
+            S_ChangeQuestStatus questStatusPacket = new S_ChangeQuestStatus()
+            {
+                MainQuestId = mainQuestId,
+                SubQuestId = subQuestId,
+                QuestStatus = questStatus,
+            };
+            Send(questStatusPacket);
+        }
+
+        public void AcceptQuest(int mainQuestId, int subQuestId)
+        {
+            DbTransaction.UpdateQuestStatus(MyPlayer.PlayerId, mainQuestId, subQuestId, QuestStatus.Proceeding,
+            () => ChangeQuestStatus(mainQuestId, subQuestId, QuestStatus.Proceeding));
+        }
+
         public void CheckAndAssignInitialQuest()
         {
             lock (_lock)
@@ -38,15 +55,15 @@ namespace Server
                                             .FirstOrDefault();
                         int mainQuestId = ConfigManager.Instance.GetInt(ConfigType.DefaultCreationMainQuestId);
                         int subQuestId = ConfigManager.Instance.GetInt(ConfigType.DefaultCreationSubQuestId);
-                        
+
                         QuestManager.Instance.CreateQuest(db, playerDb, this, mainQuestId, subQuestId);
-                        
+
                         Console.WriteLine($"[Quest] Player {MyPlayer.PlayerId} assigned to initial quest.");
                     }
                 }
             }
         }
-        
+
         public void SendQuestList()
         {
             lock (_lock)

@@ -49,11 +49,10 @@ enum MsgId {
   C_ACCEPT_QUEST = 133; // 퀘스트 수락
   C_COMPLETE_QUEST = 134; // 퀘스트 완료
   S_COMPLETE_QUEST = 135; // 퀘스트 완료 (완료에 따른 보상은 S_GIVE_REWARD 패킷)
-  C_ABANDON_QUEST = 136;  // 퀘스트 포기
-  S_ABANDON_QUEST = 137;  // 퀘스트 포기
   S_GIVE_REWARD = 138;  // 서버에서 클라한테 보상 줄 때 패킷
   C_REQUEST_QUEST_DATA = 139;
   S_REQUEST_QUEST_DATA = 140; // 유저가 보유중인 퀘스트 전송
+  S_CHANGE_QUEST_STATUS = 141;  // 유저가 보유중인 퀘스트 중 하나의 상태를 변경
 }
 
 enum CreatureState {
@@ -154,7 +153,6 @@ enum QuestStatus {
   QUEST_STATUS_PROCEEDING = 2;	// �����ؼ� ���� �� (�����ϰ� ���� �ܰ�)
   QUEST_STATUS_COMPLETED = 3;	// �Ϸ� (���� �ޱ� �� �ܰ�)
   QUEST_STATUS_REWARD_CLAIMED = 4;	// ������� ���� ����
-  QUEST_STATUS_FAILED = 5;	// ���� (ex: Ÿ�� ���� ����)
 }
 
 message S_AssignUserId {
@@ -359,7 +357,6 @@ message S_CreateQuest {
 message C_AcceptQuest {
   int32 mainQuestId = 1;
   int32 subQuestId = 2;
-  bool isAccept = 3;
 }
 
 message C_CompleteQuest {
@@ -368,17 +365,6 @@ message C_CompleteQuest {
 }
 
 message S_CompleteQuest {
-  int32 mainQuestId = 1;
-  int32 subQuestId = 2;
-  QuestStatus QuestStatus = 3;
-}
-
-message C_AbandonQuest {
-  int32 mainQuestId = 1;
-  int32 subQuestId = 2;
-}
-
-message S_AbandonQuest {
   int32 mainQuestId = 1;
   int32 subQuestId = 2;
   QuestStatus QuestStatus = 3;
@@ -394,6 +380,12 @@ message S_RequestQuestData {
 
 message C_RequestQuestData {
   
+}
+
+message S_ChangeQuestStatus {
+  int32 mainQuestId = 1;
+  int32 subQuestId = 2;
+  QuestStatus QuestStatus = 3;
 }
 
 // 클라가 퀘스트 초기화 할 때 필요한 존재

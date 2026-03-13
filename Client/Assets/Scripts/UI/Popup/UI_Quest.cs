@@ -14,8 +14,9 @@ public class UI_Quest : UI_Popup
         ExitButton,
         BackgroundButton,
         AcceptButton,
+        ProceedingButton,
         CompleteButton,
-        AbandonButton,
+        CloseButton,
     }
 
 
@@ -24,6 +25,7 @@ public class UI_Quest : UI_Popup
         QuestMainTitleText,
         QuestSubTitleText,
         QuestDescriptionText,
+        QuestProgressText,
     }
 
     enum Transforms
@@ -37,13 +39,20 @@ public class UI_Quest : UI_Popup
         QuestInfoPanel,
     }
 
+    private Button _acceptButton;
+    private Button _proceedingButton;
+    private Button _completeButton;
+
     private Transform _questContent;    // 좌측에 퀘스트 목록 나열
     private Transform _questRewardContent;  // 우측에 퀘스트 보상 나열
 
-    private QuestObjectiveDefinitionMetaData _selectedQuest;
+    private QuestInfo _selectedQuest;   // 선택된 퀘스트의 유저 정보
+    private QuestObjectiveDefinitionMetaData _selectedQuestMetaData;
+
     private TextMeshProUGUI _questMainTitleText;
     private TextMeshProUGUI _questSubTitleText;
     private TextMeshProUGUI _questDescriptionText;
+    private TextMeshProUGUI _questProgressText;
     private GameObject _questInfoPanel;
     // key = mainQuestId, subQuestId
     // 퀘스트는 무조건 메인 퀘스트 기준 오름차순 정렬임
@@ -58,9 +67,14 @@ public class UI_Quest : UI_Popup
         Bind<Transform>(typeof(Transforms));
         Bind<GameObject>(typeof(GameObjects));
 
-        GetButton((int)Buttons.AcceptButton).onClick.AddListener(OnClickAcceptButton);
-        GetButton((int)Buttons.CompleteButton).onClick.AddListener(OnClickCompleteButton);
-        GetButton((int)Buttons.AbandonButton).onClick.AddListener(OnClickAbandonButton);
+        _acceptButton = GetButton((int)Buttons.AcceptButton);
+        _proceedingButton = GetButton((int)Buttons.ProceedingButton);
+        _completeButton = GetButton((int)Buttons.CompleteButton);
+
+        _acceptButton.onClick.AddListener(OnClickAcceptButton);
+        _completeButton.onClick.AddListener(OnClickCompleteButton);
+
+        GetButton((int)Buttons.CloseButton).onClick.AddListener(OnClickCloseButton);
         GetButton((int)Buttons.ExitButton).onClick.AddListener(OnClickExitButton);
         GetButton((int)Buttons.BackgroundButton).onClick.AddListener(OnClickBackgroundButton);
 
@@ -72,6 +86,7 @@ public class UI_Quest : UI_Popup
         _questMainTitleText = GetTextMeshProUGUI((int)Texts.QuestMainTitleText);
         _questSubTitleText = GetTextMeshProUGUI((int)Texts.QuestSubTitleText);
         _questDescriptionText = GetTextMeshProUGUI((int)Texts.QuestDescriptionText);
+        _questProgressText = GetTextMeshProUGUI((int)Texts.QuestProgressText);
 
         C_RequestQuestData requestQuestData = new C_RequestQuestData();
         Managers.Network.Send(requestQuestData);    // DB 데이터 요청
@@ -103,7 +118,7 @@ public class UI_Quest : UI_Popup
             questSubItem.SetData(questInfo);
             questSubItem.OnClickSelectButtonAction += () =>
             {
-                _selectedQuest = Managers.SpecData.GetQuestObjectiveDefinition(key.Item1, key.Item2);
+                ChangeSelectedQuest(questInfo);
                 UpdateQuestInfo();
             };
 
@@ -111,17 +126,32 @@ public class UI_Quest : UI_Popup
         }
     }
 
+    private void ChangeSelectedQuest(QuestInfo questInfo)
+    {
+        _selectedQuest = questInfo;
+        _selectedQuestMetaData = Managers.SpecData.GetQuestObjectiveDefinition(_selectedQuest.MainQuestId, _selectedQuest.SubQuestId);
+    }
+
     public void UpdateQuestInfo()
     {
         // 선택된 퀘스트가 없으면 퀘스트 정보 패널 비활성화
         _questInfoPanel.SetActive(_selectedQuest != null);
+
         if (_selectedQuest == null)
             return;
 
         QuestDefinitionMetaData mainQuestData = Managers.SpecData.GetQuestDefinition(_selectedQuest.MainQuestId);
         _questMainTitleText.text = $"{mainQuestData.Title} {_selectedQuest.MainQuestId}-{_selectedQuest.SubQuestId}";
         _questSubTitleText.text = $"Lv.{mainQuestData.ReqLevel} Quest";
-        _questDescriptionText.text = _selectedQuest.Description;
+        _questDescriptionText.text = _selectedQuestMetaData.Description;
+        _questProgressText.text = $"({_selectedQuest.RequiredCount}/{_selectedQuestMetaData.RequiredCount})";
+
+        // TODO - 퀘스트 보상 시각화
+
+        // 퀘스트 상태에 따른 버튼 활성화
+        _acceptButton.gameObject.SetActive(_selectedQuest.QuestStatus == QuestStatus.NotAccepted);
+        _proceedingButton.gameObject.SetActive(_selectedQuest.QuestStatus == QuestStatus.Proceeding);
+        _completeButton.gameObject.SetActive(_selectedQuest.QuestStatus == QuestStatus.Completed);
     }
 
     public void InitQuestData(RepeatedField<QuestInfo> questInfoList)
@@ -164,6 +194,12 @@ public class UI_Quest : UI_Popup
         UpdateQuestList();
     }
 
+    public void ChangeQuestStatus(int mainQuestId, int subQuestId, QuestStatus questStatus)
+    {
+        _userQuestDataDict[(mainQuestId, subQuestId)].QuestStatus = questStatus;
+        _questItemDict[(mainQuestId, subQuestId)].ChangeQuestStatus(questStatus);
+    }
+
     private void OnClickAcceptButton()
     {
         if (_selectedQuest == null)
@@ -186,17 +222,10 @@ public class UI_Quest : UI_Popup
         Managers.Network.Send(completeQuestPacket);
     }
 
-    private void OnClickAbandonButton()
+    private void OnClickCloseButton()
     {
-        if (_selectedQuest == null)
-            return;
-
-        C_AbandonQuest abandonQuestPacket = new C_AbandonQuest();
-        abandonQuestPacket.MainQuestId = _selectedQuest.MainQuestId;
-        abandonQuestPacket.SubQuestId = _selectedQuest.SubQuestId;
-        Managers.Network.Send(abandonQuestPacket);
+        ClosePopupUI();
     }
-
 
     private void OnClickExitButton()
     {

@@ -465,19 +465,26 @@ class PacketHandler
 
         UI_Quest questUI = Managers.Quest.GetQuestPopup();
         questUI.InitQuestData(requestQuestData.QuestInfoList);
-        questUI.UpdateUI();
+        questUI.UpdateAllUI();
+    }
+
+    public static void S_ChangeQuestStatusHandler(PacketSession session, IMessage packet)
+    {
+        S_ChangeQuestStatus changeQuestStatusPacket = packet as S_ChangeQuestStatus;
+        if (changeQuestStatusPacket == null)
+        {
+            Debug.Log("S_ChangeQuestStatus 패킷이 null입니다");
+            return;
+        }
+
+        UI_Quest questUI = Managers.Quest.GetQuestPopup();
+        questUI.ChangeQuestStatus(changeQuestStatusPacket.MainQuestId, changeQuestStatusPacket.SubQuestId, changeQuestStatusPacket.QuestStatus);
     }
 
     internal static void S_CompleteQuestHandler(PacketSession session, IMessage packet)
     {
         throw new NotImplementedException();
     }
-
-    internal static void S_AbandonQuestHandler(PacketSession session, IMessage packet)
-    {
-        throw new NotImplementedException();
-    }
-
     internal static void S_GiveRewardHandler(PacketSession session, IMessage packet)
     {
         throw new NotImplementedException();

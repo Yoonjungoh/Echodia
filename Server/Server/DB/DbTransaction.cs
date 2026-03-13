@@ -14,7 +14,32 @@ namespace Server.DB
     public class DbTransaction : JobSerializer
     {
         public static DbTransaction Instance { get; } = new DbTransaction();
-        
+
+        public static void UpdateQuestStatus(int playerDbId, int mainQuestId, int subQuestId, QuestStatus status, Action callback = null)
+        {
+            Instance.Push(UpdateQuestStatus_Db, playerDbId, mainQuestId, subQuestId, status, callback);
+        }
+
+        private static void UpdateQuestStatus_Db(int playerDbId, int mainQuestId, int subQuestId, QuestStatus status, Action callback = null)
+        {
+            using (GameDbContext db = new GameDbContext())
+            {
+                // SELECT 없이 즉시 해당 퀘스트의 Status 컬럼만 업데이트
+                int successRows = db.Quests
+                    .Where(q => q.PlayerDbId == playerDbId && q.MainQuestId == mainQuestId && q.SubQuestId == subQuestId)
+                    .ExecuteUpdate(s => s.SetProperty(q => q.Status, q => status));
+
+                if (successRows > 0)
+                {
+                    callback?.Invoke();
+                }
+                else
+                {
+                    Console.WriteLine($"[DB Error] UpdateQuestStatus Failed. Player:{playerDbId}, Quest:{mainQuestId}-{subQuestId}");
+                }
+            }
+        }
+
         public static void SaveQuestComplete(QuestDb quest, Action callback = null)
         {
             Instance.Push(SaveQuestComplete_Db, quest, callback);
