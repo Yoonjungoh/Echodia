@@ -265,7 +265,7 @@ namespace Server.Game
 
             if (killer != null)
             {
-                CurrencyManager.Instance.AddCurrency(killer.PlayerId, CurrencyType.Gold, _gold, () =>
+                CurrencyManager.Instance.AddCurrency(killer, CurrencyType.Gold, _gold, () =>
                 {
                     killer.Session.HandleUpdateCurrencyData(CurrencyType.Gold);
                 });

@@ -5,6 +5,8 @@ using Server.Game;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +17,54 @@ namespace Server.DB
     {
         public static DbTransaction Instance { get; } = new DbTransaction();
 
+        #region Expression-tree 캐싱 (CurrencyType랑 PlayerDb 속성 자동 매핑)
+        // 명명 규칙: CurrencyType.Gold == PlayerDb.Gold (이름이 일치해야 함)
+        // 새 재화 추가 시 PlayerDb에 같은 이름의 속성만 추가하면 자동 동작
+        private readonly struct CurrencyExprInfo
+        {
+            public readonly Func<PlayerDb, int> Getter;      // p => p.Gold (컴파일된 getter)
+            public readonly Action<PlayerDb, int> Setter;    // (p, v) => p.Gold = v (컴파일된 setter)
+            public CurrencyExprInfo(Func<PlayerDb, int> getter, Action<PlayerDb, int> setter)
+            {
+                Getter = getter;
+                Setter = setter;
+            }
+        }
+
+        private static readonly Dictionary<CurrencyType, CurrencyExprInfo> _currencyExprCache = new();
+        private static readonly object _lock = new();
+
+        // 재화 이름 자동화
+        private static CurrencyExprInfo GetCurrencyExprInfo(CurrencyType currencyType)
+        {
+            lock (_lock)
+            {
+                if (_currencyExprCache.TryGetValue(currencyType, out var cached))
+                    return cached;
+
+                PropertyInfo propInfo = typeof(PlayerDb).GetProperty(currencyType.ToString())
+                    ?? throw new InvalidOperationException(
+                        $"PlayerDb에 '{currencyType}' 속성이 없습니다. " +
+                        $"명명 규칙: CurrencyType 이름 == PlayerDb 속성 이름");
+
+                var entityParam = Expression.Parameter(typeof(PlayerDb), "p");
+                var propAccess = Expression.Property(entityParam, propInfo);
+
+                var getter = Expression.Lambda<Func<PlayerDb, int>>(propAccess, entityParam).Compile();
+
+                var valueParam = Expression.Parameter(typeof(int), "v");
+                var setter = Expression.Lambda<Action<PlayerDb, int>>(
+                    Expression.Assign(propAccess, valueParam), entityParam, valueParam).Compile();
+
+                var entry = new CurrencyExprInfo(getter, setter);
+                _currencyExprCache[currencyType] = entry;
+                return entry;
+            }
+        }
+        #endregion
+
+        #region Quest
+
         public static void UpdateQuestStatus(int playerDbId, int mainQuestId, int subQuestId, QuestStatus status, Action callback = null)
         {
             Instance.Push(UpdateQuestStatus_Db, playerDbId, mainQuestId, subQuestId, status, callback);
@@ -24,19 +74,14 @@ namespace Server.DB
         {
             using (GameDbContext db = new GameDbContext())
             {
-                // SELECT 없이 즉시 해당 퀘스트의 Status 컬럼만 업데이트
                 int successRows = db.Quests
                     .Where(q => q.PlayerDbId == playerDbId && q.MainQuestId == mainQuestId && q.SubQuestId == subQuestId)
                     .ExecuteUpdate(s => s.SetProperty(q => q.Status, q => status));
 
                 if (successRows > 0)
-                {
                     callback?.Invoke();
-                }
                 else
-                {
                     Console.WriteLine($"[DB Error] UpdateQuestStatus Failed. Player:{playerDbId}, Quest:{mainQuestId}-{subQuestId}");
-                }
             }
         }
 
@@ -49,7 +94,6 @@ namespace Server.DB
         {
             using (GameDbContext db = new GameDbContext())
             {
-                // ExecuteUpdate를 사용하여 SELECT 없이 즉시 업데이트
                 int successRows = db.Quests
                     .Where(q => q.QuestDbId == quest.QuestDbId)
                     .ExecuteUpdate(s => s
@@ -58,86 +102,75 @@ namespace Server.DB
                         .SetProperty(q => q.ClearedDate, q => quest.ClearedDate));
 
                 if (successRows > 0)
-                {
                     callback?.Invoke();
-                }
                 else
-                {
                     Console.WriteLine($"[DB Error] SaveQuestComplete Failed. QuestDbId: {quest.QuestDbId}");
-                }
             }
         }
 
-        // 퀘스트 보상 수령: Completed 상태 확인 → RewardClaimed 변경 → 재화 증가 → 새 재화값 콜백
-        public static void GiveQuestReward(int playerDbId, int mainQuestId, int subQuestId,
+        // 퀘스트 보상 수령: Completed 상태 확인 → RewardClaimed 변경 → 재화 증가 → 패킷 자동 전송
+        // Quest 업데이트와 재화 증가를 동일 트랜잭션으로 처리 (원자성 보장)
+        public static void GiveQuestReward(Player player, int mainQuestId, int subQuestId,
             int rewardAmount, CurrencyType currencyType, Action<int> onSuccess = null)
         {
-            // TODO - 파라미터 6개로 Push 오버로드 초과 -> 클로저 캡처
-            Instance.Push(() => GiveQuestReward_Db(playerDbId, mainQuestId, subQuestId, rewardAmount, currencyType, onSuccess));
+            Instance.Push(() => GiveQuestReward_Db(player, mainQuestId, subQuestId, rewardAmount, currencyType, onSuccess));
         }
 
-        private static void GiveQuestReward_Db(int playerDbId, int mainQuestId, int subQuestId,
+        private static void GiveQuestReward_Db(Player player, int mainQuestId, int subQuestId,
             int rewardAmount, CurrencyType currencyType, Action<int> onSuccess)
         {
-            using GameDbContext db = new GameDbContext();
-            using var transaction = db.Database.BeginTransaction();
-            try
+            using (GameDbContext db = new GameDbContext())
             {
-                // 1. Completed 상태인 퀘스트를 RewardClaimed로 변경
-                int questRows = db.Quests
-                    .Where(q => q.PlayerDbId == playerDbId
-                             && q.MainQuestId == mainQuestId
-                             && q.SubQuestId == subQuestId
-                             && q.Status == QuestStatus.Completed)
-                    .ExecuteUpdate(s => s.SetProperty(q => q.Status, QuestStatus.RewardClaimed));
-
-                if (questRows == 0)
+                using var transaction = db.Database.BeginTransaction();
+                try
                 {
-                    Console.WriteLine($"[DB Error] GiveQuestReward: 퀘스트가 Completed 상태가 아닙니다. Player:{playerDbId}, Quest:{mainQuestId}-{subQuestId}");
-                    transaction.Rollback();
-                    return;
+                    // 1. Completed 상태인 퀘스트를 RewardClaimed로 변경
+                    int questRows = db.Quests
+                        .Where(q => q.PlayerDbId == player.PlayerId
+                                 && q.MainQuestId == mainQuestId
+                                 && q.SubQuestId == subQuestId
+                                 && q.Status == QuestStatus.Completed)
+                        .ExecuteUpdate(s => s.SetProperty(q => q.Status, QuestStatus.RewardClaimed));
+
+                    if (questRows == 0)
+                    {
+                        Console.WriteLine($"[DB Error] GiveQuestReward: 퀘스트가 Completed 상태가 아닙니다. Player:{player.PlayerId}, Quest:{mainQuestId}-{subQuestId}");
+                        transaction.Rollback();
+                        return;
+                    }
+
+                    // 2. 재화 증가 (expression cache 사용)
+                    PlayerDb playerDb = db.Players.Find(player.PlayerId);
+                    if (playerDb == null)
+                    {
+                        Console.WriteLine($"[DB Error] GiveQuestReward: Player not found. PlayerId:{player.PlayerId}");
+                        transaction.Rollback();
+                        return;
+                    }
+
+                    CurrencyExprInfo exprInfo = GetCurrencyExprInfo(currencyType);
+                    int newAmount = exprInfo.Getter(playerDb) + rewardAmount;
+                    exprInfo.Setter(playerDb, newAmount);
+                    db.SaveChangesEx();
+
+                    transaction.Commit();
+
+                    // 3. 재화 업데이트 패킷 자동 전송
+                    player.Session?.Send(new S_UpdateCurrencyData { CurrencyType = currencyType, Amount = newAmount });
+
+                    onSuccess?.Invoke(newAmount);
                 }
-
-                // 2. 재화 증가
-                var playerQuery = db.Players.Where(p => p.PlayerDbId == playerDbId);
-                int successRows = currencyType switch
+                catch (Exception e)
                 {
-                    CurrencyType.Gold => playerQuery.ExecuteUpdate(s => s.SetProperty(p => p.Gold, p => p.Gold + rewardAmount)),
-                    CurrencyType.Jewel => playerQuery.ExecuteUpdate(s => s.SetProperty(p => p.Jewel, p => p.Jewel + rewardAmount)),
-                    CurrencyType.Exp => playerQuery.ExecuteUpdate(s => s.SetProperty(p => p.Exp, p => p.Exp + rewardAmount)),
-                    _ => 0
-                };
-
-                if (successRows == 0)
-                {
-                    Console.WriteLine($"[DB Error] GiveQuestReward: 재화 업데이트 실패. Player:{playerDbId}, Currency:{currencyType}");
                     transaction.Rollback();
-                    return;
+                    Console.WriteLine($"[DB Error] GiveQuestReward Failed. Player:{player.PlayerId}, Quest:{mainQuestId}-{subQuestId}, {e.Message}");
                 }
-
-                // 3. 새 재화값 읽기
-                PlayerDb playerDb = db.Players.AsNoTracking()
-                    .Where(p => p.PlayerDbId == playerDbId)
-                    .FirstOrDefault();
-
-                transaction.Commit();
-
-                int newAmount = currencyType switch
-                {
-                    CurrencyType.Gold => playerDb?.Gold ?? 0,
-                    CurrencyType.Jewel => playerDb?.Jewel ?? 0,
-                    CurrencyType.Exp => playerDb?.Exp ?? 0,
-                    _ => 0
-                };
-
-                onSuccess?.Invoke(newAmount);
-            }
-            catch (Exception e)
-            {
-                transaction.Rollback();
-                Console.WriteLine($"[DB Error] GiveQuestReward Failed. Player:{playerDbId}, Quest:{mainQuestId}-{subQuestId}, {e.Message}");
             }
         }
+
+        #endregion
+
+        #region Player
 
         public static void SavePlayerLogoutPosition(int playerDbId, float x, float y, float z, Action callback = null)
         {
@@ -148,55 +181,43 @@ namespace Server.DB
         {
             using (GameDbContext db = new GameDbContext())
             {
-                var query = db.Players.Where(p => p.PlayerDbId == playerDbId);
-                int successRows = query.ExecuteUpdate(s => s
+                int successRows = db.Players.Where(p => p.PlayerDbId == playerDbId).ExecuteUpdate(s => s
                     .SetProperty(p => p.LastPosX, p => x)
                     .SetProperty(p => p.LastPosY, p => y)
                     .SetProperty(p => p.LastPosZ, p => z));
 
                 if (successRows > 0)
-                {
                     callback?.Invoke();
-                }
             }
         }
 
-        public static void SavePlayerCurrency(int playerId, CurrencyType currencyType, int amount, Action callBack = null, string reason = null)
+        // 재화를 절대값으로 저장하고, 저장 완료 후 S_UpdateCurrencyData 패킷 자동 전송
+        // 새 CurrencyType 추가 시 PlayerDb에 같은 이름의 속성만 추가하면 자동 동작
+        public static void SavePlayerCurrency(Player player, CurrencyType currencyType, int amount, Action callBack = null)
         {
-            Instance.Push(SavePlayerCurrency_Db,
-                playerId, currencyType, amount, callBack, reason);
+            Instance.Push(SavePlayerCurrency_Db, player, currencyType, amount, callBack);
         }
 
-        private static void SavePlayerCurrency_Db(int playerId, CurrencyType currencyType, int amount, Action callBack, string reason = null)
+        private static void SavePlayerCurrency_Db(Player player, CurrencyType currencyType, int amount, Action callBack)
         {
-            using (GameDbContext db = new GameDbContext())
+            using GameDbContext db = new GameDbContext();
+
+            PlayerDb playerDb = db.Players.Find(player.PlayerId);
+            if (playerDb == null)
             {
-                var query = db.Players
-                        .Where(p => p.PlayerDbId == playerId);
-
-                int successRows = currencyType switch
-                {
-                    // TODO - 재화 자동화 필요
-                    CurrencyType.Jewel => query
-                        .ExecuteUpdate(s => s.SetProperty(p => p.Jewel, amount)),
-
-                    CurrencyType.Gold => query
-                        .ExecuteUpdate(s => s.SetProperty(p => p.Gold, amount)),
-
-                    CurrencyType.Exp => query
-                        .ExecuteUpdate(s => s.SetProperty(p => p.Exp, amount)),
-
-                    CurrencyType.Level => query
-                        .ExecuteUpdate(s => s.SetProperty(p => p.Level, amount)),
-
-                    _ => 0  // default인 경우 0 반환하라는 의미
-                };
-
-                if (successRows > 0)
-                {
-                    callBack?.Invoke();
-                }
+                Console.WriteLine($"[DB Error] SavePlayerCurrency: Player not found. PlayerId:{player.PlayerId}");
+                return;
             }
+
+            // expression cache로 switch 없이 자동 매핑
+            GetCurrencyExprInfo(currencyType).Setter(playerDb, amount);
+            db.SaveChanges();
+
+            // 저장 완료 후 자동 패킷 전송
+            player.Session?.Send(new S_UpdateCurrencyData { CurrencyType = currencyType, Amount = amount });
+            callBack?.Invoke();
         }
+
+        #endregion
     }
 }

@@ -122,7 +122,7 @@ namespace Server.Game
 
                 // 레벨업 했으면, 디비 저장 끝내고 레벨, 경험치 패킷 같이 전송
                 // 레벨업 안 했으면, 디비 저장 끝내고 경험치 패킷만 전송
-                CurrencyManager.Instance.SetCurrency(player.PlayerId, CurrencyType.Exp, player.Exp, () =>
+                CurrencyManager.Instance.SetCurrency(player, CurrencyType.Exp, player.Exp, () =>
                 {
                     // 경험치는 Add, Spend보다 이미 계산해놓은 값 바탕으로 Set하는 게 좋을듯
                     player.Session.HandleUpdateCurrencyData(CurrencyType.Exp);
@@ -132,7 +132,7 @@ namespace Server.Game
                 if (levelUpAmount > 0)
                 {
                     // 레벨업 횟수는 카운팅이 퀘스트 연동면에서도 좋아보임
-                    CurrencyManager.Instance.AddCurrency(player.PlayerId, CurrencyType.Level, levelUpAmount, () =>
+                    CurrencyManager.Instance.AddCurrency(player, CurrencyType.Level, levelUpAmount, () =>
                     {
                         player.Session.HandleUpdateCurrencyData(CurrencyType.Level);
                     });

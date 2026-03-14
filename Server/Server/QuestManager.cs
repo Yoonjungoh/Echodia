@@ -15,25 +15,6 @@ namespace Server
     {
         public static QuestManager Instance { get; } = new QuestManager();
 
-        // 퀘스트 생성 조건 달성했는지 확인 후, 패킷 전송
-        // 퀘스트 생성 조건 (레벨업, 퀘스트 클리어)
-        public void UpdateAvailableQuests(Player player)
-        {
-
-        }
-
-        public void UpdateQuestObjective(QuestObjectiveType questObjectiveType)
-        {
-            switch (questObjectiveType)
-            {
-                case QuestObjectiveType.Kill:
-                    // 킬 관련 퀘스트 진행도 확인
-                    break;
-                default:
-                    break;
-            }
-        }
-
         // 몬스터 처치 시 진입점 -> 크레딧 받을 플레이어를 결정하고 각자의 QuestTracker에 통지
         public void OnMonsterKilled(GameRoom room, Player killer, int monsterTemplateId)
         {
@@ -86,7 +67,7 @@ namespace Server
         }
         
         // 클라이언트가 Complete 버튼을 눌러 보상 수령 요청 시 호출
-        // 검증 → DB 업데이트(RewardClaimed) → 재화 지급 → 패킷 전송
+        // 검증 -> DB 업데이트(RewardClaimed) -> 재화 지급 -> 패킷 전송
         public void ClaimReward(Player player, int mainQuestId, int subQuestId)
         {
             List<QuestObjectiveDefinitionMetaData> allObjectives = SpecDataManager.Instance.GetAllQuestObjectiveDefinition();
@@ -106,7 +87,8 @@ namespace Server
                 return;
             }
 
-            DbTransaction.GiveQuestReward(player.PlayerId, mainQuestId, subQuestId,
+            DbTransaction.GiveQuestReward(
+                player, mainQuestId, subQuestId,
                 objective.RewardAmount, currency.CurrencyType,
                 (newAmount) =>
                 {
@@ -127,26 +109,8 @@ namespace Server
                         RewardAmount = objective.RewardAmount,
                     });
                     player.Session?.Send(giveRewardPacket);
-
-                    // 재화 최신값 전송
-                    S_UpdateCurrencyData updateCurrencyPacket = new S_UpdateCurrencyData()
-                    {
-                        CurrencyType = currency.CurrencyType,
-                        Amount = newAmount,
-                    };
-                    player.Session?.Send(updateCurrencyPacket);
+                    // S_UpdateCurrencyData는 GiveQuestReward_Db 내부에서 자동 전송됨
                 });
-        }
-
-        // 항상 메인 퀘스트의 마지막 서브 퀘스트를 클리어하면 서브 퀘스트 마지막 보상과 같이 수령함
-        private void GetMainQuestReward(Player player, int mainQuestId, int SubQuestId)
-        {
-
-        }
-
-        private void GetSubQuestReward(Player player, int mainQuestId, int SubQuestId)
-        {
-
         }
 
         // 퀘스트 생성하고 DB에 저장하고 패킷도 클라에게 전송
