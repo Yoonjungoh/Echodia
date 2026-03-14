@@ -199,6 +199,19 @@ public class UI_Quest : UI_Popup
         _userQuestDataDict[(mainQuestId, subQuestId)].QuestStatus = questStatus;
         _questItemDict[(mainQuestId, subQuestId)].ChangeQuestStatus(questStatus);
     }
+    public void UpdateQuestProgress(int mainQuestId, int subQuestId, int currentCount)
+    {
+        if (!_userQuestDataDict.TryGetValue((mainQuestId, subQuestId), out QuestInfo questInfo))
+            return;
+
+        questInfo.RequiredCount = currentCount;
+
+        // 현재 선택된 퀘스트면 우측 패널도   갱신
+        if (_selectedQuest != null && _selectedQuest.MainQuestId == mainQuestId && _selectedQuest.SubQuestId == subQuestId)
+        {
+            UpdateQuestInfo();
+        }
+    }
 
     private void OnClickAcceptButton()
     {

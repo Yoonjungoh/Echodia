@@ -134,13 +134,11 @@ namespace Server.Game
         // QuestTracker가 담당하는 이유 = 진행 상태의 주인이므로 변경 시점을 정확히 앎
         private void SendQuestProgressUpdate(QuestDb quest, int targetCount)
         {
-            // TODO - proto에 S_QuestProgressUpdate 메시지 정의 후 구현
-            // S_QuestProgressUpdate packet = new S_QuestProgressUpdate();
-            // packet.MainQuestId = quest.MainQuestId;
-            // packet.SubQuestId = quest.SubQuestId;
-            // packet.CurrentCount = quest.RequiredCount;
-            // packet.TargetCount = targetCount;
-            // _owner.Session?.Send(packet);
+            S_QuestProgressUpdate packet = new S_QuestProgressUpdate();
+            packet.MainQuestId = quest.MainQuestId;
+            packet.SubQuestId = quest.SubQuestId;
+            packet.CurrentCount = quest.RequiredCount;
+            _owner.Session?.Send(packet);
         }
     }
 }

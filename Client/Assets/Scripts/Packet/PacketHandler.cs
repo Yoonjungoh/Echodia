@@ -480,6 +480,21 @@ class PacketHandler
         UI_Quest questUI = Managers.Quest.GetQuestPopup();
         questUI.ChangeQuestStatus(changeQuestStatusPacket.MainQuestId, changeQuestStatusPacket.SubQuestId, changeQuestStatusPacket.QuestStatus);
     }
+    public static void S_QuestProgressUpdateHandler(PacketSession session, IMessage packet)
+    {
+        S_QuestProgressUpdate questProgressPacket = packet as S_QuestProgressUpdate;
+        if (questProgressPacket == null)
+        {
+            Debug.Log("S_QuestProgressUpdate 패킷이 null입니다");
+            return;
+        }
+
+        UI_Quest questUI = Managers.Quest.GetQuestPopup();
+        questUI.UpdateQuestProgress(questProgressPacket.MainQuestId,
+                                    questProgressPacket.SubQuestId,
+                                    questProgressPacket.CurrentCount);
+    }
+
 
     internal static void S_CompleteQuestHandler(PacketSession session, IMessage packet)
     {
