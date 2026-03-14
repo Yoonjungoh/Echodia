@@ -313,6 +313,9 @@ public class MyPlayerController : PlayerController
         if (Managers.UI.IsPopupActive<UI_Quest>())
         {
             Managers.UI.CloseSpecificPopup<UI_Quest>();
+            // 커서 잠금
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
         else
         {
