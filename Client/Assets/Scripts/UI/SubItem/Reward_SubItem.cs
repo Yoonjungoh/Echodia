@@ -31,6 +31,7 @@ public class Reward_SubItem : UI_SubItem<RewardItem>
 
     protected override void UpdateUI()
     {
+        GetTextMeshProUGUI((int)Texts.RewardAmountText).text = $"{_data.RewardAmount}";
         GetImage((int)Images.RewardImage).sprite = Managers.Image.GetCurrencyImage(_data.RewardId);
     }
 }

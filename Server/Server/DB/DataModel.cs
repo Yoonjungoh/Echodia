@@ -78,6 +78,7 @@ namespace Server.DB
         public int PlayerDbId { get; set; } // FK
         public int MainQuestId { get; set; } // 메인 퀘스트 번호
         public int SubQuestId { get; set; } // 서브 퀘스트 번호
+        public int TargetId { get; set; }  // 퀘스트 클리어에 필요한 타겟 Id
         public int RequiredCount { get; set; }  // 퀘스트 클리어에 필요한 목표 수량
         public QuestStatus Status { get; set; } // 진행 상태 (Enum)
         public DateTime StartedDate { get; set; } = DateTime.UtcNow;

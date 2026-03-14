@@ -16,6 +16,8 @@ public class Managers : MonoBehaviour
     private MapManager _map = new MapManager();
     private NetworkManager _network = new NetworkManager();
     private QuestManager _quest = new QuestManager();
+    private RedDotManager _redDot = new RedDotManager();
+    private RewardManager _reward = new RewardManager();
     private TimeManager _time = new TimeManager();
     private PoolManager _pool = new PoolManager();
     private InputManager _input = new InputManager();
@@ -35,6 +37,8 @@ public class Managers : MonoBehaviour
     public static MapManager Map { get { return Instance._map; } }
     public static NetworkManager Network { get { return Instance._network; } }
     public static QuestManager Quest { get { return Instance._quest; } }
+    public static RedDotManager RedDot { get { return Instance._redDot; } }
+    public static RewardManager Reward { get { return Instance._reward; } }
     public static TimeManager Time { get { return Instance._time; } }
     public static PoolManager Pool { get { return Instance._pool; } }
     public static DataManager Data { get { return Instance._data; } }

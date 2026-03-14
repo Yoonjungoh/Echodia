@@ -26,6 +26,11 @@ public class UI_GameRoom : UI_Scene
         QuestPopupButton,
     }
 
+    enum GameObjects
+    {
+        QuestRedDot,
+    }
+
     private int _level = -1;
     private int _exp = -1;
     private int _maxExp = -1;
@@ -33,6 +38,7 @@ public class UI_GameRoom : UI_Scene
     private TextMeshProUGUI _levelText;
     private TextMeshProUGUI _expText;
     private Slider _expSlider;
+    private GameObject _questRedDot;
 
     public override void Init()
     {
@@ -41,16 +47,32 @@ public class UI_GameRoom : UI_Scene
         Bind<TextMeshProUGUI>(typeof(Texts));
         Bind<Slider>(typeof(Sliders));
         Bind<Button>(typeof(Buttons));
+        Bind<GameObject>(typeof(GameObjects));
 
         _levelText = GetTextMeshProUGUI((int)Texts.LevelText);
         _expText = GetTextMeshProUGUI((int)Texts.ExpText);
         _expSlider = Get<Slider>((int)Sliders.ExpSlider);
-        
+        _questRedDot = Get<GameObject>((int)GameObjects.QuestRedDot);
+
         GetButton((int)Buttons.QuestPopupButton).onClick.AddListener(OnClickQuestPopupInput);
+
+        Managers.RedDot.OnRedDotChanged += OnRedDotChanged;
+        _questRedDot.SetActive(Managers.RedDot.IsActive(RedDotType.Quest));
 
         RequestInitGameRoomData();
     }
     
+    private void OnDestroy()
+    {
+        Managers.RedDot.OnRedDotChanged -= OnRedDotChanged;
+    }
+
+    private void OnRedDotChanged(RedDotType type, bool isActive)
+    {
+        if (type == RedDotType.Quest)
+            _questRedDot.SetActive(isActive);
+    }
+
     private void OnClickQuestPopupInput()
     {
         if (Managers.UI.IsPopupActive<UI_Quest>())

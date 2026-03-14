@@ -121,7 +121,9 @@ public class UI_Quest : UI_Popup
     {
         // TODO - 서브 아이템 최적화
         foreach (Transform child in _questContent)
+        {
             Managers.Resource.Destroy(child.gameObject);
+        }
 
         _questItemDict.Clear();
 
@@ -129,9 +131,13 @@ public class UI_Quest : UI_Popup
         if (_selectedQuest != null)
         {
             if (Managers.Quest.UserQuestDataDict.TryGetValue((_selectedQuest.MainQuestId, _selectedQuest.SubQuestId), out QuestInfo updated))
+            {
                 _selectedQuest = updated;
+            }
             else
+            {
                 _selectedQuest = null;
+            }
         }
 
         foreach (var kvp in Managers.Quest.UserQuestDataDict)
@@ -169,7 +175,6 @@ public class UI_Quest : UI_Popup
         _questProgressText.text = $"({_selectedQuest.RequiredCount}/{_selectedQuestMetaData.RequiredCount})";
 
         // TODO - 퀘스트 보상 시각화
-
         _acceptButton.gameObject.SetActive(_selectedQuest.QuestStatus == QuestStatus.NotAccepted);
         _proceedingButton.gameObject.SetActive(_selectedQuest.QuestStatus == QuestStatus.Proceeding);
         _completeButton.gameObject.SetActive(_selectedQuest.QuestStatus == QuestStatus.Completed);
@@ -178,16 +183,22 @@ public class UI_Quest : UI_Popup
     private void OnQuestStatusChangedHandler(int mainQuestId, int subQuestId, QuestStatus questStatus)
     {
         if (_questItemDict.TryGetValue((mainQuestId, subQuestId), out Quest_SubItem subItem))
+        {
             subItem.ChangeQuestStatus(questStatus);
+        }
 
         if (_selectedQuest != null && _selectedQuest.MainQuestId == mainQuestId && _selectedQuest.SubQuestId == subQuestId)
+        {
             UpdateQuestInfo();
+        }
     }
 
     private void OnQuestProgressUpdatedHandler(int mainQuestId, int subQuestId, int currentCount)
     {
         if (_selectedQuest != null && _selectedQuest.MainQuestId == mainQuestId && _selectedQuest.SubQuestId == subQuestId)
+        {
             UpdateQuestInfo();
+        }
     }
 
     private void OnClickAcceptButton()
@@ -212,13 +223,25 @@ public class UI_Quest : UI_Popup
         Managers.Network.Send(completeQuestPacket);
     }
 
-    private void OnClickCloseButton() => ClosePopupUI();
-    private void OnClickExitButton() => ClosePopupUI();
-    private void OnClickBackgroundButton() => ClosePopupUI();
+    private void OnClickCloseButton()
+    {
+        ClosePopupUI();
+    }
+
+    private void OnClickExitButton()
+    {
+        ClosePopupUI();
+    }
+
+    private void OnClickBackgroundButton()
+    {
+        ClosePopupUI();
+    }
 
     private void OnEnable()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        Managers.RedDot.Set(RedDotType.Quest, false);
     }
 }

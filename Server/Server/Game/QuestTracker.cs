@@ -97,7 +97,10 @@ namespace Server.Game
 
                 if (entry.Quest.RequiredCount >= entry.TargetCount)
                 {
-                    if (completedEntries == null) completedEntries = new List<KillQuestEntry>();
+                    if (completedEntries == null)
+                    {
+                         completedEntries = new List<KillQuestEntry>();
+                    }
                     completedEntries.Add(entry);
                 }
             }
@@ -139,6 +142,11 @@ namespace Server.Game
             packet.SubQuestId = quest.SubQuestId;
             packet.CurrentCount = quest.RequiredCount;
             _owner.Session?.Send(packet);
+        }
+
+        public void RemoveKillQuestTarget(int targetId)
+        {
+            _killQuestByTargetId.Remove(targetId);
         }
     }
 }

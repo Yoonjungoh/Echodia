@@ -43,6 +43,7 @@ public class QuestManager
             QuestStatus = QuestStatus.NotAccepted,
         };
         _userQuestDataDict.TryAdd((mainQuestId, subQuestId), questInfo);
+        Managers.RedDot.Set(RedDotType.Quest, true);
         OnQuestListChanged?.Invoke();
     }
 
@@ -68,6 +69,7 @@ public class QuestManager
             return;
 
         questInfo.RequiredCount = currentCount;
+        Managers.RedDot.Set(RedDotType.Quest, true);
         OnQuestProgressUpdated?.Invoke(mainQuestId, subQuestId, currentCount);
     }
 }
