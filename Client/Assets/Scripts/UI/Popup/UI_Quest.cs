@@ -251,8 +251,16 @@ public class UI_Quest : UI_Popup
         ClosePopupUI();
     }
 
+    private void OnDisable()
+    {
+        // 커서 잠금
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
     private void OnEnable()
     {
+        // 커서 해금
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         Managers.RedDot.Set(RedDotType.Quest, false);

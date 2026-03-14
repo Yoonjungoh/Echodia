@@ -160,6 +160,8 @@ namespace Server.Game
             if (_monsters.TryGetValue(monsterId, out Monster monster))
             {
                 ConsoleLogManager.Instance.Log($"Respawn Monster: {monsterId}");
+                monster.ObjectState.Stat.Hp = monster.ObjectState.Stat.MaxHp;
+                monster.CreatureState = CreatureState.Idle;
                 EnterGame(monster);
                 return;
             }

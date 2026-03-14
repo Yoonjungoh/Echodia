@@ -265,10 +265,7 @@ namespace Server.Game
 
             if (killer != null)
             {
-                CurrencyManager.Instance.AddCurrency(killer, CurrencyType.Gold, _gold, () =>
-                {
-                    killer.Session.HandleUpdateCurrencyData(CurrencyType.Gold);
-                });
+                CurrencyManager.Instance.AddCurrency(killer, CurrencyType.Gold, _gold);
                 QuestManager.Instance.OnMonsterKilled(GameRoom, killer, TemplateId);
             }
 
