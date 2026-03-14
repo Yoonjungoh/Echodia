@@ -36,7 +36,17 @@ namespace Server
         public void AcceptQuest(int mainQuestId, int subQuestId)
         {
             DbTransaction.UpdateQuestStatus(MyPlayer.PlayerId, mainQuestId, subQuestId, QuestStatus.Proceeding,
-            () => ChangeQuestStatus(mainQuestId, subQuestId, QuestStatus.Proceeding));
+            () =>
+            {
+                ChangeQuestStatus(mainQuestId, subQuestId, QuestStatus.Proceeding);
+                // DB가 Proceeding으로 바뀐 뒤 QuestTracker에 킬 퀘스트 등록
+                MyPlayer.GameRoom?.Push(() => MyPlayer.QuestTracker.Load());
+            });
+        }
+
+        public void ClaimQuestReward(int mainQuestId, int subQuestId)
+        {
+            QuestManager.Instance.ClaimReward(MyPlayer, mainQuestId, subQuestId);
         }
 
         public void CheckAndAssignInitialQuest()

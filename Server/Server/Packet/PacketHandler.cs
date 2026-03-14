@@ -268,5 +268,6 @@ class PacketHandler
         if (clientSession == null)
             return;
 
+        clientSession.ClaimQuestReward(completeQuestPacket.MainQuestId, completeQuestPacket.SubQuestId);
     }
 }

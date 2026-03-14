@@ -85,6 +85,59 @@ namespace Server
             });
         }
         
+        // 클라이언트가 Complete 버튼을 눌러 보상 수령 요청 시 호출
+        // 검증 → DB 업데이트(RewardClaimed) → 재화 지급 → 패킷 전송
+        public void ClaimReward(Player player, int mainQuestId, int subQuestId)
+        {
+            List<QuestObjectiveDefinitionMetaData> allObjectives = SpecDataManager.Instance.GetAllQuestObjectiveDefinition();
+            QuestObjectiveDefinitionMetaData objective = allObjectives.FirstOrDefault(o =>
+                o.MainQuestId == mainQuestId && o.SubQuestId == subQuestId);
+
+            if (objective == null)
+            {
+                Console.WriteLine($"[Quest] ClaimReward: objective not found ({mainQuestId}-{subQuestId})");
+                return;
+            }
+
+            CurrencyMetaData currency = SpecDataManager.Instance.GetCurrency(objective.RewardId);
+            if (currency == null)
+            {
+                Console.WriteLine($"[Quest] ClaimReward: currency not found (RewardId={objective.RewardId})");
+                return;
+            }
+
+            DbTransaction.GiveQuestReward(player.PlayerId, mainQuestId, subQuestId,
+                objective.RewardAmount, currency.CurrencyType,
+                (newAmount) =>
+                {
+                    // 퀘스트 상태 변경 패킷
+                    S_ChangeQuestStatus changeStatusPacket = new S_ChangeQuestStatus()
+                    {
+                        MainQuestId = mainQuestId,
+                        SubQuestId = subQuestId,
+                        QuestStatus = QuestStatus.RewardClaimed,
+                    };
+                    player.Session?.Send(changeStatusPacket);
+
+                    // 보상 수령 패킷
+                    S_GiveReward giveRewardPacket = new S_GiveReward();
+                    giveRewardPacket.RewardItemList.Add(new RewardItem
+                    {
+                        RewardId = objective.RewardId,
+                        RewardAmount = objective.RewardAmount,
+                    });
+                    player.Session?.Send(giveRewardPacket);
+
+                    // 재화 최신값 전송
+                    S_UpdateCurrencyData updateCurrencyPacket = new S_UpdateCurrencyData()
+                    {
+                        CurrencyType = currency.CurrencyType,
+                        Amount = newAmount,
+                    };
+                    player.Session?.Send(updateCurrencyPacket);
+                });
+        }
+
         // 항상 메인 퀘스트의 마지막 서브 퀘스트를 클리어하면 서브 퀘스트 마지막 보상과 같이 수령함
         private void GetMainQuestReward(Player player, int mainQuestId, int SubQuestId)
         {
@@ -99,12 +152,17 @@ namespace Server
         // 퀘스트 생성하고 DB에 저장하고 패킷도 클라에게 전송
         public void CreateQuest(GameDbContext db, PlayerDb playerDb, ClientSession session, int mainQuestId, int subQuestId)
         {
+            List<QuestObjectiveDefinitionMetaData> allObjectives = SpecDataManager.Instance.GetAllQuestObjectiveDefinition();
+            QuestObjectiveDefinitionMetaData objective = allObjectives.FirstOrDefault(o =>
+                o.MainQuestId == mainQuestId && o.SubQuestId == subQuestId);
+
             // playerDbId에게 퀘스트 생성해서 Db에 저장
             QuestDb quest = new QuestDb()
             {
                 PlayerDbId = playerDb.PlayerDbId,
                 MainQuestId = mainQuestId,
                 SubQuestId = subQuestId,
+                TargetId = objective?.TargetId ?? 0,
                 RequiredCount = 0,
                 Status = QuestStatus.NotAccepted, // 플레이어가 클라에서 Accept 해야 Proceeding으로 가는 거임
                 StartedDate = DateTime.UtcNow,

@@ -60,6 +60,14 @@ public class QuestManager
             return;
 
         questInfo.QuestStatus = questStatus;
+
+        // 보상 수령 완료 → 퀘스트 목록에서 제거
+        if (questStatus == QuestStatus.RewardClaimed)
+        {
+            RemoveQuestData(mainQuestId, subQuestId);
+            return;
+        }
+
         OnQuestStatusChanged?.Invoke(mainQuestId, subQuestId, questStatus);
     }
 

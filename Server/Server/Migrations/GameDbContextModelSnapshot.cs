@@ -120,6 +120,9 @@ namespace Server.Migrations
                     b.Property<int>("SubQuestId")
                         .HasColumnType("int");
 
+                    b.Property<int>("TargetId")
+                        .HasColumnType("int");
+
                     b.HasKey("QuestDbId");
 
                     b.HasIndex("PlayerDbId");

@@ -489,13 +489,33 @@ class PacketHandler
     }
 
 
-    internal static void S_CompleteQuestHandler(PacketSession session, IMessage packet)
+    public static void S_CompleteQuestHandler(PacketSession session, IMessage packet)
     {
-        throw new NotImplementedException();
+        S_CompleteQuest completeQuestPacket = packet as S_CompleteQuest;
+        if (completeQuestPacket == null)
+        {
+            Debug.Log("S_CompleteQuest 패킷이 null입니다");
+            return;
+        }
+
+        Managers.Quest.ChangeQuestStatus(completeQuestPacket.MainQuestId, completeQuestPacket.SubQuestId, completeQuestPacket.QuestStatus);
     }
-    internal static void S_GiveRewardHandler(PacketSession session, IMessage packet)
+
+    public static void S_GiveRewardHandler(PacketSession session, IMessage packet)
     {
-        throw new NotImplementedException();
+        S_GiveReward giveRewardPacket = packet as S_GiveReward;
+        if (giveRewardPacket == null)
+        {
+            Debug.Log("S_GiveReward 패킷이 null입니다");
+            return;
+        }
+
+        foreach (RewardItem item in giveRewardPacket.RewardItemList)
+        {
+            CurrencyMetaData currency = Managers.SpecData.GetCurrency(item.RewardId);
+            string currencyName = currency != null ? currency.CurrencyType.ToString() : $"RewardId({item.RewardId})";
+            Managers.UI.ShowToastPopup($"보상 획득: {currencyName} +{item.RewardAmount}");
+        }
     }
 
 }
