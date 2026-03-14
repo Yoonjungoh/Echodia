@@ -449,9 +449,7 @@ class PacketHandler
             return;
         }
 
-        // 가져온 데이터 바탕으로 퀘스트 생성
-        UI_Quest questUI = Managers.Quest.GetQuestPopup();
-        questUI.AddQuestData(creatQuestPacket.MainQuestId, creatQuestPacket.SubQuestId);
+        Managers.Quest.AddQuestData(creatQuestPacket.MainQuestId, creatQuestPacket.SubQuestId);
     }
 
     public static void S_RequestQuestDataHandler(PacketSession session, IMessage packet)
@@ -463,9 +461,7 @@ class PacketHandler
             return;
         }
 
-        UI_Quest questUI = Managers.Quest.GetQuestPopup();
-        questUI.InitQuestData(requestQuestData.QuestInfoList);
-        questUI.UpdateAllUI();
+        Managers.Quest.InitQuestData(requestQuestData.QuestInfoList);
     }
 
     public static void S_ChangeQuestStatusHandler(PacketSession session, IMessage packet)
@@ -477,9 +473,9 @@ class PacketHandler
             return;
         }
 
-        UI_Quest questUI = Managers.Quest.GetQuestPopup();
-        questUI.ChangeQuestStatus(changeQuestStatusPacket.MainQuestId, changeQuestStatusPacket.SubQuestId, changeQuestStatusPacket.QuestStatus);
+        Managers.Quest.ChangeQuestStatus(changeQuestStatusPacket.MainQuestId, changeQuestStatusPacket.SubQuestId, changeQuestStatusPacket.QuestStatus);
     }
+
     public static void S_QuestProgressUpdateHandler(PacketSession session, IMessage packet)
     {
         S_QuestProgressUpdate questProgressPacket = packet as S_QuestProgressUpdate;
@@ -489,10 +485,7 @@ class PacketHandler
             return;
         }
 
-        UI_Quest questUI = Managers.Quest.GetQuestPopup();
-        questUI.UpdateQuestProgress(questProgressPacket.MainQuestId,
-                                    questProgressPacket.SubQuestId,
-                                    questProgressPacket.CurrentCount);
+        Managers.Quest.UpdateQuestProgress(questProgressPacket.MainQuestId, questProgressPacket.SubQuestId, questProgressPacket.CurrentCount);
     }
 
 
