@@ -156,7 +156,47 @@ public static class GvizParser
             end++;
         }
         string s = obj.Substring(vs + 1, end - vs - 1);
-        return s.Replace("\\\"", "\"").Replace("\\\\", "\\").Replace("\\n", "\n");
+        return DecodeJsonString(s);
+    }
+
+    // JSON 문자열 이스케이프 디코딩 (\uXXXX, \n, \\, \" 등)
+    // Google gviz API는 <, >, & 등을 \u003c, \u003e, \u0026으로 반환함
+    private static string DecodeJsonString(string s)
+    {
+        if (!s.Contains('\\')) return s;
+        var sb = new System.Text.StringBuilder(s.Length);
+        int i = 0;
+        while (i < s.Length)
+        {
+            if (s[i] == '\\' && i + 1 < s.Length)
+            {
+                char next = s[i + 1];
+                switch (next)
+                {
+                    case '"':  sb.Append('"');  i += 2; break;
+                    case '\\': sb.Append('\\'); i += 2; break;
+                    case '/':  sb.Append('/');  i += 2; break;
+                    case 'n':  sb.Append('\n'); i += 2; break;
+                    case 'r':  sb.Append('\r'); i += 2; break;
+                    case 't':  sb.Append('\t'); i += 2; break;
+                    case 'u' when i + 5 < s.Length:
+                        string hex = s.Substring(i + 2, 4);
+                        if (int.TryParse(hex,
+                                System.Globalization.NumberStyles.HexNumber,
+                                System.Globalization.CultureInfo.InvariantCulture,
+                                out int code))
+                        {
+                            sb.Append((char)code);
+                            i += 6;
+                        }
+                        else { sb.Append(s[i]); i++; }
+                        break;
+                    default: sb.Append(s[i]); i++; break;
+                }
+            }
+            else { sb.Append(s[i]); i++; }
+        }
+        return sb.ToString();
     }
 
     private static int CountCols(string json)

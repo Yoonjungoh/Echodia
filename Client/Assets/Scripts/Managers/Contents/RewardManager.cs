@@ -1,12 +1,14 @@
 
 
 using System.Collections.Generic;
+using Google.Protobuf.Collections;
 using Google.Protobuf.Protocol;
 
 public class RewardManager
 {
     UI_Reward _rewardUI;
-    public void ShowRewardList(List<RewardItem> rewardItemList)
+    
+    public void ShowRewardList(RepeatedField<RewardItem> rewardItemList)
     {
         if (_rewardUI == null)
         {

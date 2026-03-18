@@ -65,9 +65,9 @@ namespace Server
                 db.SaveChanges();
             });
         }
-        
+
         // 클라이언트가 Complete 버튼을 눌러 보상 수령 요청 시 호출
-        // 검증 -> DB 업데이트(RewardClaimed) -> 재화 지급 -> 패킷 전송
+        // 검증 -> 보상 목록 구성 -> DB 업데이트(RewardClaimed + 모든 재화) -> 패킷 전송
         public void ClaimReward(Player player, int mainQuestId, int subQuestId)
         {
             List<QuestObjectiveDefinitionMetaData> allObjectives = SpecDataManager.Instance.GetAllQuestObjectiveDefinition();
@@ -80,37 +80,50 @@ namespace Server
                 return;
             }
 
-            CurrencyMetaData currency = SpecDataManager.Instance.GetCurrency(objective.RewardId);
-            if (currency == null)
+            // 보상 목록 구성 + 검증
+            var rewards = new List<(CurrencyType currencyType, int amount)>();
+            int count = objective.RewardIdList.Count;
+            for (int i = 0; i < count; i++)
             {
-                Console.WriteLine($"[Quest] ClaimReward: currency not found (RewardId={objective.RewardId})");
+                CurrencyMetaData currency = SpecDataManager.Instance.GetCurrency(objective.RewardIdList[i]);
+                if (currency == null)
+                {
+                    Console.WriteLine($"[Quest] ClaimReward: currency not found (RewardId={objective.RewardIdList[i]})");
+                    continue;
+                }
+                rewards.Add((currency.CurrencyType, objective.RewardAmountList[i]));
+            }
+
+            if (rewards.Count == 0)
+            {
+                Console.WriteLine($"[Quest] ClaimReward: no valid rewards ({mainQuestId}-{subQuestId})");
                 return;
             }
 
-            DbTransaction.GiveQuestReward(
-                player, mainQuestId, subQuestId,
-                objective.RewardAmount, currency.CurrencyType,
-                (newAmount) =>
+            DbTransaction.GiveQuestReward(player, mainQuestId, subQuestId, rewards, () =>
+            {
+                // 퀘스트 상태 변경 패킷
+                S_ChangeQuestStatus changeStatusPacket = new S_ChangeQuestStatus()
                 {
-                    // 퀘스트 상태 변경 패킷
-                    S_ChangeQuestStatus changeStatusPacket = new S_ChangeQuestStatus()
-                    {
-                        MainQuestId = mainQuestId,
-                        SubQuestId = subQuestId,
-                        QuestStatus = QuestStatus.RewardClaimed,
-                    };
-                    player.Session?.Send(changeStatusPacket);
+                    MainQuestId = mainQuestId,
+                    SubQuestId = subQuestId,
+                    QuestStatus = QuestStatus.RewardClaimed,
+                };
+                player.Session?.Send(changeStatusPacket);
 
-                    // 보상 수령 패킷
-                    S_GiveReward giveRewardPacket = new S_GiveReward();
+                // 보상 수령 패킷
+                S_GiveReward giveRewardPacket = new S_GiveReward();
+                for (int i = 0; i < count; i++)
+                {
                     giveRewardPacket.RewardItemList.Add(new RewardItem
                     {
-                        RewardId = objective.RewardId,
-                        RewardAmount = objective.RewardAmount,
+                        RewardId = objective.RewardIdList[i],
+                        RewardAmount = objective.RewardAmountList[i],
                     });
-                    player.Session?.Send(giveRewardPacket);
-                    // S_UpdateCurrencyData는 GiveQuestReward_Db 내부에서 자동 전송됨
-                });
+                }
+                player.Session?.Send(giveRewardPacket);
+                // S_UpdateCurrencyData는 GiveQuestReward_Db 내부에서 자동 전송됨
+            });
         }
 
         // 퀘스트 생성하고 DB에 저장하고 패킷도 클라에게 전송

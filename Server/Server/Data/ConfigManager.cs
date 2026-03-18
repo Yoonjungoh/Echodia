@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Server.Data
 {
-public class ConfigManager
+public partial class ConfigManager
 {
     #region Singleton
     public static ConfigManager Instance { get; } = new ConfigManager();

@@ -180,13 +180,17 @@ public class UI_Quest : UI_Popup
             Managers.Resource.Destroy(child.gameObject);
         }
 
-        Reward_SubItem rewardSubItem = Managers.UI.MakeSubItem<Reward_SubItem>(_questRewardContent);
-        RewardItem rewardItem = new RewardItem()
+        int count = _selectedQuestMetaData.RewardIdList.Count;
+        for (int i = 0; i < count; ++i)
         {
-            RewardId = _selectedQuestMetaData.RewardId,
-            RewardAmount = _selectedQuestMetaData.RewardAmount
-        };
-        rewardSubItem.SetData(rewardItem);
+            Reward_SubItem rewardSubItem = Managers.UI.MakeSubItem<Reward_SubItem>(_questRewardContent);
+            RewardItem rewardItem = new RewardItem()
+            {
+                RewardId = _selectedQuestMetaData.RewardIdList[i],
+                RewardAmount = _selectedQuestMetaData.RewardAmountList[i]
+            };
+            rewardSubItem.SetData(rewardItem);
+        }
 
         _acceptButton.gameObject.SetActive(_selectedQuest.QuestStatus == QuestStatus.NotAccepted);
         _proceedingButton.gameObject.SetActive(_selectedQuest.QuestStatus == QuestStatus.Proceeding);

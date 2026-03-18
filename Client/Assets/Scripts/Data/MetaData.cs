@@ -3,6 +3,7 @@
 // Do NOT edit manually — 컬럼 구조 변경 시 GenSpecData.bat 재실행.
 // ============================================================
 using System;
+using System.Collections.Generic;
 using Google.Protobuf.Protocol;
 
 // 모든 MetaData 클래스는 이 파일에서 통합 관리합니다.
@@ -40,8 +41,8 @@ public class QuestObjectiveDefinitionMetaData
     public QuestObjectiveType QuestObjectiveType;
     public int TargetId;
     public int RequiredCount;
-    public int RewardId;
-    public int RewardAmount;
+    public List<int> RewardIdList;
+    public List<int> RewardAmountList;
     public string Description;
 }
 

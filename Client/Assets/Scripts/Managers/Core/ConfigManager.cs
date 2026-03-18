@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class ConfigManager
+public partial class ConfigManager
 {
     public bool IsReady { get; private set; }
     struct ConfigEntry { public string DataType; public string Value; }

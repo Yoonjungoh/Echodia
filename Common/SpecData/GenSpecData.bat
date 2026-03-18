@@ -12,7 +12,7 @@ cd /d "%~dp0"
 REM ── Generator 실행
 REM   --id    : Google Spreadsheet ID
 REM   --key   : Google API Key (시트 목록 자동 탐색)
-REM   --proto : Protocol.cs 경로 (Common/SpecData/ 기준 상대 경로)
+REM   --proto  : Protocol.cs 경로 (Common/SpecData/ 기준 상대 경로)
 REM   --sheets 없이 실행 → API로 시트 목록 자동 탐색
 echo [1/1] SpecData 코드 생성 중...
 dotnet run --project SpecDataGenerator\SpecDataGenerator.csproj -- ^

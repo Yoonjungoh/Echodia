@@ -510,12 +510,7 @@ class PacketHandler
             return;
         }
 
-        foreach (RewardItem item in giveRewardPacket.RewardItemList)
-        {
-            CurrencyMetaData currency = Managers.SpecData.GetCurrency(item.RewardId);
-            string currencyName = currency != null ? currency.CurrencyType.ToString() : $"RewardId({item.RewardId})";
-            Managers.UI.ShowToastPopup($"보상 획득: {currencyName} +{item.RewardAmount}");
-        }
+        Managers.Reward.ShowRewardList(giveRewardPacket.RewardItemList);
     }
 
 }

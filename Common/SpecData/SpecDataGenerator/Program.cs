@@ -277,7 +277,10 @@ class Program
         {
             foreach (var col in kv.Value.Columns)
             {
-                if (col.TypeHint != "enum") continue;
+                // "enum" 또는 "list<enum>" 타입힌트 모두 처리
+                bool isEnumCol     = col.TypeHint == "enum";
+                bool isListEnumCol = col.TypeHint == "list<enum>";
+                if (!isEnumCol && !isListEnumCol) continue;
                 if (IsProtoEnum(col.FieldName)) continue;  // proto enum은 SheetEnums에 넣지 않음
                 if (!written.Add(col.FieldName)) continue;
 
@@ -289,9 +292,14 @@ class Program
                 var seen = new HashSet<string> { "None" };
                 foreach (var row in kv.Value.SampleRows)
                 {
-                    string val = idx < row.Count ? row[idx].Trim() : "";
-                    if (!string.IsNullOrEmpty(val) && seen.Add(val))
-                        sb.AppendLine($"    {val},");
+                    string rawVal = idx < row.Count ? row[idx].Trim() : "";
+                    // list<enum>의 경우 셀 값이 "{Val1,Val2,...}" 형식일 수 있으므로 각 항목 분리
+                    IEnumerable<string> vals = isListEnumCol
+                        ? rawVal.Trim('{', '}').Split(',').Select(v => v.Trim())
+                        : new[] { rawVal };
+                    foreach (var val in vals)
+                        if (!string.IsNullOrEmpty(val) && seen.Add(val))
+                            sb.AppendLine($"    {val},");
                 }
                 sb.AppendLine("}");
                 sb.AppendLine();
@@ -331,11 +339,13 @@ class Program
     static void GenerateMetaData()
     {
         bool needsProto = NeedsProtoUsing();
+        bool needsList  = Results.Values.Any(r => r.Columns.Any(c => IsListHint(c.TypeHint)));
 
         // 클라이언트
         var clientSb = new StringBuilder();
         AppendHeader(clientSb);
         clientSb.AppendLine("using System;");
+        if (needsList)  clientSb.AppendLine("using System.Collections.Generic;");
         if (needsProto) clientSb.AppendLine("using Google.Protobuf.Protocol;");
         clientSb.AppendLine();
         clientSb.AppendLine("// 모든 MetaData 클래스는 이 파일에서 통합 관리합니다.");
@@ -352,6 +362,7 @@ class Program
         var serverSb = new StringBuilder();
         AppendHeader(serverSb);
         serverSb.AppendLine("using System;");
+        if (needsList)  serverSb.AppendLine("using System.Collections.Generic;");
         if (needsProto) serverSb.AppendLine("using Google.Protobuf.Protocol;");
         serverSb.AppendLine();
         serverSb.AppendLine("namespace Server.Data");
@@ -387,6 +398,17 @@ class Program
                 sb.AppendLine($"{i2}public {col.FieldName} Get{col.FieldName}()");
                 sb.AppendLine($"{i2}{{");
                 sb.AppendLine($"{i3}return ({col.FieldName}){col.FieldName}Value;");
+                sb.AppendLine($"{i2}}}");
+            }
+            else if (col.TypeHint == "list<protoenum>")
+            {
+                // int 리스트로 저장 + 타입 캐스팅 getter 제공
+                sb.AppendLine($"{i2}public List<int> {col.FieldName}Values;");
+                sb.AppendLine($"{i2}public List<{col.FieldName}> Get{col.FieldName}List()");
+                sb.AppendLine($"{i2}{{");
+                sb.AppendLine($"{i3}var r = new List<{col.FieldName}>();");
+                sb.AppendLine($"{i3}foreach (var v in {col.FieldName}Values) r.Add(({col.FieldName})v);");
+                sb.AppendLine($"{i3}return r;");
                 sb.AppendLine($"{i2}}}");
             }
             else
@@ -594,11 +616,29 @@ class Program
 
         foreach (var col in cols)
         {
-            string target       = col.TypeHint == "protoenum" ? $"data.{col.FieldName}Value" : $"data.{col.FieldName}";
-            string expr         = col.TypeHint == "protoenum" ? $"ParseInt(cells[{col.ColIndex}])" : BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, col.FieldName);
-            string displayField = col.TypeHint == "protoenum" ? $"{col.FieldName}Value" : col.FieldName;
-            string displayType  = col.TypeHint == "protoenum" ? "protoenum (int)" : col.TypeHint;
-            int    dispCol      = col.ColIndex + 1;
+            string target, expr, displayField, displayType;
+            if (col.TypeHint == "protoenum")
+            {
+                target       = $"data.{col.FieldName}Value";
+                expr         = $"ParseInt(cells[{col.ColIndex}])";
+                displayField = $"{col.FieldName}Value";
+                displayType  = "protoenum (int)";
+            }
+            else if (col.TypeHint == "list<protoenum>")
+            {
+                target       = $"data.{col.FieldName}Values";
+                expr         = BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, col.FieldName);
+                displayField = $"{col.FieldName}Values";
+                displayType  = "list<protoenum>";
+            }
+            else
+            {
+                target       = $"data.{col.FieldName}";
+                expr         = BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, col.FieldName);
+                displayField = col.FieldName;
+                displayType  = col.TypeHint;
+            }
+            int dispCol = col.ColIndex + 1;
 
             sb.AppendLine($"                // {displayField} ({displayType})");
             sb.AppendLine("                try { " + target + " = " + expr + "; }");
@@ -717,11 +757,29 @@ class Program
 
         foreach (var col in cols)
         {
-            string target       = col.TypeHint == "protoenum" ? $"data.{col.FieldName}Value" : $"data.{col.FieldName}";
-            string expr         = col.TypeHint == "protoenum" ? $"ParseInt(cells[{col.ColIndex}])" : BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, col.FieldName);
-            string displayField = col.TypeHint == "protoenum" ? $"{col.FieldName}Value" : col.FieldName;
-            string displayType  = col.TypeHint == "protoenum" ? "protoenum (int)" : col.TypeHint;
-            int    dispCol      = col.ColIndex + 1;
+            string target, expr, displayField, displayType;
+            if (col.TypeHint == "protoenum")
+            {
+                target       = $"data.{col.FieldName}Value";
+                expr         = $"ParseInt(cells[{col.ColIndex}])";
+                displayField = $"{col.FieldName}Value";
+                displayType  = "protoenum (int)";
+            }
+            else if (col.TypeHint == "list<protoenum>")
+            {
+                target       = $"data.{col.FieldName}Values";
+                expr         = BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, col.FieldName);
+                displayField = $"{col.FieldName}Values";
+                displayType  = "list<protoenum>";
+            }
+            else
+            {
+                target       = $"data.{col.FieldName}";
+                expr         = BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, col.FieldName);
+                displayField = col.FieldName;
+                displayType  = col.TypeHint;
+            }
+            int dispCol = col.ColIndex + 1;
 
             sb.AppendLine($"                // {displayField} ({displayType})");
             sb.AppendLine("                try { " + target + " = " + expr + "; }");
@@ -816,7 +874,7 @@ class Program
         sb.AppendLine("using UnityEngine;");
         sb.AppendLine("using UnityEngine.Networking;");
         sb.AppendLine();
-        sb.AppendLine("public class ConfigManager");
+        sb.AppendLine("public partial class ConfigManager");
         sb.AppendLine("{");
         sb.AppendLine("    public bool IsReady { get; private set; }");
         sb.AppendLine("    struct ConfigEntry { public string DataType; public string Value; }");
@@ -866,7 +924,7 @@ class Program
         sb.AppendLine();
         sb.AppendLine("namespace Server.Data");
         sb.AppendLine("{");
-        sb.AppendLine("public class ConfigManager");
+        sb.AppendLine("public partial class ConfigManager");
         sb.AppendLine("{");
         sb.AppendLine("    #region Singleton");
         sb.AppendLine("    public static ConfigManager Instance { get; } = new ConfigManager();");
@@ -878,7 +936,7 @@ class Program
         sb.AppendLine("    struct ConfigEntry { public string DataType; public string Value; }");
         sb.AppendLine("    readonly Dictionary<ConfigType, ConfigEntry> _dict = new Dictionary<ConfigType, ConfigEntry>();");
         sb.AppendLine();
-        sb.AppendLine("    public async Task DownloadConfig()");
+        sb.AppendLine("    public async Task Init()");
         sb.AppendLine("    {");
         sb.AppendLine("        IsReady = false;");
         sb.AppendLine("        Console.WriteLine(\"[ConfigManager] Config 다운로드 시작\");");
@@ -1007,40 +1065,90 @@ class Program
     {
         if (col.TypeHint == "protoenum")
             return $"{col.FieldName}Value = ParseInt(cells[{col.ColIndex}])";
+        if (col.TypeHint == "list<protoenum>")
+            return $"{col.FieldName}Values = {BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, col.FieldName)}";
         return $"{col.FieldName} = {BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, col.FieldName)}";
     }
 
     static bool IsProtoEnum(string name) => ProtoEnumNames.Contains(name);
 
+    // ── List 타입힌트 헬퍼
+    // "list<int>", "list<enum>", "list<protoenum>" 등 감지
+    static bool IsListHint(string hint) => hint.StartsWith("list<") && hint.EndsWith(">");
+    static string GetListInnerHint(string hint) => hint.Substring(5, hint.Length - 6);
+
     static bool NeedsProtoUsing() =>
         ProtoEnumNames.Count > 0 &&
         Results.Values.Any(r => r.Columns.Any(c =>
             c.TypeHint == "protoenum" ||
-            (c.TypeHint == "enum" && IsProtoEnum(c.FieldName))));
+            c.TypeHint == "list<protoenum>" ||
+            (c.TypeHint == "enum" && IsProtoEnum(c.FieldName)) ||
+            (c.TypeHint == "list<enum>" && IsProtoEnum(c.FieldName))));
 
-    static string HintToCsType(string hint, string fieldName) => hint switch
+    static string HintToCsType(string hint, string fieldName)
     {
-        "int"    => "int",
-        "float"  => "float",
-        "double" => "double",
-        "bool"   => "bool",
-        "long"   => "long",
-        "string" => "string",
-        "enum"   => fieldName,
-        _        => "string",
-    };
+        if (IsListHint(hint))
+        {
+            string inner = GetListInnerHint(hint);
+            string innerCsType = inner switch
+            {
+                "int"       => "int",
+                "float"     => "float",
+                "double"    => "double",
+                "bool"      => "bool",
+                "long"      => "long",
+                "string"    => "string",
+                "enum"      => fieldName,
+                "protoenum" => "int",   // list<protoenum>은 int 리스트로 저장
+                _           => "string",
+            };
+            return $"List<{innerCsType}>";
+        }
+        return hint switch
+        {
+            "int"    => "int",
+            "float"  => "float",
+            "double" => "double",
+            "bool"   => "bool",
+            "long"   => "long",
+            "string" => "string",
+            "enum"   => fieldName,
+            _        => "string",
+        };
+    }
 
-    static string BuildParseExpression(string cellExpr, string hint, string fieldName) => hint switch
+    static string BuildParseExpression(string cellExpr, string hint, string fieldName)
     {
-        "int"    => $"ParseInt({cellExpr})",
-        "float"  => $"ParseFloat({cellExpr})",
-        "double" => $"string.IsNullOrEmpty({cellExpr}) ? 0.0 : double.Parse({cellExpr}, System.Globalization.CultureInfo.InvariantCulture)",
-        "long"   => $"string.IsNullOrEmpty({cellExpr}) ? 0L : long.Parse({cellExpr})",
-        "bool"   => $"({cellExpr} == \"true\" || {cellExpr} == \"1\" || {cellExpr} == \"yes\")",
-        "string" => cellExpr,
-        "enum"   => $"ParseEnum<{fieldName}>({cellExpr})",
-        _        => cellExpr,
-    };
+        if (IsListHint(hint))
+        {
+            string inner = GetListInnerHint(hint);
+            // 각 아이템을 파싱할 람다 생성
+            string itemParser = inner switch
+            {
+                "int"       => "s => ParseInt(s)",
+                "float"     => "s => ParseFloat(s)",
+                "double"    => "s => string.IsNullOrEmpty(s) ? 0.0 : double.Parse(s, System.Globalization.CultureInfo.InvariantCulture)",
+                "long"      => "s => string.IsNullOrEmpty(s) ? 0L : long.Parse(s, System.Globalization.CultureInfo.InvariantCulture)",
+                "bool"      => "s => (s == \"true\" || s == \"1\" || s == \"yes\")",
+                "string"    => "s => s",
+                "enum"      => $"s => ParseEnum<{fieldName}>(s)",
+                "protoenum" => "s => ParseInt(s)",
+                _           => "s => s",
+            };
+            return $"ParseList({cellExpr}, {itemParser})";
+        }
+        return hint switch
+        {
+            "int"    => $"ParseInt({cellExpr})",
+            "float"  => $"ParseFloat({cellExpr})",
+            "double" => $"string.IsNullOrEmpty({cellExpr}) ? 0.0 : double.Parse({cellExpr}, System.Globalization.CultureInfo.InvariantCulture)",
+            "long"   => $"string.IsNullOrEmpty({cellExpr}) ? 0L : long.Parse({cellExpr})",
+            "bool"   => $"({cellExpr} == \"true\" || {cellExpr} == \"1\" || {cellExpr} == \"yes\")",
+            "string" => cellExpr,
+            "enum"   => $"ParseEnum<{fieldName}>({cellExpr})",
+            _        => cellExpr,
+        };
+    }
 
     static void AppendParseHelpers(StringBuilder sb, string indent)
     {
@@ -1060,6 +1168,22 @@ class Program
         sb.AppendLine($"{indent}{{");
         sb.AppendLine($"{indent}    if (string.IsNullOrEmpty(s)) return default;");
         sb.AppendLine($"{indent}    return (T)Enum.Parse(typeof(T), s, true);");
+        sb.AppendLine($"{indent}}}");
+        // List 파서: "{1,2,3}" 형식 → List<T>
+        sb.AppendLine($"{indent}static List<T> ParseList<T>(string s, Func<string, T> parseItem)");
+        sb.AppendLine($"{indent}{{");
+        sb.AppendLine(indent + "    var result = new List<T>();");
+        sb.AppendLine(indent + "    if (string.IsNullOrEmpty(s)) return result;");
+        sb.AppendLine(indent + "    s = s.Trim();");
+        sb.AppendLine(indent + "    if (s.Length > 0 && s[0] == '{') s = s.Substring(1);");
+        sb.AppendLine(indent + "    if (s.Length > 0 && s[s.Length - 1] == '}') s = s.Substring(0, s.Length - 1);");
+        sb.AppendLine(indent + "    if (string.IsNullOrEmpty(s)) return result;");
+        sb.AppendLine(indent + "    foreach (var item in s.Split(','))");
+        sb.AppendLine($"{indent}    {{");
+        sb.AppendLine(indent + "        string t = item.Trim();");
+        sb.AppendLine(indent + "        if (!string.IsNullOrEmpty(t)) result.Add(parseItem(t));");
+        sb.AppendLine($"{indent}    }}");
+        sb.AppendLine(indent + "    return result;");
         sb.AppendLine($"{indent}}}");
     }
 

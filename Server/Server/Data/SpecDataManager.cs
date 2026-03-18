@@ -325,24 +325,24 @@ public partial class SpecDataManager
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // RewardId (int)
-                try { data.RewardId = ParseInt(cells[6]); }
+                // RewardIdList (list<int>)
+                try { data.RewardIdList = ParseList(cells[6], s => ParseInt(s)); }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine("[SpecDataManager] [QuestObjectiveDefinition] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 7 (RewardId)\n" +
-                        "  타입: int\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 7 (RewardIdList)\n" +
+                        "  타입: list<int>\n" +
                         "  값: \"" + cells[6] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // RewardAmount (int)
-                try { data.RewardAmount = ParseInt(cells[7]); }
+                // RewardAmountList (list<int>)
+                try { data.RewardAmountList = ParseList(cells[7], s => ParseInt(s)); }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine("[SpecDataManager] [QuestObjectiveDefinition] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 8 (RewardAmount)\n" +
-                        "  타입: int\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 8 (RewardAmountList)\n" +
+                        "  타입: list<int>\n" +
                         "  값: \"" + cells[7] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
@@ -696,6 +696,21 @@ public partial class SpecDataManager
     {
         if (string.IsNullOrEmpty(s)) return default;
         return (T)Enum.Parse(typeof(T), s, true);
+    }
+    static List<T> ParseList<T>(string s, Func<string, T> parseItem)
+    {
+        var result = new List<T>();
+        if (string.IsNullOrEmpty(s)) return result;
+        s = s.Trim();
+        if (s.Length > 0 && s[0] == '{') s = s.Substring(1);
+        if (s.Length > 0 && s[s.Length - 1] == '}') s = s.Substring(0, s.Length - 1);
+        if (string.IsNullOrEmpty(s)) return result;
+        foreach (var item in s.Split(','))
+        {
+            string t = item.Trim();
+            if (!string.IsNullOrEmpty(t)) result.Add(parseItem(t));
+        }
+        return result;
     }
 }
 }
