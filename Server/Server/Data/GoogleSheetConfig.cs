@@ -14,6 +14,9 @@ namespace Server.Data
             new List<string>
         {
             "Currency",
+            "Item",
+            "Equipment",
+            "Consumable",
             "QuestDefinition",
             "QuestObjectiveDefinition",
             "Monster",

@@ -3,11 +3,40 @@
 // Do NOT edit manually — 컬럼 구조 변경 시 GenSpecData.bat 재실행.
 // ============================================================
 
+public enum ItemType
+{
+    None = 0,
+    Equipment,
+    Consumable,
+    Misc,
+}
+
+public enum ItemGrade
+{
+    None = 0,
+    Normal,
+    Rare,
+    Epic,
+}
+
+public enum EquipSlot
+{
+    None = 0,
+    MainWeapon,
+}
+
+public enum ConsumableEffectType
+{
+    None = 0,
+    RecoveryHP,
+}
+
 public enum ConfigType
 {
     None = 0,
     RequiredIdleTime,
     DefaultCreationMainQuestId,
     DefaultCreationSubQuestId,
+    DefaultInventorySize,
 }
 

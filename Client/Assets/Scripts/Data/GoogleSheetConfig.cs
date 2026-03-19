@@ -12,6 +12,9 @@ public static class GoogleSheetConfig
         new List<string>
     {
         "Currency",
+        "Item",
+        "Equipment",
+        "Consumable",
         "QuestDefinition",
         "QuestObjectiveDefinition",
         "Monster",

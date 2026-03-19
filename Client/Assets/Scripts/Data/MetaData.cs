@@ -16,6 +16,42 @@ public class CurrencyMetaData
     public CurrencyType CurrencyType;
 }
 
+// ── Item
+[Serializable]
+public class ItemMetaData
+{
+    public int Id;
+    public ItemType ItemType;
+    public ItemGrade ItemGrade;
+    public string ItemName;
+    public int MaxStack;
+    public bool CanSell;
+    public int SellPrice;
+    public string Description;
+}
+
+// ── Equipment
+[Serializable]
+public class EquipmentMetaData
+{
+    public int Id;
+    public EquipSlot EquipSlot;
+    public float Attack;
+    public float Defense;
+    public int RequiredLevel;
+}
+
+// ── Consumable
+[Serializable]
+public class ConsumableMetaData
+{
+    public int Id;
+    public ConsumableEffectType ConsumableEffectType;
+    public float EffectValue;
+    public float Duration;
+    public float CoolTime;
+}
+
 // ── QuestDefinition
 [Serializable]
 public class QuestDefinitionMetaData
@@ -26,8 +62,8 @@ public class QuestDefinitionMetaData
     public string Title;
     public int ReqLevel;
     public int PrereqQuestId;
-    public int RewardId;
-    public int RewardAmount;
+    public List<int> RewardIdList;
+    public List<int> RewardAmountList;
     public string Description;
 }
 

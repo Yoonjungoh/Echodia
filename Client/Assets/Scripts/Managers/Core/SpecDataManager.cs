@@ -19,6 +19,12 @@ public partial class SpecDataManager
 
     Dictionary<int, CurrencyMetaData> _currencyDict = new Dictionary<int, CurrencyMetaData>();
     List<CurrencyMetaData>            _currencyList = new List<CurrencyMetaData>();
+    Dictionary<int, ItemMetaData> _itemDict = new Dictionary<int, ItemMetaData>();
+    List<ItemMetaData>            _itemList = new List<ItemMetaData>();
+    Dictionary<int, EquipmentMetaData> _equipmentDict = new Dictionary<int, EquipmentMetaData>();
+    List<EquipmentMetaData>            _equipmentList = new List<EquipmentMetaData>();
+    Dictionary<int, ConsumableMetaData> _consumableDict = new Dictionary<int, ConsumableMetaData>();
+    List<ConsumableMetaData>            _consumableList = new List<ConsumableMetaData>();
     Dictionary<int, QuestDefinitionMetaData> _questDefinitionDict = new Dictionary<int, QuestDefinitionMetaData>();
     List<QuestDefinitionMetaData>            _questDefinitionList = new List<QuestDefinitionMetaData>();
     Dictionary<int, QuestObjectiveDefinitionMetaData> _questObjectiveDefinitionDict = new Dictionary<int, QuestObjectiveDefinitionMetaData>();
@@ -34,6 +40,9 @@ public partial class SpecDataManager
         Debug.Log("[SpecDataManager] 데이터 다운로드 시작");
 
         yield return CoFetch_Currency();
+        yield return CoFetch_Item();
+        yield return CoFetch_Equipment();
+        yield return CoFetch_Consumable();
         yield return CoFetch_QuestDefinition();
         yield return CoFetch_QuestObjectiveDefinition();
         yield return CoFetch_Monster();
@@ -102,6 +111,324 @@ public partial class SpecDataManager
             }
 
             Debug.Log("[SpecDataManager] Currency 로드 완료: " + _currencyList.Count + "개");
+        }
+    }
+
+    IEnumerator CoFetch_Item()
+    {
+        string url = GoogleSheetConfig.BuildJsonUrl("Item");
+        using (UnityWebRequest req = UnityWebRequest.Get(url))
+        {
+            yield return req.SendWebRequest();
+            if (req.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("[SpecDataManager] Item 다운로드 실패: " + req.error);
+                yield break;
+            }
+
+            _itemDict.Clear();
+            _itemList.Clear();
+
+            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 8);
+            for (int i = 2; i < rows.Count; i++)
+            {
+                string[] cells = rows[i];
+                if (string.IsNullOrEmpty(cells[0])) continue;
+                int sheetRow = i + 1;
+                ItemMetaData data = new ItemMetaData();
+                bool rowOk = true;
+
+                // Id (int)
+                try { data.Id = ParseInt(cells[0]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Item] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 1 (Id)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[0] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // ItemType (enum)
+                try { data.ItemType = ParseEnum<ItemType>(cells[1]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Item] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 2 (ItemType)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[1] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // ItemGrade (enum)
+                try { data.ItemGrade = ParseEnum<ItemGrade>(cells[2]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Item] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (ItemGrade)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[2] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // ItemName (string)
+                try { data.ItemName = cells[3]; }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Item] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 4 (ItemName)\n" +
+                        "  타입: string\n" +
+                        "  값: \"" + cells[3] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // MaxStack (int)
+                try { data.MaxStack = ParseInt(cells[4]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Item] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 5 (MaxStack)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[4] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // CanSell (bool)
+                try { data.CanSell = (cells[5] == "true" || cells[5] == "1" || cells[5] == "yes"); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Item] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 6 (CanSell)\n" +
+                        "  타입: bool\n" +
+                        "  값: \"" + cells[5] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // SellPrice (int)
+                try { data.SellPrice = ParseInt(cells[6]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Item] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 7 (SellPrice)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[6] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Description (string)
+                try { data.Description = cells[7]; }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Item] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 8 (Description)\n" +
+                        "  타입: string\n" +
+                        "  값: \"" + cells[7] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+
+                if (rowOk)
+                {
+                    _itemDict[data.Id] = data;
+                    _itemList.Add(data);
+                }
+                else
+                {
+                    Debug.LogWarning("[SpecDataManager] [Item] 행 " + sheetRow + " 파싱 오류로 스킵됨.");
+                }
+            }
+
+            Debug.Log("[SpecDataManager] Item 로드 완료: " + _itemList.Count + "개");
+        }
+    }
+
+    IEnumerator CoFetch_Equipment()
+    {
+        string url = GoogleSheetConfig.BuildJsonUrl("Equipment");
+        using (UnityWebRequest req = UnityWebRequest.Get(url))
+        {
+            yield return req.SendWebRequest();
+            if (req.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("[SpecDataManager] Equipment 다운로드 실패: " + req.error);
+                yield break;
+            }
+
+            _equipmentDict.Clear();
+            _equipmentList.Clear();
+
+            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 5);
+            for (int i = 2; i < rows.Count; i++)
+            {
+                string[] cells = rows[i];
+                if (string.IsNullOrEmpty(cells[0])) continue;
+                int sheetRow = i + 1;
+                EquipmentMetaData data = new EquipmentMetaData();
+                bool rowOk = true;
+
+                // Id (int)
+                try { data.Id = ParseInt(cells[0]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Equipment] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 1 (Id)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[0] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // EquipSlot (enum)
+                try { data.EquipSlot = ParseEnum<EquipSlot>(cells[1]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Equipment] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 2 (EquipSlot)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[1] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Attack (float)
+                try { data.Attack = ParseFloat(cells[2]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Equipment] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (Attack)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[2] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Defense (float)
+                try { data.Defense = ParseFloat(cells[3]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Equipment] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 4 (Defense)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[3] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // RequiredLevel (int)
+                try { data.RequiredLevel = ParseInt(cells[4]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Equipment] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 5 (RequiredLevel)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[4] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+
+                if (rowOk)
+                {
+                    _equipmentDict[data.Id] = data;
+                    _equipmentList.Add(data);
+                }
+                else
+                {
+                    Debug.LogWarning("[SpecDataManager] [Equipment] 행 " + sheetRow + " 파싱 오류로 스킵됨.");
+                }
+            }
+
+            Debug.Log("[SpecDataManager] Equipment 로드 완료: " + _equipmentList.Count + "개");
+        }
+    }
+
+    IEnumerator CoFetch_Consumable()
+    {
+        string url = GoogleSheetConfig.BuildJsonUrl("Consumable");
+        using (UnityWebRequest req = UnityWebRequest.Get(url))
+        {
+            yield return req.SendWebRequest();
+            if (req.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("[SpecDataManager] Consumable 다운로드 실패: " + req.error);
+                yield break;
+            }
+
+            _consumableDict.Clear();
+            _consumableList.Clear();
+
+            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 5);
+            for (int i = 2; i < rows.Count; i++)
+            {
+                string[] cells = rows[i];
+                if (string.IsNullOrEmpty(cells[0])) continue;
+                int sheetRow = i + 1;
+                ConsumableMetaData data = new ConsumableMetaData();
+                bool rowOk = true;
+
+                // Id (int)
+                try { data.Id = ParseInt(cells[0]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Consumable] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 1 (Id)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[0] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // ConsumableEffectType (enum)
+                try { data.ConsumableEffectType = ParseEnum<ConsumableEffectType>(cells[1]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Consumable] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 2 (ConsumableEffectType)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[1] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // EffectValue (float)
+                try { data.EffectValue = ParseFloat(cells[2]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Consumable] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (EffectValue)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[2] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Duration (float)
+                try { data.Duration = ParseFloat(cells[3]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Consumable] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 4 (Duration)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[3] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // CoolTime (float)
+                try { data.CoolTime = ParseFloat(cells[4]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Consumable] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 5 (CoolTime)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[4] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+
+                if (rowOk)
+                {
+                    _consumableDict[data.Id] = data;
+                    _consumableList.Add(data);
+                }
+                else
+                {
+                    Debug.LogWarning("[SpecDataManager] [Consumable] 행 " + sheetRow + " 파싱 오류로 스킵됨.");
+                }
+            }
+
+            Debug.Log("[SpecDataManager] Consumable 로드 완료: " + _consumableList.Count + "개");
         }
     }
 
@@ -195,24 +522,24 @@ public partial class SpecDataManager
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // RewardId (int)
-                try { data.RewardId = ParseInt(cells[6]); }
+                // RewardIdList (list<int>)
+                try { data.RewardIdList = ParseList(cells[6], s => ParseInt(s)); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [QuestDefinition] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 7 (RewardId)\n" +
-                        "  타입: int\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 7 (RewardIdList)\n" +
+                        "  타입: list<int>\n" +
                         "  값: \"" + cells[6] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // RewardAmount (int)
-                try { data.RewardAmount = ParseInt(cells[7]); }
+                // RewardAmountList (list<int>)
+                try { data.RewardAmountList = ParseList(cells[7], s => ParseInt(s)); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [QuestDefinition] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 8 (RewardAmount)\n" +
-                        "  타입: int\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 8 (RewardAmountList)\n" +
+                        "  타입: list<int>\n" +
                         "  값: \"" + cells[7] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
@@ -631,6 +958,39 @@ public partial class SpecDataManager
     public List<CurrencyMetaData> GetAllCurrency()
     {
         return _currencyList;
+    }
+
+    public ItemMetaData GetItem(int id)
+    {
+        _itemDict.TryGetValue(id, out ItemMetaData result);
+        return result;
+    }
+
+    public List<ItemMetaData> GetAllItem()
+    {
+        return _itemList;
+    }
+
+    public EquipmentMetaData GetEquipment(int id)
+    {
+        _equipmentDict.TryGetValue(id, out EquipmentMetaData result);
+        return result;
+    }
+
+    public List<EquipmentMetaData> GetAllEquipment()
+    {
+        return _equipmentList;
+    }
+
+    public ConsumableMetaData GetConsumable(int id)
+    {
+        _consumableDict.TryGetValue(id, out ConsumableMetaData result);
+        return result;
+    }
+
+    public List<ConsumableMetaData> GetAllConsumable()
+    {
+        return _consumableList;
     }
 
     public QuestDefinitionMetaData GetQuestDefinition(int id)
