@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf.Protocol;
 using Microsoft.EntityFrameworkCore;
+using Server.Data;
 using Server.DB;
 using Server.Game;
 using System;
@@ -171,6 +172,48 @@ namespace Server.DB
                     transaction.Rollback();
                     Console.WriteLine($"[DB Error] GiveQuestReward Failed. Player:{player.PlayerId}, Quest:{mainQuestId}-{subQuestId}, {e.Message}");
                 }
+            }
+        }
+
+        // 퀘스트 보상 수령 후 다음 퀘스트를 DB에 생성하고 클라이언트에 알림
+        // GiveQuestReward onSuccess 콜백에서 호출됨
+        public static void CreateQuestChain(Player player, int mainQuestId, int subQuestId)
+        {
+            Instance.Push(() => CreateQuestChain_Db(player, mainQuestId, subQuestId));
+        }
+
+        private static void CreateQuestChain_Db(Player player, int mainQuestId, int subQuestId)
+        {
+            QuestObjectiveDefinitionMetaData objective = SpecDataManager.Instance.GetQuestObjectiveDefinition(mainQuestId, subQuestId);
+
+            using (GameDbContext db = new GameDbContext())
+            {
+                QuestDb quest = new QuestDb()
+                {
+                    PlayerDbId = player.PlayerId,
+                    MainQuestId = mainQuestId,
+                    SubQuestId = subQuestId,
+                    TargetId = objective?.TargetId ?? 0,
+                    RequiredCount = 0,
+                    Status = QuestStatus.NotAccepted,
+                    StartedDate = DateTime.UtcNow,
+                };
+
+                db.Quests.Add(quest);
+                bool success = db.SaveChangesEx();
+                if (!success)
+                {
+                    Console.WriteLine($"[DB Error] CreateQuestChain: Save failed. Player:{player.PlayerId}, Quest:{mainQuestId}-{subQuestId}");
+                    return;
+                }
+
+                player.Session?.Send(new S_CreateQuest
+                {
+                    MainQuestId = mainQuestId,
+                    SubQuestId = subQuestId,
+                });
+
+                player.GameRoom?.Push(() => player.QuestTracker.Load());
             }
         }
 

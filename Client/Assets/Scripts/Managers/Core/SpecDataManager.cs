@@ -447,7 +447,7 @@ public partial class SpecDataManager
             _questDefinitionDict.Clear();
             _questDefinitionList.Clear();
 
-            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 9);
+            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 10);
             for (int i = 2; i < rows.Count; i++)
             {
                 string[] cells = rows[i];
@@ -544,14 +544,25 @@ public partial class SpecDataManager
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // Description (string)
-                try { data.Description = cells[8]; }
+                // NextQuestIdList (list<int>)
+                try { data.NextQuestIdList = ParseList(cells[8], s => ParseInt(s)); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [QuestDefinition] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 9 (Description)\n" +
-                        "  타입: string\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 9 (NextQuestIdList)\n" +
+                        "  타입: list<int>\n" +
                         "  값: \"" + cells[8] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Description (string)
+                try { data.Description = cells[9]; }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [QuestDefinition] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 10 (Description)\n" +
+                        "  타입: string\n" +
+                        "  값: \"" + cells[9] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }

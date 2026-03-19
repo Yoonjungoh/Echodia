@@ -66,6 +66,7 @@ namespace Server.Data
         public int PrereqQuestId;
         public List<int> RewardIdList;
         public List<int> RewardAmountList;
+        public List<int> NextQuestIdList;
         public string Description;
     }
 

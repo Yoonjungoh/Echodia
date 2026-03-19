@@ -123,7 +123,45 @@ namespace Server
                 }
                 player.Session?.Send(giveRewardPacket);
                 // S_UpdateCurrencyData는 GiveQuestReward_Db 내부에서 자동 전송됨
+
+                // 연계 퀘스트 있나 확인
+                TryAssignNextQuest(player, mainQuestId, subQuestId);
             });
+        }
+
+        // 보상 수령 후 다음 퀘스트 생성
+        // 같은 메인의 다음 서브가 있으면 생성, 없으면 QuestDefinition.NextQuestIdList 기반으로 생성
+        private void TryAssignNextQuest(Player player, int completedMainQuestId, int completedSubQuestId)
+        {
+            // 1. 같은 메인 퀘스트의 다음 서브 퀘스트가 있으면 생성
+            QuestObjectiveDefinitionMetaData nextSubObjective = SpecDataManager.Instance.GetQuestObjectiveDefinition(completedMainQuestId, completedSubQuestId + 1);
+            if (nextSubObjective != null)
+            {
+                DbTransaction.CreateQuestChain(player, completedMainQuestId, nextSubObjective.SubQuestId);
+                return;
+            }
+
+            // 2. 마지막 서브였다면 QuestDefinition의 NextQuestIdList에서 다음 메인 퀘스트 목록 조회
+            QuestDefinitionMetaData questDef = SpecDataManager.Instance.GetQuestDefinition(completedMainQuestId);
+            if (questDef == null || questDef.NextQuestIdList == null || questDef.NextQuestIdList.Count == 0)
+            {
+                Console.WriteLine($"[Quest] Player {player.PlayerId}: 퀘스트 체인 종료. (마지막: {completedMainQuestId}-{completedSubQuestId})");
+                return;
+            }
+
+            int count = questDef.NextQuestIdList.Count;
+            List<int> questIdList = questDef.NextQuestIdList;
+            for (int i = 0; i < count; ++i)
+            {
+                int nextMainQuestId = questIdList[i];
+                QuestObjectiveDefinitionMetaData firstObjective = SpecDataManager.Instance.GetQuestObjectiveDefinition(nextMainQuestId, 1);
+                if (firstObjective == null)
+                {
+                    Console.WriteLine($"[Quest] TryAssignNextQuest: {nextMainQuestId}-1 objective를 스펙시트에서 찾을 수 없습니다.");
+                    continue;
+                }
+                DbTransaction.CreateQuestChain(player, nextMainQuestId, 1);
+            }
         }
 
         // 퀘스트 생성하고 DB에 저장하고 패킷도 클라에게 전송
