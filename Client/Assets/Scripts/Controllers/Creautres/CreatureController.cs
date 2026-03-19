@@ -23,7 +23,7 @@ public class CreatureController : BaseController
 
     protected string _dieEffectName;
     protected Vector3 _dieEffectOffset;
-    
+
     protected AttackType _meleeAttackType = AttackType.None;
     protected AttackType _rangedAttackType = AttackType.None;
 
@@ -61,14 +61,18 @@ public class CreatureController : BaseController
 
         // 체력바 소환 (풀링 재사용 시 중복 생성 방지)
         if (_hpBar == null)
+        {
             _hpBar = Managers.UI.MakeWorldSpaceUI<UI_HpBar>(transform, worldPositionStays: false);
+        }
         _hpBarPosOffset = Vector3.up * _collider.bounds.size.y;
         _hpBar.SetData(_hpBarPosOffset);
         _hpBar.UpdateHpBar(Stat.Hp, Stat.MaxHp);
 
         // 이름바 소환 (풀링 재사용 시 중복 생성 방지)
         if (_nameBar == null)
+        {
             _nameBar = Managers.UI.MakeWorldSpaceUI<UI_NameBar>(transform, worldPositionStays: false);
+        }
         _nameBarPosOffset = Vector3.up * (_collider.bounds.size.y + 0.5f);
         _nameBar.SetData(Name, _nameBarPosOffset);
 
@@ -113,8 +117,8 @@ public class CreatureController : BaseController
         _nameBar?.SetData(Name, _nameBarPosOffset);
     }
 
-    protected override void UpdateMove() 
-    { 
+    protected override void UpdateMove()
+    {
         base.UpdateMove();
     }
 
@@ -142,7 +146,7 @@ public class CreatureController : BaseController
         transform.position = Vector3.Lerp(transform.position, predicted, Time.deltaTime * _lerpSpeed);
         transform.rotation = Quaternion.Slerp(transform.rotation, _serverRotation, Time.deltaTime * _lerpSpeed);
     }
-    
+
     protected override void OnDestroy()
     {
         base.OnDestroy();
@@ -165,8 +169,8 @@ public class CreatureController : BaseController
 
         // 데미지 계산
         float damage = Stat.Hp - remainHp;
-        Stat.Hp -= damage;
-        
+        SetHp(Stat.Hp - damage, Stat.MaxHp);
+
         // 체력바 갱신
         _hpBar.UpdateHpBar(Stat.Hp, Stat.MaxHp);
     }
@@ -229,5 +233,11 @@ public class CreatureController : BaseController
     public virtual void SetLevel(int level)
     {
         ObjectState.Level = level;
+    }
+
+    public virtual void SetHp(float hp, float maxHp)
+    {
+        ObjectState.Stat.Hp = hp;
+        ObjectState.Stat.MaxHp = maxHp;
     }
 }

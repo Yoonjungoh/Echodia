@@ -30,11 +30,7 @@ public class MyPlayerController : PlayerController
 
     private Action<int> OnLevelChanged;
     private Action<int, int> OnExpChanged;
-
-    private void OnMeleeAttackInput() => MeleeAttack(_meleeAttackType);
-
-    private void OnProjectileSpawnInput() => ProjectileSpawn(_rangedAttackType);
-
+    public Action<float, float> OnHpChanged;
     public override void Init()
     {
         base.Init();
@@ -43,24 +39,21 @@ public class MyPlayerController : PlayerController
         _prevRotation = transform.rotation;
         _prevVelocity = Vector3.zero;
 
-        if (Managers.Scene.CurrentScene == Define.Scene.GameRoom)
-        {
-            _projectileType = ProjectileType.MagicMissile;
-            _attackCoolTimeDict = new Dictionary<AttackType, float>()
+        _projectileType = ProjectileType.MagicMissile;
+        _attackCoolTimeDict = new Dictionary<AttackType, float>()
            {
                 { AttackType.CommonAttack, Stat.CommonAttackCoolTime },
                 { AttackType.RangedAttack, Stat.MagicMissileAttackCoolTime }
            };
 
-            // 커서 잠금
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+        // 커서 잠금
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
-            _meleeAttackType = AttackType.CommonAttack;
-            _rangedAttackType = AttackType.RangedAttack;
+        _meleeAttackType = AttackType.CommonAttack;
+        _rangedAttackType = AttackType.RangedAttack;
 
-            OnStartGame();
-        }
+        OnStartGame();
     }
 
     private void Start()
@@ -294,6 +287,9 @@ public class MyPlayerController : PlayerController
 
         OnExpChanged -= gameRoomUI.SetExp;
         OnExpChanged += gameRoomUI.SetExp;
+
+        OnHpChanged -= gameRoomUI.SetHp;
+        OnHpChanged += gameRoomUI.SetHp;
     }
 
     public override void SetExp(int exp, int maxExp)
@@ -308,6 +304,12 @@ public class MyPlayerController : PlayerController
         OnLevelChanged?.Invoke(level); // 등록된 UI 함수 실행
     }
 
+    public override void SetHp(float hp, float maxHp)
+    {
+        base.SetHp(hp, maxHp);
+        OnHpChanged?.Invoke(hp, maxHp);
+    }
+
     private void OnQuestPopupInput()
     {
         if (Managers.UI.IsPopupActive<UI_Quest>())
@@ -318,6 +320,16 @@ public class MyPlayerController : PlayerController
         {
             Managers.UI.ShowPopupUI<UI_Quest>();
         }
+    }
+
+    private void OnMeleeAttackInput()
+    {
+        MeleeAttack(_meleeAttackType);
+    }
+
+    private void OnProjectileSpawnInput()
+    {
+        ProjectileSpawn(_rangedAttackType);
     }
 
     #region Gizmos 코드

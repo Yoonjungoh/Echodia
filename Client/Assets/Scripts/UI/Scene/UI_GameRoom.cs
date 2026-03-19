@@ -14,11 +14,13 @@ public class UI_GameRoom : UI_Scene
     {
         LevelText,
         ExpText,
+        HpText,
     }
 
     enum Sliders
     {
         ExpSlider,
+        HpBarSlider,
     }
 
     enum Buttons
@@ -37,6 +39,8 @@ public class UI_GameRoom : UI_Scene
 
     private TextMeshProUGUI _levelText;
     private TextMeshProUGUI _expText;
+    private TextMeshProUGUI _hpText;
+    private Slider _hpBarSlider;
     private Slider _expSlider;
     private GameObject _questRedDot;
 
@@ -51,17 +55,20 @@ public class UI_GameRoom : UI_Scene
 
         _levelText = GetTextMeshProUGUI((int)Texts.LevelText);
         _expText = GetTextMeshProUGUI((int)Texts.ExpText);
+        _hpText = GetTextMeshProUGUI((int)Texts.HpText);
         _expSlider = Get<Slider>((int)Sliders.ExpSlider);
+        _hpBarSlider = Get<Slider>((int)Sliders.HpBarSlider);
         _questRedDot = Get<GameObject>((int)GameObjects.QuestRedDot);
 
         GetButton((int)Buttons.QuestPopupButton).onClick.AddListener(OnClickQuestPopupInput);
 
+        Managers.RedDot.OnRedDotChanged -= OnRedDotChanged;
         Managers.RedDot.OnRedDotChanged += OnRedDotChanged;
         _questRedDot.SetActive(Managers.RedDot.IsActive(RedDotType.Quest));
 
         RequestInitGameRoomData();
     }
-    
+
     private void OnDestroy()
     {
         Managers.RedDot.OnRedDotChanged -= OnRedDotChanged;
@@ -96,7 +103,7 @@ public class UI_GameRoom : UI_Scene
         _level = initGameRoomData.Level;
         _exp = initGameRoomData.Exp;
         _maxExp = initGameRoomData.MaxExp;
-        
+
         UpdateUI();
     }
 
@@ -112,7 +119,13 @@ public class UI_GameRoom : UI_Scene
     {
         _level = level;
 
-         UpdateUI();
+        UpdateUI();
+    }
+
+    public void SetHp(float hp, float maxHp)
+    {
+        _hpText.text = $"Hp: {hp}/{maxHp}";
+        _hpBarSlider.value = hp / maxHp;
     }
 
     private void UpdateUI()
