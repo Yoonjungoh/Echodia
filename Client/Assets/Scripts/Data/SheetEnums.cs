@@ -25,13 +25,13 @@ public enum EquipmentType
     BasicSword,
 }
 
-public enum EquipSlot
+public enum EquipSlotType
 {
     None = 0,
     MainWeapon,
 }
 
-public enum ConsumableEffectType
+public enum ConsumableType
 {
     None = 0,
     BasicRecoveryHpPotion,
@@ -40,7 +40,7 @@ public enum ConsumableEffectType
 public enum MiscType
 {
     None = 0,
-    BearSkin,
+    BearLeather,
 }
 
 public enum ConfigType
@@ -50,5 +50,8 @@ public enum ConfigType
     DefaultCreationMainQuestId,
     DefaultCreationSubQuestId,
     DefaultInventorySize,
+    EquipmentStartId,
+    ConsumableStartId,
+    MiscStartId,
 }
 

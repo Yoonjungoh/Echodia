@@ -36,7 +36,7 @@ public class EquipmentMetaData
 {
     public int Id;
     public EquipmentType EquipmentType;
-    public EquipSlot EquipSlot;
+    public EquipSlotType EquipSlotType;
     public float Attack;
     public float Defense;
     public int RequiredLevel;
@@ -47,7 +47,7 @@ public class EquipmentMetaData
 public class ConsumableMetaData
 {
     public int Id;
-    public ConsumableEffectType ConsumableEffectType;
+    public ConsumableType ConsumableType;
     public float EffectValue;
     public float Duration;
     public float CoolTime;

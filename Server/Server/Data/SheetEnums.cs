@@ -27,13 +27,13 @@ namespace Server.Data
         BasicSword,
     }
     
-    public enum EquipSlot
+    public enum EquipSlotType
     {
         None = 0,
         MainWeapon,
     }
     
-    public enum ConsumableEffectType
+    public enum ConsumableType
     {
         None = 0,
         BasicRecoveryHpPotion,
@@ -42,7 +42,7 @@ namespace Server.Data
     public enum MiscType
     {
         None = 0,
-        BearSkin,
+        BearLeather,
     }
     
     public enum ConfigType
@@ -52,6 +52,9 @@ namespace Server.Data
         DefaultCreationMainQuestId,
         DefaultCreationSubQuestId,
         DefaultInventorySize,
+        EquipmentStartId,
+        ConsumableStartId,
+        MiscStartId,
     }
     
     

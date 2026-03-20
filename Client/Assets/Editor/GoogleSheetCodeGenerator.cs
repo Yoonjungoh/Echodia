@@ -410,24 +410,83 @@ public class GoogleSheetCodeGenerator : EditorWindow
 
         foreach (var kv in _results)
         {
+            // 해당 시트의 Id 컬럼 (enum 값 할당에 사용)
+            ColumnInfo idColumn = kv.Value.Columns.Find(c => c.FieldName == "Id");
+
             foreach (var col in kv.Value.Columns)
             {
-                if (col.TypeHint != "enum") continue;
+                if (col.TypeHint != "enum" && col.TypeHint != "enum_id") continue;
                 if (!written.Add(col.FieldName)) continue;
+
+                // ── enum_id : 명시적 지정 → 항상 Id 값 사용
+                // ── enum    : 해당 컬럼의 모든 값이 행과 1:1(고유)하면 자동으로 Id 값 사용,
+                //              중복 값이 있으면 순차 enum (None=0, A, B, C …).
+                bool useIdValues = false;
+                if (idColumn != null)
+                {
+                    if (col.TypeHint == "enum_id")
+                    {
+                        useIdValues = true;
+                        Log($"  [{col.FieldName}] enum_id → Id 기반 enum (시트: {kv.Key})");
+                    }
+                    else
+                    {
+                        // 컬럼 내 모든 값이 고유한지 확인
+                        var seenVals = new HashSet<string>();
+                        bool isOneToOne = true;
+                        foreach (var r in kv.Value.SampleRows)
+                        {
+                            string v = col.ColIndex < r.Count ? r[col.ColIndex].Trim() : "";
+                            if (!string.IsNullOrEmpty(v) && !seenVals.Add(v))
+                            {
+                                isOneToOne = false;
+                                break;
+                            }
+                        }
+                        useIdValues = isOneToOne;
+                        if (isOneToOne)
+                            Log($"  [{col.FieldName}] 값 고유 → Id 기반 enum 자동 생성 (시트: {kv.Key})");
+                        else
+                            Log($"  [{col.FieldName}] 중복 값 존재 → 순차 enum (시트: {kv.Key})");
+                    }
+                }
 
                 any = true;
                 sb.AppendLine($"public enum {col.FieldName}");
                 sb.AppendLine("{");
                 sb.AppendLine("    None = 0,");
 
-                int idx  = kv.Value.Columns.IndexOf(col);
-                var seen = new HashSet<string> { "None" };
+                var seen   = new HashSet<string> { "None" };
+                // Id 값 중복 감지용: idVal → 먼저 등록된 enum 이름
+                var usedIds = new Dictionary<int, string>();
 
                 foreach (var row in kv.Value.SampleRows)
                 {
-                    string val = idx < row.Count ? row[idx].Trim() : "";
+                    string val = col.ColIndex < row.Count ? row[col.ColIndex].Trim() : "";
                     if (!string.IsNullOrEmpty(val) && seen.Add(val))
+                    {
+                        if (useIdValues && idColumn.ColIndex < row.Count)
+                        {
+                            string rawId = row[idColumn.ColIndex].Trim();
+                            // GViz JSON은 정수를 "100000.0"으로 반환할 수 있으므로 처리
+                            if (!string.IsNullOrEmpty(rawId))
+                            {
+                                if (rawId.Contains("."))
+                                    rawId = rawId.Split('.')[0];
+                                if (int.TryParse(rawId, out int idVal))
+                                {
+                                    if (usedIds.TryGetValue(idVal, out string prevVal))
+                                        Log($"  [경고] {col.FieldName} Id 중복! '{val}'과 '{prevVal}'이 같은 Id={idVal}를 사용합니다. (시트: {kv.Key})");
+                                    else
+                                        usedIds[idVal] = val;
+
+                                    sb.AppendLine($"    {val} = {idVal},");
+                                    continue;
+                                }
+                            }
+                        }
                         sb.AppendLine($"    {val},");
+                    }
                 }
 
                 sb.AppendLine("}");
@@ -447,6 +506,7 @@ public class GoogleSheetCodeGenerator : EditorWindow
         var sb = new StringBuilder();
         AppendFileHeader(sb);
         sb.AppendLine("using System;");
+        sb.AppendLine("using System.Collections.Generic;");
         sb.AppendLine();
         sb.AppendLine("// 모든 MetaData 클래스는 이 파일에서 통합 관리합니다.");
         sb.AppendLine("// 컬럼 구조가 바뀌면 에디터 툴을 재실행하세요.");
@@ -880,28 +940,30 @@ public class GoogleSheetCodeGenerator : EditorWindow
     // ──────────────────────────────────────────
     private static string HintToCsType(string hint, string fieldName) => hint switch
     {
-        "int"    => "int",
-        "float"  => "float",
-        "double" => "double",
-        "bool"   => "bool",
-        "long"   => "long",
-        "string" => "string",
-        "enum"   => fieldName,
-        _        => "string"
+        "int"     => "int",
+        "float"   => "float",
+        "double"  => "double",
+        "bool"    => "bool",
+        "long"    => "long",
+        "string"  => "string",
+        "enum"    => fieldName,
+        "enum_id" => fieldName,   // Id 기반 enum도 C# 타입은 동일
+        _         => "string"
     };
 
     private static string BuildParseExpression(string cellExpr, string hint, string fieldName)
     {
         return hint switch
         {
-            "int"    => $"ParseInt({cellExpr})",
-            "float"  => $"ParseFloat({cellExpr})",
-            "double" => $"string.IsNullOrEmpty({cellExpr}) ? 0.0 : double.Parse({cellExpr}, System.Globalization.CultureInfo.InvariantCulture)",
-            "long"   => $"string.IsNullOrEmpty({cellExpr}) ? 0L : long.Parse({cellExpr})",
-            "bool"   => $"({cellExpr} == \"true\" || {cellExpr} == \"1\" || {cellExpr} == \"yes\")",
-            "string" => cellExpr,
-            "enum"   => $"ParseEnum<{fieldName}>({cellExpr})",
-            _        => cellExpr,
+            "int"     => $"ParseInt({cellExpr})",
+            "float"   => $"ParseFloat({cellExpr})",
+            "double"  => $"string.IsNullOrEmpty({cellExpr}) ? 0.0 : double.Parse({cellExpr}, System.Globalization.CultureInfo.InvariantCulture)",
+            "long"    => $"string.IsNullOrEmpty({cellExpr}) ? 0L : long.Parse({cellExpr})",
+            "bool"    => $"({cellExpr} == \"true\" || {cellExpr} == \"1\" || {cellExpr} == \"yes\")",
+            "string"  => cellExpr,
+            "enum"    => $"ParseEnum<{fieldName}>({cellExpr})",
+            "enum_id" => $"ParseEnum<{fieldName}>({cellExpr})",  // 런타임 파싱은 enum과 동일
+            _         => cellExpr,
         };
     }
 

@@ -79,6 +79,10 @@ namespace Server
             }
 
             // 보상 목록 구성 + 검증
+            // TODO - Currency만 보상으로 뿌릴 수 있는데, 
+            // Item 테이블에 있는 Equipement, Consumable, Misc 전부 보상으로 뿌릴 수 있어야 함
+            // 재화는 Id가 1부터, Equipement는 10만, Consumable는 20만, Misc는 30만부터 시작이니
+            // 이를 이용하면 될듯
             var rewards = new List<(CurrencyType currencyType, int amount)>();
             int count = objective.RewardIdList.Count;
             for (int i = 0; i < count; i++)

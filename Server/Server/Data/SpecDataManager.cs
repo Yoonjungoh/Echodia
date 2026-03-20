@@ -282,12 +282,12 @@ public partial class SpecDataManager
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // EquipSlot (enum)
-                try { data.EquipSlot = ParseEnum<EquipSlot>(cells[2]); }
+                // EquipSlotType (enum)
+                try { data.EquipSlotType = ParseEnum<EquipSlotType>(cells[2]); }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine("[SpecDataManager] [Equipment] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 3 (EquipSlot)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (EquipSlotType)\n" +
                         "  타입: enum\n" +
                         "  값: \"" + cells[2] + "\"\n" +
                         "  원인: " + e.Message);
@@ -374,12 +374,12 @@ public partial class SpecDataManager
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // ConsumableEffectType (enum)
-                try { data.ConsumableEffectType = ParseEnum<ConsumableEffectType>(cells[1]); }
+                // ConsumableType (enum)
+                try { data.ConsumableType = ParseEnum<ConsumableType>(cells[1]); }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine("[SpecDataManager] [Consumable] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 2 (ConsumableEffectType)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 2 (ConsumableType)\n" +
                         "  타입: enum\n" +
                         "  값: \"" + cells[1] + "\"\n" +
                         "  원인: " + e.Message);
