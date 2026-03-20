@@ -68,12 +68,10 @@ namespace Server
 
         // 클라이언트가 Complete 버튼을 눌러 보상 수령 요청 시 호출
         // 검증 -> 보상 목록 구성 -> DB 업데이트(RewardClaimed + 모든 재화) -> 패킷 전송
+        // -> 다음 연쇄 퀘스트 생성 (조건 만족 시)
         public void ClaimReward(Player player, int mainQuestId, int subQuestId)
         {
-            List<QuestObjectiveDefinitionMetaData> allObjectives = SpecDataManager.Instance.GetAllQuestObjectiveDefinition();
-            QuestObjectiveDefinitionMetaData objective = allObjectives.FirstOrDefault(o =>
-                o.MainQuestId == mainQuestId && o.SubQuestId == subQuestId);
-
+            QuestObjectiveDefinitionMetaData objective = SpecDataManager.Instance.GetQuestObjectiveDefinition(mainQuestId, subQuestId);
             if (objective == null)
             {
                 Console.WriteLine($"[Quest] ClaimReward: objective not found ({mainQuestId}-{subQuestId})");
@@ -154,6 +152,18 @@ namespace Server
             for (int i = 0; i < count; ++i)
             {
                 int nextMainQuestId = questIdList[i];
+
+                // 선행 퀘스트 완료 여부 확인
+                QuestDefinitionMetaData nextQuestDef = SpecDataManager.Instance.GetQuestDefinition(nextMainQuestId);
+                if (nextQuestDef != null && nextQuestDef.PrereqQuestId != 0)
+                {
+                    if (!IsMainQuestRewardClaimed(player.PlayerId, nextQuestDef.PrereqQuestId))
+                    {
+                        Console.WriteLine($"[Quest] TryAssignNextQuest: 선행 퀘스트 미완료. Player:{player.PlayerId}, NextQuest:{nextMainQuestId}, PrereqQuestId:{nextQuestDef.PrereqQuestId}");
+                        continue;
+                    }
+                }
+
                 QuestObjectiveDefinitionMetaData firstObjective = SpecDataManager.Instance.GetQuestObjectiveDefinition(nextMainQuestId, 1);
                 if (firstObjective == null)
                 {
@@ -164,13 +174,19 @@ namespace Server
             }
         }
 
+        // 해당 메인 퀘스트의 서브 퀘스트 중 하나라도 RewardClaimed 상태면 완료로 간주
+        private bool IsMainQuestRewardClaimed(int playerId, int mainQuestId)
+        {
+            using GameDbContext db = new GameDbContext();
+            return db.Quests.Any(q => q.PlayerDbId == playerId
+                                   && q.MainQuestId == mainQuestId
+                                   && q.Status == QuestStatus.RewardClaimed);
+        }
+
         // 퀘스트 생성하고 DB에 저장하고 패킷도 클라에게 전송
         public void CreateQuest(GameDbContext db, PlayerDb playerDb, ClientSession session, int mainQuestId, int subQuestId)
         {
-            List<QuestObjectiveDefinitionMetaData> allObjectives = SpecDataManager.Instance.GetAllQuestObjectiveDefinition();
-            QuestObjectiveDefinitionMetaData objective = allObjectives.FirstOrDefault(o =>
-                o.MainQuestId == mainQuestId && o.SubQuestId == subQuestId);
-
+            QuestObjectiveDefinitionMetaData objective = SpecDataManager.Instance.GetQuestObjectiveDefinition(mainQuestId, subQuestId);
             // playerDbId에게 퀘스트 생성해서 Db에 저장
             QuestDb quest = new QuestDb()
             {
