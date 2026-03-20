@@ -42,6 +42,7 @@ namespace Server.DB
         public AccountDb Account { get; set; }
         public string Name { get; set; }  // 게임 내에서 사용하는 닉네임
         public ICollection<QuestDb> Quests { get; set; } = new List<QuestDb>(); // 플레이어가 진행중인 퀘스트 목록
+        public ICollection<PlayerItemDb> Items { get; set; } = new List<PlayerItemDb>(); // 플레이어 인벤토리
 
         #region 재화
         // TODO - 재화 자동화 필요
@@ -68,6 +69,19 @@ namespace Server.DB
             }
         }
         #endregion
+    }
+
+    [Table("PlayerItem")]
+    public class PlayerItemDb
+    {
+        public int PlayerItemDbId { get; set; }
+        public int PlayerDbId { get; set; } // FK
+        public int ItemId { get; set; }  // Template ID (기획 데이터 ID)
+        public int Count { get; set; } // 수량
+        public int SlotIndex { get; set; }  // 가방 내 위치
+        public bool IsEquipped { get; set; } // 장착 여부
+        public int EnchantLevel { get; set; }   // 현재 강화 레벨
+        public int RestEnchantCount { get; set; }   // 현재 강화 단계
     }
 
     [Table("Quest")]

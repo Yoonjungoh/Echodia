@@ -78,31 +78,41 @@ namespace Server
                 return;
             }
 
-            // 보상 목록 구성 + 검증
-            // TODO - Currency만 보상으로 뿌릴 수 있는데, 
-            // Item 테이블에 있는 Equipement, Consumable, Misc 전부 보상으로 뿌릴 수 있어야 함
-            // 재화는 Id가 1부터, Equipement는 10만, Consumable는 20만, Misc는 30만부터 시작이니
-            // 이를 이용하면 될듯
-            var rewards = new List<(CurrencyType currencyType, int amount)>();
+            // 보상 목록 구성: RewardId 범위로 재화/아이템 분류
+            // Currency: 1+, Equipment: 100000+, Consumable: 200000+, Misc: 300000+
+            var currencyRewards = new List<(CurrencyType currencyType, int amount)>();
+            var itemRewards = new List<(int itemId, int amount)>();
             int count = objective.RewardIdList.Count;
             for (int i = 0; i < count; i++)
             {
-                CurrencyMetaData currency = SpecDataManager.Instance.GetCurrency(objective.RewardIdList[i]);
-                if (currency == null)
+                int rewardId = objective.RewardIdList[i];
+                int rewardAmount = objective.RewardAmountList[i];
+
+                CurrencyMetaData currency = SpecDataManager.Instance.GetCurrency(rewardId);
+                if (currency != null)
                 {
-                    Console.WriteLine($"[Quest] ClaimReward: currency not found (RewardId={objective.RewardIdList[i]})");
+                    currencyRewards.Add((currency.CurrencyType, rewardAmount));
                     continue;
                 }
-                rewards.Add((currency.CurrencyType, objective.RewardAmountList[i]));
+
+                if (SpecDataManager.Instance.GetEquipment(rewardId) != null ||
+                    SpecDataManager.Instance.GetConsumable(rewardId) != null ||
+                    SpecDataManager.Instance.GetMisc(rewardId) != null)
+                {
+                    itemRewards.Add((rewardId, rewardAmount));
+                    continue;
+                }
+
+                Console.WriteLine($"[Quest] ClaimReward: 알 수 없는 RewardId={rewardId} ({mainQuestId}-{subQuestId})");
             }
 
-            if (rewards.Count == 0)
+            if (currencyRewards.Count == 0 && itemRewards.Count == 0)
             {
                 Console.WriteLine($"[Quest] ClaimReward: no valid rewards ({mainQuestId}-{subQuestId})");
                 return;
             }
 
-            DbTransaction.GiveQuestReward(player, mainQuestId, subQuestId, rewards, () =>
+            DbTransaction.GiveQuestReward(player, mainQuestId, subQuestId, currencyRewards, itemRewards, () =>
             {
                 // 퀘스트 상태 변경 패킷
                 S_ChangeQuestStatus changeStatusPacket = new S_ChangeQuestStatus()

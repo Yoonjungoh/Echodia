@@ -17,6 +17,8 @@ namespace Server.DB
 
         public DbSet<QuestDb> Quests { get; set; }
 
+        public DbSet<PlayerItemDb> PlayerItems { get; set; }
+
 
         private static readonly ILoggerFactory _logger = LoggerFactory.Create(builder => { builder.AddConsole(); });
         // TODO - JSON으로 옮기기
@@ -39,9 +41,14 @@ namespace Server.DB
                 .IsUnique();
 
             builder.Entity<QuestDb>()
-                .HasOne<PlayerDb>()      // 퀘스트는 하나의 플레이어에 속함
-                .WithMany(p => p.Quests)    // 플레이어는 여러 퀘스트를 가질 수 있음
-                .HasForeignKey(q => q.PlayerDbId); // FK 설정
+                .HasOne<PlayerDb>()
+                .WithMany(p => p.Quests)
+                .HasForeignKey(q => q.PlayerDbId);
+
+            builder.Entity<PlayerItemDb>()
+                .HasOne<PlayerDb>()
+                .WithMany(p => p.Items)
+                .HasForeignKey(i => i.PlayerDbId);
         }
     }
 }

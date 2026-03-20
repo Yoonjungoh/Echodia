@@ -113,15 +113,19 @@ namespace Server.DB
             }
         }
 
-        // 퀘스트 보상 수령: Completed 상태 확인 -> RewardClaimed 변경 -> 모든 재화 증가 -> 패킷 자동 전송
+        // 퀘스트 보상 수령: Completed → RewardClaimed, 재화+아이템 일괄 지급, 패킷 자동 전송
         public static void GiveQuestReward(Player player, int mainQuestId, int subQuestId,
-            List<(CurrencyType currencyType, int amount)> rewards, Action onSuccess = null)
+            List<(CurrencyType currencyType, int amount)> currencyRewards,
+            List<(int itemId, int amount)> itemRewards,
+            Action onSuccess = null)
         {
-            Instance.Push(() => GiveQuestReward_Db(player, mainQuestId, subQuestId, rewards, onSuccess));
+            Instance.Push(() => GiveQuestReward_Db(player, mainQuestId, subQuestId, currencyRewards, itemRewards, onSuccess));
         }
 
         private static void GiveQuestReward_Db(Player player, int mainQuestId, int subQuestId,
-            List<(CurrencyType currencyType, int amount)> rewards, Action onSuccess)
+            List<(CurrencyType currencyType, int amount)> currencyRewards,
+            List<(int itemId, int amount)> itemRewards,
+            Action onSuccess)
         {
             using (GameDbContext db = new GameDbContext())
             {
@@ -143,7 +147,7 @@ namespace Server.DB
                         return;
                     }
 
-                    // 2. 모든 재화를 한 번에 업데이트 (단일 트랜잭션 - 보상 종류마다 분리 시 부분 지급 위험)
+                    // 2. 재화 보상 (단일 트랜잭션 - 부분 지급 방지)
                     PlayerDb playerDb = db.Players.Find(player.PlayerId);
                     if (playerDb == null)
                     {
@@ -153,7 +157,7 @@ namespace Server.DB
                     }
 
                     var newAmounts = new List<(CurrencyType currencyType, int newAmount)>();
-                    foreach (var (currencyType, amount) in rewards)
+                    foreach (var (currencyType, amount) in currencyRewards)
                     {
                         CurrencyExprInfo exprInfo = GetCurrencyExprInfo(currencyType);
                         int newAmount = exprInfo.Getter(playerDb) + amount;
@@ -161,14 +165,23 @@ namespace Server.DB
                         newAmounts.Add((currencyType, newAmount));
                     }
 
+                    // 3. 아이템 보상 (같은 ItemId가 이미 있으면 수량 증가, 없으면 새 행 추가)
+                    foreach (var (itemId, amount) in itemRewards)
+                    {
+                        PlayerItemDb existing = db.PlayerItems
+                            .FirstOrDefault(i => i.PlayerDbId == player.PlayerId && i.ItemId == itemId);
+                        if (existing != null)
+                            existing.Count += amount;
+                        else
+                            db.PlayerItems.Add(new PlayerItemDb { PlayerDbId = player.PlayerId, ItemId = itemId, Count = amount });
+                    }
+
                     db.SaveChangesEx();
                     transaction.Commit();
 
-                    // 3. 재화 업데이트 패킷 자동 전송
+                    // 4. 재화 업데이트 패킷 자동 전송
                     foreach (var (currencyType, newAmount) in newAmounts)
-                    {
                         player.Session?.Send(new S_UpdateCurrencyData { CurrencyType = currencyType, Amount = newAmount });
-                    }
 
                     onSuccess?.Invoke();
                 }
