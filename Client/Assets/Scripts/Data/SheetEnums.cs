@@ -53,5 +53,5 @@ public enum ConfigType
     EquipmentStartId = 5,
     ConsumableStartId = 6,
     MiscStartId = 7,
-}
+} 
 
