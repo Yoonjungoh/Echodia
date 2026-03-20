@@ -275,6 +275,9 @@ class Program
 
         foreach (var kv in Results)
         {
+            // Id 컬럼 찾기 (enum 값 할당에 사용)
+            ColumnInfo? idColumn = kv.Value.Columns.Find(c => c.FieldName == "Id");
+
             foreach (var col in kv.Value.Columns)
             {
                 // "enum" 또는 "list<enum>" 타입힌트 모두 처리
@@ -284,22 +287,63 @@ class Program
                 if (IsProtoEnum(col.FieldName)) continue;  // proto enum은 SheetEnums에 넣지 않음
                 if (!written.Add(col.FieldName)) continue;
 
+                // Id 컬럼이 있고, 단순 enum이고, 모든 행에서 값이 고유하면 → Id 값 할당
+                bool useIdValues = false;
+                if (idColumn != null && isEnumCol)
+                {
+                    var seenVals = new HashSet<string>();
+                    bool isOneToOne = true;
+                    string dupVal = "";
+                    foreach (var r in kv.Value.SampleRows)
+                    {
+                        string v = col.ColIndex < r.Count ? r[col.ColIndex].Trim() : "";
+                        if (!string.IsNullOrEmpty(v) && !seenVals.Add(v))
+                        {
+                            isOneToOne = false;
+                            dupVal = v;
+                            break;
+                        }
+                    }
+                    useIdValues = isOneToOne;
+                    if (isOneToOne)
+                        Log($"  [{col.FieldName}] 값 고유 → Id 기반 enum (시트: {kv.Key})");
+                    else
+                        Log($"  [{col.FieldName}] 중복 값 '{dupVal}' 존재 → 순차 enum (시트: {kv.Key})");
+                }
+
                 any = true;
                 sb.AppendLine($"public enum {col.FieldName}");
                 sb.AppendLine("{");
                 sb.AppendLine("    None = 0,");
-                int idx  = kv.Value.Columns.IndexOf(col);
-                var seen = new HashSet<string> { "None" };
+                var seen    = new HashSet<string> { "None" };
+                var usedIds = new Dictionary<int, string>();
+
                 foreach (var row in kv.Value.SampleRows)
                 {
-                    string rawVal = idx < row.Count ? row[idx].Trim() : "";
+                    string rawVal = col.ColIndex < row.Count ? row[col.ColIndex].Trim() : "";
                     // list<enum>의 경우 셀 값이 "{Val1,Val2,...}" 형식일 수 있으므로 각 항목 분리
                     IEnumerable<string> vals = isListEnumCol
                         ? rawVal.Trim('{', '}').Split(',').Select(v => v.Trim())
                         : new[] { rawVal };
                     foreach (var val in vals)
-                        if (!string.IsNullOrEmpty(val) && seen.Add(val))
-                            sb.AppendLine($"    {val},");
+                    {
+                        if (string.IsNullOrEmpty(val) || !seen.Add(val)) continue;
+                        if (useIdValues && idColumn != null && idColumn.ColIndex < row.Count)
+                        {
+                            string rawId = row[idColumn.ColIndex].Trim();
+                            if (rawId.Contains(".")) rawId = rawId.Split('.')[0];
+                            if (int.TryParse(rawId, out int idVal))
+                            {
+                                if (usedIds.TryGetValue(idVal, out string? prevVal))
+                                    Log($"  [경고] {col.FieldName} Id 중복! '{val}'과 '{prevVal}'이 같은 Id={idVal} (시트: {kv.Key})");
+                                else
+                                    usedIds[idVal] = val;
+                                sb.AppendLine($"    {val} = {idVal},");
+                                continue;
+                            }
+                        }
+                        sb.AppendLine($"    {val},");
+                    }
                 }
                 sb.AppendLine("}");
                 sb.AppendLine();
@@ -315,11 +359,10 @@ class Program
                     sb.AppendLine("public enum ConfigType");
                     sb.AppendLine("{");
                     sb.AppendLine("    None = 0,");
-                    int idx  = kv.Value.Columns.IndexOf(cfgTypeCol);
                     var seen = new HashSet<string> { "None" };
                     foreach (var row in kv.Value.SampleRows)
                     {
-                        string val = idx < row.Count ? row[idx].Trim() : "";
+                        string val = cfgTypeCol.ColIndex < row.Count ? row[cfgTypeCol.ColIndex].Trim() : "";
                         if (!string.IsNullOrEmpty(val) && seen.Add(val))
                             sb.AppendLine($"    {val},");
                     }

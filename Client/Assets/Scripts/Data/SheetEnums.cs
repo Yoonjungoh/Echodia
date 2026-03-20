@@ -6,52 +6,52 @@
 public enum ItemType
 {
     None = 0,
-    Equipment,
-    Consumable,
-    Misc,
+    Equipment = 100000,
+    Consumable = 200000,
+    Misc = 300000,
 }
 
 public enum ItemGrade
 {
     None = 0,
-    Normal,
-    Rare,
-    Epic,
+    Normal = 100000,
+    Rare = 200000,
+    Epic = 300000,
 }
 
 public enum EquipmentType
 {
     None = 0,
-    BasicSword,
+    BasicSword = 100000,
 }
 
 public enum EquipSlotType
 {
     None = 0,
-    MainWeapon,
+    MainWeapon = 100000,
 }
 
 public enum ConsumableType
 {
     None = 0,
-    BasicRecoveryHpPotion,
+    BasicRecoveryHpPotion = 200000,
 }
 
 public enum MiscType
 {
     None = 0,
-    BearLeather,
+    BearLeather = 300000,
 }
 
 public enum ConfigType
 {
     None = 0,
-    RequiredIdleTime,
-    DefaultCreationMainQuestId,
-    DefaultCreationSubQuestId,
-    DefaultInventorySize,
-    EquipmentStartId,
-    ConsumableStartId,
-    MiscStartId,
+    RequiredIdleTime = 1,
+    DefaultCreationMainQuestId = 2,
+    DefaultCreationSubQuestId = 3,
+    DefaultInventorySize = 4,
+    EquipmentStartId = 5,
+    ConsumableStartId = 6,
+    MiscStartId = 7,
 }
 
