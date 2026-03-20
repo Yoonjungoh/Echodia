@@ -54,6 +54,8 @@ enum MsgId {
   S_REQUEST_QUEST_DATA = 140; // 유저가 보유중인 퀘스트 전송
   S_CHANGE_QUEST_STATUS = 141;  // 유저가 보유중인 퀘스트 중 하나의 상태를 변경
   S_QUEST_PROGRESS_UPDATE = 142;  // 퀘스트 진행 카운트 공유 패킷
+  S_UPDATE_ITEM_DATA = 143;      // 단일 아이템 업데이트 (보상 지급 등)
+  S_UPDATE_ITEM_DATA_ALL = 144;  // 전체 인벤토리 초기 전송
 }
 
 enum CreatureState {
@@ -511,4 +513,20 @@ message QuestObjectiveDefinition {
 message RewardItem {
   int32 rewardId = 1;
   int32 rewardAmount = 2;
+}
+
+message ItemInfo {
+  int32 itemId = 1;
+  int32 count = 2;
+  int32 slotIndex = 3;
+  bool isEquipped = 4;
+  int32 enchantLevel = 5;
+}
+
+message S_UpdateItemData {
+  ItemInfo itemInfo = 1;
+}
+
+message S_UpdateItemDataAll {
+  repeated ItemInfo itemInfoList = 1;
 }

@@ -10,6 +10,7 @@ public class Managers : MonoBehaviour
 
     private ConfigManager _config = new ConfigManager();
     private CurrencyManager _currency = new CurrencyManager();
+    private InventoryManager _inventory = new InventoryManager();
     private ImageManager _image = new ImageManager();
     private GameRoomManager _gameRoom = new GameRoomManager();
     private GameRoomObjectManager _gameRoomObject = new GameRoomObjectManager();
@@ -31,6 +32,7 @@ public class Managers : MonoBehaviour
 
     public static ConfigManager Config { get { return Instance._config; } }
     public static CurrencyManager Currency { get { return Instance._currency; } }
+    public static InventoryManager Inventory { get { return Instance._inventory; } }
     public static ImageManager Image { get { return Instance._image; } }
     public static GameRoomManager GameRoom { get { return Instance._gameRoom; } }
     public static GameRoomObjectManager GameRoomObject { get { return Instance._gameRoomObject; } }

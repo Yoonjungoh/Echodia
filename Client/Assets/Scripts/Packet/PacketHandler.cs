@@ -513,4 +513,28 @@ class PacketHandler
         Managers.Reward.ShowRewardList(giveRewardPacket.RewardItemList);
     }
 
+    public static void S_UpdateItemDataHandler(PacketSession session, IMessage packet)
+    {
+        S_UpdateItemData updateItemDataPacket = packet as S_UpdateItemData;
+        if (updateItemDataPacket == null)
+        {
+            Debug.Log("S_UpdateItemData 패킷이 null입니다");
+            return;
+        }
+
+        Managers.Inventory.UpdateItemData(updateItemDataPacket.ItemInfo);
+    }
+
+    public static void S_UpdateItemDataAllHandler(PacketSession session, IMessage packet)
+    {
+        S_UpdateItemDataAll updateItemDataAllPacket = packet as S_UpdateItemDataAll;
+        if (updateItemDataAllPacket == null)
+        {
+            Debug.Log("S_UpdateItemDataAll 패킷이 null입니다");
+            return;
+        }
+
+        Managers.Inventory.UpdateItemDataAll(updateItemDataAllPacket.ItemInfoList);
+    }
+
 }

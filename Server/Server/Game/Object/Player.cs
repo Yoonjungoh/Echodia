@@ -16,6 +16,7 @@ namespace Server.Game
         public ClientSession Session { get; set; }
         public AOIController AOI { get; set; }
         public QuestTracker QuestTracker { get; private set; }
+        public List<PlayerItemDb> Items { get; private set; } = new();
 
         public Player()
         {
@@ -52,6 +53,7 @@ namespace Server.Game
             using (GameDbContext db = new GameDbContext())
             {
                 PlayerDb player = db.Players
+                    .Include(p => p.Items)
                     .AsNoTracking()
                     .Where(p => p.PlayerDbId == PlayerId)
                     .FirstOrDefault();
@@ -61,6 +63,7 @@ namespace Server.Game
 
                 Level = player.Level;
                 Exp = player.Exp;
+                Items = player.Items?.ToList() ?? new();
 
                 // TODO - DB에서 가져오기
                 ObjectState.Stat.MaxHp = 100.0f;

@@ -76,11 +76,6 @@ public class MyPlayerController : PlayerController
             Managers.GameRoomObject.MyPlayer.OnProjectileSpawnInput
         );
 
-        Managers.Input.RegisterKeyAction(
-            KeySettings.ActivationQuestPopup,
-            Managers.GameRoomObject.MyPlayer.OnQuestPopupInput
-        );
-
         // TODO - 우선 타이밍 이슈로 어쩔 수 없이 여기서 초기화
         _commonAttackAnimSpeedTime = 2.0f;
         _commonAttackAnimLength = _anim.GetAnimationClipLength(_commonAttackanimName) / _commonAttackAnimSpeedTime;
@@ -308,18 +303,6 @@ public class MyPlayerController : PlayerController
     {
         base.SetHp(hp, maxHp);
         OnHpChanged?.Invoke(hp, maxHp);
-    }
-
-    private void OnQuestPopupInput()
-    {
-        if (Managers.UI.IsPopupActive<UI_Quest>())
-        {
-            Managers.UI.CloseSpecificPopup<UI_Quest>();
-        }
-        else
-        {
-            Managers.UI.ShowPopupUI<UI_Quest>();
-        }
     }
 
     private void OnMeleeAttackInput()

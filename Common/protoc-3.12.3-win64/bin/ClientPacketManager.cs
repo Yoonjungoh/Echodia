@@ -78,7 +78,11 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.SChangeQuestStatus, MakePacket<S_ChangeQuestStatus>);
 		_handler.Add((ushort)MsgId.SChangeQuestStatus, PacketHandler.S_ChangeQuestStatusHandler);		
 		_onRecv.Add((ushort)MsgId.SQuestProgressUpdate, MakePacket<S_QuestProgressUpdate>);
-		_handler.Add((ushort)MsgId.SQuestProgressUpdate, PacketHandler.S_QuestProgressUpdateHandler);
+		_handler.Add((ushort)MsgId.SQuestProgressUpdate, PacketHandler.S_QuestProgressUpdateHandler);		
+		_onRecv.Add((ushort)MsgId.SUpdateItemData, MakePacket<S_UpdateItemData>);
+		_handler.Add((ushort)MsgId.SUpdateItemData, PacketHandler.S_UpdateItemDataHandler);		
+		_onRecv.Add((ushort)MsgId.SUpdateItemDataAll, MakePacket<S_UpdateItemDataAll>);
+		_handler.Add((ushort)MsgId.SUpdateItemDataAll, PacketHandler.S_UpdateItemDataAllHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

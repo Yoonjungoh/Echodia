@@ -171,17 +171,49 @@ namespace Server.DB
                         PlayerItemDb existing = db.PlayerItems
                             .FirstOrDefault(i => i.PlayerDbId == player.PlayerId && i.ItemId == itemId);
                         if (existing != null)
+                        {
                             existing.Count += amount;
+                        }
                         else
+                        {
                             db.PlayerItems.Add(new PlayerItemDb { PlayerDbId = player.PlayerId, ItemId = itemId, Count = amount });
+                        }
                     }
 
                     db.SaveChangesEx();
                     transaction.Commit();
 
-                    // 4. 재화 업데이트 패킷 자동 전송
+                    // 4. 인메모리 Items 동기화 + 아이템 업데이트 패킷 전송
+                    foreach (var (itemId, amount) in itemRewards)
+                    {
+                        PlayerItemDb memItem = player.Items.FirstOrDefault(i => i.ItemId == itemId);
+                        if (memItem != null)
+                            memItem.Count += amount;
+                        else
+                        {
+                            memItem = new PlayerItemDb { PlayerDbId = player.PlayerId, ItemId = itemId, Count = amount };
+                            player.Items.Add(memItem);
+                        }
+
+                        S_UpdateItemData updateItemDataPacket = new S_UpdateItemData
+                        {
+                            ItemInfo = new ItemInfo
+                            {
+                                ItemId = memItem.ItemId,
+                                Count = memItem.Count,
+                                SlotIndex = memItem.SlotIndex,
+                                IsEquipped = memItem.IsEquipped,
+                                EnchantLevel = memItem.EnchantLevel,
+                            }
+                        };
+                        player.Session?.Send(updateItemDataPacket);
+                    }
+
+                    // 5. 재화 업데이트 패킷 자동 전송
                     foreach (var (currencyType, newAmount) in newAmounts)
+                    {
                         player.Session?.Send(new S_UpdateCurrencyData { CurrencyType = currencyType, Amount = newAmount });
+                    }
 
                     onSuccess?.Invoke();
                 }

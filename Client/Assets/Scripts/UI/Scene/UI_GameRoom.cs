@@ -26,6 +26,7 @@ public class UI_GameRoom : UI_Scene
     enum Buttons
     {
         QuestPopupButton,
+        InventoryPopupButton,
     }
 
     enum GameObjects
@@ -61,6 +62,10 @@ public class UI_GameRoom : UI_Scene
         _questRedDot = Get<GameObject>((int)GameObjects.QuestRedDot);
 
         GetButton((int)Buttons.QuestPopupButton).onClick.AddListener(OnClickQuestPopupInput);
+        GetButton((int)Buttons.InventoryPopupButton).onClick.AddListener(OnClickInventoryPopupInput);
+
+        Managers.Input.RegisterKeyAction(KeyCode.Q, OnClickQuestPopupInput);
+        Managers.Input.RegisterKeyAction(KeyCode.I, OnClickInventoryPopupInput);
 
         Managers.RedDot.OnRedDotChanged -= OnRedDotChanged;
         Managers.RedDot.OnRedDotChanged += OnRedDotChanged;
@@ -89,6 +94,18 @@ public class UI_GameRoom : UI_Scene
         else
         {
             Managers.UI.ShowPopupUI<UI_Quest>();
+        }
+    }
+
+    private void OnClickInventoryPopupInput()
+    {
+        if (Managers.UI.IsPopupActive<UI_Inventory>())
+        {
+            Managers.UI.CloseSpecificPopup<UI_Inventory>();
+        }
+        else
+        {
+            Managers.UI.ShowPopupUI<UI_Inventory>();
         }
     }
 
