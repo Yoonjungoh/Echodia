@@ -19,6 +19,12 @@ public enum ItemGrade
     Epic,
 }
 
+public enum EquipmentType
+{
+    None = 0,
+    BasicSword,
+}
+
 public enum EquipSlot
 {
     None = 0,
@@ -28,7 +34,13 @@ public enum EquipSlot
 public enum ConsumableEffectType
 {
     None = 0,
-    RecoveryHP,
+    BasicRecoveryHpPotion,
+}
+
+public enum MiscType
+{
+    None = 0,
+    BearSkin,
 }
 
 public enum ConfigType

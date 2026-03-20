@@ -28,6 +28,8 @@ public partial class SpecDataManager
     List<EquipmentMetaData>            _equipmentList = new List<EquipmentMetaData>();
     Dictionary<int, ConsumableMetaData> _consumableDict = new Dictionary<int, ConsumableMetaData>();
     List<ConsumableMetaData>            _consumableList = new List<ConsumableMetaData>();
+    Dictionary<int, MiscMetaData> _miscDict = new Dictionary<int, MiscMetaData>();
+    List<MiscMetaData>            _miscList = new List<MiscMetaData>();
     Dictionary<int, QuestDefinitionMetaData> _questDefinitionDict = new Dictionary<int, QuestDefinitionMetaData>();
     List<QuestDefinitionMetaData>            _questDefinitionList = new List<QuestDefinitionMetaData>();
     Dictionary<int, QuestObjectiveDefinitionMetaData> _questObjectiveDefinitionDict = new Dictionary<int, QuestObjectiveDefinitionMetaData>();
@@ -46,6 +48,7 @@ public partial class SpecDataManager
         await Fetch_Item();
         await Fetch_Equipment();
         await Fetch_Consumable();
+        await Fetch_Misc();
         await Fetch_QuestDefinition();
         await Fetch_QuestObjectiveDefinition();
         await Fetch_Monster();
@@ -248,7 +251,7 @@ public partial class SpecDataManager
             _equipmentDict.Clear();
             _equipmentList.Clear();
 
-            List<string[]> rows = GvizParser.Parse(raw, colCount: 5);
+            List<string[]> rows = GvizParser.Parse(raw, colCount: 6);
             for (int i = 2; i < rows.Count; i++)
             {
                 string[] cells = rows[i];
@@ -268,47 +271,58 @@ public partial class SpecDataManager
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // EquipSlot (enum)
-                try { data.EquipSlot = ParseEnum<EquipSlot>(cells[1]); }
+                // EquipmentType (enum)
+                try { data.EquipmentType = ParseEnum<EquipmentType>(cells[1]); }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine("[SpecDataManager] [Equipment] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 2 (EquipSlot)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 2 (EquipmentType)\n" +
                         "  타입: enum\n" +
                         "  값: \"" + cells[1] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // Attack (float)
-                try { data.Attack = ParseFloat(cells[2]); }
+                // EquipSlot (enum)
+                try { data.EquipSlot = ParseEnum<EquipSlot>(cells[2]); }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine("[SpecDataManager] [Equipment] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 3 (Attack)\n" +
-                        "  타입: float\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (EquipSlot)\n" +
+                        "  타입: enum\n" +
                         "  값: \"" + cells[2] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // Defense (float)
-                try { data.Defense = ParseFloat(cells[3]); }
+                // Attack (float)
+                try { data.Attack = ParseFloat(cells[3]); }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine("[SpecDataManager] [Equipment] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 4 (Defense)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 4 (Attack)\n" +
                         "  타입: float\n" +
                         "  값: \"" + cells[3] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // RequiredLevel (int)
-                try { data.RequiredLevel = ParseInt(cells[4]); }
+                // Defense (float)
+                try { data.Defense = ParseFloat(cells[4]); }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine("[SpecDataManager] [Equipment] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 5 (RequiredLevel)\n" +
-                        "  타입: int\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 5 (Defense)\n" +
+                        "  타입: float\n" +
                         "  값: \"" + cells[4] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // RequiredLevel (int)
+                try { data.RequiredLevel = ParseInt(cells[5]); }
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine("[SpecDataManager] [Equipment] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 6 (RequiredLevel)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[5] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
@@ -420,6 +434,65 @@ public partial class SpecDataManager
         catch (Exception ex)
         {
             Console.Error.WriteLine("[SpecDataManager] Consumable 다운로드 실패: " + ex.Message);
+        }
+    }
+
+    async Task Fetch_Misc()
+    {
+        string url = GoogleSheetConfig.BuildJsonUrl("Misc");
+        try
+        {
+            string raw = await Http.GetStringAsync(url);
+            _miscDict.Clear();
+            _miscList.Clear();
+
+            List<string[]> rows = GvizParser.Parse(raw, colCount: 2);
+            for (int i = 2; i < rows.Count; i++)
+            {
+                string[] cells = rows[i];
+                if (string.IsNullOrEmpty(cells[0])) continue;
+                int sheetRow = i + 1;
+                MiscMetaData data = new MiscMetaData();
+                bool rowOk = true;
+
+                // Id (int)
+                try { data.Id = ParseInt(cells[0]); }
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine("[SpecDataManager] [Misc] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 1 (Id)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[0] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // MiscType (enum)
+                try { data.MiscType = ParseEnum<MiscType>(cells[1]); }
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine("[SpecDataManager] [Misc] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 2 (MiscType)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[1] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+
+                if (rowOk)
+                {
+                    _miscDict[data.Id] = data;
+                    _miscList.Add(data);
+                }
+                else
+                {
+                    Console.Error.WriteLine("[SpecDataManager] [Misc] 행 " + sheetRow + " 파싱 오류로 스킵됨.");
+                }
+            }
+            Console.WriteLine("[SpecDataManager] Misc 로드 완료: " + _miscList.Count + "개");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine("[SpecDataManager] Misc 다운로드 실패: " + ex.Message);
         }
     }
 
@@ -981,6 +1054,17 @@ public partial class SpecDataManager
     public List<ConsumableMetaData> GetAllConsumable()
     {
         return _consumableList;
+    }
+
+    public MiscMetaData GetMisc(int id)
+    {
+        _miscDict.TryGetValue(id, out MiscMetaData result);
+        return result;
+    }
+
+    public List<MiscMetaData> GetAllMisc()
+    {
+        return _miscList;
     }
 
     public QuestDefinitionMetaData GetQuestDefinition(int id)

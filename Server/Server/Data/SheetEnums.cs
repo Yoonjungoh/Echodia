@@ -21,6 +21,12 @@ namespace Server.Data
         Epic,
     }
     
+    public enum EquipmentType
+    {
+        None = 0,
+        BasicSword,
+    }
+    
     public enum EquipSlot
     {
         None = 0,
@@ -30,7 +36,13 @@ namespace Server.Data
     public enum ConsumableEffectType
     {
         None = 0,
-        RecoveryHP,
+        BasicRecoveryHpPotion,
+    }
+    
+    public enum MiscType
+    {
+        None = 0,
+        BearSkin,
     }
     
     public enum ConfigType

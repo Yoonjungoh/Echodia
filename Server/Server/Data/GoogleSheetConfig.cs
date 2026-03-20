@@ -17,6 +17,7 @@ namespace Server.Data
             "Item",
             "Equipment",
             "Consumable",
+            "Misc",
             "QuestDefinition",
             "QuestObjectiveDefinition",
             "Monster",

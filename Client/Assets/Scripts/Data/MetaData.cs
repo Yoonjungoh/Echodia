@@ -35,6 +35,7 @@ public class ItemMetaData
 public class EquipmentMetaData
 {
     public int Id;
+    public EquipmentType EquipmentType;
     public EquipSlot EquipSlot;
     public float Attack;
     public float Defense;
@@ -50,6 +51,14 @@ public class ConsumableMetaData
     public float EffectValue;
     public float Duration;
     public float CoolTime;
+}
+
+// ── Misc
+[Serializable]
+public class MiscMetaData
+{
+    public int Id;
+    public MiscType MiscType;
 }
 
 // ── QuestDefinition

@@ -15,6 +15,7 @@ public static class GoogleSheetConfig
         "Item",
         "Equipment",
         "Consumable",
+        "Misc",
         "QuestDefinition",
         "QuestObjectiveDefinition",
         "Monster",

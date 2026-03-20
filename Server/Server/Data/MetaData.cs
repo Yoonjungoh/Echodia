@@ -37,6 +37,7 @@ namespace Server.Data
     public class EquipmentMetaData
     {
         public int Id;
+        public EquipmentType EquipmentType;
         public EquipSlot EquipSlot;
         public float Attack;
         public float Defense;
@@ -52,6 +53,14 @@ namespace Server.Data
         public float EffectValue;
         public float Duration;
         public float CoolTime;
+    }
+
+    // ── Misc
+    [Serializable]
+    public class MiscMetaData
+    {
+        public int Id;
+        public MiscType MiscType;
     }
 
     // ── QuestDefinition
