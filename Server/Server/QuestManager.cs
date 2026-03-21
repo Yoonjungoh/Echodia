@@ -112,32 +112,45 @@ namespace Server
                 return;
             }
 
-            DbTransaction.GiveQuestReward(player, mainQuestId, subQuestId, currencyRewards, itemRewards, () =>
+            if (player.GameRoom == null)
             {
-                // 퀘스트 상태 변경 패킷
-                S_ChangeQuestStatus changeStatusPacket = new S_ChangeQuestStatus()
-                {
-                    MainQuestId = mainQuestId,
-                    SubQuestId = subQuestId,
-                    QuestStatus = QuestStatus.RewardClaimed,
-                };
-                player.Session?.Send(changeStatusPacket);
+                Console.WriteLine($"[Quest] ClaimReward: GameRoom is null. Player:{player.PlayerId}");
+                return;
+            }
 
-                // 보상 수령 패킷
-                S_GiveReward giveRewardPacket = new S_GiveReward();
-                for (int i = 0; i < count; i++)
+            // 게임룸 단일 스레드에서 인메모리 처리 후 DB 쓰기 위임
+            player.GameRoom.Push(() =>
+            {
+                // 슬롯 계산 + player.Items 업데이트 + S_UpdateItemData 패킷 전송
+                List<PlayerItemDb> itemsToSave = player.GrantItemsInMemory(itemRewards);
+
+                DbTransaction.GiveQuestReward(player, mainQuestId, subQuestId, currencyRewards, itemsToSave, () =>
                 {
-                    giveRewardPacket.RewardItemList.Add(new RewardItem
+                    // 퀘스트 상태 변경 패킷
+                    S_ChangeQuestStatus changeStatusPacket = new S_ChangeQuestStatus()
                     {
-                        RewardId = objective.RewardIdList[i],
-                        RewardAmount = objective.RewardAmountList[i],
-                    });
-                }
-                player.Session?.Send(giveRewardPacket);
-                // S_UpdateCurrencyData는 GiveQuestReward_Db 내부에서 자동 전송됨
+                        MainQuestId = mainQuestId,
+                        SubQuestId = subQuestId,
+                        QuestStatus = QuestStatus.RewardClaimed,
+                    };
+                    player.Session?.Send(changeStatusPacket);
 
-                // 연계 퀘스트 있나 확인
-                TryAssignNextQuest(player, mainQuestId, subQuestId);
+                    // 보상 수령 패킷
+                    S_GiveReward giveRewardPacket = new S_GiveReward();
+                    for (int i = 0; i < count; i++)
+                    {
+                        giveRewardPacket.RewardItemList.Add(new RewardItem
+                        {
+                            RewardId = objective.RewardIdList[i],
+                            RewardAmount = objective.RewardAmountList[i],
+                        });
+                    }
+                    player.Session?.Send(giveRewardPacket);
+                    // S_UpdateCurrencyData는 GiveQuestReward_Db 내부에서 자동 전송됨
+
+                    // 연계 퀘스트 있나 확인
+                    TryAssignNextQuest(player, mainQuestId, subQuestId);
+                });
             });
         }
 

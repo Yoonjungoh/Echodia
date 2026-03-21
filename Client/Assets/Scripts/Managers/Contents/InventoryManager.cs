@@ -8,9 +8,9 @@ public class InventoryManager
     // ItemType -> (slotIndex -> ItemInfo) : 카테고리별로 슬롯 인덱스가 독립적으로 관리됨
     private Dictionary<ItemType, Dictionary<int, ItemInfo>> _items = new Dictionary<ItemType, Dictionary<int, ItemInfo>>
     {
-        { ItemType.Equipment,  new Dictionary<int, ItemInfo>() },
+        { ItemType.Equipment, new Dictionary<int, ItemInfo>() },
         { ItemType.Consumable, new Dictionary<int, ItemInfo>() },
-        { ItemType.Misc,       new Dictionary<int, ItemInfo>() },
+        { ItemType.Misc, new Dictionary<int, ItemInfo>() },
     };
 
     public event Action OnInventoryChanged;

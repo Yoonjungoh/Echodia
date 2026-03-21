@@ -1,4 +1,4 @@
-﻿using Google.Protobuf.Protocol;
+using Google.Protobuf.Protocol;
 using Microsoft.EntityFrameworkCore;
 using Server.Data;
 using Server.DB;
@@ -113,18 +113,19 @@ namespace Server.DB
             }
         }
 
-        // 퀘스트 보상 수령: Completed → RewardClaimed, 재화+아이템 일괄 지급, 패킷 자동 전송
+        // 퀘스트 보상 수령: Completed → RewardClaimed, 재화+아이템 일괄 저장, 재화 패킷 전송
+        // 아이템 슬롯 계산 및 인메모리 동기화는 호출 전(게임룸 스레드)에 완료되어야 함
         public static void GiveQuestReward(Player player, int mainQuestId, int subQuestId,
             List<(CurrencyType currencyType, int amount)> currencyRewards,
-            List<(int itemId, int amount)> itemRewards,
+            List<PlayerItemDb> itemsToSave,
             Action onSuccess = null)
         {
-            Instance.Push(() => GiveQuestReward_Db(player, mainQuestId, subQuestId, currencyRewards, itemRewards, onSuccess));
+            Instance.Push(() => GiveQuestReward_Db(player, mainQuestId, subQuestId, currencyRewards, itemsToSave, onSuccess));
         }
 
         private static void GiveQuestReward_Db(Player player, int mainQuestId, int subQuestId,
             List<(CurrencyType currencyType, int amount)> currencyRewards,
-            List<(int itemId, int amount)> itemRewards,
+            List<PlayerItemDb> itemsToSave,
             Action onSuccess)
         {
             using (GameDbContext db = new GameDbContext())
@@ -147,7 +148,7 @@ namespace Server.DB
                         return;
                     }
 
-                    // 2. 재화 보상 (단일 트랜잭션 - 부분 지급 방지)
+                    // 2. 재화 보상
                     PlayerDb playerDb = db.Players.Find(player.PlayerId);
                     if (playerDb == null)
                     {
@@ -165,82 +166,31 @@ namespace Server.DB
                         newAmounts.Add((currencyType, newAmount));
                     }
 
-                    // 3. 아이템 보상
-                    // ItemType별 사용 중인 SlotIndex를 미리 수집 (배치 내 중복 방지 포함)
-                    List<PlayerItemDb> existingPlayerItems = db.PlayerItems
-                        .Where(i => i.PlayerDbId == player.PlayerId)
-                        .ToList();
-
-                    var usedSlotsByType = new Dictionary<Data.ItemType, HashSet<int>>();
-                    foreach (PlayerItemDb pi in existingPlayerItems)
+                    // 3. 아이템 보상 (슬롯·인메모리 동기화는 호출 전 완료됨 — DB 쓰기만)
+                    foreach (PlayerItemDb item in itemsToSave)
                     {
-                        Data.ItemType t = Data.SpecDataManager.Instance.GetItem(pi.ItemId)?.ItemType ?? Data.ItemType.None;
-                        if (!usedSlotsByType.ContainsKey(t))
-                            usedSlotsByType[t] = new HashSet<int>();
-                        usedSlotsByType[t].Add(pi.SlotIndex);
-                    }
-
-                    // (itemId, finalCount, slotIndex) -> 인메모리 싱크용
-                    var itemResults = new List<(int itemId, int finalCount, int slotIndex)>();
-
-                    foreach (var (itemId, amount) in itemRewards)
-                    {
-                        PlayerItemDb existing = existingPlayerItems.FirstOrDefault(i => i.ItemId == itemId);
-                        if (existing != null)
+                        if (item.PlayerItemDbId > 0)
                         {
-                            existing.Count += amount;
-                            itemResults.Add((itemId, existing.Count, existing.SlotIndex));
+                            db.PlayerItems
+                                .Where(i => i.PlayerItemDbId == item.PlayerItemDbId)
+                                .ExecuteUpdate(s => s.SetProperty(i => i.Count, item.Count));
                         }
                         else
                         {
-                            Data.ItemType itemType = Data.SpecDataManager.Instance.GetItem(itemId)?.ItemType ?? Data.ItemType.None;
-                            if (!usedSlotsByType.TryGetValue(itemType, out HashSet<int> usedSlots))
+                            db.PlayerItems.Add(new PlayerItemDb
                             {
-                                usedSlots = new HashSet<int>();
-                                usedSlotsByType[itemType] = usedSlots;
-                            }
-
-                            int nextSlot = FindNextAvailableSlot(usedSlots);
-                            usedSlots.Add(nextSlot);
-
-                            var newItem = new PlayerItemDb { PlayerDbId = player.PlayerId, ItemId = itemId, Count = amount, SlotIndex = nextSlot };
-                            db.PlayerItems.Add(newItem);
-                            itemResults.Add((itemId, amount, nextSlot));
+                                PlayerDbId = item.PlayerDbId,
+                                ItemId = item.ItemId,
+                                Count = item.Count,
+                                SlotIndex = item.SlotIndex,
+                            });
                         }
                     }
 
                     db.SaveChangesEx();
                     transaction.Commit();
 
-                    // 4. 인메모리 Items 동기화 + 아이템 업데이트 패킷 전송
-                    foreach (var (itemId, finalCount, slotIndex) in itemResults)
-                    {
-                        PlayerItemDb memItem = player.Items.FirstOrDefault(i => i.ItemId == itemId);
-                        if (memItem != null)
-                        {
-                            memItem.Count = finalCount;
-                        }
-                        else
-                        {
-                            memItem = new PlayerItemDb { PlayerDbId = player.PlayerId, ItemId = itemId, Count = finalCount, SlotIndex = slotIndex };
-                            player.Items.Add(memItem);
-                        }
-
-                        S_UpdateItemData updateItemDataPacket = new S_UpdateItemData
-                        {
-                            ItemInfo = new ItemInfo
-                            {
-                                ItemId = memItem.ItemId,
-                                Count = memItem.Count,
-                                SlotIndex = memItem.SlotIndex,
-                                IsEquipped = memItem.IsEquipped,
-                                EnchantLevel = memItem.EnchantLevel,
-                            }
-                        };
-                        player.Session?.Send(updateItemDataPacket);
-                    }
-
-                    // 5. 재화 업데이트 패킷 자동 전송
+                    // 4. 재화 업데이트 패킷 전송
                     foreach (var (currencyType, newAmount) in newAmounts)
                     {
                         player.Session?.Send(new S_UpdateCurrencyData { CurrencyType = currencyType, Amount = newAmount });
@@ -295,20 +245,6 @@ namespace Server.DB
                 });
 
                 player.GameRoom?.Push(() => player.QuestTracker.Load());
-            }
-        }
-
-        #endregion
-
-        #region Item Helpers
-
-        // ItemType별 슬롯 인덱스를 독립 관리 - usedSlots에 없는 가장 작은 0 이상의 정수를 반환
-        private static int FindNextAvailableSlot(HashSet<int> usedSlots)
-        {
-            for (int slot = 0; ; ++slot)
-            {
-                if (!usedSlots.Contains(slot))
-                    return slot;
             }
         }
 
