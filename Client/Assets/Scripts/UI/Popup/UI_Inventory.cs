@@ -115,17 +115,8 @@ public class UI_Inventory : UI_Popup
     {
         int tabSize = GetCurrentTabSize();
 
-        // 현재 탭 타입의 slotIndex -> ItemInfo 룩업 구성
-        Dictionary<int, ItemInfo> tabItems = new Dictionary<int, ItemInfo>();
-        foreach (var kvp in Managers.Inventory.Items)
-        {
-            ItemInfo itemInfo = kvp.Value;
-            ItemMetaData metaData = Managers.SpecData.GetItem(itemInfo.ItemId);
-            if (metaData != null && metaData.ItemType == _currentTab)
-            {
-                tabItems[itemInfo.SlotIndex] = itemInfo;
-            }
-        }
+        // 카테고리별로 딕셔너리가 분리되어 있으므로 현재 탭 것만 바로 사용
+        var tabItems = Managers.Inventory.GetItems(_currentTab);
 
         for (int i = 0; i < _slots.Count; ++i)
         {
@@ -145,7 +136,7 @@ public class UI_Inventory : UI_Popup
         switch (_currentTab)
         {
             case ItemType.Equipment:
-                return _defaultConsumableInventorySize;
+                return _defaultEquimentInventorySize;
             case ItemType.Consumable:
                 return _defaultConsumableInventorySize;
             case ItemType.Misc:

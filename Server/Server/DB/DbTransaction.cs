@@ -165,18 +165,47 @@ namespace Server.DB
                         newAmounts.Add((currencyType, newAmount));
                     }
 
-                    // 3. 아이템 보상 (같은 ItemId가 이미 있으면 수량 증가, 없으면 새 행 추가)
+                    // 3. 아이템 보상
+                    // ItemType별 사용 중인 SlotIndex를 미리 수집 (배치 내 중복 방지 포함)
+                    List<PlayerItemDb> existingPlayerItems = db.PlayerItems
+                        .Where(i => i.PlayerDbId == player.PlayerId)
+                        .ToList();
+
+                    var usedSlotsByType = new Dictionary<Data.ItemType, HashSet<int>>();
+                    foreach (PlayerItemDb pi in existingPlayerItems)
+                    {
+                        Data.ItemType t = Data.SpecDataManager.Instance.GetItem(pi.ItemId)?.ItemType ?? Data.ItemType.None;
+                        if (!usedSlotsByType.ContainsKey(t))
+                            usedSlotsByType[t] = new HashSet<int>();
+                        usedSlotsByType[t].Add(pi.SlotIndex);
+                    }
+
+                    // (itemId, finalCount, slotIndex) -> 인메모리 싱크용
+                    var itemResults = new List<(int itemId, int finalCount, int slotIndex)>();
+
                     foreach (var (itemId, amount) in itemRewards)
                     {
-                        PlayerItemDb existing = db.PlayerItems
-                            .FirstOrDefault(i => i.PlayerDbId == player.PlayerId && i.ItemId == itemId);
+                        PlayerItemDb existing = existingPlayerItems.FirstOrDefault(i => i.ItemId == itemId);
                         if (existing != null)
                         {
                             existing.Count += amount;
+                            itemResults.Add((itemId, existing.Count, existing.SlotIndex));
                         }
                         else
                         {
-                            db.PlayerItems.Add(new PlayerItemDb { PlayerDbId = player.PlayerId, ItemId = itemId, Count = amount });
+                            Data.ItemType itemType = Data.SpecDataManager.Instance.GetItem(itemId)?.ItemType ?? Data.ItemType.None;
+                            if (!usedSlotsByType.TryGetValue(itemType, out HashSet<int> usedSlots))
+                            {
+                                usedSlots = new HashSet<int>();
+                                usedSlotsByType[itemType] = usedSlots;
+                            }
+
+                            int nextSlot = FindNextAvailableSlot(usedSlots);
+                            usedSlots.Add(nextSlot);
+
+                            var newItem = new PlayerItemDb { PlayerDbId = player.PlayerId, ItemId = itemId, Count = amount, SlotIndex = nextSlot };
+                            db.PlayerItems.Add(newItem);
+                            itemResults.Add((itemId, amount, nextSlot));
                         }
                     }
 
@@ -184,14 +213,16 @@ namespace Server.DB
                     transaction.Commit();
 
                     // 4. 인메모리 Items 동기화 + 아이템 업데이트 패킷 전송
-                    foreach (var (itemId, amount) in itemRewards)
+                    foreach (var (itemId, finalCount, slotIndex) in itemResults)
                     {
                         PlayerItemDb memItem = player.Items.FirstOrDefault(i => i.ItemId == itemId);
                         if (memItem != null)
-                            memItem.Count += amount;
+                        {
+                            memItem.Count = finalCount;
+                        }
                         else
                         {
-                            memItem = new PlayerItemDb { PlayerDbId = player.PlayerId, ItemId = itemId, Count = amount };
+                            memItem = new PlayerItemDb { PlayerDbId = player.PlayerId, ItemId = itemId, Count = finalCount, SlotIndex = slotIndex };
                             player.Items.Add(memItem);
                         }
 
@@ -264,6 +295,20 @@ namespace Server.DB
                 });
 
                 player.GameRoom?.Push(() => player.QuestTracker.Load());
+            }
+        }
+
+        #endregion
+
+        #region Item Helpers
+
+        // ItemType별 슬롯 인덱스를 독립 관리 - usedSlots에 없는 가장 작은 0 이상의 정수를 반환
+        private static int FindNextAvailableSlot(HashSet<int> usedSlots)
+        {
+            for (int slot = 0; ; ++slot)
+            {
+                if (!usedSlots.Contains(slot))
+                    return slot;
             }
         }
 
