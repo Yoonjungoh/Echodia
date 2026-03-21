@@ -47,7 +47,15 @@ namespace Server.Game
             {
                 while (true)
                 {
-                    room.Update();
+                    try
+                    {
+                        room.Update();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[Room {room.ServerId}-{room.ChannelId} Error]: {ex.Message}");
+                    }
+
                     await Task.Delay(tick);
                 }
             });
@@ -72,7 +80,7 @@ namespace Server.Game
 
             return newRoom;
         }
-        
+
         public GameRoom Find(int mapId)
         {
             lock (_lock)
