@@ -22,14 +22,24 @@ public class UI_Inventory : UI_Popup
 
     enum GameObjects
     {
-        EquipmentTabHighlight,
-        ConsumableTabHighlight,
-        MiscTabHighlight,
+        EquipmentTab,
+        ConsumableTab,
+        MiscTab,
     }
 
     private Transform _itemContent;
 
     private ItemType _currentTab = ItemType.Equipment;
+
+    private GameObject _equipmentTab;
+    private GameObject _consumableTab;
+    private GameObject _miscTab;
+
+    private int _defaultEquimentInventorySize;
+    private int _defaultConsumableInventorySize;
+    private int _defaultMiscInventorySize;
+
+    private List<InventorySlot_SubItem> _slots = new List<InventorySlot_SubItem>();
 
     public override void Init()
     {
@@ -47,54 +57,101 @@ public class UI_Inventory : UI_Popup
         GetButton((int)Buttons.ConsumableTabButton).onClick.AddListener(() => OnClickTab(ItemType.Consumable));
         GetButton((int)Buttons.MiscTabButton).onClick.AddListener(() => OnClickTab(ItemType.Misc));
 
+        _equipmentTab = Get<GameObject>((int)GameObjects.EquipmentTab);
+        _consumableTab = Get<GameObject>((int)GameObjects.ConsumableTab);
+        _miscTab = Get<GameObject>((int)GameObjects.MiscTab);
+
+        // UI에 빈 슬롯 미리 채워놓기
+        // TODO - 후에 인벤토리 칸 확장 고려
+        _defaultEquimentInventorySize = Managers.Config.GetInt(ConfigType.DefaultEquimentInventorySize);
+        _defaultConsumableInventorySize = Managers.Config.GetInt(ConfigType.DefaultConsumableInventorySize);
+        _defaultMiscInventorySize = Managers.Config.GetInt(ConfigType.DefaultMiscInventorySize);
+
+        InitInventorySlotItems();
+
         Managers.Inventory.OnInventoryChanged -= UpdateUI;
         Managers.Inventory.OnInventoryChanged += UpdateUI;
 
         UpdateUI();
     }
 
-    private void OnDestroy()
+    private void InitInventorySlotItems()
     {
-        Managers.Inventory.OnInventoryChanged -= UpdateUI;
+        int maxSlotCount = Mathf.Max(
+            _defaultEquimentInventorySize,
+            _defaultConsumableInventorySize,
+            _defaultMiscInventorySize
+        );
+
+        for (int i = 0; i < maxSlotCount; ++i)
+        {
+            InventorySlot_SubItem slot = Managers.UI.MakeSubItem<InventorySlot_SubItem>(_itemContent);
+            slot.gameObject.SetActive(false);
+            _slots.Add(slot);
+        }
     }
 
     private void OnClickTab(ItemType tabType)
     {
         _currentTab = tabType;
-        UpdateTabHighlight();
-        RefreshItemList();
+        UpdateUI();
     }
 
-    private void UpdateTabHighlight()
+    private void UpdateTab()
     {
-        Get<GameObject>((int)GameObjects.EquipmentTabHighlight).SetActive(_currentTab == ItemType.Equipment);
-        Get<GameObject>((int)GameObjects.ConsumableTabHighlight).SetActive(_currentTab == ItemType.Consumable);
-        Get<GameObject>((int)GameObjects.MiscTabHighlight).SetActive(_currentTab == ItemType.Misc);
+        _equipmentTab.SetActive(_currentTab == ItemType.Equipment);
+        _consumableTab.SetActive(_currentTab == ItemType.Consumable);
+        _miscTab.SetActive(_currentTab == ItemType.Misc);
     }
 
     private void UpdateUI()
     {
-        UpdateTabHighlight();
+        UpdateTab();
         RefreshItemList();
     }
 
     private void RefreshItemList()
     {
-        foreach (Transform child in _itemContent)
-        {
-            Managers.Resource.Destroy(child.gameObject);
-        }
+        int tabSize = GetCurrentTabSize();
 
+        // 현재 탭 타입의 slotIndex -> ItemInfo 룩업 구성
+        Dictionary<int, ItemInfo> tabItems = new Dictionary<int, ItemInfo>();
         foreach (var kvp in Managers.Inventory.Items)
         {
             ItemInfo itemInfo = kvp.Value;
             ItemMetaData metaData = Managers.SpecData.GetItem(itemInfo.ItemId);
-            if (metaData == null || metaData.ItemType != _currentTab)
+            if (metaData != null && metaData.ItemType == _currentTab)
+            {
+                tabItems[itemInfo.SlotIndex] = itemInfo;
+            }
+        }
+
+        for (int i = 0; i < _slots.Count; ++i)
+        {
+            bool isActive = i < tabSize;
+            _slots[i].gameObject.SetActive(isActive);
+
+            if (!isActive)
                 continue;
 
-            Inventory_SlotItem slotItem = Managers.UI.MakeSubItem<Inventory_SlotItem>(_itemContent);
-            slotItem.SetData(itemInfo);
+            tabItems.TryGetValue(i, out ItemInfo foundItem);
+            _slots[i].SetData(foundItem);
         }
+    }
+
+    private int GetCurrentTabSize()
+    {
+        switch (_currentTab)
+        {
+            case ItemType.Equipment:
+                return _defaultConsumableInventorySize;
+            case ItemType.Consumable:
+                return _defaultConsumableInventorySize;
+            case ItemType.Misc:
+                return _defaultMiscInventorySize;
+        }
+
+        return 0;
     }
 
     private void OnClickCloseButton()
@@ -112,5 +169,10 @@ public class UI_Inventory : UI_Popup
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    private void OnDestroy()
+    {
+        Managers.Inventory.OnInventoryChanged -= UpdateUI;
     }
 }

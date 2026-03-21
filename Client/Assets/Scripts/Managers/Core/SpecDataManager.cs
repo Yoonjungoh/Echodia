@@ -33,6 +33,8 @@ public partial class SpecDataManager
     List<QuestObjectiveDefinitionMetaData>            _questObjectiveDefinitionList = new List<QuestObjectiveDefinitionMetaData>();
     Dictionary<int, MonsterMetaData> _monsterDict = new Dictionary<int, MonsterMetaData>();
     List<MonsterMetaData>            _monsterList = new List<MonsterMetaData>();
+    Dictionary<int, DropItemMetaData> _dropItemDict = new Dictionary<int, DropItemMetaData>();
+    List<DropItemMetaData>            _dropItemList = new List<DropItemMetaData>();
     Dictionary<int, PlayerMetaData> _playerDict = new Dictionary<int, PlayerMetaData>();
     List<PlayerMetaData>            _playerList = new List<PlayerMetaData>();
 
@@ -49,6 +51,7 @@ public partial class SpecDataManager
         yield return CoFetch_QuestDefinition();
         yield return CoFetch_QuestObjectiveDefinition();
         yield return CoFetch_Monster();
+        yield return CoFetch_DropItem();
         yield return CoFetch_Player();
 
         IsReady = true;
@@ -812,7 +815,7 @@ public partial class SpecDataManager
             _monsterDict.Clear();
             _monsterList.Clear();
 
-            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 13);
+            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 14);
             for (int i = 2; i < rows.Count; i++)
             {
                 string[] cells = rows[i];
@@ -843,124 +846,135 @@ public partial class SpecDataManager
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // MaxHp (int)
-                try { data.MaxHp = ParseInt(cells[2]); }
+                // DropItemGroupId (int)
+                try { data.DropItemGroupId = ParseInt(cells[2]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 3 (MaxHp)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (DropItemGroupId)\n" +
                         "  타입: int\n" +
                         "  값: \"" + cells[2] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // CommonAttackDamage (float)
-                try { data.CommonAttackDamage = ParseFloat(cells[3]); }
+                // MaxHp (int)
+                try { data.MaxHp = ParseInt(cells[3]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 4 (CommonAttackDamage)\n" +
-                        "  타입: float\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 4 (MaxHp)\n" +
+                        "  타입: int\n" +
                         "  값: \"" + cells[3] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // CommonAttackCoolTime (float)
-                try { data.CommonAttackCoolTime = ParseFloat(cells[4]); }
+                // CommonAttackDamage (float)
+                try { data.CommonAttackDamage = ParseFloat(cells[4]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 5 (CommonAttackCoolTime)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 5 (CommonAttackDamage)\n" +
                         "  타입: float\n" +
                         "  값: \"" + cells[4] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // AttackRange (float)
-                try { data.AttackRange = ParseFloat(cells[5]); }
+                // CommonAttackCoolTime (float)
+                try { data.CommonAttackCoolTime = ParseFloat(cells[5]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 6 (AttackRange)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 6 (CommonAttackCoolTime)\n" +
                         "  타입: float\n" +
                         "  값: \"" + cells[5] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // Defense (float)
-                try { data.Defense = ParseFloat(cells[6]); }
+                // AttackRange (float)
+                try { data.AttackRange = ParseFloat(cells[6]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 7 (Defense)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 7 (AttackRange)\n" +
                         "  타입: float\n" +
                         "  값: \"" + cells[6] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // MoveSpeed (float)
-                try { data.MoveSpeed = ParseFloat(cells[7]); }
+                // Defense (float)
+                try { data.Defense = ParseFloat(cells[7]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 8 (MoveSpeed)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 8 (Defense)\n" +
                         "  타입: float\n" +
                         "  값: \"" + cells[7] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // Level (int)
-                try { data.Level = ParseInt(cells[8]); }
+                // MoveSpeed (float)
+                try { data.MoveSpeed = ParseFloat(cells[8]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 9 (Level)\n" +
-                        "  타입: int\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 9 (MoveSpeed)\n" +
+                        "  타입: float\n" +
                         "  값: \"" + cells[8] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // Exp (int)
-                try { data.Exp = ParseInt(cells[9]); }
+                // Level (int)
+                try { data.Level = ParseInt(cells[9]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 10 (Exp)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 10 (Level)\n" +
                         "  타입: int\n" +
                         "  값: \"" + cells[9] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // Gold (int)
-                try { data.Gold = ParseInt(cells[10]); }
+                // Exp (int)
+                try { data.Exp = ParseInt(cells[10]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 11 (Gold)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 11 (Exp)\n" +
                         "  타입: int\n" +
                         "  값: \"" + cells[10] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // SearchRange (float)
-                try { data.SearchRange = ParseFloat(cells[11]); }
+                // Gold (int)
+                try { data.Gold = ParseInt(cells[11]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 12 (SearchRange)\n" +
-                        "  타입: float\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 12 (Gold)\n" +
+                        "  타입: int\n" +
                         "  값: \"" + cells[11] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // RespawnTime (float)
-                try { data.RespawnTime = ParseFloat(cells[12]); }
+                // SearchRange (float)
+                try { data.SearchRange = ParseFloat(cells[12]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 13 (RespawnTime)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 13 (SearchRange)\n" +
                         "  타입: float\n" +
                         "  값: \"" + cells[12] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // RespawnTime (float)
+                try { data.RespawnTime = ParseFloat(cells[13]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Monster] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 14 (RespawnTime)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[13] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
@@ -977,6 +991,112 @@ public partial class SpecDataManager
             }
 
             Debug.Log("[SpecDataManager] Monster 로드 완료: " + _monsterList.Count + "개");
+        }
+    }
+
+    IEnumerator CoFetch_DropItem()
+    {
+        string url = GoogleSheetConfig.BuildJsonUrl("DropItem");
+        using (UnityWebRequest req = UnityWebRequest.Get(url))
+        {
+            yield return req.SendWebRequest();
+            if (req.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("[SpecDataManager] DropItem 다운로드 실패: " + req.error);
+                yield break;
+            }
+
+            _dropItemDict.Clear();
+            _dropItemList.Clear();
+
+            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 6);
+            for (int i = 2; i < rows.Count; i++)
+            {
+                string[] cells = rows[i];
+                if (string.IsNullOrEmpty(cells[0])) continue;
+                int sheetRow = i + 1;
+                DropItemMetaData data = new DropItemMetaData();
+                bool rowOk = true;
+
+                // Id (int)
+                try { data.Id = ParseInt(cells[0]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [DropItem] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 1 (Id)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[0] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // DropItemGroupId (int)
+                try { data.DropItemGroupId = ParseInt(cells[1]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [DropItem] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 2 (DropItemGroupId)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[1] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // ItemId (int)
+                try { data.ItemId = ParseInt(cells[2]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [DropItem] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (ItemId)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[2] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Probability (int)
+                try { data.Probability = ParseInt(cells[3]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [DropItem] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 4 (Probability)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[3] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // MinCount (int)
+                try { data.MinCount = ParseInt(cells[4]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [DropItem] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 5 (MinCount)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[4] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // MaxCount (int)
+                try { data.MaxCount = ParseInt(cells[5]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [DropItem] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 6 (MaxCount)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[5] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+
+                if (rowOk)
+                {
+                    _dropItemDict[data.Id] = data;
+                    _dropItemList.Add(data);
+                }
+                else
+                {
+                    Debug.LogWarning("[SpecDataManager] [DropItem] 행 " + sheetRow + " 파싱 오류로 스킵됨.");
+                }
+            }
+
+            Debug.Log("[SpecDataManager] DropItem 로드 완료: " + _dropItemList.Count + "개");
         }
     }
 
@@ -1137,6 +1257,17 @@ public partial class SpecDataManager
     public List<MonsterMetaData> GetAllMonster()
     {
         return _monsterList;
+    }
+
+    public DropItemMetaData GetDropItem(int id)
+    {
+        _dropItemDict.TryGetValue(id, out DropItemMetaData result);
+        return result;
+    }
+
+    public List<DropItemMetaData> GetAllDropItem()
+    {
+        return _dropItemList;
     }
 
     public PlayerMetaData GetPlayer(int id)

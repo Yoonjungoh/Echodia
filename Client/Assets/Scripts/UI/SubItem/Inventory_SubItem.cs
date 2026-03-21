@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Inventory_SlotItem : UI_SubItem<ItemInfo>
+public class InventorySlot_SubItem : UI_SubItem<ItemInfo>
 {
     enum Texts
     {
@@ -24,6 +24,7 @@ public class Inventory_SlotItem : UI_SubItem<ItemInfo>
     }
 
     public Action<ItemInfo> OnClickSlotAction;
+    private Image _itemImage;
 
     public override void Init()
     {
@@ -31,6 +32,8 @@ public class Inventory_SlotItem : UI_SubItem<ItemInfo>
         Bind<Image>(typeof(Images));
         Bind<GameObject>(typeof(GameObjects));
 
+        _itemImage = GetImage((int)Images.ItemImage);
+        // TODO - 툴팁
         BindEvent(gameObject, _ => OnClickSlotAction?.Invoke(_data));
     }
 
@@ -50,16 +53,20 @@ public class Inventory_SlotItem : UI_SubItem<ItemInfo>
             return;
         }
 
-        GetImage((int)Images.ItemImage).sprite = Managers.Image.GetAssetImage(_data.ItemId);
+        _itemImage.sprite = Managers.Image.GetAssetImage(_data.ItemId);
 
-        bool showCount = _data.Count > 1;
+        bool showCount = (_data.Count > 1);
         Get<GameObject>((int)GameObjects.CountBadge).SetActive(showCount);
         if (showCount)
+        {
             GetTextMeshProUGUI((int)Texts.CountText).text = _data.Count.ToString();
+        }
 
-        bool showEnchant = _data.EnchantLevel > 0;
+        bool showEnchant = (_data.EnchantLevel > 0);
         Get<GameObject>((int)GameObjects.EnchantBadge).SetActive(showEnchant);
         if (showEnchant)
+        {
             GetTextMeshProUGUI((int)Texts.EnchantText).text = $"+{_data.EnchantLevel}";
+        }
     }
 }

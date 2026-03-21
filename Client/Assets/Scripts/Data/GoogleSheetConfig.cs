@@ -19,6 +19,7 @@ public static class GoogleSheetConfig
         "QuestDefinition",
         "QuestObjectiveDefinition",
         "Monster",
+        "DropItem",
         "Player",
         "Config",
     };

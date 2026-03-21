@@ -100,6 +100,7 @@ namespace Server.Data
     {
         public int Id;
         public MonsterType MonsterType;
+        public int DropItemGroupId;
         public int MaxHp;
         public float CommonAttackDamage;
         public float CommonAttackCoolTime;
@@ -111,6 +112,18 @@ namespace Server.Data
         public int Gold;
         public float SearchRange;
         public float RespawnTime;
+    }
+
+    // ── DropItem
+    [Serializable]
+    public class DropItemMetaData
+    {
+        public int Id;
+        public int DropItemGroupId;
+        public int ItemId;
+        public int Probability;
+        public int MinCount;
+        public int MaxCount;
     }
 
     // ── Player

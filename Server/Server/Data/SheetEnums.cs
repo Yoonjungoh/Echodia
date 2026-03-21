@@ -55,6 +55,9 @@ namespace Server.Data
         EquipmentStartId = 5,
         ConsumableStartId = 6,
         MiscStartId = 7,
+        DefaultEquimentInventorySize = 8,
+        DefaultConsumableInventorySize = 9,
+        DefaultMiscInventorySize = 10,
     }
     
     

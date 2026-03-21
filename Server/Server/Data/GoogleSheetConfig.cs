@@ -21,6 +21,7 @@ namespace Server.Data
             "QuestDefinition",
             "QuestObjectiveDefinition",
             "Monster",
+            "DropItem",
             "Player",
             "Config",
         };
