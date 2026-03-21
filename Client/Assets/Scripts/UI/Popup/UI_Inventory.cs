@@ -31,6 +31,7 @@ public class UI_Inventory : UI_Popup
 
     private ItemType _currentTab = ItemType.Equipment;
 
+    // 활성화 여부 담당
     private GameObject _equipmentTab;
     private GameObject _consumableTab;
     private GameObject _miscTab;

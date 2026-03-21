@@ -91,6 +91,42 @@ namespace Server.Migrations
                     b.ToTable("Player");
                 });
 
+            modelBuilder.Entity("Server.DB.PlayerItemDb", b =>
+                {
+                    b.Property<int>("PlayerItemDbId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlayerItemDbId"));
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EnchantLevel")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsEquipped")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlayerDbId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RestEnchantCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SlotIndex")
+                        .HasColumnType("int");
+
+                    b.HasKey("PlayerItemDbId");
+
+                    b.HasIndex("PlayerDbId");
+
+                    b.ToTable("PlayerItem");
+                });
+
             modelBuilder.Entity("Server.DB.QuestDb", b =>
                 {
                     b.Property<int>("QuestDbId")
@@ -141,6 +177,15 @@ namespace Server.Migrations
                     b.Navigation("Account");
                 });
 
+            modelBuilder.Entity("Server.DB.PlayerItemDb", b =>
+                {
+                    b.HasOne("Server.DB.PlayerDb", null)
+                        .WithMany("Items")
+                        .HasForeignKey("PlayerDbId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Server.DB.QuestDb", b =>
                 {
                     b.HasOne("Server.DB.PlayerDb", null)
@@ -157,6 +202,8 @@ namespace Server.Migrations
 
             modelBuilder.Entity("Server.DB.PlayerDb", b =>
                 {
+                    b.Navigation("Items");
+
                     b.Navigation("Quests");
                 });
 #pragma warning restore 612, 618

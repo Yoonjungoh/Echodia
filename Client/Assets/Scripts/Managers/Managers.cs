@@ -78,15 +78,7 @@ public class Managers : MonoBehaviour
 
             DontDestroyOnLoad(go);
             s_instance = go.GetComponent<Managers>();
-
-            // 네트워크는 로비에 입장 시 Init
-            s_instance._data.Init();
-            s_instance._sound.Init();
-            s_instance._resource.Init();
-            s_instance._map.Init();
-            s_instance._gameRoomObject.Init();
-            s_instance._image.Init();
-            s_instance._quest.Init();
+            InitAfterCoInit();
         }
     }
 
@@ -101,9 +93,22 @@ public class Managers : MonoBehaviour
 
     public static bool IsDataReady { get; private set; }
 
+    private static void InitAfterCoInit()
+    {
+        // 네트워크는 로비에 입장 시 Init
+        s_instance._data.Init();
+        s_instance._sound.Init();
+        s_instance._resource.Init();
+        s_instance._map.Init();
+        s_instance._gameRoomObject.Init();
+        s_instance._image.Init();
+        s_instance._quest.Init();
+    }
+
     private void OnAllDataReady()
     {
         IsDataReady = true;
+        InitAfterCoInit();
         Debug.Log("[Managers] 모든 데이터 준비 완료. 게임 시작 가능.");
 
         // 최초에만 적용 (이후에는 LoadScene에서 CurrentScene 자동으로 바뀜)

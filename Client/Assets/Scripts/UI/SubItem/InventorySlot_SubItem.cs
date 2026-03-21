@@ -4,12 +4,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Inventory_SubItem : UI_SubItem<ItemInfo>
+public class InventorySlot_SubItem : UI_SubItem<ItemInfo>
 {
     enum Texts
     {
         CountText,
-        EnchantText,
+        EnchantLevelText,
     }
 
     enum Images
@@ -24,6 +24,14 @@ public class Inventory_SubItem : UI_SubItem<ItemInfo>
     }
 
     public Action<ItemInfo> OnClickSlotAction;
+    private Image _itemImage;
+    private GameObject _countBadge;
+    private TextMeshProUGUI _countText;
+    private GameObject _enchantBadge;
+    private TextMeshProUGUI _enchantLevelText;
+
+    private int _equipmentStartId;
+    private int _consumableStartId;
 
     public override void Init()
     {
@@ -31,7 +39,19 @@ public class Inventory_SubItem : UI_SubItem<ItemInfo>
         Bind<Image>(typeof(Images));
         Bind<GameObject>(typeof(GameObjects));
 
+        // TODO - 툴팁 추가
         BindEvent(gameObject, _ => OnClickSlotAction?.Invoke(_data));
+
+        _itemImage = GetImage((int)Images.ItemImage);
+
+        _countBadge = Get<GameObject>((int)GameObjects.CountBadge);
+        _countText = GetTextMeshProUGUI((int)Texts.CountText);
+
+        _enchantBadge = Get<GameObject>((int)GameObjects.EnchantBadge);
+        _enchantLevelText = GetTextMeshProUGUI((int)Texts.EnchantLevelText);
+
+        _equipmentStartId = Managers.Config.GetInt(ConfigType.EquipmentStartId);
+        _consumableStartId = Managers.Config.GetInt(ConfigType.ConsumableStartId);
     }
 
     public override void SetData(ItemInfo data)
@@ -44,22 +64,26 @@ public class Inventory_SubItem : UI_SubItem<ItemInfo>
     {
         if (_data == null)
         {
-            GetImage((int)Images.ItemImage).sprite = null;
-            Get<GameObject>((int)GameObjects.CountBadge).SetActive(false);
-            Get<GameObject>((int)GameObjects.EnchantBadge).SetActive(false);
+            _itemImage.sprite = null;
+            _countBadge.SetActive(false);
+            _enchantBadge.SetActive(false);
             return;
         }
+        _itemImage.sprite = Managers.Image.GetAssetImage(_data.ItemId);
 
-        GetImage((int)Images.ItemImage).sprite = Managers.Image.GetAssetImage(_data.ItemId);
-
-        bool showCount = _data.Count > 1;
-        Get<GameObject>((int)GameObjects.CountBadge).SetActive(showCount);
+        bool showCount = (_data.Count >= 1);
+        _countBadge.SetActive(showCount);
         if (showCount)
-            GetTextMeshProUGUI((int)Texts.CountText).text = _data.Count.ToString();
+        {
+            _countText.text = _data.Count.ToString();
+        }
 
-        bool showEnchant = _data.EnchantLevel > 0;
-        Get<GameObject>((int)GameObjects.EnchantBadge).SetActive(showEnchant);
+        // 장비만 강화 단계 표시
+        bool showEnchant = _equipmentStartId <= _data.ItemId && _data.ItemId <= _consumableStartId ;
+        _enchantBadge.SetActive(showEnchant);
         if (showEnchant)
-            GetTextMeshProUGUI((int)Texts.EnchantText).text = $"+{_data.EnchantLevel}";
+        {
+            _enchantLevelText.text = $"+{_data.EnchantLevel}";
+        }
     }
 }

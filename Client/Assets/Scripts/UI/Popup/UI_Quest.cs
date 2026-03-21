@@ -169,7 +169,7 @@ public class UI_Quest : UI_Popup
             return;
 
         QuestDefinitionMetaData mainQuestData = Managers.SpecData.GetQuestDefinition(_selectedQuest.MainQuestId);
-        _questMainTitleText.text = $"{mainQuestData.Title} {_selectedQuest.MainQuestId}-{_selectedQuest.SubQuestId}";
+        _questMainTitleText.text = $"{mainQuestData.Title}";
         _questSubTitleText.text = $"Lv.{mainQuestData.ReqLevel} Quest";
         _questDescriptionText.text = _selectedQuestMetaData.Description;
         _questProgressText.text = $"({_selectedQuest.RequiredCount}/{_selectedQuestMetaData.RequiredCount})";

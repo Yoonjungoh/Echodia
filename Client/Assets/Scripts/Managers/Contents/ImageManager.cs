@@ -41,9 +41,13 @@ public class ImageManager
             string path = $"{CurrencyBasePath}/{type}";
             Sprite sprite = Resources.Load<Sprite>(path);
             if (sprite != null)
+            {
                 _currencySprites[type] = sprite;
+            }
             else
+            {
                 Debug.LogWarning($"[ImageManager] Currency 스프라이트 없음: {path}");
+            }
         }
     }
 
@@ -64,7 +68,9 @@ public class ImageManager
                 string path = $"{EquipmentBasePath}/{slotType}/{equipType}";
                 Sprite sprite = Resources.Load<Sprite>(path);
                 if (sprite != null)
+                {
                     _equipmentSprites[equipType] = sprite;
+                }
             }
         }
     }
@@ -79,9 +85,13 @@ public class ImageManager
             string path = $"{ConsumableBasePath}/{type}";
             Sprite sprite = Resources.Load<Sprite>(path);
             if (sprite != null)
+            {
                 _consumableSprites[type] = sprite;
+            }
             else
+            {
                 Debug.LogWarning($"[ImageManager] Consumable 스프라이트 없음: {path}");
+            }
         }
     }
 
@@ -95,9 +105,13 @@ public class ImageManager
             string path = $"{MiscBasePath}/{type}";
             Sprite sprite = Resources.Load<Sprite>(path);
             if (sprite != null)
+            {
                 _miscSprites[type] = sprite;
+            }
             else
+            {
                 Debug.LogWarning($"[ImageManager] Misc 스프라이트 없음: {path}");
+            }
         }
     }
 
