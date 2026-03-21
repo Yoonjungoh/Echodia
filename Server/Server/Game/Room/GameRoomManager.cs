@@ -43,20 +43,34 @@ namespace Server.Game
 
         public void TickRoom(GameRoom room, int tick)
         {
+            var sw = new System.Diagnostics.Stopwatch();
+
             Task.Run(async () =>
             {
                 while (true)
                 {
                     try
                     {
+                        // 매번 new 하지 않고 기존 sw를 0으로 만들고 다시 시작
+                        sw.Restart();
+
                         room.Update();
+
+                        sw.Stop();
+
+                        // 보정값 계산
+                        int delayTime = tick - (int)sw.ElapsedMilliseconds;
+
+                        if (delayTime > 0)
+                        {
+                            await Task.Delay(delayTime);
+                        }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"[Room {room.ServerId}-{room.ChannelId} Error]: {ex.Message}");
+                        ConsoleLogManager.Instance.Log($"[Room {room.ServerId}-{room.ChannelId} Error]: {ex.Message}");
+                        await Task.Delay(tick);
                     }
-
-                    await Task.Delay(tick);
                 }
             });
         }
