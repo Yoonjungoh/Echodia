@@ -79,7 +79,7 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>
         }
 
         // 장비만 강화 단계 표시
-        bool showEnchant = _equipmentStartId <= _data.ItemId && _data.ItemId <= _consumableStartId ;
+        bool showEnchant = (_equipmentStartId <= _data.ItemId) && (_data.ItemId < _consumableStartId);
         _enchantBadge.SetActive(showEnchant);
         if (showEnchant)
         {

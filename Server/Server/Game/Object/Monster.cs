@@ -243,6 +243,16 @@ namespace Server.Game
             _nextAttackTick = 0;
         }
 
+        public virtual void OnRespawn()
+        {
+            _target = null;
+            _cachedPath = null;
+            _nextSearchTick = 0;
+            _nextMoveTick = 0;
+            _nextAttackTick = 0;
+            _lastDir = Vector3.Zero;
+        }
+
         public override void OnDead(GameObject instigator)
         {
             // 리스폰 큐에 넣기

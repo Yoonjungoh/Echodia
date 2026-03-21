@@ -5,6 +5,7 @@ using Server.Game.Room;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Server.Game
 {
@@ -13,7 +14,6 @@ namespace Server.Game
         private object _lock = new object();
         private Dictionary<GameRoomKey, GameRoom> _rooms = new Dictionary<GameRoomKey, GameRoom>();
         public Dictionary<GameRoomKey, GameRoom> Rooms { get { return _rooms; } }
-        private List<System.Timers.Timer> _timers = new List<System.Timers.Timer>();
         public int ServerId { get; set; }
         public int ChannelId { get; set; }
 
@@ -43,12 +43,14 @@ namespace Server.Game
 
         public void TickRoom(GameRoom room, int tick)
         {
-            var timer = new System.Timers.Timer();
-            timer.Interval = tick;
-            timer.Elapsed += ((s, e) => { room.Update(); });
-            timer.AutoReset = true;
-            timer.Enabled = true;
-            _timers.Add(timer);
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    room.Update();
+                    await Task.Delay(tick);
+                }
+            });
         }
 
         private GameRoom CreateGameRoom(int mapId)
