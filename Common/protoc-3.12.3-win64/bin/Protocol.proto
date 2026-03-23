@@ -56,6 +56,8 @@ enum MsgId {
   S_QUEST_PROGRESS_UPDATE = 142;  // 퀘스트 진행 카운트 공유 패킷
   S_UPDATE_ITEM_DATA = 143;      // 단일 아이템 업데이트 (보상 지급 등)
   S_UPDATE_ITEM_DATA_ALL = 144;  // 전체 인벤토리 초기 전송
+  C_USE_ITEM = 145;
+  S_USE_ITEM = 146;
 }
 
 enum CreatureState {
@@ -125,6 +127,7 @@ enum EnterServerResult {
   SERVER_MAINTENANCE = 6;
 }
 
+
 enum CurrencyType {
   CURRENCY_TYPE_NONE = 0;
   CURRENCY_TYPE_JEWEL = 1;
@@ -156,6 +159,13 @@ enum QuestStatus {
   QUEST_STATUS_PROCEEDING = 2;	// �����ؼ� ���� �� (�����ϰ� ���� �ܰ�)
   QUEST_STATUS_COMPLETED = 3;	// �Ϸ� (���� �ޱ� �� �ܰ�)
   QUEST_STATUS_REWARD_CLAIMED = 4;	// ������� ���� ����
+}
+
+enum UseItemResult {
+  USE_ITEM_RESULT_NONE = 0;
+  USE_ITEM_RESULT_SUCCESS = 1;
+  USE_ITEM_RESULT_NOT_ENOUGH = 2;
+  USE_ITEM_RESULT_COOLDOWN = 3;
 }
 
 message S_AssignUserId {
@@ -395,6 +405,15 @@ message S_QuestProgressUpdate {
   int32 mainQuestId = 1;
   int32 subQuestId = 2;
   int32 currentCount = 3;
+}
+
+message C_UseItem {
+  int32 slotIndex = 1; // 인벤토리의 몇 번째 칸인지
+}
+
+message S_UseItem {
+  int32 slotIndex = 1; // 인벤토리의 몇 번째 칸인지
+  UseItemResult useItemResult = 2;
 }
 
 // 클라가 퀘스트 초기화 할 때 필요한 존재

@@ -73,8 +73,7 @@ namespace Server.Game
             float realDamage = Math.Clamp(damageDifference, 0.0f, DataManager.Instance.MaxDamage);
 
             // 남은 체력 계산
-            ObjectState.Stat.Hp -= realDamage;
-            ObjectState.Stat.Hp = Math.Clamp(ObjectState.Stat.Hp, 0.0f, DataManager.Instance.MaxHp);
+            SetHp(ObjectState.Stat.Hp - realDamage);
 
             if (ObjectState.Stat.Hp <= 0.0f)
             {
@@ -138,6 +137,12 @@ namespace Server.Game
                 GameRoom.Push(GameRoom.Broadcast, CurrentPosition, diePacket);
                 GameRoom.Push(GameRoom.LeaveGame, Id);
             }
+        }
+
+        public void SetHp(float hp)
+        {
+            Stat.Hp = hp;
+            Stat.Hp = Math.Clamp(ObjectState.Stat.Hp, 0.0f, DataManager.Instance.MaxHp);
         }
 
         // LevelUp 개수를 반환

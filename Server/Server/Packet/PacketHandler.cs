@@ -270,4 +270,14 @@ class PacketHandler
 
         clientSession.ClaimQuestReward(completeQuestPacket.MainQuestId, completeQuestPacket.SubQuestId);
     }
+
+    public static void C_UseItemHandler(PacketSession session, IMessage packet)
+    {
+        C_UseItem useItemPacket = packet as C_UseItem;
+        ClientSession clientSession = session as ClientSession;
+        if (clientSession == null)
+            return;
+
+        clientSession?.MyPlayer?.HandleUseItem(useItemPacket.ItemInfo);
+    }
 }

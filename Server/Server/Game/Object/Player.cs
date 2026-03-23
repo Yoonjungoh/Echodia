@@ -45,6 +45,17 @@ namespace Server.Game
             InitDbData();
         }
 
+        public void HandleUseItem(ItemInfo itemInfo)
+        {
+            S_UseItem useItemPacket = new S_UseItem();
+            useItemPacket.ItemInfo = itemInfo;
+            // 1. 해당 슬롯 인덱스에 있는 아이템이 실제로 플레이어가 가지고 있는 아이템인지 검증 (인메모리 상태 기준)
+            // 2. 개수 확인
+            // 3. 아이템 효과 적용 (ex: HP 회복, 버프 등)
+
+            Session?.Send(useItemPacket);
+        }
+
         // TODO JSON - PlayerType에 따른 stat 변경
         public void InitDbData()
         {
