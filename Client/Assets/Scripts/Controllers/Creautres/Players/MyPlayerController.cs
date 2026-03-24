@@ -79,8 +79,6 @@ public class MyPlayerController : PlayerController
         // TODO - 우선 타이밍 이슈로 어쩔 수 없이 여기서 초기화
         _commonAttackAnimSpeedTime = 2.0f;
         _commonAttackAnimLength = _anim.GetAnimationClipLength(_commonAttackanimName) / _commonAttackAnimSpeedTime;
-
-        _waitCommonAttackReturn = new WaitForSeconds(_commonAttackAnimLength);
     }
 
     private void ProjectileSpawn(AttackType attackType)
@@ -102,7 +100,7 @@ public class MyPlayerController : PlayerController
         spawnProjectilePacket.ProjectileType = _projectileType;
         Managers.Network.Send(spawnProjectilePacket);
 
-        StartCoroutine(CoReturnToIdleAfterAttack(_waitCommonAttackReturn));
+        CoReturnToIdleAfterAttack((int)(_commonAttackAnimLength * 1000)).Forget();
     }
 
     private void MeleeAttack(AttackType attackType)
@@ -118,7 +116,7 @@ public class MyPlayerController : PlayerController
         attackPacket.AttackType = attackType;
         Managers.Network.Send(attackPacket);
 
-        StartCoroutine(CoReturnToIdleAfterAttack(_waitCommonAttackReturn));
+        CoReturnToIdleAfterAttack((int)(_commonAttackAnimLength * 1000)).Forget();
     }
 
     // Scene, CreatureState, 쿨타임 체크

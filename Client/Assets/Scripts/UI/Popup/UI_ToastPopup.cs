@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
@@ -7,19 +9,13 @@ public class UI_ToastPopup : UI_Popup
 {
     [SerializeField] private float _fadeLerpTime = 1.0f;  // 사라지는 속도
     private TextMeshProUGUI _toastPopupText;             // 노출되는 텍스트
-    private Coroutine _loopCoroutine;
+    private bool _loopRunning = false;
 
     // 현재 표시할 메시지 상태
     private string _currentMessage;
     private float _currentDuration;
     private Color _currentColor;
     private bool _hasMessage = false;
-
-    // 카운트다운 변수
-    private const float COUNTDOWN_DLEAY_TIME = 0.1f;
-    private WaitForSeconds _countdownDelay = new WaitForSeconds(0);
-    private bool _countdownActive = false;
-    private Coroutine _countdownCoroutine;
 
     enum Texts
     {
@@ -31,56 +27,6 @@ public class UI_ToastPopup : UI_Popup
         base.Init();
         Bind<TextMeshProUGUI>(typeof(Texts));
         _toastPopupText = GetTextMeshProUGUI((int)Texts.ToastPopupText);
-        _countdownDelay = new WaitForSeconds(COUNTDOWN_DLEAY_TIME);
-    }
-
-    public void ShowCountdown(float time, Action callBack = null, bool isHideCountdownText = false)
-    {
-        // 이미 카운트다운 중이면 무시
-        if (_countdownActive)
-            return;
-
-        // 토스트 루프 메시지 무시 상태로 전환
-        _countdownActive = true;
-        _hasMessage = false;
-
-        // 기존 카운트다운 코루틴 있으면 중단
-        if (_countdownCoroutine != null)
-            StopCoroutine(_countdownCoroutine);
-
-        _countdownCoroutine = StartCoroutine(CoCountdown(time, callBack, isHideCountdownText));
-    }
-
-    private IEnumerator CoCountdown(float time, Action callBack = null, bool isHideCountdownText = false)
-    {
-        float remain = time;
-        _toastPopupText.gameObject.SetActive(isHideCountdownText == false);
-
-        while (remain > 0f)
-        {
-            // 0.1 단위 표시
-            float displayValue = Mathf.Max(0f, remain);
-            _toastPopupText.text = displayValue.ToString("0.0");
-
-            Color c = _toastPopupText.color;
-            c.a = 1f;
-            _toastPopupText.color = c;
-
-            remain -= COUNTDOWN_DLEAY_TIME;
-            yield return _countdownDelay;
-        }
-
-        // 카운트다운 종료
-        _toastPopupText.text = "";
-        Color fade = _toastPopupText.color;
-        fade.a = 0f;
-        _toastPopupText.color = fade;
-
-        _countdownActive = false;
-        _countdownCoroutine = null;
-
-        // 콜백 호출
-        callBack?.Invoke();
     }
 
     public void ShowToastPopup(string message, float duration, Color? colorOverride = null)
@@ -92,22 +38,22 @@ public class UI_ToastPopup : UI_Popup
         _currentColor.a = 1f;
         _hasMessage = true;
 
-        // 코루틴이 존재하지 않으면 시작 (따라서 최초 1회만 할당)
-        if (_loopCoroutine == null)
+        if (!_loopRunning)
         {
-            _loopCoroutine = StartCoroutine(CoToastLoop());
+            CoToastLoop(this.GetCancellationTokenOnDestroy()).Forget();
         }
     }
 
     // 하나의 지속 루프를 돌며, 메시지가 들어올 때만 처리
-    private IEnumerator CoToastLoop()
+    private async UniTask CoToastLoop(CancellationToken token)
     {
+        _loopRunning = true;
         while (true)
         {
             // 메시지가 들어올 때까지 빈 루프
             while (_hasMessage == false)
             {
-                yield return null;
+                await UniTask.Yield(token);
             }
 
             // 메시지 표시
@@ -124,7 +70,7 @@ public class UI_ToastPopup : UI_Popup
 
                 elapsed += Time.deltaTime;
 
-                yield return null;
+                await UniTask.Yield(token);
             }
 
             // Fade out 처리
@@ -142,7 +88,7 @@ public class UI_ToastPopup : UI_Popup
                 colorBeforeFade.a = Mathf.Lerp(1f, 0f, percent);
                 _toastPopupText.color = colorBeforeFade;
 
-                yield return null;
+                await UniTask.Yield(token);
             }
 
             // 만약 마지막에 페이드가 완료되었고 메시지가 변경되지 않았다면 텍스트를 숨김
@@ -156,7 +102,8 @@ public class UI_ToastPopup : UI_Popup
                 _hasMessage = false;
             }
 
-            yield return null;
+            await UniTask.Yield(token);
         }
     }
+
 }

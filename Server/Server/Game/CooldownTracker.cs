@@ -6,7 +6,7 @@ using Server.Game;
 public class CooldownTracker
 {
     private Player _owner;
-    private Dictionary<int, DateTime> _cooldowns = new Dictionary<int, DateTime>();
+    private Dictionary<int, long> _cooldowns = new Dictionary<int, long>();
 
     public CooldownTracker(Player owner)
     {
@@ -16,29 +16,29 @@ public class CooldownTracker
     // TODO - 로그인 시 DB에서 쿨다운 정보 로드 (현재는 DB 연동 안 함)
     public void Load()
     {
-        
+
     }
 
     public bool IsOnCooldown(int itemId)
     {
-        if (_cooldowns.TryGetValue(itemId, out DateTime cooldownEnd))
+        if (_cooldowns.TryGetValue(itemId, out long cooldownEnd))
         {
-            return DateTime.Now < cooldownEnd;
+            return Environment.TickCount64 < cooldownEnd;
         }
         return false;
     }
 
-    public void StartCooldown(int itemId, TimeSpan cooldownDuration)
+    public void StartCooldown(int itemId, float cooldownSeconds)
     {
-        _cooldowns[itemId] = DateTime.Now.Add(cooldownDuration);
+        _cooldowns[itemId] = Environment.TickCount64 + (long)(cooldownSeconds * 1000);
     }
 
-    public TimeSpan GetRemainingCooldown(int itemId)
+    public long GetRemainingCooldownMs(int itemId)
     {
-        if (_cooldowns.TryGetValue(itemId, out DateTime cooldownEnd))
+        if (_cooldowns.TryGetValue(itemId, out long cooldownEnd))
         {
-            return cooldownEnd - DateTime.Now;
+            return Math.Max(0, cooldownEnd - Environment.TickCount64);
         }
-        return TimeSpan.Zero;
+        return 0;
     }
 }

@@ -1,6 +1,7 @@
 using Google.Protobuf.Protocol;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public abstract class BaseController : MonoBehaviour
@@ -83,6 +84,8 @@ public abstract class BaseController : MonoBehaviour
     public int Level { get { return ObjectState.Level; } set { ObjectState.Level = value; } }
     public int Exp { get { return ObjectState.Exp; } set { ObjectState.Exp = value; } }
 
+    protected CancellationTokenSource _cts;
+    
     protected virtual void OnUpdate()
     {
         switch (CreatureState)
@@ -104,8 +107,10 @@ public abstract class BaseController : MonoBehaviour
     public virtual void Init()
     {
         _initialized = true;
-    }
 
+        _cts = new CancellationTokenSource();
+    }
+    
     protected virtual void UpdateMove() { }
     protected virtual void UpdateIdle() { }
     protected virtual void UpdateAttack() { }
@@ -120,7 +125,9 @@ public abstract class BaseController : MonoBehaviour
 
     protected virtual void OnDestroy()
     {
-        StopAllCoroutines();
+        _cts.Cancel();
+        _cts.Dispose();
+        _cts = new CancellationTokenSource();
     }
 
     public virtual void OnDamaged(float remainHp) { }

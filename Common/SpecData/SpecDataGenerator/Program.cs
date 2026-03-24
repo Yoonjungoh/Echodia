@@ -579,8 +579,8 @@ class Program
         var sb = new StringBuilder();
         AppendHeader(sb);
         sb.AppendLine("using System;");
-        sb.AppendLine("using System.Collections;");
         sb.AppendLine("using System.Collections.Generic;");
+        sb.AppendLine("using Cysharp.Threading.Tasks;");
         sb.AppendLine("using UnityEngine;");
         sb.AppendLine("using UnityEngine.Networking;");
         if (NeedsProtoUsing()) sb.AppendLine("using Google.Protobuf.Protocol;");
@@ -604,13 +604,19 @@ class Program
         }
         sb.AppendLine();
 
-        sb.AppendLine("    public IEnumerator CoDownloadDataSheet()");
+        sb.AppendLine("    public async UniTask DownloadDataSheetAsync()");
         sb.AppendLine("    {");
         sb.AppendLine("        IsReady = false;");
         sb.AppendLine("        Debug.Log(\"[SpecDataManager] 데이터 다운로드 시작\");");
         sb.AppendLine();
-        foreach (var kv in Results)
-            if (kv.Key != "Config") sb.AppendLine($"        yield return CoFetch_{kv.Value.SheetName}();");
+        sb.AppendLine("        await UniTask.WhenAll(");
+        var dataSheetNames = Results.Where(kv => kv.Key != "Config").Select(kv => kv.Value.SheetName).ToList();
+        for (int i = 0; i < dataSheetNames.Count; i++)
+        {
+            string comma = i < dataSheetNames.Count - 1 ? "," : "";
+            sb.AppendLine($"            Fetch_{dataSheetNames[i]}Async(){comma}");
+        }
+        sb.AppendLine("        );");
         sb.AppendLine();
         sb.AppendLine("        IsReady = true;");
         sb.AppendLine("        Debug.Log(\"[SpecDataManager] 모든 데이터 로드 완료\");");
@@ -632,16 +638,16 @@ class Program
         string ln   = LowerFirst(name);
         var    cols = sheet.Columns;
 
-        sb.AppendLine($"    IEnumerator CoFetch_{name}()");
+        sb.AppendLine($"    async UniTask Fetch_{name}Async()");
         sb.AppendLine("    {");
         sb.AppendLine($"        string url = GoogleSheetConfig.BuildJsonUrl(\"{name}\");");
         sb.AppendLine("        using (UnityWebRequest req = UnityWebRequest.Get(url))");
         sb.AppendLine("        {");
-        sb.AppendLine("            yield return req.SendWebRequest();");
+        sb.AppendLine("            await req.SendWebRequest();");
         sb.AppendLine("            if (req.result != UnityWebRequest.Result.Success)");
         sb.AppendLine("            {");
         sb.AppendLine($"                Debug.LogError(\"[SpecDataManager] {name} 다운로드 실패: \" + req.error);");
-        sb.AppendLine("                yield break;");
+        sb.AppendLine("                return;");
         sb.AppendLine("            }");
         sb.AppendLine();
         sb.AppendLine($"            _{ln}Dict.Clear();");
@@ -912,8 +918,8 @@ class Program
         var sb = new StringBuilder();
         AppendHeader(sb);
         sb.AppendLine("using System;");
-        sb.AppendLine("using System.Collections;");
         sb.AppendLine("using System.Collections.Generic;");
+        sb.AppendLine("using Cysharp.Threading.Tasks;");
         sb.AppendLine("using UnityEngine;");
         sb.AppendLine("using UnityEngine.Networking;");
         sb.AppendLine();
@@ -923,18 +929,18 @@ class Program
         sb.AppendLine("    struct ConfigEntry { public string DataType; public string Value; }");
         sb.AppendLine("    readonly Dictionary<ConfigType, ConfigEntry> _dict = new Dictionary<ConfigType, ConfigEntry>();");
         sb.AppendLine();
-        sb.AppendLine("    public IEnumerator CoDownloadConfig()");
+        sb.AppendLine("    public async UniTask DownloadConfigAsync()");
         sb.AppendLine("    {");
         sb.AppendLine("        IsReady = false;");
         sb.AppendLine("        Debug.Log(\"[ConfigManager] Config 다운로드 시작\");");
         sb.AppendLine("        string url = GoogleSheetConfig.BuildJsonUrl(\"Config\");");
         sb.AppendLine("        using (UnityWebRequest req = UnityWebRequest.Get(url))");
         sb.AppendLine("        {");
-        sb.AppendLine("            yield return req.SendWebRequest();");
+        sb.AppendLine("            await req.SendWebRequest();");
         sb.AppendLine("            if (req.result != UnityWebRequest.Result.Success)");
         sb.AppendLine("            {");
         sb.AppendLine("                Debug.LogError(\"[ConfigManager] 다운로드 실패: \" + req.error);");
-        sb.AppendLine("                IsReady = true; yield break;");
+        sb.AppendLine("                IsReady = true; return;");
         sb.AppendLine("            }");
         sb.AppendLine("            _dict.Clear();");
         sb.AppendLine($"            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: {cfg.Columns.Count});");

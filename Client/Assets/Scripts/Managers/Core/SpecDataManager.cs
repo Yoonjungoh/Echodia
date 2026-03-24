@@ -3,8 +3,8 @@
 // Do NOT edit manually — 컬럼 구조 변경 시 GenSpecData.bat 재실행.
 // ============================================================
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 using Google.Protobuf.Protocol;
@@ -38,36 +38,38 @@ public partial class SpecDataManager
     Dictionary<int, PlayerMetaData> _playerDict = new Dictionary<int, PlayerMetaData>();
     List<PlayerMetaData>            _playerList = new List<PlayerMetaData>();
 
-    public IEnumerator CoDownloadDataSheet()
+    public async UniTask DownloadDataSheetAsync()
     {
         IsReady = false;
         Debug.Log("[SpecDataManager] 데이터 다운로드 시작");
 
-        yield return CoFetch_Currency();
-        yield return CoFetch_Item();
-        yield return CoFetch_Equipment();
-        yield return CoFetch_Consumable();
-        yield return CoFetch_Misc();
-        yield return CoFetch_QuestDefinition();
-        yield return CoFetch_QuestObjectiveDefinition();
-        yield return CoFetch_Monster();
-        yield return CoFetch_DropItem();
-        yield return CoFetch_Player();
+        await UniTask.WhenAll(
+            Fetch_CurrencyAsync(),
+            Fetch_ItemAsync(),
+            Fetch_EquipmentAsync(),
+            Fetch_ConsumableAsync(),
+            Fetch_MiscAsync(),
+            Fetch_QuestDefinitionAsync(),
+            Fetch_QuestObjectiveDefinitionAsync(),
+            Fetch_MonsterAsync(),
+            Fetch_DropItemAsync(),
+            Fetch_PlayerAsync()
+        );
 
         IsReady = true;
         Debug.Log("[SpecDataManager] 모든 데이터 로드 완료");
     }
 
-    IEnumerator CoFetch_Currency()
+    async UniTask Fetch_CurrencyAsync()
     {
         string url = GoogleSheetConfig.BuildJsonUrl("Currency");
         using (UnityWebRequest req = UnityWebRequest.Get(url))
         {
-            yield return req.SendWebRequest();
+            await req.SendWebRequest();
             if (req.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError("[SpecDataManager] Currency 다운로드 실패: " + req.error);
-                yield break;
+                return;
             }
 
             _currencyDict.Clear();
@@ -120,16 +122,16 @@ public partial class SpecDataManager
         }
     }
 
-    IEnumerator CoFetch_Item()
+    async UniTask Fetch_ItemAsync()
     {
         string url = GoogleSheetConfig.BuildJsonUrl("Item");
         using (UnityWebRequest req = UnityWebRequest.Get(url))
         {
-            yield return req.SendWebRequest();
+            await req.SendWebRequest();
             if (req.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError("[SpecDataManager] Item 다운로드 실패: " + req.error);
-                yield break;
+                return;
             }
 
             _itemDict.Clear();
@@ -248,16 +250,16 @@ public partial class SpecDataManager
         }
     }
 
-    IEnumerator CoFetch_Equipment()
+    async UniTask Fetch_EquipmentAsync()
     {
         string url = GoogleSheetConfig.BuildJsonUrl("Equipment");
         using (UnityWebRequest req = UnityWebRequest.Get(url))
         {
-            yield return req.SendWebRequest();
+            await req.SendWebRequest();
             if (req.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError("[SpecDataManager] Equipment 다운로드 실패: " + req.error);
-                yield break;
+                return;
             }
 
             _equipmentDict.Clear();
@@ -354,16 +356,16 @@ public partial class SpecDataManager
         }
     }
 
-    IEnumerator CoFetch_Consumable()
+    async UniTask Fetch_ConsumableAsync()
     {
         string url = GoogleSheetConfig.BuildJsonUrl("Consumable");
         using (UnityWebRequest req = UnityWebRequest.Get(url))
         {
-            yield return req.SendWebRequest();
+            await req.SendWebRequest();
             if (req.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError("[SpecDataManager] Consumable 다운로드 실패: " + req.error);
-                yield break;
+                return;
             }
 
             _consumableDict.Clear();
@@ -460,16 +462,16 @@ public partial class SpecDataManager
         }
     }
 
-    IEnumerator CoFetch_Misc()
+    async UniTask Fetch_MiscAsync()
     {
         string url = GoogleSheetConfig.BuildJsonUrl("Misc");
         using (UnityWebRequest req = UnityWebRequest.Get(url))
         {
-            yield return req.SendWebRequest();
+            await req.SendWebRequest();
             if (req.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError("[SpecDataManager] Misc 다운로드 실패: " + req.error);
-                yield break;
+                return;
             }
 
             _miscDict.Clear();
@@ -522,16 +524,16 @@ public partial class SpecDataManager
         }
     }
 
-    IEnumerator CoFetch_QuestDefinition()
+    async UniTask Fetch_QuestDefinitionAsync()
     {
         string url = GoogleSheetConfig.BuildJsonUrl("QuestDefinition");
         using (UnityWebRequest req = UnityWebRequest.Get(url))
         {
-            yield return req.SendWebRequest();
+            await req.SendWebRequest();
             if (req.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError("[SpecDataManager] QuestDefinition 다운로드 실패: " + req.error);
-                yield break;
+                return;
             }
 
             _questDefinitionDict.Clear();
@@ -672,16 +674,16 @@ public partial class SpecDataManager
         }
     }
 
-    IEnumerator CoFetch_QuestObjectiveDefinition()
+    async UniTask Fetch_QuestObjectiveDefinitionAsync()
     {
         string url = GoogleSheetConfig.BuildJsonUrl("QuestObjectiveDefinition");
         using (UnityWebRequest req = UnityWebRequest.Get(url))
         {
-            yield return req.SendWebRequest();
+            await req.SendWebRequest();
             if (req.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError("[SpecDataManager] QuestObjectiveDefinition 다운로드 실패: " + req.error);
-                yield break;
+                return;
             }
 
             _questObjectiveDefinitionDict.Clear();
@@ -811,16 +813,16 @@ public partial class SpecDataManager
         }
     }
 
-    IEnumerator CoFetch_Monster()
+    async UniTask Fetch_MonsterAsync()
     {
         string url = GoogleSheetConfig.BuildJsonUrl("Monster");
         using (UnityWebRequest req = UnityWebRequest.Get(url))
         {
-            yield return req.SendWebRequest();
+            await req.SendWebRequest();
             if (req.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError("[SpecDataManager] Monster 다운로드 실패: " + req.error);
-                yield break;
+                return;
             }
 
             _monsterDict.Clear();
@@ -1005,16 +1007,16 @@ public partial class SpecDataManager
         }
     }
 
-    IEnumerator CoFetch_DropItem()
+    async UniTask Fetch_DropItemAsync()
     {
         string url = GoogleSheetConfig.BuildJsonUrl("DropItem");
         using (UnityWebRequest req = UnityWebRequest.Get(url))
         {
-            yield return req.SendWebRequest();
+            await req.SendWebRequest();
             if (req.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError("[SpecDataManager] DropItem 다운로드 실패: " + req.error);
-                yield break;
+                return;
             }
 
             _dropItemDict.Clear();
@@ -1111,16 +1113,16 @@ public partial class SpecDataManager
         }
     }
 
-    IEnumerator CoFetch_Player()
+    async UniTask Fetch_PlayerAsync()
     {
         string url = GoogleSheetConfig.BuildJsonUrl("Player");
         using (UnityWebRequest req = UnityWebRequest.Get(url))
         {
-            yield return req.SendWebRequest();
+            await req.SendWebRequest();
             if (req.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError("[SpecDataManager] Player 다운로드 실패: " + req.error);
-                yield break;
+                return;
             }
 
             _playerDict.Clear();

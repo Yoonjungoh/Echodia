@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -58,7 +59,7 @@ public class Managers : MonoBehaviour
     {
         Init();
         // 주석 해제하면 s3의 json 정보 가져옴
-        StartCoroutine(CoInit());
+        CoInit().Forget();
     }
 
     void Update()
@@ -84,10 +85,10 @@ public class Managers : MonoBehaviour
         }
     }
 
-    public IEnumerator CoInit()
+    public async UniTask CoInit()
     {
-        yield return StartCoroutine(SpecData.CoDownloadDataSheet());
-        yield return StartCoroutine(Config.CoDownloadConfig());
+        await SpecData.DownloadDataSheetAsync();
+        await Config.DownloadConfigAsync();
         SpecData.Init();    // 자동 생성 안되는 SpecData의 데이터 로딩 (보통 가공해서 쓰는 값들이 많음)
         OnAllDataReady();
     }
@@ -133,9 +134,6 @@ public class Managers : MonoBehaviour
 
     public IEnumerator CoDataManagerInit()
     {
-        // 추가될 json 데이터들 가져오는 코루틴 넣어주기
-        //StartCoroutine(Managers.Data.CoDownLoadJsonData());
-
         yield return null;
     }
 }

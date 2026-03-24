@@ -164,15 +164,6 @@ public class UIManager
         _toastPopup.ShowToastPopup(message, duration);
     }
 
-    public void ShowCountdown(float time, Action callBack = null, bool isHideCountdownText = false)
-    {
-        if (_toastPopup == null)
-        {
-            _toastPopup = ShowPopupUI<UI_ToastPopup>();
-        }
-        _toastPopup.ShowCountdown(time, callBack, isHideCountdownText);
-    }
-
     public T MakeWorldSpaceUI<T>(Transform parent = null, bool worldPositionStays = false, string name = null) where T : UI_Base
     {
         if (string.IsNullOrEmpty(name))

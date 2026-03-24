@@ -1,4 +1,5 @@
 using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class Poolable : MonoBehaviour
@@ -8,15 +9,21 @@ public class Poolable : MonoBehaviour
 	public void ReturnToPool(float delay = 0f)
 	{
 		if (delay <= 0f)
+		{
 			Managers.Pool.Push(this);
+		}
 		else
-			StartCoroutine(CoReturnToPool(delay));
+		{
+			CoReturnToPool(delay).Forget();
+		}
 	}
 
-	private IEnumerator CoReturnToPool(float delay)
+	private async UniTaskVoid CoReturnToPool(float delay)
 	{
-		yield return new WaitForSeconds(delay);
+		await UniTask.Delay((int)(delay * 1000));
 		if (this != null && gameObject != null)
+		{
 			Managers.Pool.Push(this);
+		}
 	}
 }

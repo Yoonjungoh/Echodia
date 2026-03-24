@@ -1,4 +1,5 @@
-﻿using Google.Protobuf;
+﻿using Cysharp.Threading.Tasks;
+using Google.Protobuf;
 using Google.Protobuf.Protocol;
 using Newtonsoft.Json;
 using ServerCore;
@@ -58,10 +59,10 @@ public class NetworkManager
         public string url;
     }
 
-    public IEnumerator CoDownloadServerURL(Action callBack = null)
+    public async UniTaskVoid CoDownloadServerURL(Action callBack = null)
     {
         UnityWebRequest www = UnityWebRequest.Get(Managers.URL.Ec2Url);
-        yield return www.SendWebRequest();
+        await www.SendWebRequest();
 
         if (www.result != UnityWebRequest.Result.Success)
         {

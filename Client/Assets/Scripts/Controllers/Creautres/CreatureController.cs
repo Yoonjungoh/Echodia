@@ -1,7 +1,9 @@
+using Cysharp.Threading.Tasks;
 using Google.Protobuf.Protocol;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class CreatureController : BaseController
@@ -26,8 +28,6 @@ public class CreatureController : BaseController
 
     protected AttackType _meleeAttackType = AttackType.None;
     protected AttackType _rangedAttackType = AttackType.None;
-
-    protected WaitForSeconds _waitCommonAttackReturn;
 
     protected override void OnUpdate()
     {
@@ -57,7 +57,6 @@ public class CreatureController : BaseController
         // 애니메이션 관련 초기화
         _commonAttackanimName = $"Common_Attack";
         _commonAttackAnimLength = _anim.GetAnimationClipLength(_commonAttackanimName) / _commonAttackAnimSpeedTime;
-        _waitCommonAttackReturn ??= new WaitForSeconds(_commonAttackAnimLength);
 
         // 체력바 소환 (풀링 재사용 시 중복 생성 방지)
         if (_hpBar == null)
@@ -96,7 +95,10 @@ public class CreatureController : BaseController
     // 풀에서 꺼낼 때 상태 초기화
     protected virtual void ResetPoolState()
     {
-        StopAllCoroutines();
+        _cts.Cancel();
+        _cts.Dispose();
+        _cts = new CancellationTokenSource();
+
         CreatureState = CreatureState.Idle;
 
         if (_collider != null)
@@ -206,15 +208,15 @@ public class CreatureController : BaseController
         base.SetServerState(pos, rot, vel, serverReceivedTime);
     }
 
-    protected IEnumerator CoReturnToIdleAfterAttack(WaitForSeconds waitAttackReturn)
+    protected async UniTaskVoid CoReturnToIdleAfterAttack(int waitAttackReturn)
     {
         if (this == null || _anim == null)
-            yield break;
+            return;
 
-        yield return waitAttackReturn;
+        await UniTask.Delay(waitAttackReturn, cancellationToken: _cts.Token);
 
         if (this == null || _anim == null)
-            yield break;
+            return;
 
         CreatureState = CreatureState.Idle;
 

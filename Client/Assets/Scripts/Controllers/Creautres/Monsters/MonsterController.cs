@@ -48,7 +48,7 @@ public class MonsterController : CreatureController
         if (_lastAnimState != CreatureState.Attack)
         {
             _anim.CrossFade(_commonAttackanimName, _transitionTime);
-            StartCoroutine(CoReturnToIdleAfterAttack(_waitCommonAttackReturn));
+            CoReturnToIdleAfterAttack((int)_commonAttackAnimLength * 1000).Forget();
             _lastAnimState = CreatureState.Attack;
         }
     }

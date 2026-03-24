@@ -3,8 +3,8 @@
 // Do NOT edit manually — 컬럼 구조 변경 시 GenSpecData.bat 재실행.
 // ============================================================
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -14,18 +14,18 @@ public partial class ConfigManager
     struct ConfigEntry { public string DataType; public string Value; }
     readonly Dictionary<ConfigType, ConfigEntry> _dict = new Dictionary<ConfigType, ConfigEntry>();
 
-    public IEnumerator CoDownloadConfig()
+    public async UniTask DownloadConfigAsync()
     {
         IsReady = false;
         Debug.Log("[ConfigManager] Config 다운로드 시작");
         string url = GoogleSheetConfig.BuildJsonUrl("Config");
         using (UnityWebRequest req = UnityWebRequest.Get(url))
         {
-            yield return req.SendWebRequest();
+            await req.SendWebRequest();
             if (req.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError("[ConfigManager] 다운로드 실패: " + req.error);
-                IsReady = true; yield break;
+                IsReady = true; return;
             }
             _dict.Clear();
             List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 4);

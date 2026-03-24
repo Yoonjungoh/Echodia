@@ -124,7 +124,7 @@ namespace Server.Game
             if (meta.ItemType == ItemType.Consumable)
             {
                 ConsumableMetaData consumableMeta = SpecDataManager.Instance.GetConsumable(playerItem.ItemId);
-                CooldownTracker.StartCooldown(playerItem.ItemId, TimeSpan.FromSeconds(consumableMeta.CoolTime));
+                CooldownTracker.StartCooldown(playerItem.ItemId, consumableMeta.CoolTime);
 
                 // 수량 소비
                 --playerItem.Count;
