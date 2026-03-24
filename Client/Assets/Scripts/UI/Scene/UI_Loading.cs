@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -59,7 +60,7 @@ public class UI_Loading : UI_Scene
         SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.sceneLoaded += OnSceneLoaded;
         _loadSceneName = sceneType.ToString();
-        StartCoroutine(CoLoadSceneProcess());
+        CoLoadSceneProcess().Forget();
     }
 
     public void LoadScene(string sceneName)
@@ -69,13 +70,13 @@ public class UI_Loading : UI_Scene
         SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.sceneLoaded += OnSceneLoaded;
         _loadSceneName = sceneName;
-        StartCoroutine(CoLoadSceneProcess());
+        CoLoadSceneProcess().Forget();
     }
 
-    private IEnumerator CoLoadSceneProcess()
+    private async UniTaskVoid CoLoadSceneProcess()
     {
         _sceneLoadSlider.value = 0f;
-        yield return StartCoroutine(CoFade(true));
+        CoFade(true).Forget();
 
         AsyncOperation op = SceneManager.LoadSceneAsync(_loadSceneName);
         op.allowSceneActivation = false;
@@ -83,7 +84,7 @@ public class UI_Loading : UI_Scene
         float timer = 0f;
         while (op.isDone == false)
         {
-            yield return null;
+            await UniTask.Yield();
             if (op.progress < 0.9f)
             {
                 _sceneLoadSlider.value = op.progress;
@@ -95,17 +96,17 @@ public class UI_Loading : UI_Scene
                 if (_sceneLoadSlider.value >= 1f)
                 {
                     op.allowSceneActivation = true;
-                    yield break;
+                    return;
                 }
             }
         }
     }
-    private IEnumerator CoFade(bool isFadeIn) 
+    private async UniTaskVoid CoFade(bool isFadeIn) 
     {
         float timer = 0f;
         while (timer <= 1f)
         {
-            yield return null;
+            await UniTask.Yield();
             timer += Time.unscaledDeltaTime * 3f;
             _canvasGroup.alpha = isFadeIn ? Mathf.Lerp(0f, 1f, timer) : Mathf.Lerp(1f, 0f, timer);
         }
@@ -120,7 +121,7 @@ public class UI_Loading : UI_Scene
         // 모두 불러와졌음
         if (scene.name == _loadSceneName)
         {
-            StartCoroutine(CoFade(false));
+            CoFade(false).Forget();
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }
