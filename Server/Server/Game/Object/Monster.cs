@@ -211,12 +211,8 @@ namespace Server.Game
 
             if (_nextAttackTick == 0)
             {
-                // 우선 단일 타깃
-                if (GameRoom != null)
-                {
-                    //_target.OnDamaged(this, Stat.CommonAttackDamage);
-                    GameRoom.Push(_target.OnDamaged, this, Stat.CommonAttackDamage);
-                }
+                // 같은 GameRoom의 job 컨텍스트 안에서 실행 중이므로 직접 호출 (Push하면 브로드캐스트 시점에 HP가 갱신 안 됨)
+                _target.OnDamaged(this, Stat.CommonAttackDamage);
 
                 // 상태 먼저 브로드캐스트
                 BroadCastCurrentState();
@@ -228,7 +224,7 @@ namespace Server.Game
 
                 DamagedInfo damagedInfo = new DamagedInfo();
                 damagedInfo.ObjectId = _target.Id;
-                damagedInfo.RemainHp = _target.Stat.Hp;
+                damagedInfo.RemainHp = _target.Stat.Hp;  // OnDamaged 이후이므로 올바른 HP
 
                 attackPacket.DamagedObjectList.Add(damagedInfo);
                 GameRoom.Broadcast(CurrentPosition, attackPacket);
