@@ -127,7 +127,6 @@ public abstract class BaseController : MonoBehaviour
     {
         _cts.Cancel();
         _cts.Dispose();
-        _cts = new CancellationTokenSource();
     }
 
     public virtual void OnDamaged(float remainHp) { }
