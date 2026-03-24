@@ -474,7 +474,7 @@ namespace Server
                     if (MyPlayer?.Items != null)
                     {
                         S_UpdateItemDataAll itemDataAllPacket = new S_UpdateItemDataAll();
-                        foreach (PlayerItemDb item in MyPlayer.Items)
+                        foreach (PlayerItemDb item in MyPlayer.Items.Values)
                         {
                             itemDataAllPacket.ItemInfoList.Add(new ItemInfo
                             {

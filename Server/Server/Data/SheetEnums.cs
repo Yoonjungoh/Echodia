@@ -5,14 +5,6 @@
 
 namespace Server.Data
 {
-    public enum ItemType
-    {
-        None = 0,
-        Equipment = 100000,
-        Consumable = 200000,
-        Misc = 300000,
-    }
-    
     public enum ItemGrade
     {
         None = 0,
@@ -43,6 +35,12 @@ namespace Server.Data
     {
         None = 0,
         BearLeather = 300000,
+    }
+    
+    public enum PlayerJobType
+    {
+        None = 0,
+        Knight = 1,
     }
     
     public enum ConfigType

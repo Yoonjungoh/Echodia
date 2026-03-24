@@ -3,14 +3,6 @@
 // Do NOT edit manually — 컬럼 구조 변경 시 GenSpecData.bat 재실행.
 // ============================================================
 
-public enum ItemType
-{
-    None = 0,
-    Equipment = 100000,
-    Consumable = 200000,
-    Misc = 300000,
-}
-
 public enum ItemGrade
 {
     None = 0,
@@ -41,6 +33,12 @@ public enum MiscType
 {
     None = 0,
     BearLeather = 300000,
+}
+
+public enum PlayerJobType
+{
+    None = 0,
+    Knight = 1,
 }
 
 public enum ConfigType

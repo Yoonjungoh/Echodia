@@ -48,9 +48,10 @@ public class ConsumableMetaData
 {
     public int Id;
     public ConsumableType ConsumableType;
-    public float EffectValue;
+    public int EffectValue;
     public float Duration;
     public float CoolTime;
+    public int RequiredLevel;
 }
 
 // ── Misc
@@ -129,4 +130,13 @@ public class DropItemMetaData
 public class PlayerMetaData
 {
     public int Id;
+    public PlayerJobType PlayerJobType;
+    public int MaxHp;
+    public float CommonAttackDamage;
+    public float CommonAttackCoolTime;
+    public float AttackRange;
+    public float Defense;
+    public float MoveSpeed;
+    public int AttackHalfAngleDeg;
+    public int AttackHeight;
 }

@@ -8,6 +8,19 @@ public class Util
 {
     private static readonly Dictionary<GameObject, Dictionary<Type, Dictionary<string, UnityEngine.Object>>> _cache = new Dictionary<GameObject, Dictionary<Type, Dictionary<string, UnityEngine.Object>>>();
 
+    public static ItemType GetItemType(int itemId)
+    {
+        int equipmentStartId = Managers.Config.GetInt(ConfigType.EquipmentStartId);
+        int consumableStartId = Managers.Config.GetInt(ConfigType.ConsumableStartId);
+
+        if (itemId >= equipmentStartId && itemId < consumableStartId)
+            return ItemType.Equipment;
+        else if (itemId >= consumableStartId)
+            return ItemType.Consumable;
+        else
+            return ItemType.None;
+    }
+
     public static T FindChild<T>(GameObject root, string name, bool recursive = false) where T : UnityEngine.Object
     {
         if (root == null || string.IsNullOrEmpty(name))
@@ -82,26 +95,6 @@ public class Util
         {
             _cache.Remove(root);
         }
-    }
-
-    public static string GetGameResult(RoomExitReason leaveRoomReason)
-    {
-        string gameResultText = string.Empty;
-
-        switch (leaveRoomReason)
-        {
-            case RoomExitReason.GameWin:
-                gameResultText = "게임에서 승리했습니다.";
-                break;
-            case RoomExitReason.GameLose:
-                gameResultText = "게임에서 패배했습니다.";
-                break;
-            case RoomExitReason.None:
-                gameResultText = "에러가 발생했습니다.";
-                break;
-        }
-
-        return gameResultText;
     }
 
     public static long GetTimestampMs()

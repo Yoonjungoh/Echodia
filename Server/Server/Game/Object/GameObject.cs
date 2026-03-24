@@ -139,10 +139,23 @@ namespace Server.Game
             }
         }
 
+        public void HealHp(float healAmount)
+        {
+            SetHp(ObjectState.Stat.Hp + healAmount);
+
+            // 패킷 전송
+            S_HealHp healPacket = new S_HealHp();
+            healPacket.ObjectId = Id;
+            healPacket.HealAmount = healAmount;
+            healPacket.TotalHp = ObjectState.Stat.Hp;
+
+            GameRoom.Push(GameRoom.Broadcast, CurrentPosition, healPacket);
+        }
+
         public void SetHp(float hp)
         {
             Stat.Hp = hp;
-            Stat.Hp = Math.Clamp(ObjectState.Stat.Hp, 0.0f, DataManager.Instance.MaxHp);
+            Stat.Hp = Math.Clamp(Stat.Hp, 0.0f, Stat.MaxHp);
         }
 
         // LevelUp 개수를 반환

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class InventoryManager
 {
+
     // ItemType -> (slotIndex -> ItemInfo) : 카테고리별로 슬롯 인덱스가 독립적으로 관리됨
     private Dictionary<ItemType, Dictionary<int, ItemInfo>> _items = new Dictionary<ItemType, Dictionary<int, ItemInfo>>
     {
@@ -19,6 +20,7 @@ public class InventoryManager
     {
         if (_items.TryGetValue(itemType, out var dict))
             return dict;
+
         return new Dictionary<int, ItemInfo>();
     }
 
@@ -28,7 +30,15 @@ public class InventoryManager
         if (type == ItemType.None)
             return;
 
+        if (itemInfo.Count <= 0)
+        {
+            _items[type].Remove(itemInfo.SlotIndex);
+            OnInventoryChanged?.Invoke();
+            return;
+        }
+        
         _items[type][itemInfo.SlotIndex] = itemInfo;
+        Managers.RedDot.Set(RedDotType.Inventory, true);
         OnInventoryChanged?.Invoke();
     }
 

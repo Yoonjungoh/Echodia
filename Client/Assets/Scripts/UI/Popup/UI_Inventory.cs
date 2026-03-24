@@ -155,6 +155,7 @@ public class UI_Inventory : UI_Popup
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        Managers.RedDot.Set(RedDotType.Inventory, false);
     }
 
     private void OnDisable()

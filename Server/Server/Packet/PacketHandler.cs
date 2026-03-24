@@ -278,6 +278,6 @@ class PacketHandler
         if (clientSession == null)
             return;
 
-        clientSession?.MyPlayer?.HandleUseItem(useItemPacket.ItemInfo);
+        clientSession?.MyPlayer?.HandleUseItem(useItemPacket.ItemType, useItemPacket.SlotIndex);
     }
 }

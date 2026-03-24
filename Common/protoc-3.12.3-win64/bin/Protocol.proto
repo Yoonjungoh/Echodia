@@ -58,6 +58,7 @@ enum MsgId {
   S_UPDATE_ITEM_DATA_ALL = 144;  // 전체 인벤토리 초기 전송
   C_USE_ITEM = 145;
   S_USE_ITEM = 146;
+  S_HEAL_HP = 147;
 }
 
 enum CreatureState {
@@ -164,8 +165,15 @@ enum QuestStatus {
 enum UseItemResult {
   USE_ITEM_RESULT_NONE = 0;
   USE_ITEM_RESULT_SUCCESS = 1;
-  USE_ITEM_RESULT_NOT_ENOUGH = 2;
+  USE_ITEM_RESULT_NOT_ENOUGH_LEVEL = 2;
   USE_ITEM_RESULT_COOLDOWN = 3;
+}
+
+enum ItemType {
+  ITEM_TYPE_NONE = 0;
+  ITEM_TYPE_EQUIPMENT = 1;
+  ITEM_TYPE_CONSUMABLE = 2;
+  ITEM_TYPE_MISC = 3;
 }
 
 message S_AssignUserId {
@@ -409,11 +417,20 @@ message S_QuestProgressUpdate {
 
 message C_UseItem {
   int32 slotIndex = 1; // 인벤토리의 몇 번째 칸인지
+  ItemType itemType = 2;
 }
 
 message S_UseItem {
   int32 slotIndex = 1; // 인벤토리의 몇 번째 칸인지
-  UseItemResult useItemResult = 2;
+  ItemType itemType = 2;
+  int32 itemId = 3; // 쿨타임 적용할 아이디 알려주기
+  UseItemResult useItemResult = 4;
+}
+
+message S_HealHp {
+  int32 objectId = 1;
+  float healAmount = 2;
+  float totalHp = 3;
 }
 
 // 클라가 퀘스트 초기화 할 때 필요한 존재

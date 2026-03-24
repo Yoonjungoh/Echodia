@@ -537,4 +537,56 @@ class PacketHandler
         Managers.Inventory.UpdateItemDataAll(updateItemDataAllPacket.ItemInfoList);
     }
 
+    public static void S_UseItemHandler(PacketSession session, IMessage packet)
+    {
+        S_UseItem useItemPacket = packet as S_UseItem;
+        if (useItemPacket == null)
+        {
+            Debug.Log("S_UseItem 패킷이 null입니다");
+            return;
+        }
+
+        switch (useItemPacket.UseItemResult)
+        {
+            case UseItemResult.Success:
+                Managers.UI.ShowToastPopup("아이템이 사용되었습니다.");
+                // 쿨타임 클라에서 시작해주기
+                // 어차피 서버에서도 검사해주기 때문에 클라에선 보여주기 용도로 쿨타임 시작
+                Managers.Cooldown.StartCooldown(useItemPacket.ItemId);
+                break;
+            case UseItemResult.NotEnoughLevel:
+                Managers.UI.ShowToastPopup("레벨이 부족하여 아이템을 사용할 수 없습니다.");
+                break;
+            case UseItemResult.Cooldown:
+                Managers.UI.ShowToastPopup("아직 쿨타임이 남았습니다.");
+                break;
+            default:
+                Managers.UI.ShowToastPopup("알 수 없는 결과입니다.");
+                break;
+        }
+    }
+
+    public static void S_HealHpHandler(PacketSession session, IMessage packet)
+    {
+        S_HealHp healHpPacket = packet as S_HealHp;
+        if (healHpPacket == null)
+        {
+            Debug.Log("S_HealHp 패킷이 null입니다");
+            return;
+        }
+
+        GameObject go = Managers.GameRoomObject.FindById(healHpPacket.ObjectId);
+        if (go == null)
+        {
+            Debug.Log($"Id: {healHpPacket.ObjectId}가 존재하지 않음");
+            return;
+        }
+        CreatureController cc = go.GetComponent<CreatureController>();
+        if (cc == null)
+        {
+            Debug.Log($"Id: {healHpPacket.ObjectId}의 CreatureController가 존재하지 않음");
+            return;
+        }
+        cc.SetHp(healHpPacket.TotalHp, cc.Stat.MaxHp);
+    }
 }

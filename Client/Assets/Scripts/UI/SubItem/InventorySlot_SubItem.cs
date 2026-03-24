@@ -3,8 +3,9 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class InventorySlot_SubItem : UI_SubItem<ItemInfo>
+public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler
 {
     enum Texts
     {
@@ -15,6 +16,7 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>
     enum Images
     {
         ItemImage,
+        CooltimeImage,
     }
 
     enum GameObjects
@@ -22,9 +24,11 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>
         CountBadge,
         EnchantBadge,
     }
+    private float _lastClickTime = 0f;
+    private const float DoubleClickTimeThreshold = 0.3f; // 0.3초 이내 다시 클릭 시 더블 클릭
 
-    public Action<ItemInfo> OnClickSlotAction;
     private Image _itemImage;
+    private Image _cooltimeImage;
     private GameObject _countBadge;
     private TextMeshProUGUI _countText;
     private GameObject _enchantBadge;
@@ -32,6 +36,7 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>
 
     private int _equipmentStartId;
     private int _consumableStartId;
+    private float _totalCooldown;
 
     public override void Init()
     {
@@ -39,10 +44,10 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>
         Bind<Image>(typeof(Images));
         Bind<GameObject>(typeof(GameObjects));
 
-        // TODO - 툴팁 추가
-        BindEvent(gameObject, _ => OnClickSlotAction?.Invoke(_data));
-
         _itemImage = GetImage((int)Images.ItemImage);
+        _cooltimeImage = GetImage((int)Images.CooltimeImage);
+        _cooltimeImage.fillAmount = 0f;
+        _cooltimeImage.gameObject.SetActive(false);
 
         _countBadge = Get<GameObject>((int)GameObjects.CountBadge);
         _countText = GetTextMeshProUGUI((int)Texts.CountText);
@@ -52,6 +57,11 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>
 
         _equipmentStartId = Managers.Config.GetInt(ConfigType.EquipmentStartId);
         _consumableStartId = Managers.Config.GetInt(ConfigType.ConsumableStartId);
+
+        if (_data != null)
+        {
+            _totalCooldown = Managers.SpecData.GetConsumable(_data.ItemId).CoolTime;
+        }
     }
 
     public override void SetData(ItemInfo data)
@@ -69,6 +79,7 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>
             _enchantBadge.SetActive(false);
             return;
         }
+
         _itemImage.sprite = Managers.Image.GetAssetImage(_data.ItemId);
 
         bool showCount = (_data.Count >= 1);
@@ -84,6 +95,57 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>
         if (showEnchant)
         {
             _enchantLevelText.text = $"+{_data.EnchantLevel}";
+        }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (_data == null)
+            return;
+
+        if (eventData.clickCount == 2)
+        {
+            // 쿨타임 체크 후 패킷 전송
+            if (Managers.Cooldown.IsOnCooldown(_data.ItemId))
+            {
+                Managers.UI.ShowToastPopup("아직 쿨타임이 남았습니다.");
+                return;
+            }
+            Managers.Cooldown.RequestUseItem(_data.SlotIndex, Util.GetItemType(_data.ItemId));
+        }
+        // TODO - 클릭 시 아이템 정보 툴팁 등을 띄운다면 1일 때 처리
+        else if (eventData.clickCount == 1)
+        {
+
+        }
+    }
+
+
+    private void Update()
+    {
+        // 쿨타임 UI 업데이트
+        if (_data == null)
+            return;
+
+        // 먼저 쿨타임 중인지 확인 (데이터 기반)
+        float remain = Managers.Cooldown.GetRemainingCooldownSeconds(_data.ItemId);
+
+        if (remain > 0f)
+        {
+            if (!_cooltimeImage.gameObject.activeSelf)
+            {
+                _cooltimeImage.gameObject.SetActive(true);
+            }
+
+            // 남은 시간 비율 업데이트
+            _cooltimeImage.fillAmount = remain / _totalCooldown;
+        }
+        else
+        {
+            if (_cooltimeImage.gameObject.activeSelf)
+            {
+                _cooltimeImage.gameObject.SetActive(false);
+            }
         }
     }
 }
