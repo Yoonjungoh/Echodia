@@ -239,5 +239,9 @@ public class CreatureController : BaseController
     {
         ObjectState.Stat.Hp = hp;
         ObjectState.Stat.MaxHp = maxHp;
+        if (_hpBar != null)
+        {
+            _hpBar.UpdateHpBar(hp, maxHp);
+        }
     }
 }
