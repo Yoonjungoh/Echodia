@@ -76,7 +76,7 @@ public class UI_Loading : UI_Scene
     private async UniTaskVoid CoLoadSceneProcess()
     {
         _sceneLoadSlider.value = 0f;
-        CoFade(true).Forget();
+        await CoFade(true);
 
         AsyncOperation op = SceneManager.LoadSceneAsync(_loadSceneName);
         op.allowSceneActivation = false;
@@ -101,7 +101,7 @@ public class UI_Loading : UI_Scene
             }
         }
     }
-    private async UniTaskVoid CoFade(bool isFadeIn) 
+    private async UniTask CoFade(bool isFadeIn)
     {
         float timer = 0f;
         while (timer <= 1f)
