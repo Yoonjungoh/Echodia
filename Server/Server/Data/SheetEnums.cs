@@ -56,6 +56,7 @@ namespace Server.Data
         DefaultEquimentInventorySize = 8,
         DefaultConsumableInventorySize = 9,
         DefaultMiscInventorySize = 10,
+        DropItemPickupRadius = 11,
     }
     
     

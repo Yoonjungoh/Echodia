@@ -2,6 +2,7 @@
 using Google.Protobuf.Protocol;
 using Microsoft.Extensions.Logging.Console;
 using Server.Currency;
+using Server.Data;
 using Server.DB;
 using Server.Game.Object;
 using Server.Game.Room;
@@ -34,6 +35,7 @@ namespace Server.Game
         private Dictionary<int, Player> _players = new Dictionary<int, Player>();
         private Dictionary<int, Monster> _monsters = new Dictionary<int, Monster>();
         private Dictionary<int, Projectile> _projectiles = new Dictionary<int, Projectile>();
+        private Dictionary<int, DropItem> _dropItems = new Dictionary<int, DropItem>();
 
         public bool IsRoomFull { get { return _players.Count == DataManager.Instance.MaxRoomPlayerCount; } }
 
@@ -408,6 +410,13 @@ namespace Server.Game
                 enteGamePacket.ObjectState.CreatureState = CreatureState.Move;
                 Console.WriteLine("Enter Projectile");
             }
+            else if (objectType == GameObjectType.DropItem)
+            {
+                DropItem dropItem = gameObject as DropItem;
+                // OwnerId 필드에 SpecData 아이템 ID, Level 필드에 수량을 저장 (클라이언트 렌더링용 컨벤션)
+                gameObject.ObjectState.OwnerId = dropItem.ItemId;
+                gameObject.ObjectState.Level = dropItem.Count;
+            }
 
             // name 초기화
             enteGamePacket.ObjectState.Name = gameObject.Name;
@@ -539,6 +548,20 @@ namespace Server.Game
                 if (zone != null)
                 {
                     zone.Remove(projectile);
+                }
+            }
+            else if (type == GameObjectType.DropItem)
+            {
+                DropItem dropItem = null;
+                if (_dropItems.TryGetValue(objectId, out dropItem) == false)
+                    return;
+
+                pos = dropItem.CurrentPosition;
+
+                Zone zone = GetZone(dropItem.CurrentPosition);
+                if (zone != null)
+                {
+                    zone.Remove(dropItem);
                 }
             }
 
@@ -776,6 +799,12 @@ namespace Server.Game
                 Projectile projectile = (Projectile)gameObject;
                 _projectiles.Add(projectile.Id, projectile);
             }
+            else if (gameObject.ObjectType == GameObjectType.DropItem &&
+                _dropItems.ContainsKey(gameObject.Id) == false)
+            {
+                DropItem dropItem = (DropItem)gameObject;
+                _dropItems.Add(dropItem.Id, dropItem);
+            }
         }
 
         private bool RemoveObject(int id)
@@ -796,6 +825,10 @@ namespace Server.Game
                 else if (gameObjectType == GameObjectType.Projectile)
                 {
                     _projectiles.Remove(id);
+                }
+                else if (gameObjectType == GameObjectType.DropItem)
+                {
+                    _dropItems.Remove(id);
                 }
                 return true;
             }
@@ -830,6 +863,64 @@ namespace Server.Game
         public void ReserveRespawn(int monsterId, ProtoVector3 respawnPosition, float respawnTime)
         {
             _respawnQueue.Enqueue(monsterId, DateTime.UtcNow.AddSeconds(respawnTime));
+        }
+
+        public DropItem FindDropItem(int objectId)
+        {
+            _dropItems.TryGetValue(objectId, out DropItem dropItem);
+            return dropItem;
+        }
+
+        // 몬스터 사망 시 드롭 테이블 기반으로 아이템 스폰
+        public void SpawnDropItems(int monsterTemplateId, Vector3 deathPos)
+        {
+            MonsterMetaData monsterMeta = SpecDataManager.Instance.GetMonster(monsterTemplateId);
+            if (monsterMeta == null || monsterMeta.DropItemGroupId == 0)
+                return;
+
+            List<DropItemMetaData> dropTable = SpecDataManager.Instance.GetAllDropItem()
+                .FindAll(d => d.DropItemGroupId == monsterMeta.DropItemGroupId);
+
+            if (dropTable.Count == 0)
+                return;
+
+            Random rng = new Random();
+            foreach (DropItemMetaData drop in dropTable)
+            {
+                // Probability는 0~10000 기준 (10000 = 100%)
+                int roll = rng.Next(0, 10000);
+                if (roll >= drop.Probability)
+                    continue;
+
+                int count = rng.Next(drop.MinCount, drop.MaxCount + 1);
+                if (count <= 0)
+                    continue;
+
+                // 사망 위치 주변 랜덤 위치에 드롭 (반경 2.5f)
+                float scatterRadius = 2.5f;
+                float angle = (float)(rng.NextDouble() * 2 * Math.PI);
+                float r = (float)(rng.NextDouble() * scatterRadius);
+                float dropX = deathPos.X + r * MathF.Cos(angle);
+                float dropZ = deathPos.Z + r * MathF.Sin(angle);
+
+                // 맵 높이에 맞게 Y 설정
+                float dropY = Map.GetHeight(new Vector3(dropX, deathPos.Y, dropZ));
+                if (dropY < -9000f)  // Map.NO_HEIGHT_VALUE = -9999f
+                    dropY = deathPos.Y;
+
+                SpawnDropItem(drop.ItemId, count, new Vector3(dropX, dropY, dropZ));
+            }
+        }
+
+        private void SpawnDropItem(int itemId, int count, Vector3 pos)
+        {
+            DropItem dropItem = ObjectManager.Instance.Add<DropItem>();
+            dropItem.ItemId = itemId;
+            dropItem.Count = count;
+            dropItem.Position = MovementHelper.Vec3ToProtoVec3(pos);
+            dropItem.SpawnPosition = dropItem.Position;
+
+            Push(EnterGame, dropItem);
         }
 
         private void InitMonsters()

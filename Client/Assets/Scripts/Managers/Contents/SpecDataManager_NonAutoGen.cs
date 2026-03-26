@@ -32,4 +32,10 @@ public partial class SpecDataManager
         _questObjectiveDefinitions.TryGetValue((mainQuestId, subQuestId), out var quest);
         return quest;
     }
+
+    public string GetItemName(int itemId)
+    {
+        ItemMetaData item = Managers.SpecData.GetItem(itemId);
+        return item.ItemName;
+    }
 }

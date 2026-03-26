@@ -589,4 +589,31 @@ class PacketHandler
         }
         cc.SetHp(healHpPacket.TotalHp, cc.Stat.MaxHp);
     }
+
+    public static void S_PickUpDropItemHandler(PacketSession session, IMessage packet)
+    {
+        S_PickUpDropItem pickUpDropItemPacket = packet as S_PickUpDropItem;
+        if (pickUpDropItemPacket == null)
+        {
+            Debug.Log("S_PickUpDropItem 패킷이 null입니다");
+            return;
+        }
+
+        switch (pickUpDropItemPacket.PickUpDropItemResult)
+        {
+            case PickUpDropItemResult.InventoryFull:
+                Managers.UI.ShowToastPopup("인벤토리가 가득 차서 아이템을 획득할 수 없습니다.");
+                return;
+        }
+
+        // TODO - 아이템이 사라지는 이펙트 보여주기
+        GameObject go = Managers.GameRoomObject.FindById(pickUpDropItemPacket.ItemId);
+        UI_DropItem dropItem = go?.GetComponent<UI_DropItem>();
+        if (dropItem != null)
+        {
+            ItemMetaData item = Managers.SpecData.GetItem(dropItem.SpecItemId);
+            Managers.UI.ShowToastPopup($"아이템을 획득했습니다: {Managers.SpecData.GetItemName(item.Id)}");
+            Managers.GameRoomObject.Remove(pickUpDropItemPacket.ItemId, isDead: false);
+        }
+    }
 }

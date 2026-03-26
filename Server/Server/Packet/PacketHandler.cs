@@ -280,4 +280,18 @@ class PacketHandler
 
         clientSession?.MyPlayer?.HandleUseItem(useItemPacket.ItemType, useItemPacket.SlotIndex);
     }
+
+    public static void C_PickUpDropItemHandler(PacketSession session, IMessage packet)
+    {
+        C_PickUpDropItem pickUpDropItemPacket = packet as C_PickUpDropItem;
+        ClientSession clientSession = session as ClientSession;
+        if (clientSession == null)
+            return;
+
+        Player player = clientSession.MyPlayer;
+        if (player?.GameRoom == null)
+            return;
+
+        player.GameRoom.Push(player.HandlePickUpDropItem, pickUpDropItemPacket.ItemId);
+    }
 }

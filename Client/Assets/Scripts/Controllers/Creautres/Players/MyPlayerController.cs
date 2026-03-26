@@ -31,6 +31,10 @@ public class MyPlayerController : PlayerController
     private Action<int> OnLevelChanged;
     private Action<int, int> OnExpChanged;
     public Action<float, float> OnHpChanged;
+    private LayerMask _dropItemLayer;
+    private float _dropItemPickupRadius;
+    private Collider[] _hitResults = new Collider[10];
+
     public override void Init()
     {
         base.Init();
@@ -53,6 +57,9 @@ public class MyPlayerController : PlayerController
         _meleeAttackType = AttackType.CommonAttack;
         _rangedAttackType = AttackType.RangedAttack;
 
+        _dropItemLayer = LayerMask.GetMask("DropItem");
+        _dropItemPickupRadius = Managers.Config.GetFloat(ConfigType.DropItemPickupRadius);
+
         OnStartGame();
     }
 
@@ -74,6 +81,12 @@ public class MyPlayerController : PlayerController
         Managers.Input.RegisterKeyAction(
             KeySettings.SpawnProjectile,
             Managers.GameRoomObject.MyPlayer.OnProjectileSpawnInput
+        );
+
+
+        Managers.Input.RegisterKeyAction(
+            KeySettings.PickupDropItem,
+            TryPickupClosestItem
         );
 
         // TODO - 우선 타이밍 이슈로 어쩔 수 없이 여기서 초기화
@@ -311,6 +324,41 @@ public class MyPlayerController : PlayerController
     private void OnProjectileSpawnInput()
     {
         ProjectileSpawn(_rangedAttackType);
+    }
+
+    private void TryPickupClosestItem()
+    {
+        // 1. 주변 아이템 스캔 (할당 없이 물리 연산)
+        int count = Physics.OverlapSphereNonAlloc(transform.position, _dropItemPickupRadius, _hitResults, _dropItemLayer);
+
+        if (count <= 0)
+            return;
+
+        UI_DropItem closestDropItem = null;
+        float closestDistanceSqr = float.MaxValue; // 제곱 거리로 비교 (성능 최적화)
+
+        for (int i = 0; i < count; i++)
+        {
+            UI_DropItem item = _hitResults[i].GetComponent<UI_DropItem>();
+            if (item == null)
+                continue;
+
+            // 2. 거리 계산 (Vector3.Distance 대신 sqrMagnitude 사용 - 루트 연산 제거)
+            float distSqr = (transform.position - _hitResults[i].transform.position).sqrMagnitude;
+
+            if (distSqr < closestDistanceSqr)
+            {
+                closestDistanceSqr = distSqr;
+                closestDropItem = item;
+            }
+        }
+
+        // 3. 가장 가까운 하나만 습득
+        if (closestDropItem != null)
+        {
+            closestDropItem.RequestPickUpDropItem();
+            Debug.Log($"{closestDropItem.name}을(를) 획득했습니다!");
+        }
     }
 
     #region Gizmos 코드

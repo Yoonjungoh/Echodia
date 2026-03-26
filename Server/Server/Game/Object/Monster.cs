@@ -275,6 +275,10 @@ namespace Server.Game
                 QuestManager.Instance.OnMonsterKilled(GameRoom, killer, TemplateId);
             }
 
+            // 드롭 아이템 스폰 (사망 위치 주변에 랜덤 배치)
+            Vector3 deathPos = CurrentPosition;
+            GameRoom.Push(GameRoom.SpawnDropItems, TemplateId, deathPos);
+
             base.OnDead(instigator);
         }
 

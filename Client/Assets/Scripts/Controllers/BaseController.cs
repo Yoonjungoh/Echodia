@@ -125,8 +125,8 @@ public abstract class BaseController : MonoBehaviour
 
     protected virtual void OnDestroy()
     {
-        _cts.Cancel();
-        _cts.Dispose();
+        _cts?.Cancel();
+        _cts?.Dispose();
     }
 
     public virtual void OnDamaged(float remainHp) { }

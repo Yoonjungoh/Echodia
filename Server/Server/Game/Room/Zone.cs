@@ -16,6 +16,7 @@ namespace Server.Game
         public HashSet<Player> Players { get; private set; } = new HashSet<Player>();
         public HashSet<Monster> Monsters { get; private set; } = new HashSet<Monster>();
         public HashSet<Projectile> Projectiles { get; private set; } = new HashSet<Projectile>();
+        public HashSet<DropItem> DropItems { get; private set; } = new HashSet<DropItem>();
 
         public Zone(int x, int z) 
         {
@@ -37,6 +38,10 @@ namespace Server.Game
             {
                 Projectiles.Add(gameObject as Projectile);
             }
+            else if (gameObject.ObjectType == GameObjectType.DropItem)
+            {
+                DropItems.Add(gameObject as DropItem);
+            }
         }
 
         public bool Remove(GameObject gameObject)
@@ -52,6 +57,10 @@ namespace Server.Game
             else if (gameObject.ObjectType == GameObjectType.Projectile)
             {
                 return Projectiles.Remove(gameObject as Projectile);
+            }
+            else if (gameObject.ObjectType == GameObjectType.DropItem)
+            {
+                return DropItems.Remove(gameObject as DropItem);
             }
 
             return false;

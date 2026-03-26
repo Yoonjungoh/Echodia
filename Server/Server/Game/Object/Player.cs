@@ -4,6 +4,7 @@ using Microsoft.Identity.Client;
 using Server.Data;
 using Server.DB;
 using Server.Game.Room;
+using System.Numerics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,7 +94,7 @@ namespace Server.Game
                     i => (SpecDataManager.Instance.GetItem(i.ItemId).ItemType, i.SlotIndex)) ?? new();
 
                 // TODO - DB에서 가져오기
-                ObjectState.Stat.MaxHp = 100.0f;
+                ObjectState.Stat.MaxHp = 10000.0f;
                 ObjectState.Stat.Hp = ObjectState.Stat.MaxHp;
                 ObjectState.Stat.CommonAttackDamage = 30.0f;
                 ObjectState.Stat.Defense = 0.0f;
@@ -103,6 +104,73 @@ namespace Server.Game
                 ObjectState.Stat.AttackHalfAngleDeg = 30.0f;
                 ObjectState.Stat.AttackHeight = 10.0f;
             }
+        }
+
+        public void HandlePickUpDropItem(int objectId)
+        {
+            // 1. 드롭 아이템 존재 확인
+            DropItem dropItem = GameRoom.FindDropItem(objectId);
+            if (dropItem == null)
+            {
+                Console.WriteLine($"[Player] DropItem not found: {objectId}");
+                return;
+            }
+
+            // 2. 거리 확인
+            float pickupRadius = ConfigManager.Instance.GetFloat(ConfigType.DropItemPickupRadius);
+            float dist = Vector3.Distance(CurrentPosition, dropItem.CurrentPosition);
+            if (dist > pickupRadius)
+            {
+                Console.WriteLine($"[Player] Too far from drop item: dist={dist:F1}, radius={pickupRadius}");
+                return;
+            }
+
+            // 3. 아이템 메타데이터 확인
+            ItemMetaData itemMeta = SpecDataManager.Instance.GetItem(dropItem.ItemId);
+            if (itemMeta == null)
+            {
+                Console.WriteLine($"[Player] Invalid item id: {dropItem.ItemId}");
+                return;
+            }
+
+            S_PickUpDropItem pickUpDropItemPacket = new S_PickUpDropItem();
+            pickUpDropItemPacket.ItemId = dropItem.ItemId;
+
+            // 4. 인벤토리 공간 확인
+            ItemType itemType = itemMeta.ItemType;
+            PlayerItemDb existingItem = Items.Values.FirstOrDefault(i => i.ItemId == dropItem.ItemId);
+            if (existingItem != null)
+            {
+                // 기존 슬롯에 스택 가능한지 확인
+                if (existingItem.Count + dropItem.Count > itemMeta.MaxStack)
+                {
+                    Console.WriteLine($"[Player] Item stack full: {dropItem.ItemId}");
+                    pickUpDropItemPacket.PickUpDropItemResult = PickUpDropItemResult.InventoryFull;
+                }
+            }
+            else
+            {
+                // 새 슬롯 필요  인벤토리 여유 확인
+                int usedSlots = Items.Count(i => i.Key.Item1 == itemType);
+                if (usedSlots >= GetInventorySize(itemType))
+                {
+                    Console.WriteLine($"[Player] Inventory full: {itemType}");
+                    pickUpDropItemPacket.PickUpDropItemResult = PickUpDropItemResult.InventoryFull;
+                }
+            }
+
+            // 5. 아이템 지급 (인메모리 업데이트 + S_UpdateItemData 전송)
+            List<PlayerItemDb> toSave = GrantItemsInMemory(new List<(int, int)> { (dropItem.ItemId, dropItem.Count) });
+
+            // 6. 드롭 아이템 게임룸에서 제거
+            GameRoom.LeaveGame(objectId);
+
+            // 7. TODO - DB 비동기 저장
+            DbTransaction.SavePickedUpItems(this, toSave);
+
+            // 8. 줍기 성공 알림
+            pickUpDropItemPacket.PickUpDropItemResult = PickUpDropItemResult.Success;
+            Session?.Send(pickUpDropItemPacket);
         }
 
         public void HandleUseItem(ItemType itemType, int slotIndex)
@@ -132,6 +200,10 @@ namespace Server.Game
                 {
                     Items.Remove((itemType, slotIndex));
                 }
+
+                // DB 비동기 저장 (count <= 0이면 DELETE, 아니면 UPDATE)
+                DbTransaction.SaveConsumedItem(this, playerItem);
+
                 // 소비된 수량 클라에게 알리기
                 S_UpdateItemData updateItemDataPacket = new S_UpdateItemData
                 {

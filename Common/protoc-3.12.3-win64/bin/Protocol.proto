@@ -59,6 +59,8 @@ enum MsgId {
   C_USE_ITEM = 145;
   S_USE_ITEM = 146;
   S_HEAL_HP = 147;
+  C_PICK_UP_DROP_ITEM = 148;
+  S_PICK_UP_DROP_ITEM = 149;
 }
 
 enum CreatureState {
@@ -76,6 +78,7 @@ enum GameObjectType {
   PLAYER = 1;
   MONSTER = 2;
   PROJECTILE = 3;
+  DROP_ITEM = 4;
 }
 
 enum AttackType {
@@ -167,6 +170,12 @@ enum UseItemResult {
   USE_ITEM_RESULT_SUCCESS = 1;
   USE_ITEM_RESULT_NOT_ENOUGH_LEVEL = 2;
   USE_ITEM_RESULT_COOLDOWN = 3;
+}
+
+enum PickUpDropItemResult {
+  PICK_UP_DROP_ITEM_RESULT_NONE = 0;
+  PICK_UP_DROP_ITEM_RESULT_SUCCESS = 1;
+  PICK_UP_DROP_ITEM_RESULT_INVENTORY_FULL = 2;
 }
 
 enum ItemType {
@@ -431,6 +440,15 @@ message S_HealHp {
   int32 objectId = 1;
   float healAmount = 2;
   float totalHp = 3;
+}
+
+message C_PickUpDropItem {
+  int32 itemId = 1;
+}
+
+message S_PickUpDropItem {
+  int32 itemId = 1;
+  PickUpDropItemResult pickUpDropItemResult = 2;
 }
 
 // 클라가 퀘스트 초기화 할 때 필요한 존재

@@ -250,6 +250,95 @@ namespace Server.DB
 
         #endregion
 
+        #region Item
+
+        // 아이템 소비 후 DB 반영 (count > 0 이면 UPDATE, count <= 0 이면 DELETE)
+        public static void SaveConsumedItem(Player player, PlayerItemDb item)
+        {
+            Instance.Push(() => SaveConsumedItem_Db(player, item));
+        }
+
+        private static void SaveConsumedItem_Db(Player player, PlayerItemDb item)
+        {
+            if (item.PlayerItemDbId <= 0)
+            {
+                Console.WriteLine($"[DB Error] SaveConsumedItem: PlayerItemDbId invalid. Player:{player.PlayerId}");
+                return;
+            }
+
+            using (GameDbContext db = new GameDbContext())
+            {
+                try
+                {
+                    if (item.Count <= 0)
+                    {
+                        db.PlayerItems
+                            .Where(i => i.PlayerItemDbId == item.PlayerItemDbId)
+                            .ExecuteDelete();
+                    }
+                    else
+                    {
+                        db.PlayerItems
+                            .Where(i => i.PlayerItemDbId == item.PlayerItemDbId)
+                            .ExecuteUpdate(s => s.SetProperty(i => i.Count, item.Count));
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"[DB Error] SaveConsumedItem Failed. Player:{player.PlayerId}, ItemDbId:{item.PlayerItemDbId}, {e.Message}");
+                }
+            }
+        }
+
+        #endregion
+
+        #region DropItem
+
+        public static void SavePickedUpItems(Player player, List<PlayerItemDb> itemsToSave)
+        {
+            Instance.Push(() => SavePickedUpItems_Db(player, itemsToSave));
+        }
+
+        private static void SavePickedUpItems_Db(Player player, List<PlayerItemDb> itemsToSave)
+        {
+            using (GameDbContext db = new GameDbContext())
+            {
+                using var transaction = db.Database.BeginTransaction();
+                try
+                {
+                    foreach (PlayerItemDb item in itemsToSave)
+                    {
+                        if (item.PlayerItemDbId > 0)
+                        {
+                            db.PlayerItems
+                                .Where(i => i.PlayerItemDbId == item.PlayerItemDbId)
+                                .ExecuteUpdate(s => s.SetProperty(i => i.Count, item.Count));
+                        }
+                        else
+                        {
+                            db.PlayerItems.Add(new PlayerItemDb
+                            {
+                                PlayerDbId = item.PlayerDbId,
+                                ItemId = item.ItemId,
+                                Count = item.Count,
+                                SlotIndex = item.SlotIndex,
+                            });
+                        }
+                    }
+
+                    db.SaveChangesEx();
+                    transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    Console.WriteLine($"[DB Error] SavePickedUpItems Failed. Player:{player.PlayerId}, {e.Message}");
+                }
+            }
+        }
+
+        #endregion
+
         #region Player
 
         public static void SavePlayerLogoutPosition(int playerDbId, float x, float y, float z, Action callback = null)

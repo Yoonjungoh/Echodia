@@ -103,7 +103,7 @@ public class GameRoomObjectManager
         {
             GameObject go = Managers.Resource.Instantiate($"Creatures/Projectiles/{objectState.ProjectileType}", position, rotation);
             ProjectileController projectile = go.GetComponent<ProjectileController>();
-            
+
             projectile.ObjectState = objectState;
             projectile.GameObjectType = objectType;
 
@@ -116,6 +116,21 @@ public class GameRoomObjectManager
 
             _objects.Add(objectState.ObjectId, projectile.gameObject);
             _projectileOwners.Add(objectState.ObjectId, objectState.OwnerId);
+        }
+        else if (objectType == GameObjectType.DropItem)
+        {
+            // OwnerId = SpecData 아이템 ID, Level = 수량 (서버 컨벤션)
+            int specItemId = objectState.OwnerId;
+            int count = objectState.Level;
+
+            UI_DropItem dropItemUI = Managers.UI.MakeWorldSpaceUI<UI_DropItem>();
+            dropItemUI.transform.position = position;
+            if (dropItemUI != null)
+            {
+                dropItemUI.SetItem(objectState.ObjectId, specItemId, count);
+            }
+
+            _objects.Add(objectState.ObjectId, dropItemUI.gameObject);
         }
     }
 

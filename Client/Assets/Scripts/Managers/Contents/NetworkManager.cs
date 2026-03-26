@@ -61,19 +61,27 @@ public class NetworkManager
 
     public async UniTaskVoid CoDownloadServerURL(Action callBack = null)
     {
-        UnityWebRequest www = UnityWebRequest.Get(Managers.URL.Ec2Url);
-        await www.SendWebRequest();
+        try
+        {
+            UnityWebRequest www = UnityWebRequest.Get(Managers.URL.Ec2Url);
+            await www.SendWebRequest();
 
-        if (www.result != UnityWebRequest.Result.Success)
-        {
-            Debug.Log("Error: " + www.error);
-            Init(callBack); // 실패해도 로컬 접속
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log("Error: " + www.error);
+                Init(callBack); // 실패해도 로컬 접속
+            }
+            else
+            {
+                URLData urlData = JsonConvert.DeserializeObject<URLData>(www.downloadHandler.text);
+                urlValue = urlData.url;
+                Init(callBack);
+            }
         }
-        else
+        catch (Exception e)
         {
-            URLData urlData = JsonConvert.DeserializeObject<URLData>(www.downloadHandler.text);
-            urlValue = urlData.url;
-            Init(callBack);
+            Debug.Log($"CoDownloadServerURL 실패: {e.Message}");
+            Init(callBack); // 실패해도 로컬 접속
         }
     }
 
