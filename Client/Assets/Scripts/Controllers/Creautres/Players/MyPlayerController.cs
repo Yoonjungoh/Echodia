@@ -60,10 +60,6 @@ public class MyPlayerController : PlayerController
         _dropItemLayer = LayerMask.GetMask("DropItem");
         _dropItemPickupRadius = Managers.Config.GetFloat(ConfigType.DropItemPickupRadius);
 
-        SetHp(Stat.Hp, Stat.MaxHp);
-        SetLevel(Level);
-        SetExp(Exp, Managers.Data.GetMaxExpForLevelUp(Level));
-
         OnStartGame();
     }
 
@@ -294,6 +290,10 @@ public class MyPlayerController : PlayerController
 
         OnHpChanged -= gameRoomUI.SetHp;
         OnHpChanged += gameRoomUI.SetHp;
+
+        OnLevelChanged?.Invoke(Level);
+        OnExpChanged?.Invoke(Exp, Managers.Data.GetMaxExpForLevelUp(Level));
+        OnHpChanged?.Invoke(Stat.Hp, Stat.MaxHp);
     }
 
     public override void SetExp(int exp, int maxExp)
