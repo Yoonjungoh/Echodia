@@ -64,8 +64,9 @@ public class UI_GameRoom : UI_Scene
         GetButton((int)Buttons.QuestPopupButton).onClick.AddListener(OnClickQuestPopupInput);
         GetButton((int)Buttons.InventoryPopupButton).onClick.AddListener(OnClickInventoryPopupInput);
 
-        Managers.Input.RegisterKeyAction(KeyCode.Q, OnClickQuestPopupInput);
-        Managers.Input.RegisterKeyAction(KeyCode.I, OnClickInventoryPopupInput);
+        Managers.Input.RegisterKeyAction(KeySettings.ActivationQuestPopup, OnClickQuestPopupInput);
+        Managers.Input.RegisterKeyAction(KeySettings.ActivationInventoryPopup, OnClickInventoryPopupInput);
+        Managers.Input.RegisterKeyAction(KeySettings.CloseRecentPopup, Managers.UI.ClosePopupUI);
 
         Managers.RedDot.OnRedDotChanged -= OnRedDotChanged;
         Managers.RedDot.OnRedDotChanged += OnRedDotChanged;

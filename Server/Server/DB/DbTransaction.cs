@@ -117,15 +117,13 @@ namespace Server.DB
         // 아이템 슬롯 계산 및 인메모리 동기화는 호출 전(게임룸 스레드)에 완료되어야 함
         public static void GiveQuestReward(Player player, int mainQuestId, int subQuestId,
             List<(CurrencyType currencyType, int amount)> currencyRewards,
-            List<PlayerItemDb> itemsToSave,
             Action onSuccess = null)
         {
-            Instance.Push(() => GiveQuestReward_Db(player, mainQuestId, subQuestId, currencyRewards, itemsToSave, onSuccess));
+            Instance.Push(() => GiveQuestReward_Db(player, mainQuestId, subQuestId, currencyRewards, onSuccess));
         }
 
         private static void GiveQuestReward_Db(Player player, int mainQuestId, int subQuestId,
             List<(CurrencyType currencyType, int amount)> currencyRewards,
-            List<PlayerItemDb> itemsToSave,
             Action onSuccess)
         {
             using (GameDbContext db = new GameDbContext())
@@ -166,31 +164,12 @@ namespace Server.DB
                         newAmounts.Add((currencyType, newAmount));
                     }
 
-                    // 3. 아이템 보상 (슬롯·인메모리 동기화는 호출 전 완료됨 — DB 쓰기만)
-                    foreach (PlayerItemDb item in itemsToSave)
-                    {
-                        if (item.PlayerItemDbId > 0)
-                        {
-                            db.PlayerItems
-                                .Where(i => i.PlayerItemDbId == item.PlayerItemDbId)
-                                .ExecuteUpdate(s => s.SetProperty(i => i.Count, item.Count));
-                        }
-                        else
-                        {
-                            db.PlayerItems.Add(new PlayerItemDb
-                            {
-                                PlayerDbId = item.PlayerDbId,
-                                ItemId = item.ItemId,
-                                Count = item.Count,
-                                SlotIndex = item.SlotIndex,
-                            });
-                        }
-                    }
+                    // 아이템 보상은 InventoryTracker가 로그아웃 시 일괄 저장
 
                     db.SaveChangesEx();
                     transaction.Commit();
 
-                    // 4. 재화 업데이트 패킷 전송
+                    // 3. 재화 업데이트 패킷 전송
                     foreach (var (currencyType, newAmount) in newAmounts)
                     {
                         player.Session?.Send(new S_UpdateCurrencyData { CurrencyType = currencyType, Amount = newAmount });
@@ -252,88 +231,54 @@ namespace Server.DB
 
         #region Item
 
-        // 아이템 소비 후 DB 반영 (count > 0 이면 UPDATE, count <= 0 이면 DELETE)
-        public static void SaveConsumedItem(Player player, PlayerItemDb item)
+        // 로그아웃 시 InventoryTracker가 호출 — 인메모리 변경 사항 일괄 DB 반영
+        public static void SaveInventoryAsync(Player player, List<PlayerItemDb> toSave, List<int> toDeleteDbIds)
         {
-            Instance.Push(() => SaveConsumedItem_Db(player, item));
+            Instance.Push(() => SaveInventory_Db(player, toSave, toDeleteDbIds));
         }
 
-        private static void SaveConsumedItem_Db(Player player, PlayerItemDb item)
+        private static void SaveInventory_Db(Player player, List<PlayerItemDb> toSave, List<int> toDeleteDbIds)
         {
-            if (item.PlayerItemDbId <= 0)
+            using GameDbContext db = new GameDbContext();
+            using var transaction = db.Database.BeginTransaction();
+            try
             {
-                Console.WriteLine($"[DB Error] SaveConsumedItem: PlayerItemDbId invalid. Player:{player.PlayerId}");
-                return;
-            }
-
-            using (GameDbContext db = new GameDbContext())
-            {
-                try
+                // 삭제 (수량 0으로 소비된 아이템)
+                if (toDeleteDbIds.Count > 0)
                 {
-                    if (item.Count <= 0)
-                    {
-                        db.PlayerItems
-                            .Where(i => i.PlayerItemDbId == item.PlayerItemDbId)
-                            .ExecuteDelete();
-                    }
-                    else
+                    db.PlayerItems
+                        .Where(i => toDeleteDbIds.Contains(i.PlayerItemDbId))
+                        .ExecuteDelete();
+                }
+
+                // 업데이트 / 신규 삽입
+                foreach (PlayerItemDb item in toSave)
+                {
+                    if (item.PlayerItemDbId > 0)
                     {
                         db.PlayerItems
                             .Where(i => i.PlayerItemDbId == item.PlayerItemDbId)
                             .ExecuteUpdate(s => s.SetProperty(i => i.Count, item.Count));
                     }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"[DB Error] SaveConsumedItem Failed. Player:{player.PlayerId}, ItemDbId:{item.PlayerItemDbId}, {e.Message}");
-                }
-            }
-        }
-
-        #endregion
-
-        #region DropItem
-
-        public static void SavePickedUpItems(Player player, List<PlayerItemDb> itemsToSave)
-        {
-            Instance.Push(() => SavePickedUpItems_Db(player, itemsToSave));
-        }
-
-        private static void SavePickedUpItems_Db(Player player, List<PlayerItemDb> itemsToSave)
-        {
-            using (GameDbContext db = new GameDbContext())
-            {
-                using var transaction = db.Database.BeginTransaction();
-                try
-                {
-                    foreach (PlayerItemDb item in itemsToSave)
+                    else
                     {
-                        if (item.PlayerItemDbId > 0)
+                        db.PlayerItems.Add(new PlayerItemDb
                         {
-                            db.PlayerItems
-                                .Where(i => i.PlayerItemDbId == item.PlayerItemDbId)
-                                .ExecuteUpdate(s => s.SetProperty(i => i.Count, item.Count));
-                        }
-                        else
-                        {
-                            db.PlayerItems.Add(new PlayerItemDb
-                            {
-                                PlayerDbId = item.PlayerDbId,
-                                ItemId = item.ItemId,
-                                Count = item.Count,
-                                SlotIndex = item.SlotIndex,
-                            });
-                        }
+                            PlayerDbId = item.PlayerDbId,
+                            ItemId = item.ItemId,
+                            Count = item.Count,
+                            SlotIndex = item.SlotIndex,
+                        });
                     }
+                }
 
-                    db.SaveChangesEx();
-                    transaction.Commit();
-                }
-                catch (Exception e)
-                {
-                    transaction.Rollback();
-                    Console.WriteLine($"[DB Error] SavePickedUpItems Failed. Player:{player.PlayerId}, {e.Message}");
-                }
+                db.SaveChangesEx();
+                transaction.Commit();
+            }
+            catch (Exception e)
+            {
+                transaction.Rollback();
+                Console.WriteLine($"[DB Error] SaveInventory Failed. Player:{player.PlayerId}, {e.Message}");
             }
         }
 

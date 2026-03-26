@@ -121,10 +121,10 @@ namespace Server
             // 게임룸 단일 스레드에서 인메모리 처리 후 DB 쓰기 위임
             player.GameRoom.Push(() =>
             {
-                // 슬롯 계산 + player.Items 업데이트 + S_UpdateItemData 패킷 전송
-                List<PlayerItemDb> itemsToSave = player.GrantItemsInMemory(itemRewards);
+                // 슬롯 계산 + player.Items 업데이트 + S_UpdateItemData 패킷 전송 + InventoryTracker 더티 마킹
+                player.GrantItemsInMemory(itemRewards);
 
-                DbTransaction.GiveQuestReward(player, mainQuestId, subQuestId, currencyRewards, itemsToSave, () =>
+                DbTransaction.GiveQuestReward(player, mainQuestId, subQuestId, currencyRewards, () =>
                 {
                     // 퀘스트 상태 변경 패킷
                     S_ChangeQuestStatus changeStatusPacket = new S_ChangeQuestStatus()

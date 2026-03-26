@@ -1,5 +1,4 @@
 using Google.Protobuf.Protocol;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Server.Data;
 using Server.DB;
@@ -19,6 +18,7 @@ namespace Server.Game
         public AOIController AOI { get; set; }
         public QuestTracker QuestTracker { get; private set; }
         public CooldownTracker CooldownTracker { get; private set; }
+        public InventoryTracker InventoryTracker { get; private set; }
         // (ItemType, SlotIndex) -> PlayerItemDb (타입별로 슬롯 번호 독립)
         public Dictionary<(ItemType, int), PlayerItemDb> Items { get; private set; } = new();
 
@@ -69,6 +69,9 @@ namespace Server.Game
 
             CooldownTracker = new CooldownTracker(this);
             CooldownTracker.Load();
+
+            InventoryTracker = new InventoryTracker(this);
+            InventoryTracker.Load();
         }
 
         // TODO - PlayerType에 따른 stat 변경
@@ -80,8 +83,6 @@ namespace Server.Game
             using (GameDbContext db = new GameDbContext())
             {
                 PlayerDb player = db.Players
-                    .Include(p => p.Items)
-                    .AsNoTracking()
                     .Where(p => p.PlayerDbId == PlayerId)
                     .FirstOrDefault();
 
@@ -90,8 +91,6 @@ namespace Server.Game
 
                 Level = player.Level;
                 Exp = player.Exp;
-                Items = player.Items?.ToDictionary(
-                    i => (SpecDataManager.Instance.GetItem(i.ItemId).ItemType, i.SlotIndex)) ?? new();
 
                 // TODO - DB에서 가져오기
                 ObjectState.Stat.MaxHp = 10000.0f;
@@ -164,15 +163,12 @@ namespace Server.Game
             }
 
             // 5. 아이템 지급 (인메모리 업데이트 + S_UpdateItemData 전송)
-            List<PlayerItemDb> toSave = GrantItemsInMemory(new List<(int, int)> { (dropItem.ItemId, dropItem.Count) });
+            GrantItemsInMemory(new List<(int, int)> { (dropItem.ItemId, dropItem.Count) });
 
             // 6. 드롭 아이템 게임룸에서 제거
             GameRoom.LeaveGame(objectId);
 
-            // 7. TODO - DB 비동기 저장
-            DbTransaction.SavePickedUpItems(this, toSave);
-
-            // 8. 줍기 성공 알림
+            // 7. 줍기 성공 알림
             pickUpDropItemPacket.PickUpDropItemResult = PickUpDropItemResult.Success;
             Session?.Send(pickUpDropItemPacket);
         }
@@ -203,10 +199,12 @@ namespace Server.Game
                 if (playerItem.Count <= 0)
                 {
                     Items.Remove((itemType, slotIndex));
+                    InventoryTracker.MarkDeleted(playerItem);
                 }
-
-                // DB 비동기 저장 (count <= 0이면 DELETE, 아니면 UPDATE)
-                DbTransaction.SaveConsumedItem(this, playerItem);
+                else
+                {
+                    InventoryTracker.MarkDirty(playerItem);
+                }
 
                 // 소비된 수량 클라에게 알리기
                 S_UpdateItemData updateItemDataPacket = new S_UpdateItemData
@@ -235,8 +233,8 @@ namespace Server.Game
 
         // DB 접근이 아닌 인메모리 활용하기 위한 용도
         // 슬롯 번호는 ItemType별로 독립적 (Equipment 0번 ≠ Consumable 0번)
-        // 반환값: DB에 저장할 PlayerItemDb 목록 (PlayerItemDbId > 0이면 UPDATE, == 0이면 INSERT)
-        public List<PlayerItemDb> GrantItemsInMemory(List<(int itemId, int amount)> itemRewards)
+        // 변경된 아이템은 InventoryTracker에 더티 마킹 → 로그아웃 시 일괄 DB 반영
+        public void GrantItemsInMemory(List<(int itemId, int amount)> itemRewards)
         {
             // 타입별 사용 중인 슬롯 목록 구성 (루프 중 새로 추가되는 슬롯도 반영)
             var usedSlotsByType = new Dictionary<ItemType, HashSet<int>>();
@@ -248,7 +246,6 @@ namespace Server.Game
                 usedSlotsByType[t].Add(pi.SlotIndex);
             }
 
-            var toSave = new List<PlayerItemDb>();
             foreach (var (itemId, amount) in itemRewards)
             {
                 PlayerItemDb memItem = Items.Values.FirstOrDefault(i => i.ItemId == itemId);
@@ -277,7 +274,7 @@ namespace Server.Game
                     Items.Add((itemType, memItem.SlotIndex), memItem);
                 }
 
-                toSave.Add(memItem);
+                InventoryTracker.MarkDirty(memItem);
 
                 Session?.Send(new S_UpdateItemData
                 {
@@ -291,7 +288,6 @@ namespace Server.Game
                     }
                 });
             }
-            return toSave;
         }
 
         private static int FindNextAvailableSlot(HashSet<int> usedSlots)
@@ -311,6 +307,7 @@ namespace Server.Game
         public void OnLeaveGame()
         {
             QuestTracker.SaveDirtyQuests();
+            InventoryTracker.SaveDirtyItems();
         }
     }
 }

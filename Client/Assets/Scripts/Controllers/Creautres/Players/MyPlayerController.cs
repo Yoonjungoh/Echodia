@@ -78,7 +78,6 @@ public class MyPlayerController : PlayerController
             Managers.GameRoomObject.MyPlayer.OnProjectileSpawnInput
         );
 
-
         Managers.Input.RegisterKeyAction(
             KeySettings.PickupDropItem,
             TryPickupClosestItem
