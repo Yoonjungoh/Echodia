@@ -63,11 +63,6 @@ public class MyPlayerController : PlayerController
         OnStartGame();
     }
 
-    private void Start()
-    {
-        Init();
-    }
-
     public void OnStartGame()
     {
         if (Managers.Scene.CurrentScene != Define.Scene.GameRoom)

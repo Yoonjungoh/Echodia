@@ -60,6 +60,7 @@ public class GameRoomObjectManager
 
             _objects.Add(objectState.ObjectId, MyPlayer.gameObject);
 
+            MyPlayer.Init();
             Camera.main.GetComponent<CameraController>().Init();   // 캐릭터 소환 후 카메라 부착
 
             Managers.GameRoomObject.MyPlayer.SetGameRoomUI();   // GameRoom SceneUI 부착

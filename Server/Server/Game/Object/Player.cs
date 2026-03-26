@@ -146,6 +146,8 @@ namespace Server.Game
                 {
                     Console.WriteLine($"[Player] Item stack full: {dropItem.ItemId}");
                     pickUpDropItemPacket.PickUpDropItemResult = PickUpDropItemResult.InventoryFull;
+                    Session?.Send(pickUpDropItemPacket);
+                    return;
                 }
             }
             else
@@ -156,6 +158,8 @@ namespace Server.Game
                 {
                     Console.WriteLine($"[Player] Inventory full: {itemType}");
                     pickUpDropItemPacket.PickUpDropItemResult = PickUpDropItemResult.InventoryFull;
+                    Session?.Send(pickUpDropItemPacket);
+                    return;
                 }
             }
 
