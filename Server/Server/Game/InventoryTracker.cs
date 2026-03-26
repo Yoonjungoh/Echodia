@@ -45,6 +45,7 @@ namespace Server.Game
                 ItemMetaData meta = SpecDataManager.Instance.GetItem(item.ItemId);
                 if (meta == null)
                     continue;
+
                 _owner.Items[(meta.ItemType, item.SlotIndex)] = item;
             }
         }
@@ -70,7 +71,7 @@ namespace Server.Game
             // PlayerItemDbId == 0 이면 아직 DB에 없으므로 아무것도 안 해도 됨
         }
 
-        // 로그아웃 시 호출 — 변경 사항을 DB에 일괄 저장
+        // 로그아웃 시 호출 - 변경 사항을 DB에 일괄 저장
         public void SaveDirtyItems()
         {
             if (_dirtyItems.Count == 0 && _deletedDbIds.Count == 0)
