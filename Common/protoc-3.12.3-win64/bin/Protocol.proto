@@ -89,12 +89,12 @@ enum AttackType {
 
 enum MonsterType {
   MONSTER_TYPE_NONE = 0;
-  BEAR = 1;
+  BEAR = 30001;
 }
 
 enum ProjectileType {
   PROJECTILE_TYPE_NONE = 0;
-  MAGIC_MISSILE = 1;
+  MAGIC_MISSILE = 70001;
 }
 
 enum RoomExitReason {

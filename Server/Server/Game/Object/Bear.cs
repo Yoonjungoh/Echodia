@@ -11,7 +11,7 @@ namespace Server.Game.Object
         public Bear()
         {
             MonsterType = MonsterType.Bear;
-            TemplateId = 30001;
+            TemplateId = (int)MonsterType.Bear;
 
             MonsterMetaData spec = SpecDataManager.Instance.GetMonster(TemplateId);
             if (spec != null)

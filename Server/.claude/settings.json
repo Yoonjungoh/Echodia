@@ -1,12 +1,15 @@
 {
   "permissions": {
     "allow": [
-      "Bash(dotnet ef:*)"
+      "Bash(dotnet ef:*)",
+      "Bash(GenProto.bat)",
+      "Bash(cmd /c \"cd /d \"\"c:\\\\Users\\\\user\\\\Desktop\\\\Development\\\\Unity\\\\Echodia\\\\Common\\\\protoc-3.12.3-win64\\\\bin\"\" && GenProto.bat\")"
     ],
     "additionalDirectories": [
       "c:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Client\\Assets\\Scripts\\Controllers\\Creautres\\Projectiles",
       "c:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Client\\Assets\\Scripts\\Managers\\Contents",
-      "c:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Client\\Assets\\Scripts\\Managers\\Core"
+      "c:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Client\\Assets\\Scripts\\Managers\\Core",
+      "c:\\Users\\user\\Desktop\\Development\\Unity\\Echodia\\Common\\protoc-3.12.3-win64\\bin"
     ]
   }
 }
