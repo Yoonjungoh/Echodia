@@ -53,7 +53,7 @@ namespace Server
             if (quests.Count == 0)
                 return;
 
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 using GameDbContext db = new GameDbContext();
                 foreach (QuestDb quest in quests)
@@ -62,7 +62,7 @@ namespace Server
                     if (dbQuest == null) continue;
                     dbQuest.RequiredCount = quest.RequiredCount;
                 }
-                db.SaveChanges();
+                await db.SaveChangesExAsync();
             });
         }
 
@@ -121,10 +121,20 @@ namespace Server
             // 게임룸 단일 스레드에서 인메모리 처리 후 DB 쓰기 위임
             player.GameRoom.Push(() =>
             {
-                // 슬롯 계산 + player.Items 업데이트 + S_UpdateItemData 패킷 전송 + InventoryTracker 더티 마킹
+                // 1. 아이템 보상: 인메모리 업데이트 + S_UpdateItemData 패킷 전송 + InventoryTracker 더티 마킹
                 player.GrantItemsInMemory(itemRewards);
 
-                DbTransaction.GiveQuestReward(player, mainQuestId, subQuestId, currencyRewards, () =>
+                // 2. 재화 보상: CurrencyTracker 인메모리 업데이트 + dirty 마킹 + S_UpdateCurrencyData 패킷 전송
+                //    (DB 저장은 로그아웃 시 SaveDirtyCurrencies가 일괄 처리)
+                foreach (var (currencyType, amount) in currencyRewards)
+                {
+                    int newAmount = player.CurrencyTracker.Get(currencyType) + amount;
+                    player.CurrencyTracker.Set(currencyType, newAmount);
+                    player.Session?.Send(new S_UpdateCurrencyData { CurrencyType = currencyType, Amount = newAmount });
+                }
+
+                // 3. 퀘스트 상태 DB 저장 (Completed → RewardClaimed)
+                DbTransaction.GiveQuestReward(player, mainQuestId, subQuestId, () =>
                 {
                     // 퀘스트 상태 변경 패킷
                     S_ChangeQuestStatus changeStatusPacket = new S_ChangeQuestStatus()
@@ -146,7 +156,6 @@ namespace Server
                         });
                     }
                     player.Session?.Send(giveRewardPacket);
-                    // S_UpdateCurrencyData는 GiveQuestReward_Db 내부에서 자동 전송됨
 
                     // 연계 퀘스트 있나 확인
                     TryAssignNextQuest(player, mainQuestId, subQuestId);

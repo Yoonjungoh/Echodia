@@ -19,25 +19,9 @@ namespace Server.Game
         public QuestTracker QuestTracker { get; private set; }
         public CooldownTracker CooldownTracker { get; private set; }
         public InventoryTracker InventoryTracker { get; private set; }
+        public CurrencyTracker CurrencyTracker { get; private set; }
         // (ItemType, SlotIndex) -> PlayerItemDb (타입별로 슬롯 번호 독립)
         public Dictionary<(ItemType, int), PlayerItemDb> Items { get; private set; } = new();
-
-        public int GetInventorySize(ItemType itemType)
-        {
-            // 플레이어가 가진 가방 사이즈 (TODO - 늘릴 수 있으니 수정하기)    
-
-            switch (itemType)
-            {
-                case ItemType.Equipment:
-                    return ConfigManager.Instance.GetInt(ConfigType.DefaultEquimentInventorySize);
-                case ItemType.Consumable:
-                    return ConfigManager.Instance.GetInt(ConfigType.DefaultConsumableInventorySize);
-                case ItemType.Misc:
-                    return ConfigManager.Instance.GetInt(ConfigType.DefaultMiscInventorySize);
-            }
-
-            return 0;
-        }
 
         public Player()
         {
@@ -72,6 +56,9 @@ namespace Server.Game
 
             InventoryTracker = new InventoryTracker(this);
             InventoryTracker.Load();
+
+            CurrencyTracker = new CurrencyTracker(this);
+            CurrencyTracker.Load();
         }
 
         public void InitDbData()
@@ -106,7 +93,7 @@ namespace Server.Game
                         player.StatAttackHalfAngleDeg = spec.AttackHalfAngleDeg;
                         player.StatAttackHeight = spec.AttackHeight;
                         player.IsStatInitialized = true;
-                        db.SaveChanges();
+                        db.SaveChangesEx();
                     }
                 }
 
@@ -325,30 +312,26 @@ namespace Server.Game
         {
             QuestTracker.SaveDirtyQuests();
             InventoryTracker.SaveDirtyItems();
-            SaveStats();
+            CurrencyTracker.SaveDirtyCurrencies();
+            DbTransaction.SavePlayerStatsAsync(this);
         }
 
-        private void SaveStats()
+        
+        public int GetInventorySize(ItemType itemType)
         {
-            using (GameDbContext db = new GameDbContext())
+            // 플레이어가 가진 가방 사이즈 (TODO - 늘릴 수 있으니 수정하기)    
+
+            switch (itemType)
             {
-                PlayerDb player = db.Players
-                    .Where(p => p.PlayerDbId == PlayerId)
-                    .FirstOrDefault();
-
-                if (player == null)
-                    return;
-
-                player.StatMaxHp = ObjectState.Stat.MaxHp;
-                player.StatCommonAttackDamage = ObjectState.Stat.CommonAttackDamage;
-                player.StatCommonAttackCoolTime = ObjectState.Stat.CommonAttackCoolTime;
-                player.StatAttackRange = ObjectState.Stat.AttackRange;
-                player.StatDefense = ObjectState.Stat.Defense;
-                player.StatMoveSpeed = ObjectState.Stat.MoveSpeed;
-                player.StatAttackHalfAngleDeg = ObjectState.Stat.AttackHalfAngleDeg;
-                player.StatAttackHeight = ObjectState.Stat.AttackHeight;
-                db.SaveChanges();
+                case ItemType.Equipment:
+                    return ConfigManager.Instance.GetInt(ConfigType.DefaultEquimentInventorySize);
+                case ItemType.Consumable:
+                    return ConfigManager.Instance.GetInt(ConfigType.DefaultConsumableInventorySize);
+                case ItemType.Misc:
+                    return ConfigManager.Instance.GetInt(ConfigType.DefaultMiscInventorySize);
             }
+
+            return 0;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Net.Sockets;
@@ -104,40 +104,37 @@ namespace Server
             }
         }
 
+        // 인메모리 CurrencyTracker에서 전체 재화 조회 (DB 접근 없음)
         public void HandleUpdateCurrencyDataAll()
         {
-            lock (_lock)
+            if (MyPlayer?.CurrencyTracker == null)
+                return;
+
+            S_UpdateCurrencyDataAll updateCurrencyDataAllPacket = new S_UpdateCurrencyDataAll();
+            updateCurrencyDataAllPacket.CurrencyData = new CurrencyData()
             {
-                using (GameDbContext db = new GameDbContext())
-                {
-                    PlayerDb player = db.Players
-                        .AsNoTracking()
-                        .Where(p => p.PlayerDbId == MyPlayer.PlayerId)
-                        .FirstOrDefault();
-
-                    if (player == null)
-                    {
-                        Console.WriteLine("[Error] 캐릭터를 찾을 수 없음");
-                        return;
-                    }
-
-                    S_UpdateCurrencyDataAll updateCurrencyDataAllPacket = new S_UpdateCurrencyDataAll();
-                    // TODO - 재화 자동화 필요
-                    CurrencyData currencyData = new CurrencyData()
-                    {
-                        Jewel = player.Jewel,
-                        Gold = player.Gold,
-                        Exp = player.Exp,
-                        Level = player.Level
-                    };
-                    updateCurrencyDataAllPacket.CurrencyData = currencyData;
-
-                    Send(updateCurrencyDataAllPacket);
-                }
-            }
+                Jewel = MyPlayer.CurrencyTracker.Get(CurrencyType.Jewel),
+                Gold  = MyPlayer.CurrencyTracker.Get(CurrencyType.Gold),
+                Exp   = MyPlayer.CurrencyTracker.Get(CurrencyType.Exp),
+                Level = MyPlayer.CurrencyTracker.Get(CurrencyType.Level),
+            };
+            Send(updateCurrencyDataAllPacket);
         }
 
+        // 인메모리 CurrencyTracker에서 특정 재화 조회 (DB 접근 없음, switch 불필요)
         public void HandleUpdateCurrencyData(CurrencyType currencyType)
+        {
+            if (MyPlayer?.CurrencyTracker == null)
+                return;
+
+            Send(new S_UpdateCurrencyData
+            {
+                CurrencyType = currencyType,
+                Amount = MyPlayer.CurrencyTracker.Get(currencyType),
+            });
+        }
+
+        public void HandleRequestInitGameRoomData(int playerId)
         {
             lock (_lock)
             {
@@ -145,38 +142,56 @@ namespace Server
                 {
                     PlayerDb player = db.Players
                         .AsNoTracking()
-                        .Where(p => p.PlayerDbId == MyPlayer.PlayerId)
+                        .Where(p => p.PlayerDbId == playerId)
                         .FirstOrDefault();
 
                     if (player == null)
                     {
-                        Console.WriteLine("[Error] 캐릭터를 찾을 수 없음");
+                        ConsoleLogManager.Instance.Log($"[Error] 캐릭터 정보를 찾을 수 없음. PlayerId: {playerId}");
                         return;
                     }
 
-                    S_UpdateCurrencyData updateCurrencyDataPacket = new S_UpdateCurrencyData();
-                    updateCurrencyDataPacket.CurrencyType = currencyType;
-                    // TODO - 재화 자동화 필요
-                    switch (currencyType)
+                    // 레벨/경험치 초기 데이터
+                    S_RequestInitGameRoomData initGameRoomDataPacket = new S_RequestInitGameRoomData();
+                    initGameRoomDataPacket.InitGameRoomData = new InitGameRoomData()
                     {
-                        case CurrencyType.Jewel:
-                            updateCurrencyDataPacket.Amount = player.Jewel;
-                            break;
-                        case CurrencyType.Gold:
-                            updateCurrencyDataPacket.Amount = player.Gold;
-                            break;
-                        case CurrencyType.Exp:
-                            updateCurrencyDataPacket.Amount = player.Exp;
-                            break;
-                        case CurrencyType.Level:
-                            updateCurrencyDataPacket.Amount = player.Level;
-                            break;
-                        default:
-                            Console.WriteLine("[Error] 알 수 없는 재화 타입");
-                            return;
+                        Level = player.Level,
+                        Exp = player.Exp,
+                        MaxExp = SpecDataManager.Instance.GetExpRequiredForLevel(player.Level),
+                    };
+                    Send(initGameRoomDataPacket);
+
+                    // 전체 인벤토리 전송
+                    if (MyPlayer?.Items != null)
+                    {
+                        S_UpdateItemDataAll itemDataAllPacket = new S_UpdateItemDataAll();
+                        foreach (PlayerItemDb item in MyPlayer.Items.Values)
+                        {
+                            itemDataAllPacket.ItemInfoList.Add(new ItemInfo
+                            {
+                                ItemId = item.ItemId,
+                                Count = item.Count,
+                                SlotIndex = item.SlotIndex,
+                                IsEquipped = item.IsEquipped,
+                                EnchantLevel = item.EnchantLevel,
+                            });
+                        }
+                        Send(itemDataAllPacket);
                     }
 
-                    Send(updateCurrencyDataPacket);
+                    // 전체 재화 전송 (CurrencyTracker 인메모리 데이터 활용, DB 접근 없음)
+                    if (MyPlayer?.CurrencyTracker != null)
+                    {
+                        S_UpdateCurrencyDataAll currencyDataAllPacket = new S_UpdateCurrencyDataAll();
+                        currencyDataAllPacket.CurrencyData = new CurrencyData()
+                        {
+                            Jewel = MyPlayer.CurrencyTracker.Get(CurrencyType.Jewel),
+                            Gold  = MyPlayer.CurrencyTracker.Get(CurrencyType.Gold),
+                            Exp   = MyPlayer.CurrencyTracker.Get(CurrencyType.Exp),
+                            Level = MyPlayer.CurrencyTracker.Get(CurrencyType.Level),
+                        };
+                        Send(currencyDataAllPacket);
+                    }
                 }
             }
         }
