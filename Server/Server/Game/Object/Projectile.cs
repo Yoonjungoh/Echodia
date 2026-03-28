@@ -1,5 +1,4 @@
 ﻿using Google.Protobuf.Protocol;
-using Server.DB;
 using Server.Game;
 using System;
 using System.Collections.Generic;
@@ -7,11 +6,11 @@ using System.Numerics;
 
 namespace Server.Game
 {
-    public class Projectile : GameObject
+    public class Projectile : GameObject, IPoolable
     {
         public bool hasDealtDamage { get; set; } = false;
         public long SpawnTime { get; set; }
-        public float LifeTime { get; set; } = 3000.0f; // Ms
+        public int LifeTime { get; set; } // Ms
         public Vector3 PreviousPosition { get; set; }
 
         public Projectile()
@@ -19,6 +18,14 @@ namespace Server.Game
             ObjectType = GameObjectType.Projectile;
 
             CreatureState = CreatureState.Move;
+        }
+
+        public virtual void Reset()
+        {
+            hasDealtDamage = false;
+            SpawnTime = 0;
+            PreviousPosition = Vector3.Zero;
+            GameRoom = null;
         }
 
         public override void Update()

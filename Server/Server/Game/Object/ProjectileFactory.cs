@@ -10,7 +10,7 @@ namespace Server.Game.Object
         private static readonly Dictionary<ProjectileType, Func<Projectile>> _factory
         = new Dictionary<ProjectileType, Func<Projectile>>
         {
-            { ProjectileType.MagicMissile, () => ObjectManager.Instance.Add<MagicMissile>() },
+            { ProjectileType.MagicMissile, () => ObjectManager.Instance.RentMagicMissile() },
         };
 
         public static Projectile Create(ProjectileType type)

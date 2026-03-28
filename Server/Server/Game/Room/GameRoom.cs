@@ -549,6 +549,7 @@ namespace Server.Game
                 {
                     zone.Remove(projectile);
                 }
+                ObjectManager.Instance.Return(projectile);
             }
             else if (type == GameObjectType.DropItem)
             {
@@ -563,6 +564,7 @@ namespace Server.Game
                 {
                     zone.Remove(dropItem);
                 }
+                ObjectManager.Instance.Return(dropItem);
             }
 
             RemoveObject(objectId);
@@ -914,7 +916,7 @@ namespace Server.Game
 
         private void SpawnDropItem(int itemId, int count, Vector3 pos)
         {
-            DropItem dropItem = ObjectManager.Instance.Add<DropItem>();
+            DropItem dropItem = ObjectManager.Instance.RentDropItem();
             dropItem.ItemId = itemId;
             dropItem.Count = count;
             dropItem.Position = MovementHelper.Vec3ToProtoVec3(pos);

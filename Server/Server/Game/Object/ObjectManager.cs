@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf.Protocol;
 using Server.DB;
+using Server.Game.Object;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -15,6 +16,9 @@ namespace Server.Game
         private Dictionary<int, Player> _players = new Dictionary<int, Player>();
         private Dictionary<int, Monster> _monsters = new Dictionary<int, Monster>();
         private Dictionary<int, Projectile> _projectiles = new Dictionary<int, Projectile>();
+
+        private readonly GameObjectPool<MagicMissile> _magicMissilePool = new(100);
+        private readonly GameObjectPool<DropItem> _dropItemPool = new(100);
 
         // [UNUSED(1)][TYPE(7)][ID(24)]
         private int _counter = 0;
@@ -51,6 +55,50 @@ namespace Server.Game
 
 			return gameObject;
 		}
+
+        public MagicMissile RentMagicMissile()
+        {
+            MagicMissile obj;
+            lock (_lock)
+            {
+                obj = _magicMissilePool.Rent();
+                obj.Id = GenerateId(obj.ObjectType);
+                _projectiles[obj.Id] = obj;
+            }
+            return obj;
+        }
+
+        public DropItem RentDropItem()
+        {
+            DropItem obj;
+            lock (_lock)
+            {
+                obj = _dropItemPool.Rent();
+                obj.Id = GenerateId(obj.ObjectType);
+            }
+            return obj;
+        }
+
+        public void Return(Projectile projectile)
+        {
+            // Reset을 먼저: Push 이전에 완료해야 Rent한 스레드가 오염된 상태를 보지 않음
+            projectile.Reset();
+            lock (_lock)
+            {
+                _projectiles.Remove(projectile.Id);
+                if (projectile is MagicMissile mm)
+                    _magicMissilePool.TryReturn(mm);
+            }
+        }
+
+        public void Return(DropItem dropItem)
+        {
+            dropItem.Reset();
+            lock (_lock)
+            {
+                _dropItemPool.TryReturn(dropItem);
+            }
+        }
 
 		public int GenerateId(GameObjectType type)
 		{
