@@ -74,7 +74,6 @@ namespace Server.Game
             InventoryTracker.Load();
         }
 
-        // TODO - PlayerType에 따른 stat 변경
         public void InitDbData()
         {
             if (ObjectState.Stat == null)
@@ -92,16 +91,34 @@ namespace Server.Game
                 Level = player.Level;
                 Exp = player.Exp;
 
-                // TODO - DB에서 가져오기
-                ObjectState.Stat.MaxHp = 10000.0f;
-                ObjectState.Stat.Hp = ObjectState.Stat.MaxHp;
-                ObjectState.Stat.CommonAttackDamage = 30.0f;
-                ObjectState.Stat.Defense = 0.0f;
-                ObjectState.Stat.MoveSpeed = 7.0f;
-                ObjectState.Stat.CommonAttackCoolTime = 2.0f;
-                ObjectState.Stat.AttackRange = 10.0f;
-                ObjectState.Stat.AttackHalfAngleDeg = 30.0f;
-                ObjectState.Stat.AttackHeight = 10.0f;
+                if (!player.IsStatInitialized)
+                {
+                    // 최초 생성: SpecData에서 기본값 로드
+                    PlayerMetaData spec = SpecDataManager.Instance.GetAllPlayer().FirstOrDefault();
+                    if (spec != null)
+                    {
+                        player.StatMaxHp = spec.MaxHp;
+                        player.StatCommonAttackDamage = spec.CommonAttackDamage;
+                        player.StatCommonAttackCoolTime = spec.CommonAttackCoolTime;
+                        player.StatAttackRange = spec.AttackRange;
+                        player.StatDefense = spec.Defense;
+                        player.StatMoveSpeed = spec.MoveSpeed;
+                        player.StatAttackHalfAngleDeg = spec.AttackHalfAngleDeg;
+                        player.StatAttackHeight = spec.AttackHeight;
+                        player.IsStatInitialized = true;
+                        db.SaveChanges();
+                    }
+                }
+
+                ObjectState.Stat.MaxHp = player.StatMaxHp;
+                ObjectState.Stat.Hp = player.StatMaxHp;
+                ObjectState.Stat.CommonAttackDamage = player.StatCommonAttackDamage;
+                ObjectState.Stat.CommonAttackCoolTime = player.StatCommonAttackCoolTime;
+                ObjectState.Stat.AttackRange = player.StatAttackRange;
+                ObjectState.Stat.Defense = player.StatDefense;
+                ObjectState.Stat.MoveSpeed = player.StatMoveSpeed;
+                ObjectState.Stat.AttackHalfAngleDeg = player.StatAttackHalfAngleDeg;
+                ObjectState.Stat.AttackHeight = player.StatAttackHeight;
             }
         }
 
@@ -308,6 +325,30 @@ namespace Server.Game
         {
             QuestTracker.SaveDirtyQuests();
             InventoryTracker.SaveDirtyItems();
+            SaveStats();
+        }
+
+        private void SaveStats()
+        {
+            using (GameDbContext db = new GameDbContext())
+            {
+                PlayerDb player = db.Players
+                    .Where(p => p.PlayerDbId == PlayerId)
+                    .FirstOrDefault();
+
+                if (player == null)
+                    return;
+
+                player.StatMaxHp = ObjectState.Stat.MaxHp;
+                player.StatCommonAttackDamage = ObjectState.Stat.CommonAttackDamage;
+                player.StatCommonAttackCoolTime = ObjectState.Stat.CommonAttackCoolTime;
+                player.StatAttackRange = ObjectState.Stat.AttackRange;
+                player.StatDefense = ObjectState.Stat.Defense;
+                player.StatMoveSpeed = ObjectState.Stat.MoveSpeed;
+                player.StatAttackHalfAngleDeg = ObjectState.Stat.AttackHalfAngleDeg;
+                player.StatAttackHeight = ObjectState.Stat.AttackHeight;
+                db.SaveChanges();
+            }
         }
     }
 }

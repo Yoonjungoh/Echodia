@@ -38,4 +38,10 @@ public partial class SpecDataManager
         ItemMetaData item = Managers.SpecData.GetItem(itemId);
         return item.ItemName;
     }
+
+    public long GetExpRequiredForLevel(int level)
+    {
+        ExpMetaData entry = GetAllExp().Find(x => x.Level == level);
+        return entry != null ? entry.RequiredExp : 0L;
+    }
 }

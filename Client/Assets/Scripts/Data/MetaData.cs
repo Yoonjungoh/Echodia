@@ -93,6 +93,20 @@ public class QuestObjectiveDefinitionMetaData
     public string Description;
 }
 
+// ── Projectile
+[Serializable]
+public class ProjectileMetaData
+{
+    public int Id;
+    public ProjectileType ProjectileType;
+    public int LifeTime;
+    public int MaxHitCount;
+    public float MoveSpeed;
+    public float CommonAttackDamage;
+    public float CommonAttackCoolTime;
+    public float MaxHp;
+}
+
 // ── Exp
 [Serializable]
 public class ExpMetaData

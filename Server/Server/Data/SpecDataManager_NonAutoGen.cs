@@ -35,5 +35,11 @@ namespace Server.Data
             _questObjectiveDefinitions.TryGetValue((mainQuestId, subQuestId), out var quest);
             return quest;
         }
+
+        public int GetExpRequiredForLevel(int level)
+        {
+            ExpMetaData entry = GetAllExp().FirstOrDefault(x => x.Level == level);
+            return entry != null ? (int)entry.RequiredExp : 0;
+        }
     }
 }

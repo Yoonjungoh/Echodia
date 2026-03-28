@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf.Protocol;
 using Server.Currency;
+using Server.Data;
 using Server.DB;
 using System;
 using System.Collections.Generic;
@@ -168,12 +169,12 @@ namespace Server.Game
                 return levelUpAmount;
 
             // 현재 단계에서 레벨업에 필요한 경험치량
-            int expToLevelUp = DataManager.Instance.GetMaxExpForLevelUp(Level);
-            while (expToLevelUp <= Exp)
+            int expToLevelUp = SpecDataManager.Instance.GetExpRequiredForLevel(Level);
+            while (expToLevelUp > 0 && expToLevelUp <= Exp)
             {
                 Exp -= expToLevelUp;
                 LevelUp(1);
-                expToLevelUp = DataManager.Instance.GetMaxExpForLevelUp(Level);
+                expToLevelUp = SpecDataManager.Instance.GetExpRequiredForLevel(Level);
                 ++levelUpAmount;
             }
             return levelUpAmount;

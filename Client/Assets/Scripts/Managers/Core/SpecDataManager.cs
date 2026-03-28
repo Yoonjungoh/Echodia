@@ -31,6 +31,8 @@ public partial class SpecDataManager
     List<QuestDefinitionMetaData>            _questDefinitionList = new List<QuestDefinitionMetaData>();
     Dictionary<int, QuestObjectiveDefinitionMetaData> _questObjectiveDefinitionDict = new Dictionary<int, QuestObjectiveDefinitionMetaData>();
     List<QuestObjectiveDefinitionMetaData>            _questObjectiveDefinitionList = new List<QuestObjectiveDefinitionMetaData>();
+    Dictionary<int, ProjectileMetaData> _projectileDict = new Dictionary<int, ProjectileMetaData>();
+    List<ProjectileMetaData>            _projectileList = new List<ProjectileMetaData>();
     Dictionary<int, ExpMetaData> _expDict = new Dictionary<int, ExpMetaData>();
     List<ExpMetaData>            _expList = new List<ExpMetaData>();
     Dictionary<int, MonsterMetaData> _monsterDict = new Dictionary<int, MonsterMetaData>();
@@ -53,6 +55,7 @@ public partial class SpecDataManager
             Fetch_MiscAsync(),
             Fetch_QuestDefinitionAsync(),
             Fetch_QuestObjectiveDefinitionAsync(),
+            Fetch_ProjectileAsync(),
             Fetch_ExpAsync(),
             Fetch_MonsterAsync(),
             Fetch_DropItemAsync(),
@@ -816,6 +819,134 @@ public partial class SpecDataManager
         }
     }
 
+    async UniTask Fetch_ProjectileAsync()
+    {
+        string url = GoogleSheetConfig.BuildJsonUrl("Projectile");
+        using (UnityWebRequest req = UnityWebRequest.Get(url))
+        {
+            await req.SendWebRequest();
+            if (req.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("[SpecDataManager] Projectile 다운로드 실패: " + req.error);
+                return;
+            }
+
+            _projectileDict.Clear();
+            _projectileList.Clear();
+
+            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 8);
+            for (int i = 2; i < rows.Count; i++)
+            {
+                string[] cells = rows[i];
+                if (string.IsNullOrEmpty(cells[0])) continue;
+                int sheetRow = i + 1;
+                ProjectileMetaData data = new ProjectileMetaData();
+                bool rowOk = true;
+
+                // Id (int)
+                try { data.Id = ParseInt(cells[0]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Projectile] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 1 (Id)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[0] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // ProjectileType (enum)
+                try { data.ProjectileType = ParseEnum<ProjectileType>(cells[1]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Projectile] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 2 (ProjectileType)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[1] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // LifeTime (int)
+                try { data.LifeTime = ParseInt(cells[2]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Projectile] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (LifeTime)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[2] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // MaxHitCount (int)
+                try { data.MaxHitCount = ParseInt(cells[3]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Projectile] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 4 (MaxHitCount)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[3] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // MoveSpeed (float)
+                try { data.MoveSpeed = ParseFloat(cells[4]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Projectile] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 5 (MoveSpeed)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[4] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // CommonAttackDamage (float)
+                try { data.CommonAttackDamage = ParseFloat(cells[5]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Projectile] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 6 (CommonAttackDamage)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[5] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // CommonAttackCoolTime (float)
+                try { data.CommonAttackCoolTime = ParseFloat(cells[6]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Projectile] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 7 (CommonAttackCoolTime)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[6] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // MaxHp (float)
+                try { data.MaxHp = ParseFloat(cells[7]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Projectile] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 8 (MaxHp)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[7] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+
+                if (rowOk)
+                {
+                    _projectileDict[data.Id] = data;
+                    _projectileList.Add(data);
+                }
+                else
+                {
+                    Debug.LogWarning("[SpecDataManager] [Projectile] 행 " + sheetRow + " 파싱 오류로 스킵됨.");
+                }
+            }
+
+            Debug.Log("[SpecDataManager] Projectile 로드 완료: " + _projectileList.Count + "개");
+        }
+    }
+
     async UniTask Fetch_ExpAsync()
     {
         string url = GoogleSheetConfig.BuildJsonUrl("Exp");
@@ -1434,6 +1565,22 @@ public partial class SpecDataManager
     public List<QuestObjectiveDefinitionMetaData> GetAllQuestObjectiveDefinition()
     {
         return _questObjectiveDefinitionList;
+    }
+
+    public ProjectileMetaData GetProjectile(int id)
+    {
+        _projectileDict.TryGetValue(id, out ProjectileMetaData result);
+        return result;
+    }
+
+    public ProjectileMetaData GetProjectile(ProjectileType key)
+    {
+        return GetProjectile((int)key);
+    }
+
+    public List<ProjectileMetaData> GetAllProjectile()
+    {
+        return _projectileList;
     }
 
     public ExpMetaData GetExp(int id)

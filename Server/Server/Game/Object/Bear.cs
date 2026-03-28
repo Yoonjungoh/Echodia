@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Google.Protobuf.Protocol;
+using Server.Data;
 
 namespace Server.Game.Object
 {
@@ -10,22 +11,28 @@ namespace Server.Game.Object
         public Bear()
         {
             MonsterType = MonsterType.Bear;
-
-            // TODO - 데이터 시트에서 파싱
-            Stat.MaxHp = 50;
-            Stat.Hp = Stat.MaxHp;
-            Stat.CommonAttackDamage = 15;
-            Stat.CommonAttackCoolTime = 3;
-            Stat.AttackRange = 4;
-            Stat.Defense = 0;
-            Stat.MoveSpeed = 7;
-            _searchRange = 7f;
             TemplateId = 30001;
-            
-            _gold = 15;
-            Level = 1;
-            SetExp(500, needLevelUp: false);
-            _respawnTime = 5f;
+
+            MonsterMetaData spec = SpecDataManager.Instance.GetMonster(TemplateId);
+            if (spec != null)
+            {
+                Stat.MaxHp = spec.MaxHp;
+                Stat.Hp = spec.MaxHp;
+                Stat.CommonAttackDamage = spec.CommonAttackDamage;
+                Stat.CommonAttackCoolTime = spec.CommonAttackCoolTime;
+                Stat.AttackRange = spec.AttackRange;
+                Stat.Defense = spec.Defense;
+                Stat.MoveSpeed = spec.MoveSpeed;
+                _searchRange = spec.SearchRange;
+                _gold = spec.Gold;
+                Level = spec.Level;
+                SetExp(spec.Exp, needLevelUp: false);
+                _respawnTime = spec.RespawnTime;
+            }
+            else
+            {
+                Console.WriteLine($"[Bear] MonsterMetaData not found for TemplateId={TemplateId}");
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Google.Protobuf.Protocol;
+using Server.Data;
 
 namespace Server.Game.Object
 {
@@ -11,19 +12,30 @@ namespace Server.Game.Object
         {
             ProjectileType = ProjectileType.MagicMissile;
 
-            Stat.MaxHp = 1;
-            Stat.Hp = Stat.MaxHp;
-            Stat.MagicMissileAttakDamage = 80;
-            Stat.MagicMissileAttackCoolTime = 3;
-            Stat.MoveSpeed = 5;
-            LifeTime = 3000;
+            ProjectileMetaData spec = SpecDataManager.Instance.GetProjectile(ProjectileType.MagicMissile);
+            if (spec != null)
+            {
+                Stat.MaxHp = spec.MaxHp;
+                Stat.Hp = spec.MaxHp;
+                Stat.MagicMissileAttakDamage = spec.CommonAttackDamage;
+                Stat.MagicMissileAttackCoolTime = spec.CommonAttackCoolTime;
+                Stat.MoveSpeed = spec.MoveSpeed;
+                LifeTime = spec.LifeTime;
+                MaxHitCount = spec.MaxHitCount;
+            }
+            else
+            {
+                Console.WriteLine("[MagicMissile] ProjectileMetaData not found");
+            }
         }
 
         public override void Reset()
         {
             base.Reset();
 
-            LifeTime = 3000;
+            ProjectileMetaData spec = SpecDataManager.Instance.GetProjectile(ProjectileType.MagicMissile);
+            if (spec != null)
+                LifeTime = spec.LifeTime;
         }
     }
 }

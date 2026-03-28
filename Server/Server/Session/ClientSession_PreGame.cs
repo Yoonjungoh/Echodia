@@ -466,7 +466,7 @@ namespace Server
                     {
                         Level = player.Level,
                         Exp = player.Exp,
-                        MaxExp = DataManager.Instance.GetMaxExpForLevelUp(player.Level),
+                        MaxExp = SpecDataManager.Instance.GetExpRequiredForLevel(player.Level),
                     };
                     Send(initGameRoomDataPacket);
 

@@ -256,7 +256,7 @@ namespace Server.Game
 
             // 이미 데미지 입힌 투사체면 return
             Projectile projectile = instigator as Projectile;
-            if (projectile == null || projectile.hasDealtDamage == true)
+            if (projectile == null || projectile.HitCount >= projectile.MaxHitCount)
                 return;
 
             _gameObjects.TryGetValue(damagedObjectId, out GameObject damagedObject);
@@ -277,7 +277,7 @@ namespace Server.Game
             // 데미지 처리
             S_Attack attackPacket = new S_Attack();
             damagedObject.OnDamaged(projectile, projectile.ObjectState.Stat.MagicMissileAttakDamage);
-            projectile.hasDealtDamage = true;   // 데미지 한 번 입혔으니 다시 요청들어 오면 거부
+            projectile.HitCount++;   // 히트 카운트 증가, MaxHitCount 도달 시 이후 요청 거부
 
             DamagedInfo damagedInfo = new DamagedInfo();
             damagedInfo.ObjectId = damagedObjectId;
