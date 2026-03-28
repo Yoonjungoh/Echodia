@@ -55,7 +55,8 @@ public class ProjectileController : BaseController
         if (ownerId == -1 || creature.Id == ownerId)
             return;
 
-        // 5. 데미지 요청 전송
+        // 5. 데미지 요청 전송 후 로컬에서도 즉시 제거
+        // (서버가 S_Despawn을 안 보내는 경우를 대비 - 예: 타겟이 이미 죽어있을 때)
         C_Attack attackPacket = new C_Attack()
         {
             AttackType = AttackType.RangedAttack,
@@ -64,6 +65,7 @@ public class ProjectileController : BaseController
         };
 
         Managers.Network.Send(attackPacket);
+        Managers.GameRoomObject.Remove(Id, isDead: false);
     }
 
 

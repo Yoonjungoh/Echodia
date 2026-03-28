@@ -93,6 +93,15 @@ public class QuestObjectiveDefinitionMetaData
     public string Description;
 }
 
+// ── Exp
+[Serializable]
+public class ExpMetaData
+{
+    public int Id;
+    public int Level;
+    public long RequiredExp;
+}
+
 // ── Monster
 [Serializable]
 public class MonsterMetaData

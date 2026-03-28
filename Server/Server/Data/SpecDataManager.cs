@@ -34,6 +34,8 @@ public partial class SpecDataManager
     List<QuestDefinitionMetaData>            _questDefinitionList = new List<QuestDefinitionMetaData>();
     Dictionary<int, QuestObjectiveDefinitionMetaData> _questObjectiveDefinitionDict = new Dictionary<int, QuestObjectiveDefinitionMetaData>();
     List<QuestObjectiveDefinitionMetaData>            _questObjectiveDefinitionList = new List<QuestObjectiveDefinitionMetaData>();
+    Dictionary<int, ExpMetaData> _expDict = new Dictionary<int, ExpMetaData>();
+    List<ExpMetaData>            _expList = new List<ExpMetaData>();
     Dictionary<int, MonsterMetaData> _monsterDict = new Dictionary<int, MonsterMetaData>();
     List<MonsterMetaData>            _monsterList = new List<MonsterMetaData>();
     Dictionary<int, DropItemMetaData> _dropItemDict = new Dictionary<int, DropItemMetaData>();
@@ -53,6 +55,7 @@ public partial class SpecDataManager
         await Fetch_Misc();
         await Fetch_QuestDefinition();
         await Fetch_QuestObjectiveDefinition();
+        await Fetch_Exp();
         await Fetch_Monster();
         await Fetch_DropItem();
         await Fetch_Player();
@@ -793,6 +796,76 @@ public partial class SpecDataManager
         }
     }
 
+    async Task Fetch_Exp()
+    {
+        string url = GoogleSheetConfig.BuildJsonUrl("Exp");
+        try
+        {
+            string raw = await Http.GetStringAsync(url);
+            _expDict.Clear();
+            _expList.Clear();
+
+            List<string[]> rows = GvizParser.Parse(raw, colCount: 3);
+            for (int i = 2; i < rows.Count; i++)
+            {
+                string[] cells = rows[i];
+                if (string.IsNullOrEmpty(cells[0])) continue;
+                int sheetRow = i + 1;
+                ExpMetaData data = new ExpMetaData();
+                bool rowOk = true;
+
+                // Id (int)
+                try { data.Id = ParseInt(cells[0]); }
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine("[SpecDataManager] [Exp] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 1 (Id)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[0] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Level (int)
+                try { data.Level = ParseInt(cells[1]); }
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine("[SpecDataManager] [Exp] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 2 (Level)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[1] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // RequiredExp (long)
+                try { data.RequiredExp = string.IsNullOrEmpty(cells[2]) ? 0L : long.Parse(cells[2]); }
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine("[SpecDataManager] [Exp] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (RequiredExp)\n" +
+                        "  타입: long\n" +
+                        "  값: \"" + cells[2] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+
+                if (rowOk)
+                {
+                    _expDict[data.Id] = data;
+                    _expList.Add(data);
+                }
+                else
+                {
+                    Console.Error.WriteLine("[SpecDataManager] [Exp] 행 " + sheetRow + " 파싱 오류로 스킵됨.");
+                }
+            }
+            Console.WriteLine("[SpecDataManager] Exp 로드 완료: " + _expList.Count + "개");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine("[SpecDataManager] Exp 다운로드 실패: " + ex.Message);
+        }
+    }
+
     async Task Fetch_Monster()
     {
         string url = GoogleSheetConfig.BuildJsonUrl("Monster");
@@ -1329,6 +1402,17 @@ public partial class SpecDataManager
     public List<QuestObjectiveDefinitionMetaData> GetAllQuestObjectiveDefinition()
     {
         return _questObjectiveDefinitionList;
+    }
+
+    public ExpMetaData GetExp(int id)
+    {
+        _expDict.TryGetValue(id, out ExpMetaData result);
+        return result;
+    }
+
+    public List<ExpMetaData> GetAllExp()
+    {
+        return _expList;
     }
 
     public MonsterMetaData GetMonster(int id)

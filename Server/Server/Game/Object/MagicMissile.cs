@@ -16,6 +16,7 @@ namespace Server.Game.Object
             Stat.MagicMissileAttakDamage = 80;
             Stat.MagicMissileAttackCoolTime = 3;
             Stat.MoveSpeed = 5;
+            LifeTime = 3000;
         }
 
         public override void Reset()

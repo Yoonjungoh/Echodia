@@ -20,6 +20,7 @@ namespace Server.Data
             "Misc",
             "QuestDefinition",
             "QuestObjectiveDefinition",
+            "Exp",
             "Monster",
             "DropItem",
             "Player",

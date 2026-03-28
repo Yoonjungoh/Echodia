@@ -18,6 +18,7 @@ public static class GoogleSheetConfig
         "Misc",
         "QuestDefinition",
         "QuestObjectiveDefinition",
+        "Exp",
         "Monster",
         "DropItem",
         "Player",
