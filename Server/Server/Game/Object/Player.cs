@@ -93,8 +93,8 @@ namespace Server.Game
 
                 if (!player.IsStatInitialized)
                 {
-                    // 최초 생성: SpecData에서 기본값 로드
-                    PlayerMetaData spec = SpecDataManager.Instance.GetAllPlayer().FirstOrDefault();
+                    // TODO - 현재는 직업이 기사만 있다고 가정
+                    PlayerMetaData spec = SpecDataManager.Instance.GetPlayer((int)PlayerJobType.Knight);
                     if (spec != null)
                     {
                         player.StatMaxHp = spec.MaxHp;
