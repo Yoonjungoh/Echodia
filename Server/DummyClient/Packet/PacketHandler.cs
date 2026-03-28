@@ -195,11 +195,16 @@ class PacketHandler
     public static void S_EnterGameHandler(PacketSession session, IMessage packet)
     {
         S_EnterGame enterGamePacket = packet as S_EnterGame;
-        if (enterGamePacket == null)
-        {
+        ServerSession serverSession = session as ServerSession;
+        if (enterGamePacket == null || serverSession == null)
             return;
-        }
 
+        // 인게임 오브젝트 ID 저장 (투사체 발사 시 OwnerId로 사용)
+        serverSession.ObjectId = enterGamePacket.ObjectState.ObjectId;
+
+        // 서버가 배치한 초기 위치로 이동/발사 동작 시작
+        var pos = enterGamePacket.ObjectState.Position;
+        serverSession.StartBehavior(pos.X, pos.Y, pos.Z);
     }
 
     public static void S_RequestServerSummaryListHandler(PacketSession session, IMessage message)

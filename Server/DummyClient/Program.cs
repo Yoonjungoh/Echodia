@@ -19,6 +19,11 @@ namespace DummyClient
             //IPAddress ipAddr = ipHost.AddressList[1]; // for local test
             IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
+            // ── 더미 동작 플래그 ────────────────────────────────────
+            ServerSession.EnableMovement = true;   // 랜덤 이동
+            ServerSession.EnableShooting = true;   // 10초마다 투사체 발사
+            // ────────────────────────────────────────────────────────
+
             Connector connector = new Connector();
 
             connector.Connect(endPoint,

@@ -1,18 +1,105 @@
-﻿using Google.Protobuf;
+using Google.Protobuf;
 using Google.Protobuf.Protocol;
 using ServerCore;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net;
 
 public class ServerSession : PacketSession
 {
+    // ── 플래그: Program.cs에서 연결 전에 설정 ──────────────────────────
+    public static bool EnableMovement = true;   // 랜덤 이동 on/off
+    public static bool EnableShooting = true;   // 투사체 발사 on/off
+    // ───────────────────────────────────────────────────────────────────
+
     public int DummyId { get; set; }
     public int ServerId { get; set; }
     public int ChannelId { get; set; }
     public int PlayerId { get; set; }   // 선택된 플레이어 아이디
+    public int ObjectId { get; set; }   // 인게임 오브젝트 아이디 (S_EnterGame에서 저장)
+
+    // 현재 위치 (서버 기준 초기값으로 시작, 이후 로컬에서 추적)
+    private float _posX;
+    private float _posY;
+    private float _posZ;
+
+    private readonly Random _random = new Random();
+    private Timer _moveTimer;
+    private Timer _shootTimer;
+
+    private const int MoveIntervalMs = 2000;    // 이동 방향 변경 주기 (ms)
+    private const int ShootIntervalMs = 10000;  // 투사체 발사 주기 (ms)
+    private const float MoveSpeed = 3f;         // 이동 속도 (유닛/초)
+
+    public void StartBehavior(float startX, float startY, float startZ)
+    {
+        _posX = startX;
+        _posY = startY;
+        _posZ = startZ;
+
+        if (EnableMovement)
+        {
+            _moveTimer = new Timer(OnMoveTimer, null, MoveIntervalMs, MoveIntervalMs);
+        }
+
+        if (EnableShooting)
+        {
+            // 첫 발사는 10초 후부터
+            _shootTimer = new Timer(OnShootTimer, null, ShootIntervalMs, ShootIntervalMs);
+        }
+    }
+
+    private void OnMoveTimer(object state)
+    {
+        if (!EnableMovement)
+            return;
+
+        // XZ 평면에서 무작위 방향
+        float angle = (float)(_random.NextDouble() * Math.PI * 2);
+        float vx = (float)Math.Cos(angle) * MoveSpeed;
+        float vz = (float)Math.Sin(angle) * MoveSpeed;
+
+        // 위치 갱신 (delta = MoveIntervalMs / 1000초)
+        float dt = MoveIntervalMs / 1000f;
+        _posX += vx * dt;
+        _posZ += vz * dt;
+
+        // Y축 회전 쿼터니언 (방향으로 얼굴 향하기)
+        float halfAngle = angle / 2f;
+        var rotation = new ProtoQuaternion
+        {
+            X = 0f,
+            Y = (float)Math.Sin(halfAngle),
+            Z = 0f,
+            W = (float)Math.Cos(halfAngle),
+        };
+
+        var movePacket = new C_Move
+        {
+            ObjectState = new ObjectState
+            {
+                ObjectId = ObjectId,
+                Position = new ProtoVector3 { X = _posX, Y = _posY, Z = _posZ },
+                Velocity = new ProtoVector3 { X = vx, Y = 0f, Z = vz },
+                Rotation = rotation,
+            }
+        };
+
+        Send(movePacket);
+    }
+
+    private void OnShootTimer(object state)
+    {
+        if (!EnableShooting)
+            return;
+
+        var projectilePacket = new C_SpawnProjectile
+        {
+            OwnerId = ObjectId,
+            ProjectileType = ProjectileType.MagicMissile,
+        };
+
+        Send(projectilePacket);
+    }
 
     public void Send(IMessage packet)
     {
@@ -33,6 +120,8 @@ public class ServerSession : PacketSession
 
     public override void OnDisconnected(EndPoint endPoint)
     {
+        _moveTimer?.Dispose();
+        _shootTimer?.Dispose();
         Console.WriteLine($"OnDisconnected : {endPoint}, DummyId: {DummyId}");
     }
 
