@@ -308,11 +308,18 @@ namespace Server.Game
             base.OnDamaged(instigator, damage);
         }
 
-        public void OnLeaveGame()
+        // 주기적 자동저장 + 로그아웃 공통 - dirty 마킹된 재화/아이템/퀘스트 진행도를 DB에 플러시
+        // 즉시 저장이 필요한 데이터(퀘스트 완료 상태, 스탯)는 각 이벤트에서 별도 처리
+        public void FlushDirtyState()
         {
             QuestTracker.SaveDirtyQuests();
             InventoryTracker.SaveDirtyItems();
             CurrencyTracker.SaveDirtyCurrencies();
+        }
+
+        public void OnLeaveGame()
+        {
+            FlushDirtyState();
             DbTransaction.SavePlayerStatsAsync(this);
         }
 

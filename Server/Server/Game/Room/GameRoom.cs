@@ -102,6 +102,24 @@ namespace Server.Game
             UpdateMonsters();
             UpdateProjectiles();
             UpdateRespawn();
+            UpdateAutoSave();
+        }
+
+        private long _nextAutoSaveTick = 0;
+
+        private void UpdateAutoSave()
+        {
+            long now = Environment.TickCount64;
+            if (now < _nextAutoSaveTick)
+                return;
+
+            int interval = ConfigManager.Instance.GetInt(ConfigType.AutoSaveDBIntervalMs);
+            _nextAutoSaveTick = now + interval;
+
+            foreach (Player player in _players.Values)
+            {
+                player.FlushDirtyState();
+            }
         }
 
         private void UpdateMonsters()
@@ -778,7 +796,7 @@ namespace Server.Game
         {
             if (gameObject == null)
                 return;
-                
+
             // 모든 오브젝트 관리하는 딕셔너리에 추가
             _gameObjects.Add(gameObject.Id, gameObject);
 

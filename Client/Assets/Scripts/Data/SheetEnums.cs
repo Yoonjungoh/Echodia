@@ -55,5 +55,6 @@ public enum ConfigType
     DefaultConsumableInventorySize = 9,
     DefaultMiscInventorySize = 10,
     DropItemPickupRadius = 11,
+    AutoSaveDBIntervalMs = 12,
 }
 
