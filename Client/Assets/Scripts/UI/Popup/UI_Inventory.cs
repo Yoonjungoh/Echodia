@@ -162,6 +162,9 @@ public class UI_Inventory : UI_Popup
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        // 툴팁도 끄기
+        Managers.UI.HideItemTooltip();
     }
 
     private void OnDestroy()
