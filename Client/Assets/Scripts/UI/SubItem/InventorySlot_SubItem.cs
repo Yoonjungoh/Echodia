@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler
+public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     enum Texts
     {
@@ -25,8 +25,7 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler
         CountBadge,
         EnchantBadge,
     }
-    private float _lastClickTime = 0f;
-    private const float DoubleClickTimeThreshold = 0.3f; // 0.3초 이내 다시 클릭 시 더블 클릭
+    private RectTransform _rectTransform;
 
     private Image _itemImage;
     private Image _cooltimeImage;
@@ -45,6 +44,8 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler
         Bind<TextMeshProUGUI>(typeof(Texts));
         Bind<Image>(typeof(Images));
         Bind<GameObject>(typeof(GameObjects));
+
+        _rectTransform = GetComponent<RectTransform>();
 
         _itemImage = GetImage((int)Images.ItemImage);
         _cooltimeImage = GetImage((int)Images.CooltimeImage);
@@ -103,6 +104,19 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler
         {
             _enchantLevelText.text = $"+{_data.EnchantLevel}";
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (_data == null)
+            return;
+            
+        Managers.UI.ShowItemTooltip(_data, _rectTransform);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Managers.UI.HideItemTooltip();
     }
 
     public void OnPointerClick(PointerEventData eventData)

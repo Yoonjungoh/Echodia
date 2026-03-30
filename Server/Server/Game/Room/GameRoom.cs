@@ -338,8 +338,8 @@ namespace Server.Game
 
             foreach (GameObject target in _gameObjects.Values)
             {
-                if (target == null) continue;
-                if (target.Id == instigator.Id) continue;
+                if (target == null || target.Id == instigator.Id)
+                    continue;
 
                 // 4-1. 대상 위치 예측하기
                 Vector3 targetPos = target.CurrentPosition;
@@ -635,7 +635,15 @@ namespace Server.Game
                         }
                     }
 
-                    // 이동 가능 
+                    // Y축 지형 높이 보정 (더미클라 등 Y가 잘못된 경우 서버에서 교정)
+                    float groundY = Map.GetHeight(clientPos);
+                    if (groundY > Map.NO_HEIGHT_VALUE)
+                    {
+                        clientPos.Y = groundY;
+                        movePacket.ObjectState.Position.Y = groundY;
+                    }
+
+                    // 이동 가능
                     player.ObjectState.Position = movePacket.ObjectState.Position;
                 }
                 else
@@ -862,7 +870,7 @@ namespace Server.Game
             // cells -> 현재 위치(pos)를 기준으로,
             // 얼마나 떨어진 좌표까지 검사해서 Zone을 가져올 것인가를 의미
             int cells = DataManager.Instance.AdjacentZonesCells;
-            int[] delta = new int[2] { -cells, +cells };
+            int[] delta = new int[3] { -cells, 0, +cells };
             foreach (int dx in delta)
             {
                 foreach (int dz in delta)

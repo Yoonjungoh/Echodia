@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Google.Protobuf.Protocol;
 using UnityEngine;
 
 public class UIManager
@@ -14,6 +15,7 @@ public class UIManager
 
     public UI_Currency CurrencyUI { get; set; }
     private UI_ToastPopup _toastPopup;
+    private UI_ItemTooltip _itemTooltip;
 
     public GameObject Root
     {
@@ -155,6 +157,24 @@ public class UIManager
         return null;
     }
 
+    public void ShowItemTooltip(ItemInfo data, RectTransform slotRect)
+    {
+        if (_itemTooltip == null)
+        {
+            _itemTooltip = Managers.UI.ShowPopupUI<UI_ItemTooltip>();
+            _itemTooltip.transform.SetParent(Root.transform);
+            _itemTooltip.Init();
+            // 항상 다른 팝업 위에 렌더링되도록 고정 order 설정
+            _itemTooltip.GetComponent<Canvas>().sortingOrder = 999;
+        }
+        _itemTooltip.ShowTooltip(data, slotRect);
+    }
+
+    public void HideItemTooltip()
+    {
+        _itemTooltip?.HideTooltip();
+    }
+
     public void ShowToastPopup(string message, float duration = 1f)
     {
         if (_toastPopup == null)
@@ -210,5 +230,6 @@ public class UIManager
         CloseAllPopupUI();
         _sceneUI = null;
         _popups.Clear();
+        _itemTooltip = null;
     }
 }

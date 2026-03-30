@@ -81,24 +81,43 @@ public class ServerSession : PacketSession
                 Position = new ProtoVector3 { X = _posX, Y = _posY, Z = _posZ },
                 Velocity = new ProtoVector3 { X = vx, Y = 0f, Z = vz },
                 Rotation = rotation,
+                CreatureState = CreatureState.Move,  // 이동 애니메이션 재생
             }
         };
 
         Send(movePacket);
     }
 
+    private const int AttackAnimDurationMs = 1500; // 공격 애니메이션 지속 시간 (ms)
+
     private void OnShootTimer(object state)
     {
         if (!EnableShooting)
             return;
+
+        // 공격 상태로 전환 (다른 클라이언트에서 공격 애니메이션 재생)
+        var attackStatePacket = new C_ChangeCreatureState
+        {
+            CreatureState = CreatureState.Attack,
+        };
+        Send(attackStatePacket);
 
         var projectilePacket = new C_SpawnProjectile
         {
             OwnerId = ObjectId,
             ProjectileType = ProjectileType.MagicMissile,
         };
-
         Send(projectilePacket);
+
+        // 애니메이션 재생 후 Idle로 복귀
+        _ = new Timer(_ =>
+        {
+            var idleStatePacket = new C_ChangeCreatureState
+            {
+                CreatureState = CreatureState.Idle,
+            };
+            Send(idleStatePacket);
+        }, null, AttackAnimDurationMs, Timeout.Infinite);
     }
 
     public void Send(IMessage packet)

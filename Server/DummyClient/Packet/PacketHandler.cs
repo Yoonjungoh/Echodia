@@ -246,4 +246,59 @@ class PacketHandler
     {
         throw new NotImplementedException();
     }
+
+    internal static void S_CreateQuestHandler(PacketSession session, IMessage message)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static void S_CompleteQuestHandler(PacketSession session, IMessage message)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static void S_GiveRewardHandler(PacketSession session, IMessage message)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static void S_RequestQuestDataHandler(PacketSession session, IMessage message)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static void S_ChangeQuestStatusHandler(PacketSession session, IMessage message)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static void S_QuestProgressUpdateHandler(PacketSession session, IMessage message)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static void S_UpdateItemDataHandler(PacketSession session, IMessage message)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static void S_UpdateItemDataAllHandler(PacketSession session, IMessage message)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static void S_UseItemHandler(PacketSession session, IMessage message)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static void S_PickUpDropItemHandler(PacketSession session, IMessage message)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static void S_HealHpHandler(PacketSession session, IMessage message)
+    {
+        throw new NotImplementedException();
+    }
 }

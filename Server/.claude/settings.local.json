@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(cd \"/mnt/c/Users/user/Desktop/Development/Echodia/Common/protoc-3.12.3-win64/bin\" && cmd.exe /c GenProto.bat 2>&1)"
+      "Bash(cd \"/mnt/c/Users/user/Desktop/Development/Echodia/Common/protoc-3.12.3-win64/bin\" && cmd.exe /c GenProto.bat 2>&1)",
+      "Bash(dotnet build:*)"
     ]
   }
 }
