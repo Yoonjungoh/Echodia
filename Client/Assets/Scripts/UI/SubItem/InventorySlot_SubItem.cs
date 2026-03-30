@@ -111,7 +111,7 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler,
         if (_data == null)
             return;
             
-        Managers.UI.ShowItemTooltip(_data, _rectTransform);
+        Managers.UI.ShowItemTooltip(_data);
     }
 
     public void OnPointerExit(PointerEventData eventData)

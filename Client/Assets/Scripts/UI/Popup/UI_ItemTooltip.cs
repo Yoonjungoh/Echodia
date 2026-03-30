@@ -45,50 +45,47 @@ public class UI_ItemTooltip : UI_Popup<ItemInfo>
         HideTooltip();
     }
 
-    public void ShowTooltip(ItemInfo data, RectTransform slotRect)
+    public void ShowTooltip(ItemInfo data)
     {
         _data = data;
         gameObject.SetActive(true);
         UpdateUI();
-        PositionNearSlot(slotRect);
+        // ContentSizeFitter 등 레이아웃이 반영된 실제 크기를 즉시 확정하는 함수
+        LayoutRebuilder.ForceRebuildLayoutImmediate(_panelRect);
+        ApplyPosition(Input.mousePosition);
     }
 
-    private void PositionNearSlot(RectTransform slotRect)
+    private void ApplyPosition(Vector2 mouseScreen)
     {
-        // ContentSizeFitter 등 레이아웃이 반영된 실제 크기를 즉시 확정
-        LayoutRebuilder.ForceRebuildLayoutImmediate(_panelRect);
-
-        Vector3[] corners = new Vector3[4];
-        slotRect.GetWorldCorners(corners);
-        // corners: [0]=좌하, [1]=좌상, [2]=우상, [3]=우하
-
-        float slotRight = corners[2].x;
-        float slotLeft  = corners[0].x;
-        float slotTop   = corners[1].y;
-
         float w = _panelRect.rect.width;
         float h = _panelRect.rect.height;
 
-        // 패널 좌상단이 놓일 목표 좌표 (슬롯 오른쪽, 슬롯 상단 정렬)
-        float topLeftX = slotRight + 8f;
-        float topLeftY = slotTop;
+        // 커서 오른쪽 위에 붙이는 것을 기본으로, 화면 경계 시 반대편으로 전환
+        float topLeftX = mouseScreen.x + 16f;
+        float topLeftY = mouseScreen.y + 16f + h;
 
-        // 화면 경계 클램핑
         if (topLeftX + w > Screen.width)
-            topLeftX = slotLeft - w - 8f;
+            topLeftX = mouseScreen.x - w - 16f;
         if (topLeftY > Screen.height)
             topLeftY = Screen.height;
         if (topLeftY - h < 0f)
             topLeftY = h;
 
         // RectTransform.position 은 pivot 위치를 world 좌표로 지정한다.
-        // 원하는 좌상단 → pivot 위치로 역산
         Vector2 pivot = _panelRect.pivot;
         _panelRect.position = new Vector3(
             topLeftX + w * pivot.x,
             topLeftY - h * (1f - pivot.y),
             0f
         );
+    }
+
+    private void Update()
+    {
+        if (!gameObject.activeSelf)
+            return;
+
+        ApplyPosition(Input.mousePosition);
     }
 
     public void HideTooltip()

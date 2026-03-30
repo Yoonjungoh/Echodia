@@ -157,7 +157,7 @@ public class UIManager
         return null;
     }
 
-    public void ShowItemTooltip(ItemInfo data, RectTransform slotRect)
+    public void ShowItemTooltip(ItemInfo data)
     {
         if (_itemTooltip == null)
         {
@@ -167,7 +167,7 @@ public class UIManager
             // 항상 다른 팝업 위에 렌더링되도록 고정 order 설정
             _itemTooltip.GetComponent<Canvas>().sortingOrder = 999;
         }
-        _itemTooltip.ShowTooltip(data, slotRect);
+        _itemTooltip.ShowTooltip(data);
     }
 
     public void HideItemTooltip()
