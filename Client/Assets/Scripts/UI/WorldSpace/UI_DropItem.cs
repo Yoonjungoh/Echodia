@@ -9,10 +9,17 @@ public class UI_DropItem : UI_Base
         ItemImage
     }
 
+    enum ParticleSystems
+    {
+        DropEffect
+    }
+
     private Camera _mainCamera;
-    private int _gameObjectId;  // 게임 오브젝트 ID (서버에 줍기 요청 시 사용)
+    private int _gameObjectId;  // 게임 오브젝트 ID (서버에 줍기 요청 시 사용, 서버에게 부여받은 Id)
     private int _specItemId;    // SpecData 아이템 ID (아이콘/이름 표시용)
     private int _count;
+
+    private ParticleSystem _dropEffect;
 
     public int SpecItemId { get { return _specItemId; } }
     public int Count { get { return _count; } }
@@ -21,6 +28,10 @@ public class UI_DropItem : UI_Base
     {
         _mainCamera = Camera.main;
         Bind<Image>(typeof(Images));
+        Bind<ParticleSystem>(typeof(ParticleSystems));
+
+        _dropEffect = Get<ParticleSystem>((int)ParticleSystems.DropEffect);
+        _dropEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     public void SetItem(int objectId, int specItemId, int count)
@@ -31,26 +42,31 @@ public class UI_DropItem : UI_Base
 
         GetImage((int)Images.ItemImage).sprite = Managers.Image.GetAssetImage(_specItemId);
 
-        ApplyGradeColor(specItemId);
+        ApplyGradeColor(_specItemId);
     }
 
     private void ApplyGradeColor(int specItemId)
     {
-        ItemMetaData meta = Managers.SpecData.GetItem(specItemId);
-        if (meta == null)
+        // 파티클 재생 전 카메라 방향으로 회전 적용
+        _dropEffect.transform.LookAt(
+            _dropEffect.transform.position + _mainCamera.transform.rotation * Vector3.forward,
+            _mainCamera.transform.rotation * Vector3.up
+        );
+
+        ItemMetaData itemMetaData = Managers.SpecData.GetItem(specItemId);
+        if (itemMetaData == null)
             return;
+            
+        Color gradeColor = Managers.Color.GetGradeColor(itemMetaData.ItemGrade);
 
-        Color gradeColor = Managers.Color.GetGradeColor(meta.ItemGrade);
+        foreach (ParticleSystem child in _dropEffect.GetComponentsInChildren<ParticleSystem>())
+        {
+            ParticleSystem.MainModule main = child.main;
+            main.startColor = gradeColor;
+        }
 
-        Transform dropEffectTransform = transform.Find("DropEffect");
-        if (dropEffectTransform == null)
-            return;
-
-        if (!dropEffectTransform.TryGetComponent(out ParticleSystem ps))
-            return;
-
-        ParticleSystem.MainModule main = ps.main;
-        main.startColor = gradeColor;
+        _dropEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        _dropEffect.Play(true);
     }
 
     private void LateUpdate()

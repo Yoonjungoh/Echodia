@@ -361,8 +361,6 @@ public class MyPlayerController : PlayerController
             }
         }
 
-        Managers.UI.ShowToastPopup($"가까운 아이템: {(closest != null ? Managers.SpecData.GetItemName(closest.SpecItemId) : "없음")}");
-
         // 이전 closest와 달라진 경우에만 업데이트
         if (closest == _closestDropItem)
             return;
