@@ -9,6 +9,9 @@ public class GameRoomScene : BaseScene
     {
         base.Init();
 
+        // 씬에 사용할 오브젝트 미리 풀에 생성
+        InitPoolingObjects();
+
         // 게임 입장 하겠다고 패킷 전송 (퀘스트도 여기서 같이 받음)
         C_EnterGame enterGamePacket = new C_EnterGame()
         {
@@ -19,6 +22,17 @@ public class GameRoomScene : BaseScene
         Managers.Network.Send(enterGamePacket);
         
         Managers.UI.ShowSceneUI<UI_GameRoom>();
+    }
+
+    private void InitPoolingObjects()
+    {
+        // 몬스터 프리팹 풀링
+        GameObject monsterPrefab = Managers.Resource.Load<GameObject>("Prefabs/Creatures/Monsters/Bear");
+        Managers.Pool.CreatePool(monsterPrefab, 100);
+
+        // 아이템 프리팹 풀링
+        GameObject itemPrefab = Managers.Resource.Load<GameObject>("Prefabs/UI/WorldSpace/UI_DropItem");
+        Managers.Pool.CreatePool(itemPrefab, 100);
     }
     
     private void Awake()

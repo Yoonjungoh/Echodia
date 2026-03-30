@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -19,11 +18,18 @@ public class SceneManagerEx
         }
     }
     // 해당 타입의 Scene이 재화UI를 보여줄 수 있는지 여부를 반환 (계정, 캐릭터 선택창에선 굳이 보여줄 필요 없으니까)
-
     private HashSet<Define.Scene> _canShowCurrencyUIScene = new HashSet<Define.Scene>()
     {
         Define.Scene.GameRoom,
     };
+
+    public bool CanShowCurrencyUIScene(Define.Scene type)
+    {
+        if (_canShowCurrencyUIScene == null)
+            return false;
+
+        return _canShowCurrencyUIScene.Contains(type);
+    }
 
     public void LoadScene(string sceneName)
     {
@@ -47,15 +53,6 @@ public class SceneManagerEx
         Managers.Clear();
         CurrentScene = type;
         UI_Loading.Instance.LoadScene(GetSceneName(type));
-    }
-
-    // 해당 타입의 Scene이 재화UI를 보여줄 수 있는지 여부를 반환 (계정, 캐릭터 선택창에선 굳이 보여줄 필요 없으니까)
-    public bool CanShowCurrencyUIScene(Define.Scene type)
-    {
-        if (_canShowCurrencyUIScene == null)
-            return false;
-        
-        return _canShowCurrencyUIScene.Contains(type);
     }
 
     private string GetSceneName(Define.Scene type)

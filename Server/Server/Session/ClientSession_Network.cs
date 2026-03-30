@@ -94,7 +94,7 @@ namespace Server
                 
                 SessionManager.Instance.Remove(this);
                 // 게임에서 내보내기
-                if (MyPlayer.GameRoom != null)
+                if (MyPlayer != null && MyPlayer.GameRoom != null)
                 {
                     Vector3 pos = MyPlayer.CurrentPosition;
                     DbTransaction.SavePlayerLogoutPosition(MyPlayer.PlayerId, pos.X, pos.Y, pos.Z);

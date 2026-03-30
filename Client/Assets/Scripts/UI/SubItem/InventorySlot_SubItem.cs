@@ -17,6 +17,7 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler
     {
         ItemImage,
         CooltimeImage,
+        GradeImage,
     }
 
     enum GameObjects
@@ -29,6 +30,7 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler
 
     private Image _itemImage;
     private Image _cooltimeImage;
+    private Image _gradeImage;
     private GameObject _countBadge;
     private TextMeshProUGUI _countText;
     private GameObject _enchantBadge;
@@ -46,6 +48,7 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler
 
         _itemImage = GetImage((int)Images.ItemImage);
         _cooltimeImage = GetImage((int)Images.CooltimeImage);
+        _gradeImage = GetImage((int)Images.GradeImage);
         _cooltimeImage.fillAmount = 0f;
         _cooltimeImage.gameObject.SetActive(false);
 
@@ -81,6 +84,10 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler
         }
 
         _itemImage.sprite = Managers.Image.GetAssetImage(_data.ItemId);
+
+        ItemMetaData meta = Managers.SpecData.GetItem(_data.ItemId);
+        if (meta != null)
+            _gradeImage.color = Managers.Color.GetGradeColor(meta.ItemGrade);
 
         bool showCount = (_data.Count >= 1);
         _countBadge.SetActive(showCount);

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Google.Protobuf.Protocol;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,6 +30,27 @@ public class UI_DropItem : UI_Base
         _count = count;
 
         GetImage((int)Images.ItemImage).sprite = Managers.Image.GetAssetImage(_specItemId);
+
+        ApplyGradeColor(specItemId);
+    }
+
+    private void ApplyGradeColor(int specItemId)
+    {
+        ItemMetaData meta = Managers.SpecData.GetItem(specItemId);
+        if (meta == null)
+            return;
+
+        Color gradeColor = Managers.Color.GetGradeColor(meta.ItemGrade);
+
+        Transform dropEffectTransform = transform.Find("DropEffect");
+        if (dropEffectTransform == null)
+            return;
+
+        if (!dropEffectTransform.TryGetComponent(out ParticleSystem ps))
+            return;
+
+        ParticleSystem.MainModule main = ps.main;
+        main.startColor = gradeColor;
     }
 
     private void LateUpdate()

@@ -31,9 +31,15 @@ public class MyPlayerController : PlayerController
     private Action<int> OnLevelChanged;
     private Action<int, int> OnExpChanged;
     public Action<float, float> OnHpChanged;
+    public Action<int, int> OnDetectedDropItem;
+
     private LayerMask _dropItemLayer;
     private float _dropItemPickupRadius;
     private Collider[] _hitResults = new Collider[10];
+
+    private UI_DropItem _closestDropItem;
+    private const float PROXIMITY_CHECK_INTERVAL = 0.1f;
+    private float _lastProximityCheckTime;
 
     public override void Init()
     {
@@ -143,6 +149,7 @@ public class MyPlayerController : PlayerController
     {
         base.OnUpdate();
         HandleInput();
+        CheckDropItemProximity();
     }
 
     private void FixedUpdate()
@@ -291,9 +298,13 @@ public class MyPlayerController : PlayerController
         OnHpChanged -= gameRoomUI.SetHp;
         OnHpChanged += gameRoomUI.SetHp;
 
+        OnDetectedDropItem -= gameRoomUI.ShowDropItemTooltip;
+        OnDetectedDropItem += gameRoomUI.ShowDropItemTooltip;
+
         OnLevelChanged?.Invoke(Level);
         OnExpChanged?.Invoke(Exp, Managers.Data.GetMaxExpForLevelUp(Level));
         OnHpChanged?.Invoke(Stat.Hp, Stat.MaxHp);
+        OnDetectedDropItem?.Invoke(0, 0); // 초기에는 아이템 없음 상태로 툴팁 숨김
     }
 
     public override void SetExp(int exp, int maxExp)
@@ -322,6 +333,50 @@ public class MyPlayerController : PlayerController
     private void OnProjectileSpawnInput()
     {
         ProjectileSpawn(_rangedAttackType);
+    }
+
+    private void CheckDropItemProximity()
+    {
+        if (Time.time - _lastProximityCheckTime < PROXIMITY_CHECK_INTERVAL)
+            return;
+
+        _lastProximityCheckTime = Time.time;
+
+        int count = Physics.OverlapSphereNonAlloc(transform.position, _dropItemPickupRadius, _hitResults, _dropItemLayer);
+
+        // 범위 내 가장 가까운 아이템 탐색
+        UI_DropItem closest = null;
+        float closestDistSqr = float.MaxValue;
+        for (int i = 0; i < count; ++i)
+        {
+            UI_DropItem item = _hitResults[i].GetComponent<UI_DropItem>();
+            if (item == null)
+                continue;
+
+            float distSqr = (transform.position - _hitResults[i].transform.position).sqrMagnitude;
+            if (distSqr < closestDistSqr)
+            {
+                closestDistSqr = distSqr;
+                closest = item;
+            }
+        }
+
+        Managers.UI.ShowToastPopup($"가까운 아이템: {(closest != null ? Managers.SpecData.GetItemName(closest.SpecItemId) : "없음")}");
+
+        // 이전 closest와 달라진 경우에만 업데이트
+        if (closest == _closestDropItem)
+            return;
+
+        _closestDropItem = closest;
+
+        if (_closestDropItem != null)
+        {
+            OnDetectedDropItem?.Invoke(_closestDropItem.SpecItemId, _closestDropItem.Count); // 아이템 정보 전달
+        }
+        else
+        {
+            OnDetectedDropItem?.Invoke(0, 0); // 아이템 없음 상태 전달
+        }
     }
 
     private void TryPickupClosestItem()
@@ -355,7 +410,6 @@ public class MyPlayerController : PlayerController
         if (closestDropItem != null)
         {
             closestDropItem.RequestPickUpDropItem();
-            Debug.Log($"{closestDropItem.name}을(를) 획득했습니다!");
         }
     }
 

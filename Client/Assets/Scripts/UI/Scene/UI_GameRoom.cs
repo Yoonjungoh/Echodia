@@ -1,9 +1,4 @@
-using Google.Protobuf.Collections;
 using Google.Protobuf.Protocol;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +10,9 @@ public class UI_GameRoom : UI_Scene
         LevelText,
         ExpText,
         HpText,
+        DropItemNameText,
+        DropItemDescText,
+        DropItemCountText,
     }
 
     enum Sliders
@@ -32,6 +30,12 @@ public class UI_GameRoom : UI_Scene
     enum GameObjects
     {
         QuestRedDot,
+        DropItemTooltipPanel,
+    }
+
+    enum Images
+    {
+        DropItemImage,
     }
 
     private int _level = -1;
@@ -45,6 +49,12 @@ public class UI_GameRoom : UI_Scene
     private Slider _expSlider;
     private GameObject _questRedDot;
 
+    private GameObject _dropItemTooltipPanel;
+    private TextMeshProUGUI _dropItemNameText;
+    private TextMeshProUGUI _dropItemDescText;
+    private TextMeshProUGUI _dropItemCountText;
+    private Image _dropItemImage;
+
     public override void Init()
     {
         base.Init();
@@ -53,6 +63,7 @@ public class UI_GameRoom : UI_Scene
         Bind<Slider>(typeof(Sliders));
         Bind<Button>(typeof(Buttons));
         Bind<GameObject>(typeof(GameObjects));
+        Bind<Image>(typeof(Images));
 
         _levelText = GetTextMeshProUGUI((int)Texts.LevelText);
         _expText = GetTextMeshProUGUI((int)Texts.ExpText);
@@ -60,6 +71,13 @@ public class UI_GameRoom : UI_Scene
         _expSlider = Get<Slider>((int)Sliders.ExpSlider);
         _hpBarSlider = Get<Slider>((int)Sliders.HpBarSlider);
         _questRedDot = Get<GameObject>((int)GameObjects.QuestRedDot);
+
+        _dropItemTooltipPanel = GetObject((int)GameObjects.DropItemTooltipPanel);
+        _dropItemNameText = GetTextMeshProUGUI((int)Texts.DropItemNameText);
+        _dropItemDescText = GetTextMeshProUGUI((int)Texts.DropItemDescText);
+        _dropItemCountText = GetTextMeshProUGUI((int)Texts.DropItemCountText);
+        _dropItemImage = GetImage((int)Images.DropItemImage);
+        _dropItemTooltipPanel.SetActive(false);
 
         GetButton((int)Buttons.QuestPopupButton).onClick.AddListener(OnClickQuestPopupInput);
         GetButton((int)Buttons.InventoryPopupButton).onClick.AddListener(OnClickInventoryPopupInput);
@@ -144,6 +162,31 @@ public class UI_GameRoom : UI_Scene
     {
         _hpText.text = $"Hp: {hp}/{maxHp}";
         _hpBarSlider.value = hp / maxHp;
+    }
+
+    public void ShowDropItemTooltip(int specItemId, int count)
+    {
+        // 0으로 들어오면 숨기기
+        if (specItemId == 0 && count == 0)
+        {
+            HideDropItemTooltip();
+            return;
+        }
+
+        ItemMetaData meta = Managers.SpecData.GetItem(specItemId);
+        if (meta == null)
+            return;
+
+        _dropItemNameText.text = meta.ItemName;
+        _dropItemDescText.text = meta.Description;
+        _dropItemCountText.text = count >= 1 ? $"x{count}" : "";
+        _dropItemImage.sprite = Managers.Image.GetAssetImage(specItemId);
+        _dropItemTooltipPanel.SetActive(true);
+    }
+
+    private void HideDropItemTooltip()
+    {
+        _dropItemTooltipPanel.SetActive(false);
     }
 
     private void UpdateUI()

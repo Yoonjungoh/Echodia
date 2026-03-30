@@ -1,12 +1,9 @@
-using Google.Protobuf.Collections;
 using Google.Protobuf.Protocol;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UI_Currency : UI_Scene
 {
@@ -72,7 +69,7 @@ public class UI_Currency : UI_Scene
             }
         }
     }
-    
+
     // 특정 재화 타입과 정보를 설정 (반드시 _currencyText, _currencyData 가 초기화 된 상태에서만 설정)
     public void SetData(CurrencyType currencyType, int amount)
     {

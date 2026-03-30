@@ -14,7 +14,6 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Server.Session;
-using Server.Data;
 
 namespace Server
 {
@@ -444,51 +443,5 @@ namespace Server
             }
         }
 
-        public void HandleRequestInitGameRoomData(int playerId)
-        {
-            lock (_lock)
-            {
-                using (GameDbContext db = new GameDbContext())
-                {
-                    PlayerDb player = db.Players
-                        .AsNoTracking()
-                        .Where(p => p.PlayerDbId == playerId)
-                        .FirstOrDefault();
-
-                    if (player == null)
-                    {
-                        ConsoleLogManager.Instance.Log($"[Error] 캐릭터 정보를 찾을 수 없음. PlayerId: {playerId}");
-                        return;
-                    }
-
-                    S_RequestInitGameRoomData initGameRoomDataPacket = new S_RequestInitGameRoomData();
-                    initGameRoomDataPacket.InitGameRoomData = new InitGameRoomData()
-                    {
-                        Level = player.Level,
-                        Exp = player.Exp,
-                        MaxExp = SpecDataManager.Instance.GetExpRequiredForLevel(player.Level),
-                    };
-                    Send(initGameRoomDataPacket);
-
-                    // 전체 인벤토리 전송
-                    if (MyPlayer?.Items != null)
-                    {
-                        S_UpdateItemDataAll itemDataAllPacket = new S_UpdateItemDataAll();
-                        foreach (PlayerItemDb item in MyPlayer.Items.Values)
-                        {
-                            itemDataAllPacket.ItemInfoList.Add(new ItemInfo
-                            {
-                                ItemId = item.ItemId,
-                                Count = item.Count,
-                                SlotIndex = item.SlotIndex,
-                                IsEquipped = item.IsEquipped,
-                                EnchantLevel = item.EnchantLevel,
-                            });
-                        }
-                        Send(itemDataAllPacket);
-                    }
-                }
-            }
-        }
     }
 }

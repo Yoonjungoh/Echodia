@@ -140,22 +140,14 @@ namespace Server.Game
             pickUpDropItemPacket.ItemId = dropItem.ItemId;
 
             // 4. 인벤토리 공간 확인
+            // 스택 가능한 기존 슬롯: 같은 ItemId이면서 MaxStack을 초과하지 않는 슬롯
             ItemType itemType = itemMeta.ItemType;
-            PlayerItemDb existingItem = Items.Values.FirstOrDefault(i => i.ItemId == dropItem.ItemId);
-            if (existingItem != null)
+            PlayerItemDb existingItem = Items.Values.FirstOrDefault(i =>
+                i.ItemId == dropItem.ItemId && i.Count + dropItem.Count <= itemMeta.MaxStack);
+
+            if (existingItem == null)
             {
-                // 기존 슬롯에 스택 가능한지 확인
-                if (existingItem.Count + dropItem.Count > itemMeta.MaxStack)
-                {
-                    Console.WriteLine($"[Player] Item stack full: {dropItem.ItemId}");
-                    pickUpDropItemPacket.PickUpDropItemResult = PickUpDropItemResult.InventoryFull;
-                    Session?.Send(pickUpDropItemPacket);
-                    return;
-                }
-            }
-            else
-            {
-                // 새 슬롯 필요  인벤토리 여유 확인
+                // 스택 불가(MaxStack=1 포함) → 새 슬롯 필요, 인벤토리 여유 확인
                 int usedSlots = Items.Count(i => i.Key.Item1 == itemType);
                 if (usedSlots >= GetInventorySize(itemType))
                 {
@@ -252,7 +244,10 @@ namespace Server.Game
 
             foreach (var (itemId, amount) in itemRewards)
             {
-                PlayerItemDb memItem = Items.Values.FirstOrDefault(i => i.ItemId == itemId);
+                ItemMetaData itemMeta = SpecDataManager.Instance.GetItem(itemId);
+                // 스택 가능한 기존 슬롯: 같은 ItemId이면서 MaxStack을 초과하지 않는 슬롯
+                PlayerItemDb memItem = Items.Values.FirstOrDefault(i =>
+                    i.ItemId == itemId && i.Count + amount <= itemMeta.MaxStack);
                 if (memItem != null)
                 {
                     memItem.Count += amount;

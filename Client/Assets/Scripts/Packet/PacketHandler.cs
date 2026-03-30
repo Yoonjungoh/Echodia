@@ -612,7 +612,6 @@ class PacketHandler
         if (dropItem != null)
         {
             ItemMetaData item = Managers.SpecData.GetItem(dropItem.SpecItemId);
-            Managers.UI.ShowToastPopup($"아이템을 획득했습니다: {Managers.SpecData.GetItemName(item.Id)}");
             Managers.GameRoomObject.Remove(pickUpDropItemPacket.ItemId, isDead: false);
         }
     }

@@ -23,7 +23,8 @@ public class CurrencyManager
     public void UpdateCurrencyData(CurrencyType currencyType, int amount)
     {
         _currencies[currencyType] = amount;
-        Managers.UI.CurrencyUI.SetData(currencyType, amount);
+        if (Managers.UI.CurrencyUI != null)
+            Managers.UI.CurrencyUI.SetData(currencyType, amount);
         OnCurrencyChanged?.Invoke();
     }
 
@@ -31,10 +32,13 @@ public class CurrencyManager
     public void UpdateCurrencyDataAll(CurrencyData currencyData)
     {
         _currencies[CurrencyType.Jewel] = currencyData.Jewel;
-        _currencies[CurrencyType.Gold]  = currencyData.Gold;
-        _currencies[CurrencyType.Exp]   = currencyData.Exp;
+        _currencies[CurrencyType.Gold] = currencyData.Gold;
+        _currencies[CurrencyType.Exp] = currencyData.Exp;
         _currencies[CurrencyType.Level] = currencyData.Level;
-        Managers.UI.CurrencyUI.SetData(currencyData);
+        if (Managers.UI.CurrencyUI != null)
+        {
+            Managers.UI.CurrencyUI.SetData(currencyData);
+        }
         OnCurrencyChanged?.Invoke();
     }
 

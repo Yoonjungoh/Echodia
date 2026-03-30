@@ -9,6 +9,7 @@ public class Managers : MonoBehaviour
     private static Managers s_instance; // 유일성이 보장된다
     private static Managers Instance { get { Init(); return s_instance; } } // 유일한 매니저를 갖고온다
 
+    private ColorManager _color = new ColorManager();
     private ConfigManager _config = new ConfigManager();
     private CooldownManager _cooldown = new CooldownManager();
     private CurrencyManager _currency = new CurrencyManager();
@@ -32,6 +33,7 @@ public class Managers : MonoBehaviour
     private UIManager _ui = new UIManager();
     private URLManager _url = new URLManager();
 
+    public static ColorManager Color { get { return Instance._color; } }
     public static ConfigManager Config { get { return Instance._config; } }
     public static CooldownManager Cooldown { get { return Instance._cooldown; } }
     public static CurrencyManager Currency { get { return Instance._currency; } }
