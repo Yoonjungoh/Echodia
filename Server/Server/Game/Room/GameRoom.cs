@@ -421,6 +421,13 @@ namespace Server.Game
             else
             {
                 startPos = MovementHelper.ProtoVec3ToVec3(gameObject.Position);
+                // 몬스터/투사체 등도 지형 높이로 Y 보정 (보정 안 하면 클라이언트 물리와 충돌해 시각적으로 튀는 현상 발생)
+                if (objectType == GameObjectType.Monster)
+                {
+                    float groundY = Map.GetHeight(startPos);
+                    if (groundY > Map.NO_HEIGHT_VALUE)
+                        startPos.Y = groundY;
+                }
             }
             gameObject.Position.X = startPos.X;
             gameObject.Position.Y = startPos.Y;
