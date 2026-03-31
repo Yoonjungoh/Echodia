@@ -62,8 +62,19 @@ class PacketHandler
     public static void S_MoveHandler(PacketSession session, IMessage packet)
     {
         S_Move movePacket = packet as S_Move;
+        if (movePacket == null) return;
 
+        ServerSession serverSession = session as ServerSession;
+        if (serverSession == null) return;
 
+        // 서버가 보정한 위치를 로컬에 반영 → 로컬 누적 오차로 인한 순간이동 방지
+        if (movePacket.ObjectState.ObjectId == serverSession.ObjectId)
+        {
+            serverSession.SyncPosition(
+                movePacket.ObjectState.Position.X,
+                movePacket.ObjectState.Position.Y,
+                movePacket.ObjectState.Position.Z);
+        }
     }
 
     public static void S_DieHandler(PacketSession session, IMessage packet)

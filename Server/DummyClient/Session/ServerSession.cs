@@ -26,9 +26,15 @@ public class ServerSession : PacketSession
     private Timer _moveTimer;
     private Timer _shootTimer;
 
-    private const int MoveIntervalMs = 500;      // 이동 방향 변경 주기 (ms)
+    private const int MoveIntervalMs = 100;       // 이동 패킷 전송 주기 (ms) — 짧을수록 부드러움
     private const int ShootIntervalMs = 10000;  // 투사체 발사 주기 (ms)
     private const float MoveSpeed = 3f;         // 이동 속도 (유닛/초)
+    private const int DirChangeTicks = 30;       // 방향 유지 틱 수 (30 * 100ms = 3초)
+
+    private float _currentAngle = 0f;
+    private float _vx = 0f;
+    private float _vz = 0f;
+    private int _dirTicksLeft = 0;               // 현재 방향 유지 남은 틱
 
     private volatile bool _isAttacking = false;
 
@@ -59,18 +65,25 @@ public class ServerSession : PacketSession
         if (_isAttacking)
             return;
 
-        // XZ 평면에서 무작위 방향
-        float angle = (float)(_random.NextDouble() * Math.PI * 2);
-        float vx = (float)Math.Cos(angle) * MoveSpeed;
-        float vz = (float)Math.Sin(angle) * MoveSpeed;
+        // 일정 틱 동안 같은 방향 유지 → 매 틱 랜덤 방향 변경으로 인한 슬라이딩 방지
+        if (_dirTicksLeft <= 0)
+        {
+            _currentAngle = (float)(_random.NextDouble() * Math.PI * 2);
+            _vx = (float)Math.Cos(_currentAngle) * MoveSpeed;
+            _vz = (float)Math.Sin(_currentAngle) * MoveSpeed;
+            _dirTicksLeft = DirChangeTicks;
+        }
+        _dirTicksLeft--;
 
         // 위치 갱신 (delta = MoveIntervalMs / 1000초)
         float dt = MoveIntervalMs / 1000f;
-        _posX += vx * dt;
-        _posZ += vz * dt;
+        _posX += _vx * dt;
+        _posZ += _vz * dt;
 
         // Y축 회전 쿼터니언 (방향으로 얼굴 향하기)
-        float halfAngle = angle / 2f;
+        // Unity는 +Z가 forward이므로 atan2(vx, vz) 사용 (수학 좌표계 atan2(vz,vx)와 다름)
+        float rotAngle = (float)Math.Atan2(_vx, _vz);
+        float halfAngle = rotAngle / 2f;
         var rotation = new ProtoQuaternion
         {
             X = 0f,
@@ -85,12 +98,36 @@ public class ServerSession : PacketSession
             {
                 ObjectId = ObjectId,
                 Position = new ProtoVector3 { X = _posX, Y = _posY, Z = _posZ },
-                Velocity = new ProtoVector3 { X = vx, Y = 0f, Z = vz },
+                Velocity = new ProtoVector3 { X = _vx, Y = 0f, Z = _vz },
                 Rotation = rotation,
-                CreatureState = CreatureState.Move,  // 이동 애니메이션 재생
+                CreatureState = CreatureState.Move,
             }
         };
 
+        Send(movePacket);
+    }
+
+    // 서버 보정 위치 반영 (순간이동 방지)
+    public void SyncPosition(float x, float y, float z)
+    {
+        _posX = x;
+        _posY = y;
+        _posZ = z;
+    }
+
+    // velocity=0 패킷을 보내 클라이언트의 위치 예측을 멈춤
+    private void SendStopPacket(CreatureState stopState)
+    {
+        var movePacket = new C_Move
+        {
+            ObjectState = new ObjectState
+            {
+                ObjectId = ObjectId,
+                Position = new ProtoVector3 { X = _posX, Y = _posY, Z = _posZ },
+                Velocity = new ProtoVector3 { X = 0f, Y = 0f, Z = 0f },
+                CreatureState = stopState,
+            }
+        };
         Send(movePacket);
     }
 
@@ -103,12 +140,8 @@ public class ServerSession : PacketSession
 
         _isAttacking = true;
 
-        // 공격 상태로 전환 (다른 클라이언트에서 공격 애니메이션 재생)
-        var attackStatePacket = new C_ChangeCreatureState
-        {
-            CreatureState = CreatureState.Attack,
-        };
-        Send(attackStatePacket);
+        // ATTACK 전환 시 velocity=0 전송 → 클라이언트가 위치 예측을 멈춤
+        SendStopPacket(CreatureState.Attack);
 
         var projectilePacket = new C_SpawnProjectile
         {
@@ -121,12 +154,10 @@ public class ServerSession : PacketSession
         _ = new Timer(_ =>
         {
             _isAttacking = false;
+            _dirTicksLeft = 0;  // 다음 이동 틱에 새 방향 선택
 
-            var idleStatePacket = new C_ChangeCreatureState
-            {
-                CreatureState = CreatureState.Idle,
-            };
-            Send(idleStatePacket);
+            // IDLE 전환 시에도 velocity=0 전송 → 정지 상태 명시
+            SendStopPacket(CreatureState.Idle);
         }, null, AttackAnimDurationMs, Timeout.Infinite);
     }
 
