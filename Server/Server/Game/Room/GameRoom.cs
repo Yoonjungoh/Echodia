@@ -401,6 +401,31 @@ namespace Server.Game
             enteGamePacket.ObjectState.Level = gameObject.Level;
             enteGamePacket.ObjectState.Exp = gameObject.Exp;
 
+            // position 초기화 — zone.Add 전에 올바른 위치를 먼저 설정해야 정확한 존에 등록됨
+            Vector3 startPos = Vector3.Zero;
+            if (objectType == GameObjectType.Player)
+            {
+                Player player = gameObject as Player;
+                Vector3 lastLogoutPos = ObjectManager.Instance.GetPlayerLastLogoutPos(player.PlayerId);
+                if (lastLogoutPos.X == int.MinValue && lastLogoutPos.Y == int.MinValue && lastLogoutPos.Z == int.MinValue)
+                {
+                    startPos = DataManager.Instance.GetStartPosition();
+                }
+                else
+                {
+                    startPos = lastLogoutPos;
+                }
+                float groundY = Map.GetHeight(startPos);
+                startPos.Y = groundY;
+            }
+            else
+            {
+                startPos = MovementHelper.ProtoVec3ToVec3(gameObject.Position);
+            }
+            gameObject.Position.X = startPos.X;
+            gameObject.Position.Y = startPos.Y;
+            gameObject.Position.Z = startPos.Z;
+
             // Type 관련 분기 초기화
             Zone zone = GetZone(gameObject.CurrentPosition);
             if (zone != null)
@@ -408,10 +433,6 @@ namespace Server.Game
                 zone.Add(gameObject);
             }
 
-            if (zone != null)
-            {
-                // TODO
-            }
             if (objectType == GameObjectType.Player)
             {
             }
@@ -438,34 +459,6 @@ namespace Server.Game
 
             // name 초기화
             enteGamePacket.ObjectState.Name = gameObject.Name;
-
-            // position 초기화
-            Vector3 startPos = Vector3.Zero;
-
-            // 플레이어 이외는 다른 곳에서 위치 미리 받고 옴
-            if (objectType == GameObjectType.Player)
-            {
-                Player player = gameObject as Player;
-                // 첫 접속인 경우엔 시작 위치 고정, 재접속인 경우엔 마지막 로그아웃 위치로
-                Vector3 lastLogoutPos = ObjectManager.Instance.GetPlayerLastLogoutPos(player.PlayerId);
-                if (lastLogoutPos.X == int.MinValue && lastLogoutPos.Y == int.MinValue && lastLogoutPos.Z == int.MinValue)
-                {
-                    startPos = DataManager.Instance.GetStartPosition();
-                }
-                else
-                {
-                    startPos = lastLogoutPos;
-                }
-                float groundY = Map.GetHeight(startPos);
-                startPos.Y = groundY;
-            }
-            else
-            {
-                startPos = MovementHelper.ProtoVec3ToVec3(gameObject.Position);
-            }
-            gameObject.Position.X = startPos.X;
-            gameObject.Position.Y = startPos.Y;
-            gameObject.Position.Z = startPos.Z;
 
             enteGamePacket.ObjectState.Position.X = gameObject.ObjectState.Position.X;
             enteGamePacket.ObjectState.Position.Y = gameObject.ObjectState.Position.Y;
@@ -601,63 +594,64 @@ namespace Server.Game
             if (player == null || movePacket == null)
                 return;
 
-            // 서버에서 상태 업데이트
-            player.ObjectState = movePacket.ObjectState;
-
-            // 하드스냅 (일정 거리 이상 순간이동 방지)
-            Vector3 serverPos = new Vector3(player.ObjectState.Position.X, player.ObjectState.Position.Y, player.ObjectState.Position.Z);
+            // ObjectState 전체를 교체하면 Stat 등 패킷에 없는 필드가 null이 되므로 위치/속도/회전만 개별 업데이트
             Vector3 clientPos = new Vector3(movePacket.ObjectState.Position.X, movePacket.ObjectState.Position.Y, movePacket.ObjectState.Position.Z);
 
-            float dist = Vector3.Distance(serverPos, clientPos);
-            if (dist > 1.0f)
+            if (Map.CanGo(clientPos.X, clientPos.Z))
             {
-                Console.WriteLine($"[Warning] Player {player.Id} position correction ({dist})");
-                movePacket.ObjectState.Position = player.ObjectState.Position;
-                movePacket.ObjectState.Velocity = new ProtoVector3 { X = 0, Y = 0, Z = 0 };
+                // Zone 이동 확인
+                Zone nowZone = GetZone(player.CurrentPosition);
+                Zone afterZone = GetZone(clientPos);
+
+                if (nowZone != afterZone)
+                {
+                    if (nowZone != null)
+                    {
+                        nowZone.Remove(player);
+                    }
+                    if (afterZone != null)
+                    {
+                        afterZone.Add(player);
+                    }
+                }
+
+                // Y축 지형 높이 보정 (더미클라 등 Y가 잘못된 경우 서버에서 교정)
+                float groundY = Map.GetHeight(clientPos);
+                if (groundY > Map.NO_HEIGHT_VALUE)
+                {
+                    clientPos.Y = groundY;
+                    movePacket.ObjectState.Position.Y = groundY;
+                }
+
+                player.ObjectState.Position.X = movePacket.ObjectState.Position.X;
+                player.ObjectState.Position.Y = movePacket.ObjectState.Position.Y;
+                player.ObjectState.Position.Z = movePacket.ObjectState.Position.Z;
             }
             else
             {
-                if (Map.CanGo(clientPos.X, clientPos.Z))
-                {
-                    // Zone 이동 확인
-                    Zone nowZone = GetZone(player.CurrentPosition);
-                    Zone afterZone = GetZone(clientPos);
-
-                    if (nowZone != afterZone)
-                    {
-                        if (nowZone != null)
-                        {
-                            nowZone.Remove(player);
-                        }
-                        if (afterZone != null)
-                        {
-                            afterZone.Add(player);
-                        }
-                    }
-
-                    // Y축 지형 높이 보정 (더미클라 등 Y가 잘못된 경우 서버에서 교정)
-                    float groundY = Map.GetHeight(clientPos);
-                    if (groundY > Map.NO_HEIGHT_VALUE)
-                    {
-                        clientPos.Y = groundY;
-                        movePacket.ObjectState.Position.Y = groundY;
-                    }
-
-                    // 이동 가능
-                    player.ObjectState.Position = movePacket.ObjectState.Position;
-                }
-                else
-                {
-                    // 이동 불가 (원래 서버 위치로 되돌림)
-                    movePacket.ObjectState.Position = player.ObjectState.Position;
-                    movePacket.ObjectState.Velocity = new ProtoVector3 { X = 0, Y = 0, Z = 0 };
-                }
+                // 이동 불가: 클라이언트에 서버 위치 되돌려주기
+                movePacket.ObjectState.Position.X = player.ObjectState.Position.X;
+                movePacket.ObjectState.Position.Y = player.ObjectState.Position.Y;
+                movePacket.ObjectState.Position.Z = player.ObjectState.Position.Z;
+                movePacket.ObjectState.Velocity = new ProtoVector3 { X = 0, Y = 0, Z = 0 };
             }
+
+            // Stat 등 중요 필드를 덮어쓰지 않도록 velocity/rotation/state만 개별 업데이트
+            player.ObjectState.Velocity.X = movePacket.ObjectState.Velocity.X;
+            player.ObjectState.Velocity.Y = movePacket.ObjectState.Velocity.Y;
+            player.ObjectState.Velocity.Z = movePacket.ObjectState.Velocity.Z;
+            player.ObjectState.Rotation.X = movePacket.ObjectState.Rotation.X;
+            player.ObjectState.Rotation.Y = movePacket.ObjectState.Rotation.Y;
+            player.ObjectState.Rotation.Z = movePacket.ObjectState.Rotation.Z;
+            player.ObjectState.Rotation.W = movePacket.ObjectState.Rotation.W;
+            player.ObjectState.CreatureState = movePacket.ObjectState.CreatureState;
+            // CurrentPosition 계산에 사용되므로 반드시 갱신
+            player.ObjectState.ServerReceivedTime = Util.GetTimestampMs();
 
             // 다른 유저들에게 브로드캐스트
             S_Move resMovePacket = new S_Move();
-            resMovePacket.ObjectState = movePacket.ObjectState;
-            resMovePacket.ObjectState.ServerReceivedTime = Util.GetTimestampMs();
+            resMovePacket.ObjectState = new ObjectState();
+            resMovePacket.ObjectState.MergeFrom(player.ObjectState);
             Broadcast(player.CurrentPosition, resMovePacket, player.Id);
         }
 

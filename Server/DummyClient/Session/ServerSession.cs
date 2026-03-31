@@ -26,9 +26,11 @@ public class ServerSession : PacketSession
     private Timer _moveTimer;
     private Timer _shootTimer;
 
-    private const int MoveIntervalMs = 2000;    // 이동 방향 변경 주기 (ms)
+    private const int MoveIntervalMs = 500;      // 이동 방향 변경 주기 (ms)
     private const int ShootIntervalMs = 10000;  // 투사체 발사 주기 (ms)
     private const float MoveSpeed = 3f;         // 이동 속도 (유닛/초)
+
+    private volatile bool _isAttacking = false;
 
     public void StartBehavior(float startX, float startY, float startZ)
     {
@@ -51,6 +53,10 @@ public class ServerSession : PacketSession
     private void OnMoveTimer(object state)
     {
         if (!EnableMovement)
+            return;
+
+        // 공격 애니메이션 중에는 이동 패킷을 보내지 않음
+        if (_isAttacking)
             return;
 
         // XZ 평면에서 무작위 방향
@@ -95,6 +101,8 @@ public class ServerSession : PacketSession
         if (!EnableShooting)
             return;
 
+        _isAttacking = true;
+
         // 공격 상태로 전환 (다른 클라이언트에서 공격 애니메이션 재생)
         var attackStatePacket = new C_ChangeCreatureState
         {
@@ -112,6 +120,8 @@ public class ServerSession : PacketSession
         // 애니메이션 재생 후 Idle로 복귀
         _ = new Timer(_ =>
         {
+            _isAttacking = false;
+
             var idleStatePacket = new C_ChangeCreatureState
             {
                 CreatureState = CreatureState.Idle,
