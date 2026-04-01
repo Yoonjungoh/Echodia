@@ -96,6 +96,9 @@ public class UIManager
             return;
 
         UI_Popup popup = _popupStack.Pop();
+        if (popup == null)
+            return;
+
         _popups.Remove(popup.GetType());
 
         Managers.Resource.Destroy(popup.gameObject);
