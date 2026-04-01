@@ -2,7 +2,7 @@ using Google.Protobuf.Protocol;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_DropItem : UI_Base
+public class UI_DropItem : UI_Base, IPoolable
 {
     enum Images
     {
@@ -32,6 +32,16 @@ public class UI_DropItem : UI_Base
 
         _dropEffect = Get<ParticleSystem>((int)ParticleSystems.DropEffect);
         _dropEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+    }
+
+    public void Reset()
+    {
+        _gameObjectId = 0;
+        _specItemId = 0;
+        _count = 0;
+        GetImage((int)Images.ItemImage).sprite = null;
+        if (_dropEffect != null)
+            _dropEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     public void SetItem(int objectId, int specItemId, int count)

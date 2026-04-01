@@ -56,8 +56,6 @@ public class PoolManager
                 poolable = Create();
             }
 
-            poolable.gameObject.SetActive(true);
-
             // DontDestroyOnLoad 해제 용도 (현재 Scene 카메라에 옮겼다가 옮)
             if (parent == null)
             {
@@ -66,6 +64,8 @@ public class PoolManager
 
             poolable.transform.parent = parent;
             poolable.IsUsing = true;
+            poolable.gameObject.SetActive(true);
+            poolable.OnPop();
 
             return poolable;
         }

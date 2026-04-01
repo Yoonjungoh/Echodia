@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 
 
-public class UI_DamageViewer : UI_Base
+public class UI_DamageViewer : UI_Base, IPoolable
 {
     public const string IDLE_CLIP_NAME = "DAMAGE_VIEWER_IDLE";
 
@@ -21,6 +21,14 @@ public class UI_DamageViewer : UI_Base
         _damageText = GetTextMeshProUGUI((int)Texts.DamageText);
         _mainCamera = Camera.main;
         _animator = GetComponent<Animator>();
+    }
+
+    public void Reset()
+    {
+        if (_damageText != null)
+            _damageText.text = string.Empty;
+        if (_animator != null)
+            _animator.Rebind();
     }
 
     public void ShowDamage(int damage, Vector3 worldPosition, float returnDelay = 3.0f)

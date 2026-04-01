@@ -33,6 +33,10 @@ public class GameRoomScene : BaseScene
         // 아이템 프리팹 풀링
         GameObject itemPrefab = Managers.Resource.Load<GameObject>("Prefabs/UI/WorldSpace/UI_DropItem");
         Managers.Pool.CreatePool(itemPrefab, 100);
+
+        // 데미지 뷰어 프리팹 풀링
+        GameObject damageViewerPrefab = Managers.Resource.Load<GameObject>("Prefabs/UI/WorldSpace/UI_DamageViewer");
+        Managers.Pool.CreatePool(damageViewerPrefab, 100);
     }
     
     private void Awake()

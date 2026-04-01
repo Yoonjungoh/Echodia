@@ -82,16 +82,7 @@ public class CreatureController : BaseController
         _dieEffectOffset = new Vector3(0, _collider.bounds.size.y / 2, 0);
     }
 
-    // 풀에서 꺼낼 때 자동 호출 (SetActive(true) → OnEnable)
-    protected virtual void OnEnable()
-    {
-        if (!_initialized)
-            return;
-
-        ResetPoolState();
-    }
-
-    // 풀에서 꺼낼 때 상태 초기화
+    // 풀에서 꺼낼 때 상태 초기화 (IPoolable.Reset() → BearController.Reset() 에서 호출)
     protected virtual void ResetPoolState()
     {
         _cts.Cancel();

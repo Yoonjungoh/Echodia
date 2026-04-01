@@ -3,8 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BearController : MonsterController
+public class BearController : MonsterController, IPoolable
 {
+    public void Reset()
+    {
+        ResetPoolState();
+    }
+
     public override void Init()
     {
         base.Init();
