@@ -95,14 +95,14 @@ namespace Server.Migrations
                     b.Property<float>("StatCommonAttackCoolTime")
                         .HasColumnType("real");
 
-                    b.Property<float>("StatCommonAttackDamage")
-                        .HasColumnType("real");
+                    b.Property<int>("StatCommonAttackDamage")
+                        .HasColumnType("int");
 
-                    b.Property<float>("StatDefense")
-                        .HasColumnType("real");
+                    b.Property<int>("StatDefense")
+                        .HasColumnType("int");
 
-                    b.Property<float>("StatMaxHp")
-                        .HasColumnType("real");
+                    b.Property<int>("StatMaxHp")
+                        .HasColumnType("int");
 
                     b.Property<float>("StatMoveSpeed")
                         .HasColumnType("real");

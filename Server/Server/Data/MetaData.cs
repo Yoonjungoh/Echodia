@@ -39,8 +39,8 @@ namespace Server.Data
         public int Id;
         public EquipmentType EquipmentType;
         public EquipSlotType EquipSlotType;
-        public float Attack;
-        public float Defense;
+        public int Attack;
+        public int Defense;
         public int RequiredLevel;
     }
 
@@ -104,9 +104,9 @@ namespace Server.Data
         public int LifeTime;
         public int MaxHitCount;
         public float MoveSpeed;
-        public float CommonAttackDamage;
+        public int CommonAttackDamage;
         public float CommonAttackCoolTime;
-        public float MaxHp;
+        public int MaxHp;
     }
 
     // ── Exp
@@ -126,10 +126,10 @@ namespace Server.Data
         public MonsterType MonsterType;
         public int DropItemGroupId;
         public int MaxHp;
-        public float CommonAttackDamage;
+        public int CommonAttackDamage;
         public float CommonAttackCoolTime;
         public float AttackRange;
-        public float Defense;
+        public int Defense;
         public float MoveSpeed;
         public int Level;
         public int Exp;
@@ -157,10 +157,10 @@ namespace Server.Data
         public int Id;
         public PlayerJobType PlayerJobType;
         public int MaxHp;
-        public float CommonAttackDamage;
+        public int CommonAttackDamage;
         public float CommonAttackCoolTime;
         public float AttackRange;
-        public float Defense;
+        public int Defense;
         public float MoveSpeed;
         public int AttackHalfAngleDeg;
         public int AttackHeight;

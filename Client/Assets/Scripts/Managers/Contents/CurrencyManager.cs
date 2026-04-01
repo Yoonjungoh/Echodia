@@ -24,7 +24,10 @@ public class CurrencyManager
     {
         _currencies[currencyType] = amount;
         if (Managers.UI.CurrencyUI != null)
+        {
             Managers.UI.CurrencyUI.SetData(currencyType, amount);
+        }
+
         OnCurrencyChanged?.Invoke();
     }
 

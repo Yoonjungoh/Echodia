@@ -33,7 +33,7 @@ namespace Server
 
         public int MaxRoomPlayerCount { get; set; } = 2;
 
-        public float MaxDamage { get; set; } = 1000.0f;
+        public int MaxDamage { get; set; } = 1000;
 
         public float ProjectileDistanceErrorThreshold { get; set; } = 0.1f;
 

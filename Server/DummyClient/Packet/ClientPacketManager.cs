@@ -88,7 +88,9 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.SHealHp, MakePacket<S_HealHp>);
 		_handler.Add((ushort)MsgId.SHealHp, PacketHandler.S_HealHpHandler);		
 		_onRecv.Add((ushort)MsgId.SPickUpDropItem, MakePacket<S_PickUpDropItem>);
-		_handler.Add((ushort)MsgId.SPickUpDropItem, PacketHandler.S_PickUpDropItemHandler);
+		_handler.Add((ushort)MsgId.SPickUpDropItem, PacketHandler.S_PickUpDropItemHandler);		
+		_onRecv.Add((ushort)MsgId.SPing, MakePacket<S_Ping>);
+		_handler.Add((ushort)MsgId.SPing, PacketHandler.S_PingHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

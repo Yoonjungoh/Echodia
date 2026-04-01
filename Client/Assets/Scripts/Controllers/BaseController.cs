@@ -12,7 +12,7 @@ public abstract class BaseController : MonoBehaviour
     protected Quaternion _serverRotation;
     protected Vector3 _serverVelocity;
     protected double _serverReceivedTimeMs = 0.0;  // 서버에서 패킷을 보낸 시간
-    
+
     public ObjectState ObjectState { get; set; } = new ObjectState();
     public string Name { get { return ObjectState.Name; } set { ObjectState.Name = value; } }
     public int Id { get { return ObjectState.ObjectId; } set { ObjectState.ObjectId = value; } }
@@ -85,7 +85,9 @@ public abstract class BaseController : MonoBehaviour
     public int Exp { get { return ObjectState.Exp; } set { ObjectState.Exp = value; } }
 
     protected CancellationTokenSource _cts;
-    
+    protected Collider _collider;
+    protected Vector3 _damageViewerOffset = new Vector3(0, 2f, 0); // 데미지 뷰어가 캐릭터 위에 뜨도록 오프셋
+
     protected virtual void OnUpdate()
     {
         switch (CreatureState)
@@ -109,8 +111,16 @@ public abstract class BaseController : MonoBehaviour
         _initialized = true;
 
         _cts = new CancellationTokenSource();
+
+        _collider = GetComponent<Collider>();
+        
+        // 기본적으로 데미지 뷰어는 오브젝트의 콜라이더가 존재한다면 콜라이더의 높이만큼 띄우도록 설정
+        if (_collider != null)
+        {
+            _damageViewerOffset = new Vector3(0, _collider.bounds.size.y, 0);
+        }
     }
-    
+
     protected virtual void UpdateMove() { }
     protected virtual void UpdateIdle() { }
     protected virtual void UpdateAttack() { }
@@ -129,7 +139,14 @@ public abstract class BaseController : MonoBehaviour
         _cts?.Dispose();
     }
 
-    public virtual void OnDamaged(float remainHp) { }
+    public virtual void OnDamaged(int remainHp)
+    {
+        int damage = Stat.Hp - remainHp;
+        if (damage > 0)
+        {
+            Managers.UI.ShowDamageText(damage, transform.position + _damageViewerOffset);
+        }
+    }
 
     protected virtual bool IsDead()
     {

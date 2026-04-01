@@ -175,6 +175,12 @@ public class UIManager
         _itemTooltip?.HideTooltip();
     }
 
+    public void ShowDamageText(float damage, Vector3 worldPosition)
+    {
+        UI_DamageViewer damageViewer = Managers.UI.MakeWorldSpaceUI<UI_DamageViewer>();
+        damageViewer.ShowDamage(damage, worldPosition);
+    }
+
     public void ShowToastPopup(string message, float duration = 1f)
     {
         if (_toastPopup == null)

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Google.Protobuf.Protocol;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Server
 {
@@ -13,6 +15,36 @@ namespace Server
         private int _sessionId = 0;
 		private Dictionary<int, ClientSession> _sessions = new Dictionary<int, ClientSession>();
         private object _lock = new object();
+
+        private const long PingIntervalMs = 2000;
+        private const long PingTimeoutMs = 6000;
+        private System.Timers.Timer _pingTimer;
+
+        public void StartPingTimer()
+        {
+            _pingTimer = new System.Timers.Timer(PingIntervalMs);
+            _pingTimer.Elapsed += OnPingTimerElapsed;
+            _pingTimer.AutoReset = true;
+            _pingTimer.Start();
+        }
+
+        private void OnPingTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            long now = Environment.TickCount64;
+            List<ClientSession> sessions = GetSessions();
+
+            foreach (ClientSession session in sessions)
+            {
+                if (now - session.LastPongReceivedTime > PingTimeoutMs)
+                {
+                    ConsoleLogManager.Instance.Log($"Ping timeout - disconnecting session {session.SessionId}");
+                    //session.Disconnect();
+                    continue;
+                }
+
+                session.SendPing();
+            }
+        }
 
         public List<ClientSession> GetSessions()
 		{
@@ -47,7 +79,6 @@ namespace Server
 				return session;
 			}
 		}
-
 		public void Remove(ClientSession session)
 		{
 			lock (_lock)

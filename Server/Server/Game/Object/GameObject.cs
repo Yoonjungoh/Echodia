@@ -64,19 +64,19 @@ namespace Server.Game
 
         }
 
-        public virtual void OnDamaged(GameObject instigator, float damage)
+        public virtual void OnDamaged(GameObject instigator, int damage)
         {
             if (GameRoom == null)
                 return;
 
             // 실제 데미지 계산
-            float damageDifference = damage - ObjectState.Stat.Defense;
-            float realDamage = Math.Clamp(damageDifference, 0.0f, DataManager.Instance.MaxDamage);
+            int damageDifference = damage - ObjectState.Stat.Defense;
+            int realDamage = Math.Clamp(damageDifference, 0, DataManager.Instance.MaxDamage);
 
             // 남은 체력 계산
             SetHp(ObjectState.Stat.Hp - realDamage);
 
-            if (ObjectState.Stat.Hp <= 0.0f)
+            if (ObjectState.Stat.Hp <= 0)
             {
                 // 죽음 처리 부분
                 OnDead(instigator);
@@ -140,7 +140,7 @@ namespace Server.Game
             }
         }
 
-        public void HealHp(float healAmount)
+        public void HealHp(int healAmount)
         {
             SetHp(ObjectState.Stat.Hp + healAmount);
 
@@ -153,10 +153,9 @@ namespace Server.Game
             GameRoom.Push(GameRoom.Broadcast, CurrentPosition, healPacket);
         }
 
-        public void SetHp(float hp)
+        public void SetHp(int hp)
         {
-            Stat.Hp = hp;
-            Stat.Hp = Math.Clamp(Stat.Hp, 0.0f, Stat.MaxHp);
+            Stat.Hp = Math.Clamp(hp, 0, Stat.MaxHp);
         }
 
         // LevelUp 개수를 반환

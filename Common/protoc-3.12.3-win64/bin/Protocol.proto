@@ -61,6 +61,8 @@ enum MsgId {
   S_HEAL_HP = 147;
   C_PICK_UP_DROP_ITEM = 148;
   S_PICK_UP_DROP_ITEM = 149;
+  S_PING = 150;
+  C_PONG = 151;
 }
 
 enum CreatureState {
@@ -438,8 +440,8 @@ message S_UseItem {
 
 message S_HealHp {
   int32 objectId = 1;
-  float healAmount = 2;
-  float totalHp = 3;
+  int32 healAmount = 2;
+  int32 totalHp = 3;
 }
 
 message C_PickUpDropItem {
@@ -449,6 +451,14 @@ message C_PickUpDropItem {
 message S_PickUpDropItem {
   int32 itemId = 1;
   PickUpDropItemResult pickUpDropItemResult = 2;
+}
+
+message S_Ping {
+  int32 pingId = 1;
+}
+
+message C_Pong {
+  int32 pingId = 1;
 }
 
 // 클라가 퀘스트 초기화 할 때 필요한 존재
@@ -513,17 +523,17 @@ message ObjectState {
 
 message DamagedInfo {
   int32 objectId = 1;
-  float remainHp = 2; 
+  int32 remainHp = 2;
 }
 
 message Stat {
-  float maxHp = 1;
-  float hp = 2;
-  float defense = 3;
+  int32 maxHp = 1;
+  int32 hp = 2;
+  int32 defense = 3;
   float moveSpeed = 4;
-  float commonAttackDamage = 5;
+  int32 commonAttackDamage = 5;
   float commonAttackCoolTime = 6;
-  float magicMissileAttakDamage = 7;
+  int32 magicMissileAttakDamage = 7;
   float magicMissileAttackCoolTime = 8;
   float attackRange = 9;          // ������ r
   float attackHalfAngleDeg = 10;  // ��ä���� �ݰ� d(��)

@@ -60,7 +60,7 @@ public class Managers : MonoBehaviour
     void Start()
     {
         Init();
-        // 주석 해제하면 s3의 json 정보 가져옴
+        
         CoInit().Forget();
     }
 

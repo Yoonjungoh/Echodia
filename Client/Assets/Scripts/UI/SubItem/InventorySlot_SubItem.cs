@@ -61,16 +61,16 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler,
 
         _equipmentStartId = Managers.Config.GetInt(ConfigType.EquipmentStartId);
         _consumableStartId = Managers.Config.GetInt(ConfigType.ConsumableStartId);
-
-        if (_data != null)
-        {
-            _totalCooldown = Managers.SpecData.GetConsumable(_data.ItemId).CoolTime;
-        }
     }
 
     public override void SetData(ItemInfo data)
     {
         base.SetData(data);
+        if (_data != null)
+        {
+            ConsumableMetaData consumable = Managers.SpecData.GetConsumable(_data.ItemId);
+            _totalCooldown = (consumable != null ? consumable.CoolTime : 0f);
+        }
         UpdateUI();
     }
 
@@ -88,7 +88,9 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler,
 
         ItemMetaData meta = Managers.SpecData.GetItem(_data.ItemId);
         if (meta != null)
+        {
             _gradeImage.color = Managers.Color.GetGradeColor(meta.ItemGrade);
+        }
 
         bool showCount = (_data.Count >= 1);
         _countBadge.SetActive(showCount);

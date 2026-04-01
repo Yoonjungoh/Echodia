@@ -319,7 +319,7 @@ public class MyPlayerController : PlayerController
         OnLevelChanged?.Invoke(level); // 등록된 UI 함수 실행
     }
 
-    public override void SetHp(float hp, float maxHp)
+    public override void SetHp(int hp, int maxHp)
     {
         base.SetHp(hp, maxHp);
         OnHpChanged?.Invoke(hp, maxHp);

@@ -23,6 +23,18 @@ namespace Server
 
         private List<ArraySegment<byte>> _reserveQueue = new List<ArraySegment<byte>>();
 
+        private long _lastPongReceivedTime;
+        private int _pingIdCounter = 0;
+
+        internal long LastPongReceivedTime => Interlocked.Read(ref _lastPongReceivedTime);
+
+        internal void SendPing()
+        {
+            S_Ping pingPacket = new S_Ping { PingId = Interlocked.Increment(ref _pingIdCounter) };
+            Send(pingPacket);
+            FlushSend();
+        }
+
         // 예약만 하고 실질적으로 보내진 않음
         public void Send(IMessage packet)
         {
@@ -62,8 +74,15 @@ namespace Server
         {
             ConsoleLogManager.Instance.Log($"OnConnected : {endPoint}");
 
+            Interlocked.Exchange(ref _lastPongReceivedTime, Environment.TickCount64);
+
             S_Connected connectedPacket = new S_Connected();
             Send(connectedPacket);
+         }
+
+        public void OnPongReceived()
+        {
+            Interlocked.Exchange(ref _lastPongReceivedTime, Environment.TickCount64);
         }
 
         public override void OnRecvPacket(ArraySegment<byte> buffer)
@@ -84,7 +103,7 @@ namespace Server
             {
                 AccountManager.Instance.Remove(AccountId);
                 ServerManager.Instance.Remove(SessionId);
-
+        
                 SessionManager.Instance.Remove(this);
             }
             else if (ClientServerState == ClientServerState.GameRoom)

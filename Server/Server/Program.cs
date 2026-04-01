@@ -67,6 +67,7 @@ namespace Server
             ServerManager.Instance.Init();
 
             _listener.Init(endPoint, () => { return SessionManager.Instance.Generate(); });
+            SessionManager.Instance.StartPingTimer();
 			ConsoleLogManager.Instance.Log("Server Starting...");
             
             // DbTask

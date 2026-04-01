@@ -10,7 +10,6 @@ public class CreatureController : BaseController
 {
     protected Animator _anim;
     protected Rigidbody _rb;
-    protected Collider _collider;
     protected string _commonAttackanimName;
     protected UI_HpBar _hpBar;
     protected Vector3 _hpBarPosOffset;
@@ -154,7 +153,7 @@ public class CreatureController : BaseController
         base.OnDestroy();
     }
 
-    public override void OnDamaged(float remainHp)
+    public override void OnDamaged(int remainHp)
     {
         base.OnDamaged(remainHp);
 
@@ -170,7 +169,7 @@ public class CreatureController : BaseController
         Managers.Resource.Destroy(particleSystem.gameObject, duration);
 
         // 데미지 계산
-        float damage = Stat.Hp - remainHp;
+        int damage = Stat.Hp - remainHp;
         SetHp(Stat.Hp - damage, Stat.MaxHp);
 
         // 체력바 갱신
@@ -237,7 +236,7 @@ public class CreatureController : BaseController
         ObjectState.Level = level;
     }
 
-    public virtual void SetHp(float hp, float maxHp)
+    public virtual void SetHp(int hp, int maxHp)
     {
         ObjectState.Stat.Hp = hp;
         ObjectState.Stat.MaxHp = maxHp;

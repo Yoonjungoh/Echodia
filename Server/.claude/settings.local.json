@@ -2,7 +2,13 @@
   "permissions": {
     "allow": [
       "Bash(cd \"/mnt/c/Users/user/Desktop/Development/Echodia/Common/protoc-3.12.3-win64/bin\" && cmd.exe /c GenProto.bat 2>&1)",
-      "Bash(dotnet build:*)"
+      "Bash(dotnet build:*)",
+      "Bash(cmd /c GenProto.bat)",
+      "Bash(xargs grep:*)",
+      "Bash(./protoc.exe -I=./ --csharp_out=./ ./Protocol.proto)",
+      "Bash(cp -f Protocol.cs \"../../../Client/Assets/Scripts/Packet/Protocol.cs\")",
+      "Bash(cp -f Protocol.cs \"../../../Server/DummyClient/Packet/Protocol.cs\")",
+      "Bash(cp -f Protocol.cs \"../../../Server/Server/Packet/Protocol.cs\")"
     ]
   }
 }

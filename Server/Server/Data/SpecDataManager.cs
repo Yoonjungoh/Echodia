@@ -302,24 +302,24 @@ public partial class SpecDataManager
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // Attack (float)
-                try { data.Attack = ParseFloat(cells[3]); }
+                // Attack (int)
+                try { data.Attack = ParseInt(cells[3]); }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine("[SpecDataManager] [Equipment] 파싱 오류\n" +
                         "  위치: 시트 행 " + sheetRow + ", 열 4 (Attack)\n" +
-                        "  타입: float\n" +
+                        "  타입: int\n" +
                         "  값: \"" + cells[3] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // Defense (float)
-                try { data.Defense = ParseFloat(cells[4]); }
+                // Defense (int)
+                try { data.Defense = ParseInt(cells[4]); }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine("[SpecDataManager] [Equipment] 파싱 오류\n" +
                         "  위치: 시트 행 " + sheetRow + ", 열 5 (Defense)\n" +
-                        "  타입: float\n" +
+                        "  타입: int\n" +
                         "  값: \"" + cells[4] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
@@ -872,13 +872,13 @@ public partial class SpecDataManager
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // CommonAttackDamage (float)
-                try { data.CommonAttackDamage = ParseFloat(cells[5]); }
+                // CommonAttackDamage (int)
+                try { data.CommonAttackDamage = ParseInt(cells[5]); }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine("[SpecDataManager] [Projectile] 파싱 오류\n" +
                         "  위치: 시트 행 " + sheetRow + ", 열 6 (CommonAttackDamage)\n" +
-                        "  타입: float\n" +
+                        "  타입: int\n" +
                         "  값: \"" + cells[5] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
@@ -894,13 +894,13 @@ public partial class SpecDataManager
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // MaxHp (float)
-                try { data.MaxHp = ParseFloat(cells[7]); }
+                // MaxHp (int)
+                try { data.MaxHp = ParseInt(cells[7]); }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine("[SpecDataManager] [Projectile] 파싱 오류\n" +
                         "  위치: 시트 행 " + sheetRow + ", 열 8 (MaxHp)\n" +
-                        "  타입: float\n" +
+                        "  타입: int\n" +
                         "  값: \"" + cells[7] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
@@ -1056,13 +1056,13 @@ public partial class SpecDataManager
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // CommonAttackDamage (float)
-                try { data.CommonAttackDamage = ParseFloat(cells[4]); }
+                // CommonAttackDamage (int)
+                try { data.CommonAttackDamage = ParseInt(cells[4]); }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine("[SpecDataManager] [Monster] 파싱 오류\n" +
                         "  위치: 시트 행 " + sheetRow + ", 열 5 (CommonAttackDamage)\n" +
-                        "  타입: float\n" +
+                        "  타입: int\n" +
                         "  값: \"" + cells[4] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
@@ -1089,13 +1089,13 @@ public partial class SpecDataManager
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // Defense (float)
-                try { data.Defense = ParseFloat(cells[7]); }
+                // Defense (int)
+                try { data.Defense = ParseInt(cells[7]); }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine("[SpecDataManager] [Monster] 파싱 오류\n" +
                         "  위치: 시트 행 " + sheetRow + ", 열 8 (Defense)\n" +
-                        "  타입: float\n" +
+                        "  타입: int\n" +
                         "  값: \"" + cells[7] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
@@ -1339,13 +1339,13 @@ public partial class SpecDataManager
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // CommonAttackDamage (float)
-                try { data.CommonAttackDamage = ParseFloat(cells[3]); }
+                // CommonAttackDamage (int)
+                try { data.CommonAttackDamage = ParseInt(cells[3]); }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine("[SpecDataManager] [Player] 파싱 오류\n" +
                         "  위치: 시트 행 " + sheetRow + ", 열 4 (CommonAttackDamage)\n" +
-                        "  타입: float\n" +
+                        "  타입: int\n" +
                         "  값: \"" + cells[3] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
@@ -1372,13 +1372,13 @@ public partial class SpecDataManager
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // Defense (float)
-                try { data.Defense = ParseFloat(cells[6]); }
+                // Defense (int)
+                try { data.Defense = ParseInt(cells[6]); }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine("[SpecDataManager] [Player] 파싱 오류\n" +
                         "  위치: 시트 행 " + sheetRow + ", 열 7 (Defense)\n" +
-                        "  타입: float\n" +
+                        "  타입: int\n" +
                         "  값: \"" + cells[6] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;

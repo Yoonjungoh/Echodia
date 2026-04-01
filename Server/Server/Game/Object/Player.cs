@@ -298,7 +298,7 @@ namespace Server.Game
             }
         }
 
-        public override void OnDamaged(GameObject instigator, float damage)
+        public override void OnDamaged(GameObject instigator, int damage)
         {
             base.OnDamaged(instigator, damage);
         }

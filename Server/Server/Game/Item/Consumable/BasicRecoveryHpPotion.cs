@@ -57,7 +57,7 @@ public class BasicRecoveryHpPotion : Consumable
         {
             Data = SpecDataManager.Instance.GetConsumable((int)ConsumableType);
         }
-        float healAmount = Data.EffectValue;
+        int healAmount = Data.EffectValue;
         // HP 회복
         player.HealHp(healAmount);
     }

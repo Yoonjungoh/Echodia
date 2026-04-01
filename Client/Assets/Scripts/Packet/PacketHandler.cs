@@ -195,6 +195,17 @@ class PacketHandler
     {
         S_Timestamp sereverTimestamp = packet as S_Timestamp;
         Managers.Network.CalculateTimeOffset(sereverTimestamp.ClientSendTime, sereverTimestamp.ServerReceivedTime);
+        Managers.UI.ShowToastPopup($"서버 레이턴시: {(int)Managers.Network.LatencyMs}ms");
+    }
+
+    public static void S_PingHandler(PacketSession session, IMessage packet)
+    {
+        S_Ping pingPacket = packet as S_Ping;
+        if (pingPacket == null)
+            return;
+
+        C_Pong pongPacket = new C_Pong { PingId = pingPacket.PingId };
+        Managers.Network.Send(pongPacket);
     }
 
     public static void S_ChangeCreatureStateHandler(PacketSession session, IMessage packet)

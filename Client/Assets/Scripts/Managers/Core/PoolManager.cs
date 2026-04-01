@@ -48,15 +48,21 @@ public class PoolManager
             Poolable poolable;
 
             if (_poolStack.Count > 0)
+            {
                 poolable = _poolStack.Pop();
+            }
             else
+            {
                 poolable = Create();
+            }
 
             poolable.gameObject.SetActive(true);
 
             // DontDestroyOnLoad 해제 용도 (현재 Scene 카메라에 옮겼다가 옮)
             if (parent == null)
+            {
                 poolable.transform.parent = Camera.main.transform;
+            }
 
             poolable.transform.parent = parent;
             poolable.IsUsing = true;

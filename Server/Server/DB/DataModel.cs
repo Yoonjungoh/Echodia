@@ -54,11 +54,11 @@ namespace Server.DB
 
         #region 스탯 (최초 생성 시 SpecData로 초기화, 이후 여기에 저장)
         public bool IsStatInitialized { get; set; }
-        public float StatMaxHp { get; set; }
-        public float StatCommonAttackDamage { get; set; }
+        public int StatMaxHp { get; set; }
+        public int StatCommonAttackDamage { get; set; }
         public float StatCommonAttackCoolTime { get; set; }
         public float StatAttackRange { get; set; }
-        public float StatDefense { get; set; }
+        public int StatDefense { get; set; }
         public float StatMoveSpeed { get; set; }
         public float StatAttackHalfAngleDeg { get; set; }
         public float StatAttackHeight { get; set; }

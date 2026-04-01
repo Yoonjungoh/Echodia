@@ -294,4 +294,13 @@ class PacketHandler
 
         player.GameRoom.Push(player.HandlePickUpDropItem, pickUpDropItemPacket.ItemId);
     }
+
+    public static void C_PongHandler(PacketSession session, IMessage packet)
+    {
+        ClientSession clientSession = session as ClientSession;
+        if (clientSession == null)
+            return;
+
+        clientSession.OnPongReceived();
+    }
 }

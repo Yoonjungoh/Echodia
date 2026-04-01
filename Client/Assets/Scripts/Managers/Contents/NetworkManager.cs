@@ -22,6 +22,9 @@ public class NetworkManager
     public double LatencyMs { get; set; }
     public bool IsInitialized { get; set; } = false;
 
+    private long _nextLatencyCheckMs = 0;
+    private const long LatencyCheckIntervalMs = 5000;
+
     #region 서버와의 시간 차이 계산
     // t1: 내가 패킷을 보낸 시각 (클라 로컬)
     // t2: 서버가 패킷을 받은 시각 (서버 기준)
@@ -114,6 +117,16 @@ public class NetworkManager
             Action<PacketSession, IMessage> handler = PacketManager.Instance.GetPacketHandler(packet.Id);
             if (handler != null)
                 handler.Invoke(_session, packet.Message);
+        }
+
+        if (IsInitialized)
+        {
+            long now = Util.GetTimestampMs();
+            if (now >= _nextLatencyCheckMs)
+            {
+                _nextLatencyCheckMs = now + LatencyCheckIntervalMs;
+                RequestServerTimeSync();
+            }
         }
     }
 }
