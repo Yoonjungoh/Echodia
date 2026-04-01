@@ -11,11 +11,12 @@ public class UIManager
     private Stack<UI_Popup> _popupStack = new Stack<UI_Popup>();
 
     private UI_Scene _sceneUI = null;
-    public UI_Scene CurrentScene { get { return _sceneUI;} }
+    public UI_Scene CurrentScene { get { return _sceneUI; } }
 
     public UI_Currency CurrencyUI { get; set; }
     private UI_ToastPopup _toastPopup;
     private UI_ItemTooltip _itemTooltip;
+    private float _damageViewerDuration = -1f;
 
     public GameObject Root
     {
@@ -181,7 +182,29 @@ public class UIManager
     public void ShowDamageText(int damage, Vector3 worldPosition)
     {
         UI_DamageViewer damageViewer = Managers.UI.MakeWorldSpaceUI<UI_DamageViewer>();
-        damageViewer.ShowDamage(damage, worldPosition);
+
+        if (_damageViewerDuration < 0f)
+        {
+            if (damageViewer.TryGetComponent(out Animator anim))
+            {
+                foreach (AnimationClip clip in anim.runtimeAnimatorController.animationClips)
+                {
+                    if (clip.name == UI_DamageViewer.IDLE_CLIP_NAME)
+                    {
+                        _damageViewerDuration = clip.length;
+                        break;
+                    }
+                }
+            }
+            
+            if (_damageViewerDuration < 0f)
+            {
+                Debug.LogWarning($"[UIManager] '{UI_DamageViewer.IDLE_CLIP_NAME}' 클립을 찾지 못해 기본값 사용");
+                _damageViewerDuration = 3.0f;
+            }
+        }
+
+        damageViewer.ShowDamage(damage, worldPosition, _damageViewerDuration);
     }
 
     public void ShowToastPopup(string message, float duration = 1f)

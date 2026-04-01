@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class UI_DamageViewer : UI_Base
 {
+    public const string IDLE_CLIP_NAME = "DAMAGE_VIEWER_IDLE";
+
     enum Texts
     {
         DamageText,
@@ -21,7 +23,7 @@ public class UI_DamageViewer : UI_Base
         _animator = GetComponent<Animator>();
     }
 
-    public void ShowDamage(int damage, Vector3 worldPosition, float returnDelay = 5.0f)
+    public void ShowDamage(int damage, Vector3 worldPosition, float returnDelay = 3.0f)
     {
         transform.position = worldPosition;
         _damageText.text = damage.ToString();
