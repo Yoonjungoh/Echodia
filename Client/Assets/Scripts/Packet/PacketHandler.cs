@@ -195,7 +195,7 @@ class PacketHandler
     {
         S_Timestamp sereverTimestamp = packet as S_Timestamp;
         Managers.Network.CalculateTimeOffset(sereverTimestamp.ClientSendTime, sereverTimestamp.ServerReceivedTime);
-        Managers.UI.ShowToastPopup($"서버 레이턴시: {(int)Managers.Network.LatencyMs}ms");
+        // Managers.UI.ShowToastPopup($"서버 레이턴시: {(int)Managers.Network.LatencyMs}ms");
     }
 
     public static void S_PingHandler(PacketSession session, IMessage packet)

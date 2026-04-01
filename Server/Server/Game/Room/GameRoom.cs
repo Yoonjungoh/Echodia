@@ -282,9 +282,8 @@ namespace Server.Game
                 return;
 
             // 서버에서 예측한 투사체 위치랑 적 위치 비교해서 오차 심하지 않으면 데미지 허용
-            Vector3 projectilePos = projectile.CurrentPosition;
             Vector3 damagedObjectPos = damagedObject.CurrentPosition;
-            //float dist = Vector3.Distance(projectilePos, damagedObjectPos);
+            //float dist = Vector3.Distance(projectile.CurrentPosition, damagedObjectPos);
             //if (dist > DataManager.Instance.ProjectileDistanceErrorThreshold)
             //{
             //    // 너무 멀리 떨어져 있음
@@ -305,7 +304,8 @@ namespace Server.Game
             // 디스폰도 같이 처리해줘야 함
             LeaveGame(projectile.Id);
 
-            Broadcast(projectilePos, attackPacket);
+            // 투사체 위치는 맵 경계 밖일 수 있으므로 항상 유효한 존 안에 있는 피격 오브젝트 위치로 브로드캐스트
+            Broadcast(damagedObjectPos, attackPacket);
         }
 
         private void HandleCommonAttack(int instigatorId)

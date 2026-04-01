@@ -16,8 +16,8 @@ namespace Server
 		private Dictionary<int, ClientSession> _sessions = new Dictionary<int, ClientSession>();
         private object _lock = new object();
 
-        private const long PingIntervalMs = 2000;
-        private const long PingTimeoutMs = 6000;
+        private const long PingIntervalMs = 10000;
+        private const long PingTimeoutMs = 30000;
         private System.Timers.Timer _pingTimer;
 
         public void StartPingTimer()
@@ -35,10 +35,13 @@ namespace Server
 
             foreach (ClientSession session in sessions)
             {
+                if (session == null)
+                    continue;
+                    
                 if (now - session.LastPongReceivedTime > PingTimeoutMs)
                 {
                     ConsoleLogManager.Instance.Log($"Ping timeout - disconnecting session {session.SessionId}");
-                    //session.Disconnect();
+                    session.Disconnect();
                     continue;
                 }
 

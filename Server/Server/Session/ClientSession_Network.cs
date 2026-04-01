@@ -26,9 +26,9 @@ namespace Server
         private long _lastPongReceivedTime;
         private int _pingIdCounter = 0;
 
-        internal long LastPongReceivedTime => Interlocked.Read(ref _lastPongReceivedTime);
+        public long LastPongReceivedTime => Interlocked.Read(ref _lastPongReceivedTime);
 
-        internal void SendPing()
+        public void SendPing()
         {
             S_Ping pingPacket = new S_Ping { PingId = Interlocked.Increment(ref _pingIdCounter) };
             Send(pingPacket);
@@ -76,8 +76,7 @@ namespace Server
 
             Interlocked.Exchange(ref _lastPongReceivedTime, Environment.TickCount64);
 
-            S_Connected connectedPacket = new S_Connected();
-            Send(connectedPacket);
+            Send(new S_Connected());
          }
 
         public void OnPongReceived()

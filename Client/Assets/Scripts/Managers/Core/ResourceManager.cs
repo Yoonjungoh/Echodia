@@ -10,7 +10,7 @@ using Object = UnityEngine.Object;
 public class ResourceManager
 {
     Dictionary<string, UnityEngine.Object> _resources = new Dictionary<string, UnityEngine.Object>();
-    public Dictionary<string, UnityEngine.Object> Res { get { return _resources; }  set { _resources = value; } }
+    public Dictionary<string, UnityEngine.Object> Res { get { return _resources; } set { _resources = value; } }
     public void Init()
     {
         //LoadAllAsync<GameObject>("Prefab", (key, count, totalCount) =>
