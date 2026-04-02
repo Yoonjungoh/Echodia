@@ -84,7 +84,7 @@ public abstract class BaseController : MonoBehaviour
     public int Level { get { return ObjectState.Level; } set { ObjectState.Level = value; } }
     public int Exp { get { return ObjectState.Exp; } set { ObjectState.Exp = value; } }
 
-    protected CancellationTokenSource _cts;
+    protected CancellationTokenSource _cts = new CancellationTokenSource();
     protected Collider _collider;
     protected Vector3 _damageViewerOffset = new Vector3(0, 2f, 0); // 데미지 뷰어가 캐릭터 위에 뜨도록 오프셋
 
@@ -111,6 +111,9 @@ public abstract class BaseController : MonoBehaviour
         _initialized = true;
 
         _cts = new CancellationTokenSource();
+
+        // ObjectState.Stat이 null인 채로 Init()에 들어올 수 있으므로 기본값 보장
+        ObjectState.Stat ??= new Stat();
 
         _collider = GetComponent<Collider>();
         

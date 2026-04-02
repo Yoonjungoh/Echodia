@@ -36,12 +36,15 @@ public class UI_DropItem : UI_Base, IPoolable
 
     public void Reset()
     {
+        _mainCamera = Camera.main;
         _gameObjectId = 0;
         _specItemId = 0;
         _count = 0;
         GetImage((int)Images.ItemImage).sprite = null;
         if (_dropEffect != null)
+        {
             _dropEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
     }
 
     public void SetItem(int objectId, int specItemId, int count)
@@ -81,6 +84,11 @@ public class UI_DropItem : UI_Base, IPoolable
 
     private void LateUpdate()
     {
+        if (_mainCamera == null)
+            _mainCamera = Camera.main;
+        if (_mainCamera == null)
+            return;
+
         transform.LookAt(transform.position + _mainCamera.transform.rotation * Vector3.forward,
                          _mainCamera.transform.rotation * Vector3.up);
     }

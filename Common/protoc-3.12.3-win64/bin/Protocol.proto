@@ -199,8 +199,10 @@ enum EquipResult {
 
 enum PlayerJobType {
   PLAYER_JOB_TYPE_NONE = 0;
-  PLAYER_JOB_TYPE_WARRIOR = 1;
-  PLAYER_JOB_TYPE_MAGE = 2;
+  PLAYER_JOB_TYPE_WARRIOR = 1;  // 주: STR, 부: DEX
+  PLAYER_JOB_TYPE_MAGE = 2;     // 주: INT, 부: LUK
+  PLAYER_JOB_TYPE_ARCHER = 3;   // 주: DEX, 부: STR
+  PLAYER_JOB_TYPE_THIEF = 4;    // 주: LUK, 부: DEX
 }
 
 enum ItemType {
@@ -218,6 +220,13 @@ enum EquipmentSlotType {
   EQUIPMENT_SLOT_TYPE_CHEST = 4;
   EQUIPMENT_SLOT_TYPE_PANTS = 5;
   EQUIPMENT_SLOT_TYPE_BOOTS = 6;
+}
+
+enum JobMainDamageType {
+  JOB_MAIN_DAMAGE_TYPE_NONE = 0;
+  JOB_MAIN_DAMAGE_TYPE_PHYSICAL = 1;    // 물리 (Knight, Archer, Thief 등)
+  JOB_MAIN_DAMAGE_TYPE_MAGICAL = 2;      // 마법 (Mage 등)
+  // 하이브리드 직업이 생길 가능성이 있다면 Hybrid 추가 가능
 }
 
 message S_AssignUserId {
@@ -564,13 +573,23 @@ message Stat {
   int32 hp = 2;
   int32 defense = 3;
   float moveSpeed = 4;
-  int32 commonAttackDamage = 5;
+  int32 commonAttackDamage = 5;       // 몬스터 전용
   float commonAttackCoolTime = 6;
   int32 magicMissileAttakDamage = 7;
   float magicMissileAttackCoolTime = 8;
-  float attackRange = 9;          // ������ r
-  float attackHalfAngleDeg = 10;  // ��ä���� �ݰ� d(��)
-  float attackHeight = 11;        // ����
+  float attackRange = 9;
+  float attackHalfAngleDeg = 10;
+  float attackHeight = 11;
+  // ── 플레이어 전용 메이플식 스탯 ──────────────────────────────────
+  int32 physical_damage = 12;         // 기본 물리공격력
+  int32 magic_damage = 13;            // 기본 마법공격력
+  int32 str = 14;                     // STR
+  int32 dex = 15;                     // DEX
+  int32 stat_int = 16;                // INT (int는 예약어이므로 stat_int 사용)
+  int32 luk = 17;                     // LUK
+  float critical_rate = 18;           // 크리티컬 확률 (0.0 ~ 1.0)
+  float critical_damage = 19;         // 크리티컬 배율 (예: 1.5 = 150%)
+  PlayerJobType job_type = 20;        // 직업
 }
 
 message CurrencyData {

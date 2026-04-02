@@ -145,8 +145,10 @@ public class UI_ItemTooltip : UI_Popup<ItemInfo>
                 string result = $"[장비] {slot}";
                 if (_data.EnchantLevel > 0)
                     result += $"\n강화 단계  +{_data.EnchantLevel}";
-                if (equip.Attack > 0)
-                    result += $"\n공격력  {equip.Attack}";
+                if (equip.PhysicalDamage > 0)
+                    result += $"\n물리 공격력  {equip.PhysicalDamage}";
+                if (equip.MagicDamage > 0)
+                    result += $"\n마법 공격력  {equip.MagicDamage}";
                 if (equip.Defense > 0)
                     result += $"\n방어력  {equip.Defense}";
                 if (equip.RequiredLevel > 0)

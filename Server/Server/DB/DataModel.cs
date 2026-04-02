@@ -54,14 +54,23 @@ namespace Server.DB
 
         #region 스탯 (최초 생성 시 SpecData로 초기화, 이후 여기에 저장)
         public bool IsStatInitialized { get; set; }
+        public PlayerJobType JobType { get; set; }
         public int StatMaxHp { get; set; }
-        public int StatCommonAttackDamage { get; set; }
         public float StatCommonAttackCoolTime { get; set; }
         public float StatAttackRange { get; set; }
         public int StatDefense { get; set; }
         public float StatMoveSpeed { get; set; }
         public float StatAttackHalfAngleDeg { get; set; }
         public float StatAttackHeight { get; set; }
+        
+        public int StatPhysicalDamage { get; set; }
+        public int StatMagicDamage { get; set; }
+        public int StatSTR { get; set; }
+        public int StatDEX { get; set; }
+        public int StatINT { get; set; }
+        public int StatLUK { get; set; }
+        public float StatCriticalRate { get; set; }
+        public float StatCriticalDamage { get; set; }
         #endregion
 
         #region 재접속 시 위치

@@ -271,7 +271,7 @@ public partial class SpecDataManager
             _equipmentDict.Clear();
             _equipmentList.Clear();
 
-            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 15);
+            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 16);
             for (int i = 2; i < rows.Count; i++)
             {
                 string[] cells = rows[i];
@@ -379,69 +379,80 @@ public partial class SpecDataManager
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // Attack (int)
-                try { data.Attack = ParseInt(cells[9]); }
+                // PhysicalDamage (int)
+                try { data.PhysicalDamage = ParseInt(cells[9]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Equipment] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 10 (Attack)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 10 (PhysicalDamage)\n" +
                         "  타입: int\n" +
                         "  값: \"" + cells[9] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // Defense (int)
-                try { data.Defense = ParseInt(cells[10]); }
+                // MagicDamage (int)
+                try { data.MagicDamage = ParseInt(cells[10]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Equipment] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 11 (Defense)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 11 (MagicDamage)\n" +
                         "  타입: int\n" +
                         "  값: \"" + cells[10] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // BaseSTR (int)
-                try { data.BaseSTR = ParseInt(cells[11]); }
+                // Defense (int)
+                try { data.Defense = ParseInt(cells[11]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Equipment] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 12 (BaseSTR)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 12 (Defense)\n" +
                         "  타입: int\n" +
                         "  값: \"" + cells[11] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // BaseDEX (int)
-                try { data.BaseDEX = ParseInt(cells[12]); }
+                // BaseSTR (int)
+                try { data.BaseSTR = ParseInt(cells[12]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Equipment] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 13 (BaseDEX)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 13 (BaseSTR)\n" +
                         "  타입: int\n" +
                         "  값: \"" + cells[12] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // BaseINT (int)
-                try { data.BaseINT = ParseInt(cells[13]); }
+                // BaseDEX (int)
+                try { data.BaseDEX = ParseInt(cells[13]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Equipment] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 14 (BaseINT)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 14 (BaseDEX)\n" +
                         "  타입: int\n" +
                         "  값: \"" + cells[13] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // BaseLUK (int)
-                try { data.BaseLUK = ParseInt(cells[14]); }
+                // BaseINT (int)
+                try { data.BaseINT = ParseInt(cells[14]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Equipment] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 15 (BaseLUK)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 15 (BaseINT)\n" +
                         "  타입: int\n" +
                         "  값: \"" + cells[14] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // BaseLUK (int)
+                try { data.BaseLUK = ParseInt(cells[15]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Equipment] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 16 (BaseLUK)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[15] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
@@ -1489,7 +1500,7 @@ public partial class SpecDataManager
             _playerDict.Clear();
             _playerList.Clear();
 
-            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 17);
+            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 18);
             for (int i = 2; i < rows.Count; i++)
             {
                 string[] cells = rows[i];
@@ -1520,168 +1531,179 @@ public partial class SpecDataManager
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // MaxHp (int)
-                try { data.MaxHp = ParseInt(cells[2]); }
+                // JobMainDamageType (enum)
+                try { data.JobMainDamageType = ParseEnum<JobMainDamageType>(cells[2]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Player] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 3 (MaxHp)\n" +
-                        "  타입: int\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (JobMainDamageType)\n" +
+                        "  타입: enum\n" +
                         "  값: \"" + cells[2] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // PhysicalDamage (int)
-                try { data.PhysicalDamage = ParseInt(cells[3]); }
+                // MaxHp (int)
+                try { data.MaxHp = ParseInt(cells[3]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Player] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 4 (PhysicalDamage)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 4 (MaxHp)\n" +
                         "  타입: int\n" +
                         "  값: \"" + cells[3] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // MagicDamage (int)
-                try { data.MagicDamage = ParseInt(cells[4]); }
+                // PhysicalDamage (int)
+                try { data.PhysicalDamage = ParseInt(cells[4]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Player] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 5 (MagicDamage)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 5 (PhysicalDamage)\n" +
                         "  타입: int\n" +
                         "  값: \"" + cells[4] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // CommonAttackCoolTime (float)
-                try { data.CommonAttackCoolTime = ParseFloat(cells[5]); }
+                // MagicDamage (int)
+                try { data.MagicDamage = ParseInt(cells[5]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Player] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 6 (CommonAttackCoolTime)\n" +
-                        "  타입: float\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 6 (MagicDamage)\n" +
+                        "  타입: int\n" +
                         "  값: \"" + cells[5] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // AttackRange (float)
-                try { data.AttackRange = ParseFloat(cells[6]); }
+                // CommonAttackCoolTime (float)
+                try { data.CommonAttackCoolTime = ParseFloat(cells[6]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Player] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 7 (AttackRange)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 7 (CommonAttackCoolTime)\n" +
                         "  타입: float\n" +
                         "  값: \"" + cells[6] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // Defense (int)
-                try { data.Defense = ParseInt(cells[7]); }
+                // AttackRange (float)
+                try { data.AttackRange = ParseFloat(cells[7]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Player] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 8 (Defense)\n" +
-                        "  타입: int\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 8 (AttackRange)\n" +
+                        "  타입: float\n" +
                         "  값: \"" + cells[7] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // MoveSpeed (float)
-                try { data.MoveSpeed = ParseFloat(cells[8]); }
+                // Defense (int)
+                try { data.Defense = ParseInt(cells[8]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Player] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 9 (MoveSpeed)\n" +
-                        "  타입: float\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 9 (Defense)\n" +
+                        "  타입: int\n" +
                         "  값: \"" + cells[8] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // AttackHalfAngleDeg (int)
-                try { data.AttackHalfAngleDeg = ParseInt(cells[9]); }
+                // MoveSpeed (float)
+                try { data.MoveSpeed = ParseFloat(cells[9]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Player] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 10 (AttackHalfAngleDeg)\n" +
-                        "  타입: int\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 10 (MoveSpeed)\n" +
+                        "  타입: float\n" +
                         "  값: \"" + cells[9] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // AttackHeight (int)
-                try { data.AttackHeight = ParseInt(cells[10]); }
+                // AttackHalfAngleDeg (int)
+                try { data.AttackHalfAngleDeg = ParseInt(cells[10]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Player] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 11 (AttackHeight)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 11 (AttackHalfAngleDeg)\n" +
                         "  타입: int\n" +
                         "  값: \"" + cells[10] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // BaseSTR (int)
-                try { data.BaseSTR = ParseInt(cells[11]); }
+                // AttackHeight (int)
+                try { data.AttackHeight = ParseInt(cells[11]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Player] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 12 (BaseSTR)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 12 (AttackHeight)\n" +
                         "  타입: int\n" +
                         "  값: \"" + cells[11] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // BaseDEX (int)
-                try { data.BaseDEX = ParseInt(cells[12]); }
+                // BaseSTR (int)
+                try { data.BaseSTR = ParseInt(cells[12]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Player] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 13 (BaseDEX)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 13 (BaseSTR)\n" +
                         "  타입: int\n" +
                         "  값: \"" + cells[12] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // BaseINT (int)
-                try { data.BaseINT = ParseInt(cells[13]); }
+                // BaseDEX (int)
+                try { data.BaseDEX = ParseInt(cells[13]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Player] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 14 (BaseINT)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 14 (BaseDEX)\n" +
                         "  타입: int\n" +
                         "  값: \"" + cells[13] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // BaseLUK (int)
-                try { data.BaseLUK = ParseInt(cells[14]); }
+                // BaseINT (int)
+                try { data.BaseINT = ParseInt(cells[14]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Player] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 15 (BaseLUK)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 15 (BaseINT)\n" +
                         "  타입: int\n" +
                         "  값: \"" + cells[14] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // CriticalRate (float)
-                try { data.CriticalRate = ParseFloat(cells[15]); }
+                // BaseLUK (int)
+                try { data.BaseLUK = ParseInt(cells[15]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Player] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 16 (CriticalRate)\n" +
-                        "  타입: float\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 16 (BaseLUK)\n" +
+                        "  타입: int\n" +
                         "  값: \"" + cells[15] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // CriticalDamage (float)
-                try { data.CriticalDamage = ParseFloat(cells[16]); }
+                // CriticalRate (float)
+                try { data.CriticalRate = ParseFloat(cells[16]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Player] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 17 (CriticalDamage)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 17 (CriticalRate)\n" +
                         "  타입: float\n" +
                         "  값: \"" + cells[16] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // CriticalDamage (float)
+                try { data.CriticalDamage = ParseFloat(cells[17]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Player] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 18 (CriticalDamage)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[17] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
@@ -1864,6 +1886,11 @@ public partial class SpecDataManager
     }
 
     public PlayerMetaData GetPlayer(PlayerJobType key)
+    {
+        return GetPlayer((int)key);
+    }
+
+    public PlayerMetaData GetPlayer(JobMainDamageType key)
     {
         return GetPlayer((int)key);
     }

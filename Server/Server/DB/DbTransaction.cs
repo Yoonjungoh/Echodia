@@ -292,14 +292,23 @@ namespace Server.DB
             if (playerDb == null)
                 return;
 
-            playerDb.StatMaxHp               = player.ObjectState.Stat.MaxHp;
-            playerDb.StatCommonAttackDamage   = player.ObjectState.Stat.CommonAttackDamage;
-            playerDb.StatCommonAttackCoolTime  = player.ObjectState.Stat.CommonAttackCoolTime;
-            playerDb.StatAttackRange           = player.ObjectState.Stat.AttackRange;
-            playerDb.StatDefense               = player.ObjectState.Stat.Defense;
-            playerDb.StatMoveSpeed             = player.ObjectState.Stat.MoveSpeed;
-            playerDb.StatAttackHalfAngleDeg   = player.ObjectState.Stat.AttackHalfAngleDeg;
-            playerDb.StatAttackHeight          = player.ObjectState.Stat.AttackHeight;
+            Stat s = player.ObjectState.Stat;
+            playerDb.StatMaxHp              = s.MaxHp;
+            playerDb.StatCommonAttackCoolTime = s.CommonAttackCoolTime;
+            playerDb.StatAttackRange        = s.AttackRange;
+            playerDb.StatDefense            = s.Defense;
+            playerDb.StatMoveSpeed          = s.MoveSpeed;
+            playerDb.StatAttackHalfAngleDeg = s.AttackHalfAngleDeg;
+            playerDb.StatAttackHeight       = s.AttackHeight;
+            playerDb.StatPhysicalDamage     = s.PhysicalDamage;
+            playerDb.StatMagicDamage        = s.MagicDamage;
+            playerDb.StatSTR                = s.Str;
+            playerDb.StatDEX                = s.Dex;
+            playerDb.StatINT                = s.StatInt;
+            playerDb.StatLUK                = s.Luk;
+            playerDb.StatCriticalRate       = s.CriticalRate;
+            playerDb.StatCriticalDamage     = s.CriticalDamage;
+            playerDb.JobType                = s.JobType;
 
             db.SaveChangesEx();
         }

@@ -43,7 +43,8 @@ public class EquipmentMetaData
     public int RequiredINT;
     public int RequiredLUK;
     public List<PlayerJobType> RequiredPlayerJob;
-    public int Attack;
+    public int PhysicalDamage;
+    public int MagicDamage;
     public int Defense;
     public int BaseSTR;
     public int BaseDEX;
@@ -168,6 +169,7 @@ public class PlayerMetaData
 {
     public int Id;
     public PlayerJobType PlayerJobType;
+    public JobMainDamageType JobMainDamageType;
     public int MaxHp;
     public int PhysicalDamage;
     public int MagicDamage;
