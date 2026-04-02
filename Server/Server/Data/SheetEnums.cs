@@ -19,12 +19,6 @@ namespace Server.Data
         BasicSword = 100000,
     }
     
-    public enum EquipSlotType
-    {
-        None = 0,
-        MainWeapon = 100000,
-    }
-    
     public enum ConsumableType
     {
         None = 0,

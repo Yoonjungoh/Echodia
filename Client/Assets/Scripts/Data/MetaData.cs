@@ -36,7 +36,7 @@ public class EquipmentMetaData
 {
     public int Id;
     public EquipmentType EquipmentType;
-    public EquipSlotType EquipSlotType;
+    public EquipmentSlotType EquipmentSlotType;
     public int Attack;
     public int Defense;
     public int RequiredLevel;

@@ -302,12 +302,12 @@ public partial class SpecDataManager
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // EquipSlotType (enum)
-                try { data.EquipSlotType = ParseEnum<EquipSlotType>(cells[2]); }
+                // EquipmentSlotType (enum)
+                try { data.EquipmentSlotType = ParseEnum<EquipmentSlotType>(cells[2]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Equipment] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 3 (EquipSlotType)\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (EquipmentSlotType)\n" +
                         "  타입: enum\n" +
                         "  값: \"" + cells[2] + "\"\n" +
                         "  원인: " + e.Message);
@@ -1506,6 +1506,11 @@ public partial class SpecDataManager
     {
         _equipmentDict.TryGetValue(id, out EquipmentMetaData result);
         return result;
+    }
+
+    public EquipmentMetaData GetEquipment(EquipmentSlotType key)
+    {
+        return GetEquipment((int)key);
     }
 
     public List<EquipmentMetaData> GetAllEquipment()

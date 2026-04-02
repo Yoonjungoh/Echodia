@@ -232,11 +232,16 @@ namespace Google.Protobuf.Protocol {
             "EAESKwonUElDS19VUF9EUk9QX0lURU1fUkVTVUxUX0lOVkVOVE9SWV9GVUxM",
             "EAIqZQoISXRlbVR5cGUSEgoOSVRFTV9UWVBFX05PTkUQABIXChNJVEVNX1RZ",
             "UEVfRVFVSVBNRU5UEAESGAoUSVRFTV9UWVBFX0NPTlNVTUFCTEUQAhISCg5J",
-            "VEVNX1RZUEVfTUlTQxADQhuqAhhHb29nbGUuUHJvdG9idWYuUHJvdG9jb2xi",
-            "BnByb3RvMw=="));
+            "VEVNX1RZUEVfTUlTQxADKvIBChFFcXVpcG1lbnRTbG90VHlwZRIcChhFUVVJ",
+            "UE1FTlRfU0xPVF9UWVBFX05PTkUQABIeChpFUVVJUE1FTlRfU0xPVF9UWVBF",
+            "X1dFQVBPThABEiIKHkVRVUlQTUVOVF9TTE9UX1RZUEVfU1VCX1dFQVBPThAC",
+            "Eh4KGkVRVUlQTUVOVF9TTE9UX1RZUEVfSEVMTUVUEAMSHQoZRVFVSVBNRU5U",
+            "X1NMT1RfVFlQRV9DSEVTVBAEEh0KGUVRVUlQTUVOVF9TTE9UX1RZUEVfUEFO",
+            "VFMQBRIdChlFUVVJUE1FTlRfU0xPVF9UWVBFX0JPT1RTEAZCG6oCGEdvb2ds",
+            "ZS5Qcm90b2J1Zi5Qcm90b2NvbGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.CreatureState), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.AttackType), typeof(global::Google.Protobuf.Protocol.MonsterType), typeof(global::Google.Protobuf.Protocol.ProjectileType), typeof(global::Google.Protobuf.Protocol.RoomExitReason), typeof(global::Google.Protobuf.Protocol.LoginStatus), typeof(global::Google.Protobuf.Protocol.ClientServerState), typeof(global::Google.Protobuf.Protocol.EnterServerResult), typeof(global::Google.Protobuf.Protocol.CurrencyType), typeof(global::Google.Protobuf.Protocol.QuestType), typeof(global::Google.Protobuf.Protocol.QuestObjectiveType), typeof(global::Google.Protobuf.Protocol.QuestStatus), typeof(global::Google.Protobuf.Protocol.UseItemResult), typeof(global::Google.Protobuf.Protocol.PickUpDropItemResult), typeof(global::Google.Protobuf.Protocol.ItemType), }, null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.CreatureState), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.AttackType), typeof(global::Google.Protobuf.Protocol.MonsterType), typeof(global::Google.Protobuf.Protocol.ProjectileType), typeof(global::Google.Protobuf.Protocol.RoomExitReason), typeof(global::Google.Protobuf.Protocol.LoginStatus), typeof(global::Google.Protobuf.Protocol.ClientServerState), typeof(global::Google.Protobuf.Protocol.EnterServerResult), typeof(global::Google.Protobuf.Protocol.CurrencyType), typeof(global::Google.Protobuf.Protocol.QuestType), typeof(global::Google.Protobuf.Protocol.QuestObjectiveType), typeof(global::Google.Protobuf.Protocol.QuestStatus), typeof(global::Google.Protobuf.Protocol.UseItemResult), typeof(global::Google.Protobuf.Protocol.PickUpDropItemResult), typeof(global::Google.Protobuf.Protocol.ItemType), typeof(global::Google.Protobuf.Protocol.EquipmentSlotType), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_AssignUserId), global::Google.Protobuf.Protocol.S_AssignUserId.Parser, new[]{ "UserId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_AssignUserId), global::Google.Protobuf.Protocol.C_AssignUserId.Parser, null, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_ExitRoom), global::Google.Protobuf.Protocol.S_ExitRoom.Parser, null, null, null, null, null),
@@ -555,6 +560,16 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("ITEM_TYPE_EQUIPMENT")] Equipment = 1,
     [pbr::OriginalName("ITEM_TYPE_CONSUMABLE")] Consumable = 2,
     [pbr::OriginalName("ITEM_TYPE_MISC")] Misc = 3,
+  }
+
+  public enum EquipmentSlotType {
+    [pbr::OriginalName("EQUIPMENT_SLOT_TYPE_NONE")] None = 0,
+    [pbr::OriginalName("EQUIPMENT_SLOT_TYPE_WEAPON")] Weapon = 1,
+    [pbr::OriginalName("EQUIPMENT_SLOT_TYPE_SUB_WEAPON")] SubWeapon = 2,
+    [pbr::OriginalName("EQUIPMENT_SLOT_TYPE_HELMET")] Helmet = 3,
+    [pbr::OriginalName("EQUIPMENT_SLOT_TYPE_CHEST")] Chest = 4,
+    [pbr::OriginalName("EQUIPMENT_SLOT_TYPE_PANTS")] Pants = 5,
+    [pbr::OriginalName("EQUIPMENT_SLOT_TYPE_BOOTS")] Boots = 6,
   }
 
   #endregion
