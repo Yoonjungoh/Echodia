@@ -53,11 +53,11 @@ public class ImageManager
 
     private void PreloadEquipmentSprites()
     {
-        // Equipment/{EquipSlotType}/{EquipmentType} 구조이므로
+        // Equipment/{EquipmentSlotType}/{EquipmentType} 구조이므로
         // 두 Enum의 모든 조합을 시도하고 존재하는 것만 캐싱합니다.
-        foreach (EquipSlotType slotType in Enum.GetValues(typeof(EquipSlotType)))
+        foreach (EquipmentSlotType slotType in Enum.GetValues(typeof(EquipmentSlotType)))
         {
-            if (slotType == EquipSlotType.None)
+            if (slotType == EquipmentSlotType.None)
                 continue;
 
             foreach (EquipmentType equipType in Enum.GetValues(typeof(EquipmentType)))
