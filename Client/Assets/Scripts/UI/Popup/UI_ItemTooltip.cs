@@ -141,7 +141,7 @@ public class UI_ItemTooltip : UI_Popup<ItemInfo>
                 EquipmentMetaData equip = Managers.SpecData.GetEquipment(_data.ItemId);
                 if (equip == null) return "장비";
 
-                string slot = GetEquipSlotString(equip.EquipSlotType);
+                string slot = GetEquipSlotString(equip.EquipmentSlotType);
                 string result = $"[장비] {slot}";
                 if (_data.EnchantLevel > 0)
                     result += $"\n강화 단계  +{_data.EnchantLevel}";
@@ -193,7 +193,7 @@ public class UI_ItemTooltip : UI_Popup<ItemInfo>
         return grade.ToString();
     }
 
-    private string GetEquipSlotString(EquipSlotType slot)
+    private string GetEquipSlotString(EquipmentSlotType slot)
     {
         return slot.ToString();
     }
