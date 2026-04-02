@@ -197,6 +197,12 @@ enum EquipResult {
   EQUIP_RESULT_ALREADY_EQUIPPED = 7;  // 이미 착용 중인 아이템 (서버가 착용 중임을 처리 중인데 클라가 다시 요청할 때)
 }
 
+enum PlayerJobType {
+  PLAYER_JOB_TYPE_NONE = 0;
+  PLAYER_JOB_TYPE_WARRIOR = 1;
+  PLAYER_JOB_TYPE_MAGE = 2;
+}
+
 enum ItemType {
   ITEM_TYPE_NONE = 0;
   ITEM_TYPE_EQUIPMENT = 1;

@@ -39,9 +39,18 @@ namespace Server.Data
         public int Id;
         public EquipmentType EquipmentType;
         public EquipmentSlotType EquipmentSlotType;
+        public int RequiredLevel;
+        public int RequiredSTR;
+        public int RequiredDEX;
+        public int RequiredINT;
+        public int RequiredLUK;
+        public List<PlayerJobType> RequiredPlayerJob;
         public int Attack;
         public int Defense;
-        public int RequiredLevel;
+        public int BaseSTR;
+        public int BaseDEX;
+        public int BaseINT;
+        public int BaseLUK;
     }
 
     // ── Consumable
@@ -50,10 +59,15 @@ namespace Server.Data
     {
         public int Id;
         public ConsumableType ConsumableType;
+        public int RequiredLevel;
+        public int RequiredSTR;
+        public int RequiredDEX;
+        public int RequiredINT;
+        public int RequiredLUK;
+        public List<PlayerJobType> RequiredPlayerJob;
         public int EffectValue;
         public float Duration;
         public float CoolTime;
-        public int RequiredLevel;
     }
 
     // ── Misc
@@ -157,12 +171,19 @@ namespace Server.Data
         public int Id;
         public PlayerJobType PlayerJobType;
         public int MaxHp;
-        public int CommonAttackDamage;
+        public int PhysicalDamage;
+        public int MagicDamage;
         public float CommonAttackCoolTime;
         public float AttackRange;
         public int Defense;
         public float MoveSpeed;
         public int AttackHalfAngleDeg;
         public int AttackHeight;
+        public int BaseSTR;
+        public int BaseDEX;
+        public int BaseINT;
+        public int BaseLUK;
+        public float CriticalRate;
+        public float CriticalDamage;
     }
 }

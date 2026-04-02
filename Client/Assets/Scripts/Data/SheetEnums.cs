@@ -6,15 +6,20 @@
 public enum ItemGrade
 {
     None = 0,
-    Normal = 100000,
-    Rare = 200000,
-    Epic = 300000,
+    Normal,
+    Rare,
+    Epic,
 }
 
 public enum EquipmentType
 {
     None = 0,
     BasicSword = 100000,
+    BasicShield = 100001,
+    BasicHelmet = 100002,
+    BasicChest = 100003,
+    BasicPants = 100004,
+    BasicBoots = 100005,
 }
 
 public enum ConsumableType
@@ -27,12 +32,6 @@ public enum MiscType
 {
     None = 0,
     BearLeather = 300000,
-}
-
-public enum PlayerJobType
-{
-    None = 0,
-    Knight = 1,
 }
 
 public enum ConfigType

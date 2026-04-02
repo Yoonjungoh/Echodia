@@ -230,18 +230,26 @@ namespace Google.Protobuf.Protocol {
             "aWNrVXBEcm9wSXRlbVJlc3VsdBIhCh1QSUNLX1VQX0RST1BfSVRFTV9SRVNV",
             "TFRfTk9ORRAAEiQKIFBJQ0tfVVBfRFJPUF9JVEVNX1JFU1VMVF9TVUNDRVNT",
             "EAESKwonUElDS19VUF9EUk9QX0lURU1fUkVTVUxUX0lOVkVOVE9SWV9GVUxM",
-            "EAIqZQoISXRlbVR5cGUSEgoOSVRFTV9UWVBFX05PTkUQABIXChNJVEVNX1RZ",
-            "UEVfRVFVSVBNRU5UEAESGAoUSVRFTV9UWVBFX0NPTlNVTUFCTEUQAhISCg5J",
-            "VEVNX1RZUEVfTUlTQxADKvIBChFFcXVpcG1lbnRTbG90VHlwZRIcChhFUVVJ",
-            "UE1FTlRfU0xPVF9UWVBFX05PTkUQABIeChpFUVVJUE1FTlRfU0xPVF9UWVBF",
-            "X1dFQVBPThABEiIKHkVRVUlQTUVOVF9TTE9UX1RZUEVfU1VCX1dFQVBPThAC",
-            "Eh4KGkVRVUlQTUVOVF9TTE9UX1RZUEVfSEVMTUVUEAMSHQoZRVFVSVBNRU5U",
-            "X1NMT1RfVFlQRV9DSEVTVBAEEh0KGUVRVUlQTUVOVF9TTE9UX1RZUEVfUEFO",
-            "VFMQBRIdChlFUVVJUE1FTlRfU0xPVF9UWVBFX0JPT1RTEAZCG6oCGEdvb2ds",
-            "ZS5Qcm90b2J1Zi5Qcm90b2NvbGIGcHJvdG8z"));
+            "EAIqhAIKC0VxdWlwUmVzdWx0EhUKEUVRVUlQX1JFU1VMVF9OT05FEAASGAoU",
+            "RVFVSVBfUkVTVUxUX1NVQ0NFU1MQARIdChlFUVVJUF9SRVNVTFRfSU5WQUxJ",
+            "RF9JVEVNEAISGgoWRVFVSVBfUkVTVUxUX05PVF9PV05FRBADEiEKHUVRVUlQ",
+            "X1JFU1VMVF9MRVZFTF9SRVNUUklDVEVEEAQSIAocRVFVSVBfUkVTVUxUX1NU",
+            "QVRfUkVTVFJJQ1RFRBAFEiEKHUVRVUlQX1JFU1VMVF9DTEFTU19SRVNUUklD",
+            "VEVEEAYSIQodRVFVSVBfUkVTVUxUX0FMUkVBRFlfRVFVSVBQRUQQBypgCg1Q",
+            "bGF5ZXJKb2JUeXBlEhgKFFBMQVlFUl9KT0JfVFlQRV9OT05FEAASGwoXUExB",
+            "WUVSX0pPQl9UWVBFX1dBUlJJT1IQARIYChRQTEFZRVJfSk9CX1RZUEVfTUFH",
+            "RRACKmUKCEl0ZW1UeXBlEhIKDklURU1fVFlQRV9OT05FEAASFwoTSVRFTV9U",
+            "WVBFX0VRVUlQTUVOVBABEhgKFElURU1fVFlQRV9DT05TVU1BQkxFEAISEgoO",
+            "SVRFTV9UWVBFX01JU0MQAyryAQoRRXF1aXBtZW50U2xvdFR5cGUSHAoYRVFV",
+            "SVBNRU5UX1NMT1RfVFlQRV9OT05FEAASHgoaRVFVSVBNRU5UX1NMT1RfVFlQ",
+            "RV9XRUFQT04QARIiCh5FUVVJUE1FTlRfU0xPVF9UWVBFX1NVQl9XRUFQT04Q",
+            "AhIeChpFUVVJUE1FTlRfU0xPVF9UWVBFX0hFTE1FVBADEh0KGUVRVUlQTUVO",
+            "VF9TTE9UX1RZUEVfQ0hFU1QQBBIdChlFUVVJUE1FTlRfU0xPVF9UWVBFX1BB",
+            "TlRTEAUSHQoZRVFVSVBNRU5UX1NMT1RfVFlQRV9CT09UUxAGQhuqAhhHb29n",
+            "bGUuUHJvdG9idWYuUHJvdG9jb2xiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.CreatureState), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.AttackType), typeof(global::Google.Protobuf.Protocol.MonsterType), typeof(global::Google.Protobuf.Protocol.ProjectileType), typeof(global::Google.Protobuf.Protocol.RoomExitReason), typeof(global::Google.Protobuf.Protocol.LoginStatus), typeof(global::Google.Protobuf.Protocol.ClientServerState), typeof(global::Google.Protobuf.Protocol.EnterServerResult), typeof(global::Google.Protobuf.Protocol.CurrencyType), typeof(global::Google.Protobuf.Protocol.QuestType), typeof(global::Google.Protobuf.Protocol.QuestObjectiveType), typeof(global::Google.Protobuf.Protocol.QuestStatus), typeof(global::Google.Protobuf.Protocol.UseItemResult), typeof(global::Google.Protobuf.Protocol.PickUpDropItemResult), typeof(global::Google.Protobuf.Protocol.ItemType), typeof(global::Google.Protobuf.Protocol.EquipmentSlotType), }, null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.CreatureState), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.AttackType), typeof(global::Google.Protobuf.Protocol.MonsterType), typeof(global::Google.Protobuf.Protocol.ProjectileType), typeof(global::Google.Protobuf.Protocol.RoomExitReason), typeof(global::Google.Protobuf.Protocol.LoginStatus), typeof(global::Google.Protobuf.Protocol.ClientServerState), typeof(global::Google.Protobuf.Protocol.EnterServerResult), typeof(global::Google.Protobuf.Protocol.CurrencyType), typeof(global::Google.Protobuf.Protocol.QuestType), typeof(global::Google.Protobuf.Protocol.QuestObjectiveType), typeof(global::Google.Protobuf.Protocol.QuestStatus), typeof(global::Google.Protobuf.Protocol.UseItemResult), typeof(global::Google.Protobuf.Protocol.PickUpDropItemResult), typeof(global::Google.Protobuf.Protocol.EquipResult), typeof(global::Google.Protobuf.Protocol.PlayerJobType), typeof(global::Google.Protobuf.Protocol.ItemType), typeof(global::Google.Protobuf.Protocol.EquipmentSlotType), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_AssignUserId), global::Google.Protobuf.Protocol.S_AssignUserId.Parser, new[]{ "UserId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_AssignUserId), global::Google.Protobuf.Protocol.C_AssignUserId.Parser, null, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_ExitRoom), global::Google.Protobuf.Protocol.S_ExitRoom.Parser, null, null, null, null, null),
@@ -553,6 +561,41 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("PICK_UP_DROP_ITEM_RESULT_NONE")] None = 0,
     [pbr::OriginalName("PICK_UP_DROP_ITEM_RESULT_SUCCESS")] Success = 1,
     [pbr::OriginalName("PICK_UP_DROP_ITEM_RESULT_INVENTORY_FULL")] InventoryFull = 2,
+  }
+
+  public enum EquipResult {
+    [pbr::OriginalName("EQUIP_RESULT_NONE")] None = 0,
+    [pbr::OriginalName("EQUIP_RESULT_SUCCESS")] Success = 1,
+    /// <summary>
+    /// 클라이언트/서버 데이터 불일치 또는 유효하지 않은 요청
+    /// </summary>
+    [pbr::OriginalName("EQUIP_RESULT_INVALID_ITEM")] InvalidItem = 2,
+    /// <summary>
+    /// 소지하고 있지 않은 아이템
+    /// </summary>
+    [pbr::OriginalName("EQUIP_RESULT_NOT_OWNED")] NotOwned = 3,
+    /// <summary>
+    /// 착용 제한 (조건 미달)
+    /// </summary>
+    [pbr::OriginalName("EQUIP_RESULT_LEVEL_RESTRICTED")] LevelRestricted = 4,
+    /// <summary>
+    /// 스탯 부족 (힘/민첩 등)
+    /// </summary>
+    [pbr::OriginalName("EQUIP_RESULT_STAT_RESTRICTED")] StatRestricted = 5,
+    /// <summary>
+    /// 직업 제한
+    /// </summary>
+    [pbr::OriginalName("EQUIP_RESULT_CLASS_RESTRICTED")] ClassRestricted = 6,
+    /// <summary>
+    /// 상태 제한
+    /// </summary>
+    [pbr::OriginalName("EQUIP_RESULT_ALREADY_EQUIPPED")] AlreadyEquipped = 7,
+  }
+
+  public enum PlayerJobType {
+    [pbr::OriginalName("PLAYER_JOB_TYPE_NONE")] None = 0,
+    [pbr::OriginalName("PLAYER_JOB_TYPE_WARRIOR")] Warrior = 1,
+    [pbr::OriginalName("PLAYER_JOB_TYPE_MAGE")] Mage = 2,
   }
 
   public enum ItemType {

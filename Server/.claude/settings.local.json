@@ -8,7 +8,8 @@
       "Bash(./protoc.exe -I=./ --csharp_out=./ ./Protocol.proto)",
       "Bash(cp -f Protocol.cs \"../../../Client/Assets/Scripts/Packet/Protocol.cs\")",
       "Bash(cp -f Protocol.cs \"../../../Server/DummyClient/Packet/Protocol.cs\")",
-      "Bash(cp -f Protocol.cs \"../../../Server/Server/Packet/Protocol.cs\")"
+      "Bash(cp -f Protocol.cs \"../../../Server/Server/Packet/Protocol.cs\")",
+      "Bash(find /c/Users/user/Desktop/Development/Unity/Echodia -name *.xlsx -type f)"
     ]
   }
 }

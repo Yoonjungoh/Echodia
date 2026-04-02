@@ -81,11 +81,11 @@ namespace Server.Game
                 if (!player.IsStatInitialized)
                 {
                     // TODO - 현재는 직업이 기사만 있다고 가정
-                    PlayerMetaData spec = SpecDataManager.Instance.GetPlayer((int)PlayerJobType.Knight);
+                    PlayerMetaData spec = SpecDataManager.Instance.GetPlayer((int)PlayerJobType.Warrior);
                     if (spec != null)
                     {
                         player.StatMaxHp = spec.MaxHp;
-                        player.StatCommonAttackDamage = spec.CommonAttackDamage;
+                        player.StatCommonAttackDamage = spec.PhysicalDamage;
                         player.StatCommonAttackCoolTime = spec.CommonAttackCoolTime;
                         player.StatAttackRange = spec.AttackRange;
                         player.StatDefense = spec.Defense;

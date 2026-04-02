@@ -173,7 +173,10 @@ class Program
                 Results[name] = result;
                 Log($"    ✓ 컬럼 {result.Columns.Count}개 / 데이터 {result.SampleRows.Count}행");
                 foreach (var col in result.Columns)
-                    Log($"      [{col.TypeHint}] {col.FieldName}");
+                {
+                    string enumInfo = string.IsNullOrEmpty(col.EnumTypeName) ? "" : $" → {col.EnumTypeName}";
+                    Log($"      [{col.TypeHint}{enumInfo}] {col.FieldName}");
+                }
             }
             catch (Exception ex)
             {
@@ -203,8 +206,20 @@ class Program
         {
             string field = headerRow[i].Trim();
             if (string.IsNullOrEmpty(field)) continue;
-            string hint = i < typeRow.Length ? typeRow[i].Trim().ToLower() : "string";
-            result.Columns.Add(new ColumnInfo { FieldName = field, TypeHint = hint, ColIndex = i });
+            string rawHint = i < typeRow.Length ? typeRow[i].Trim() : "string";
+
+            // "enum(TypeName)" 또는 "List<enum>(TypeName)" 형식에서 TypeName 추출
+            // 파렌 안의 이름은 대소문자 보존, 나머지 힌트는 소문자로 정규화
+            string enumTypeName = "";
+            var enumTypeMatch = Regex.Match(rawHint, @"\((\w+)\)$");
+            if (enumTypeMatch.Success)
+            {
+                enumTypeName = enumTypeMatch.Groups[1].Value;
+                rawHint = rawHint.Substring(0, enumTypeMatch.Index);
+            }
+            string hint = rawHint.ToLower();
+
+            result.Columns.Add(new ColumnInfo { FieldName = field, TypeHint = hint, EnumTypeName = enumTypeName, ColIndex = i });
         }
 
         result.SampleRows = new();
@@ -284,8 +299,8 @@ class Program
                 bool isEnumCol     = col.TypeHint == "enum";
                 bool isListEnumCol = col.TypeHint == "list<enum>";
                 if (!isEnumCol && !isListEnumCol) continue;
-                if (IsProtoEnum(col.FieldName)) continue;  // proto enum은 SheetEnums에 넣지 않음
-                if (!written.Add(col.FieldName)) continue;
+                if (IsProtoEnum(GetEnumTypeName(col))) continue;  // proto enum은 SheetEnums에 넣지 않음
+                if (!written.Add(GetEnumTypeName(col))) continue;
 
                 // Id 컬럼이 있고, 단순 enum이고, 모든 행에서 값이 고유하면 → Id 값 할당
                 bool useIdValues = false;
@@ -306,13 +321,13 @@ class Program
                     }
                     useIdValues = isOneToOne;
                     if (isOneToOne)
-                        Log($"  [{col.FieldName}] 값 고유 → Id 기반 enum (시트: {kv.Key})");
+                        Log($"  [{GetEnumTypeName(col)}] 값 고유 → Id 기반 enum (시트: {kv.Key})");
                     else
-                        Log($"  [{col.FieldName}] 중복 값 '{dupVal}' 존재 → 순차 enum (시트: {kv.Key})");
+                        Log($"  [{GetEnumTypeName(col)}] 중복 값 '{dupVal}' 존재 → 순차 enum (시트: {kv.Key})");
                 }
 
                 any = true;
-                sb.AppendLine($"public enum {col.FieldName}");
+                sb.AppendLine($"public enum {GetEnumTypeName(col)}");
                 sb.AppendLine("{");
                 sb.AppendLine("    None = 0,");
                 var seen    = new HashSet<string> { "None" };
@@ -456,7 +471,7 @@ class Program
             }
             else
             {
-                sb.AppendLine($"{i2}public {HintToCsType(col.TypeHint, col.FieldName)} {col.FieldName};");
+                sb.AppendLine($"{i2}public {HintToCsType(col.TypeHint, GetEnumTypeName(col))} {col.FieldName};");
             }
         }
 
@@ -676,14 +691,14 @@ class Program
             else if (col.TypeHint == "list<protoenum>")
             {
                 target       = $"data.{col.FieldName}Values";
-                expr         = BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, col.FieldName);
+                expr         = BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, GetEnumTypeName(col));
                 displayField = $"{col.FieldName}Values";
                 displayType  = "list<protoenum>";
             }
             else
             {
                 target       = $"data.{col.FieldName}";
-                expr         = BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, col.FieldName);
+                expr         = BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, GetEnumTypeName(col));
                 displayField = col.FieldName;
                 displayType  = col.TypeHint;
             }
@@ -817,14 +832,14 @@ class Program
             else if (col.TypeHint == "list<protoenum>")
             {
                 target       = $"data.{col.FieldName}Values";
-                expr         = BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, col.FieldName);
+                expr         = BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, GetEnumTypeName(col));
                 displayField = $"{col.FieldName}Values";
                 displayType  = "list<protoenum>";
             }
             else
             {
                 target       = $"data.{col.FieldName}";
-                expr         = BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, col.FieldName);
+                expr         = BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, GetEnumTypeName(col));
                 displayField = col.FieldName;
                 displayType  = col.TypeHint;
             }
@@ -892,8 +907,8 @@ class Program
         // proto enum 직접 사용 오버로드
         foreach (var col in sheet.Columns)
         {
-            if (col.TypeHint != "enum" || !IsProtoEnum(col.FieldName)) continue;
-            sb.AppendLine($"    public {name}MetaData Get{name}({col.FieldName} key)");
+            if (col.TypeHint != "enum" || !IsProtoEnum(GetEnumTypeName(col))) continue;
+            sb.AppendLine($"    public {name}MetaData Get{name}({GetEnumTypeName(col)} key)");
             sb.AppendLine("    {");
             sb.AppendLine($"        return Get{name}((int)key);");
             sb.AppendLine("    }");
@@ -1115,11 +1130,15 @@ class Program
         if (col.TypeHint == "protoenum")
             return $"{col.FieldName}Value = ParseInt(cells[{col.ColIndex}])";
         if (col.TypeHint == "list<protoenum>")
-            return $"{col.FieldName}Values = {BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, col.FieldName)}";
-        return $"{col.FieldName} = {BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, col.FieldName)}";
+            return $"{col.FieldName}Values = {BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, GetEnumTypeName(col))}";
+        return $"{col.FieldName} = {BuildParseExpression($"cells[{col.ColIndex}]", col.TypeHint, GetEnumTypeName(col))}";
     }
 
     static bool IsProtoEnum(string name) => ProtoEnumNames.Contains(name);
+
+    // EnumTypeName이 명시된 경우 우선 사용, 없으면 FieldName을 enum 타입명으로 사용
+    static string GetEnumTypeName(ColumnInfo col) =>
+        string.IsNullOrEmpty(col.EnumTypeName) ? col.FieldName : col.EnumTypeName;
 
     // ── List 타입힌트 헬퍼
     // "list<int>", "list<enum>", "list<protoenum>" 등 감지
@@ -1131,8 +1150,8 @@ class Program
         Results.Values.Any(r => r.Columns.Any(c =>
             c.TypeHint == "protoenum" ||
             c.TypeHint == "list<protoenum>" ||
-            (c.TypeHint == "enum" && IsProtoEnum(c.FieldName)) ||
-            (c.TypeHint == "list<enum>" && IsProtoEnum(c.FieldName))));
+            (c.TypeHint == "enum" && IsProtoEnum(GetEnumTypeName(c))) ||
+            (c.TypeHint == "list<enum>" && IsProtoEnum(GetEnumTypeName(c)))));
 
     static string HintToCsType(string hint, string fieldName)
     {
@@ -1278,7 +1297,8 @@ class SheetParseResult
 
 class ColumnInfo
 {
-    public string FieldName = "";
-    public string TypeHint  = "";
+    public string FieldName    = "";
+    public string TypeHint     = "";
+    public string EnumTypeName = "";   // enum(TypeName) 또는 List<enum>(TypeName) 에서 추출한 타입명
     public int    ColIndex;
 }
