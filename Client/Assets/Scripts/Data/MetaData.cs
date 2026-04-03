@@ -183,6 +183,6 @@ public class PlayerMetaData
     public int BaseDEX;
     public int BaseINT;
     public int BaseLUK;
-    public float CriticalRate;
+    public int CriticalRate;
     public float CriticalDamage;
 }

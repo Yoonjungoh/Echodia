@@ -293,12 +293,24 @@ namespace Server.Game
 
             // 데미지 처리
             S_Attack attackPacket = new S_Attack();
-            damagedObject.OnDamaged(projectile, projectile.ObjectState.Stat.MagicMissileAttakDamage);
+
+            int damage;
+            bool isCritical = false;
+            _gameObjects.TryGetValue(projectile.ObjectState.OwnerId, out GameObject ownerObj);
+            Player ownerPlayer = ownerObj is Player p ? p : null;
+
+            if (ownerPlayer != null)
+                (damage, isCritical) = ownerPlayer.StatCalculator.GetFinalDamage();
+            else
+                damage = projectile.ObjectState.Stat.MagicMissileAttakDamage;
+
+            damagedObject.OnDamaged(projectile, damage);
             projectile.HitCount++;   // 히트 카운트 증가, MaxHitCount 도달 시 이후 요청 거부
 
             DamagedInfo damagedInfo = new DamagedInfo();
             damagedInfo.ObjectId = damagedObjectId;
             damagedInfo.RemainHp = damagedObject.ObjectState.Stat.Hp;
+            damagedInfo.IsCritical = isCritical;
             attackPacket.DamagedObjectList.Add(damagedInfo);
 
             // 디스폰도 같이 처리해줘야 함
@@ -353,17 +365,31 @@ namespace Server.Game
 
             // 5. 데미지 처리
             S_Attack attackPacket = new S_Attack();
+            Player attackerPlayer = instigator is Player ap ? ap : null;
             foreach (int objectId in damagedObjectList)
             {
                 _gameObjects.TryGetValue(objectId, out GameObject damagedObject);
                 if (damagedObject == null)
                     continue;
 
-                damagedObject.OnDamaged(instigator, instigator.ObjectState.Stat.CommonAttackDamage);
+                int damage = -1;
+                bool isCritical = false;
+                // 플레이어 이외에는 일반 공격 데미지만 적용
+                if (attackerPlayer != null)
+                {
+                    (damage, isCritical) = attackerPlayer.StatCalculator.GetFinalDamage();
+                }
+                else
+                {
+                    damage = instigator.ObjectState.Stat.CommonAttackDamage;
+                }
+
+                damagedObject.OnDamaged(instigator, damage);
 
                 DamagedInfo damagedInfo = new DamagedInfo();
                 damagedInfo.ObjectId = objectId;
                 damagedInfo.RemainHp = damagedObject.ObjectState.Stat.Hp;
+                damagedInfo.IsCritical = isCritical;
                 attackPacket.DamagedObjectList.Add(damagedInfo);
             }
 

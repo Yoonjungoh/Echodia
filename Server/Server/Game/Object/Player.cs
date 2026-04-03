@@ -82,50 +82,50 @@ namespace Server.Game
 
                 if (!player.IsStatInitialized)
                 {
-                    // JobType이 미지정이면 Warrior(Knight)로 기본 설정
+                    // JobType이 미지정이면 Warrior로 기본 설정
                     if (player.JobType == PlayerJobType.None)
                         player.JobType = PlayerJobType.Warrior;
 
                     PlayerMetaData spec = SpecDataManager.Instance.GetPlayer(player.JobType);
                     if (spec != null)
                     {
-                        player.StatMaxHp              = spec.MaxHp;
+                        player.StatMaxHp = spec.MaxHp;
                         player.StatCommonAttackCoolTime = spec.CommonAttackCoolTime;
-                        player.StatAttackRange         = spec.AttackRange;
-                        player.StatDefense             = spec.Defense;
-                        player.StatMoveSpeed           = spec.MoveSpeed;
-                        player.StatAttackHalfAngleDeg  = spec.AttackHalfAngleDeg;
-                        player.StatAttackHeight        = spec.AttackHeight;
-                        player.StatPhysicalDamage      = spec.PhysicalDamage;
-                        player.StatMagicDamage         = spec.MagicDamage;
-                        player.StatSTR                 = spec.BaseSTR;
-                        player.StatDEX                 = spec.BaseDEX;
-                        player.StatINT                 = spec.BaseINT;
-                        player.StatLUK                 = spec.BaseLUK;
-                        player.StatCriticalRate        = spec.CriticalRate;
-                        player.StatCriticalDamage      = spec.CriticalDamage;
-                        player.IsStatInitialized       = true;
+                        player.StatAttackRange = spec.AttackRange;
+                        player.StatDefense = spec.Defense;
+                        player.StatMoveSpeed = spec.MoveSpeed;
+                        player.StatAttackHalfAngleDeg = spec.AttackHalfAngleDeg;
+                        player.StatAttackHeight = spec.AttackHeight;
+                        player.StatPhysicalDamage = spec.PhysicalDamage;
+                        player.StatMagicDamage = spec.MagicDamage;
+                        player.StatSTR = spec.BaseSTR;
+                        player.StatDEX = spec.BaseDEX;
+                        player.StatINT = spec.BaseINT;
+                        player.StatLUK = spec.BaseLUK;
+                        player.StatCriticalRate = spec.CriticalRate;
+                        player.StatCriticalDamage = spec.CriticalDamage;
+                        player.IsStatInitialized = true;
                         db.SaveChangesEx();
                     }
                 }
 
-                ObjectState.Stat.MaxHp              = player.StatMaxHp;
-                ObjectState.Stat.Hp                 = player.StatMaxHp;
+                ObjectState.Stat.MaxHp = player.StatMaxHp;
+                ObjectState.Stat.Hp = player.StatMaxHp;
                 ObjectState.Stat.CommonAttackCoolTime = player.StatCommonAttackCoolTime;
-                ObjectState.Stat.AttackRange        = player.StatAttackRange;
-                ObjectState.Stat.Defense            = player.StatDefense;
-                ObjectState.Stat.MoveSpeed          = player.StatMoveSpeed;
+                ObjectState.Stat.AttackRange = player.StatAttackRange;
+                ObjectState.Stat.Defense = player.StatDefense;
+                ObjectState.Stat.MoveSpeed = player.StatMoveSpeed;
                 ObjectState.Stat.AttackHalfAngleDeg = player.StatAttackHalfAngleDeg;
-                ObjectState.Stat.AttackHeight       = player.StatAttackHeight;
-                ObjectState.Stat.PhysicalDamage     = player.StatPhysicalDamage;
-                ObjectState.Stat.MagicDamage        = player.StatMagicDamage;
-                ObjectState.Stat.Str                = player.StatSTR;
-                ObjectState.Stat.Dex                = player.StatDEX;
-                ObjectState.Stat.StatInt            = player.StatINT;
-                ObjectState.Stat.Luk                = player.StatLUK;
-                ObjectState.Stat.CriticalRate       = player.StatCriticalRate;
-                ObjectState.Stat.CriticalDamage     = player.StatCriticalDamage;
-                ObjectState.Stat.JobType            = player.JobType;
+                ObjectState.Stat.AttackHeight = player.StatAttackHeight;
+                ObjectState.Stat.PhysicalDamage = player.StatPhysicalDamage;
+                ObjectState.Stat.MagicDamage = player.StatMagicDamage;
+                ObjectState.Stat.Str = player.StatSTR;
+                ObjectState.Stat.Dex = player.StatDEX;
+                ObjectState.Stat.StatInt = player.StatINT;
+                ObjectState.Stat.Luk = player.StatLUK;
+                ObjectState.Stat.CriticalRate = player.StatCriticalRate;
+                ObjectState.Stat.CriticalDamage = player.StatCriticalDamage;
+                ObjectState.Stat.JobType = player.JobType;
             }
         }
 
@@ -338,7 +338,7 @@ namespace Server.Game
             DbTransaction.SavePlayerStatsAsync(this);
         }
 
-        
+
         public int GetInventorySize(ItemType itemType)
         {
             // 플레이어가 가진 가방 사이즈 (TODO - 늘릴 수 있으니 수정하기)    

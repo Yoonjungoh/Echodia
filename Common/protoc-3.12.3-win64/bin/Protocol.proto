@@ -214,7 +214,7 @@ enum ItemType {
 
 enum EquipmentSlotType {
   EQUIPMENT_SLOT_TYPE_NONE = 0;
-  EQUIPMENT_SLOT_TYPE_WEAPON = 1;
+  EQUIPMENT_SLOT_TYPE_MAIN_WEAPON = 1;
   EQUIPMENT_SLOT_TYPE_SUB_WEAPON = 2;
   EQUIPMENT_SLOT_TYPE_HELMET = 3;
   EQUIPMENT_SLOT_TYPE_CHEST = 4;
@@ -566,6 +566,7 @@ message ObjectState {
 message DamagedInfo {
   int32 objectId = 1;
   int32 remainHp = 2;
+  bool isCritical = 3;
 }
 
 message Stat {
@@ -580,14 +581,13 @@ message Stat {
   float attackRange = 9;
   float attackHalfAngleDeg = 10;
   float attackHeight = 11;
-  // ── 플레이어 전용 메이플식 스탯 ──────────────────────────────────
   int32 physical_damage = 12;         // 기본 물리공격력
   int32 magic_damage = 13;            // 기본 마법공격력
   int32 str = 14;                     // STR
   int32 dex = 15;                     // DEX
   int32 stat_int = 16;                // INT (int는 예약어이므로 stat_int 사용)
   int32 luk = 17;                     // LUK
-  float critical_rate = 18;           // 크리티컬 확률 (0.0 ~ 1.0)
+  int32 critical_rate = 18;           // 크리티컬 확률 (0.0 ~ 1.0)
   float critical_damage = 19;         // 크리티컬 배율 (예: 1.5 = 150%)
   PlayerJobType job_type = 20;        // 직업
 }

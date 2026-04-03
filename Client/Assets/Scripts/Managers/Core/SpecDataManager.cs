@@ -1685,13 +1685,13 @@ public partial class SpecDataManager
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // CriticalRate (float)
-                try { data.CriticalRate = ParseFloat(cells[16]); }
+                // CriticalRate (int)
+                try { data.CriticalRate = ParseInt(cells[16]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [Player] 파싱 오류\n" +
                         "  위치: 시트 행 " + sheetRow + ", 열 17 (CriticalRate)\n" +
-                        "  타입: float\n" +
+                        "  타입: int\n" +
                         "  값: \"" + cells[16] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;

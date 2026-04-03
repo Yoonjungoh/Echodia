@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 
 
-public class UI_DamageViewer : UI_Base, IPoolable
+public class UI_DamageViewer : UI_Base
 {
     public const string IDLE_CLIP_NAME = "DAMAGE_VIEWER_IDLE";
 
@@ -15,20 +15,40 @@ public class UI_DamageViewer : UI_Base, IPoolable
     private Camera _mainCamera;
     private Animator _animator;
 
+    private bool _isCritical;
+
     public override void Init()
     {
+        if (IsInitialized)
+            return;
+
+        IsInitialized = true;
+
         Bind<TextMeshProUGUI>(typeof(Texts));
         _damageText = GetTextMeshProUGUI((int)Texts.DamageText);
         _mainCamera = Camera.main;
         _animator = GetComponent<Animator>();
     }
 
+    public void SetData(bool isCritical)
+    {
+        _isCritical = isCritical;
+        SetTextColor();
+    }
+
+    private void SetTextColor()
+    {
+        // 크리티컬이면 빨간색 텍스트 표시
+        if (_damageText != null)
+        {
+            _damageText.color = _isCritical ? Color.red : Color.yellow;
+        }
+    }
+
     public void Reset()
     {
-        if (_damageText != null)
-            _damageText.text = string.Empty;
-        if (_animator != null)
-            _animator.Rebind();
+        _isCritical = false;
+        _animator?.Rebind();
     }
 
     public void ShowDamage(int damage, Vector3 worldPosition, float returnDelay = 3.0f)

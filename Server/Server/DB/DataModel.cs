@@ -69,7 +69,7 @@ namespace Server.DB
         public int StatDEX { get; set; }
         public int StatINT { get; set; }
         public int StatLUK { get; set; }
-        public float StatCriticalRate { get; set; }
+        public int StatCriticalRate { get; set; }
         public float StatCriticalDamage { get; set; }
         #endregion
 

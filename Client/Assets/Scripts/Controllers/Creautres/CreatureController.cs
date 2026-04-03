@@ -144,9 +144,9 @@ public class CreatureController : BaseController
         base.OnDestroy();
     }
 
-    public override void OnDamaged(int remainHp)
+    public override void OnDamaged(int remainHp, bool isCritical)
     {
-        base.OnDamaged(remainHp);
+        base.OnDamaged(remainHp, isCritical);
 
         // 히트 이펙트
         ParticleSystem particleSystem = Managers.Resource.SpawnEffect(

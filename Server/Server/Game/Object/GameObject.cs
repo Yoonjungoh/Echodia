@@ -69,12 +69,8 @@ namespace Server.Game
             if (GameRoom == null)
                 return;
 
-            // 실제 데미지 계산
-            int damageDifference = damage - ObjectState.Stat.Defense;
-            int realDamage = Math.Clamp(damageDifference, 0, DataManager.Instance.MaxDamage);
-
             // 남은 체력 계산
-            SetHp(ObjectState.Stat.Hp - realDamage);
+            SetHp(ObjectState.Stat.Hp - damage);
 
             if (ObjectState.Stat.Hp <= 0)
             {
@@ -155,7 +151,7 @@ namespace Server.Game
 
         public void SetHp(int hp)
         {
-            Stat.Hp = Math.Clamp(hp, 0, Stat.MaxHp);
+            Stat.Hp = hp;
         }
 
         // LevelUp 개수를 반환

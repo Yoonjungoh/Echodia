@@ -142,12 +142,12 @@ public abstract class BaseController : MonoBehaviour
         _cts?.Dispose();
     }
 
-    public virtual void OnDamaged(int remainHp)
+    public virtual void OnDamaged(int remainHp, bool isCritical)
     {
         int damage = Stat.Hp - remainHp;
         if (damage > 0)
         {
-            Managers.UI.ShowDamageText(damage, transform.position + _damageViewerOffset);
+            Managers.UI.ShowDamageText(damage, transform.position + _damageViewerOffset, isCritical);
         }
     }
 

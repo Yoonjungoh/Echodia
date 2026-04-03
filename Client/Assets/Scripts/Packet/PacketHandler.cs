@@ -67,7 +67,11 @@ class PacketHandler
             if (cc == null)
                 continue;
 
-            cc.OnDamaged(damagedInfo.RemainHp);
+            if (cc.ObjectState.ObjectType == GameObjectType.Player)
+            {
+                Debug.Log($"크리티컬: {damagedInfo.IsCritical}, 공격력: {cc.Stat.Hp - damagedInfo.RemainHp}");
+            }
+            cc.OnDamaged(damagedInfo.RemainHp, damagedInfo.IsCritical);
         }
     }
 

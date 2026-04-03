@@ -179,10 +179,11 @@ public class UIManager
         _itemTooltip?.HideTooltip();
     }
 
-    public void ShowDamageText(int damage, Vector3 worldPosition)
+    public void ShowDamageText(int damage, Vector3 worldPosition, bool isCritical)
     {
         UI_DamageViewer damageViewer = Managers.UI.MakeWorldSpaceUI<UI_DamageViewer>();
-
+        damageViewer.SetData(isCritical);
+        
         if (_damageViewerDuration < 0f)
         {
             if (damageViewer.TryGetComponent(out Animator anim))
@@ -234,7 +235,8 @@ public class UIManager
         canvas.worldCamera = Camera.main;
 
         T worldSpaceUI = Util.GetOrAddComponent<T>(go);
-        worldSpaceUI.Init();
+        if (!worldSpaceUI.IsInitialized)
+            worldSpaceUI.Init();
 
         return worldSpaceUI;
     }
