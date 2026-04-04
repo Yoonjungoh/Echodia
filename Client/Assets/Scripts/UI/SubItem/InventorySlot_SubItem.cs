@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 
 public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    // 설정하면 기본 더블클릭 동작 대신 이 콜백이 호출됨 (UI_Equipment 슬롯 등에서 사용)
+    public Action<ItemInfo> OnDoubleClickOverride { get; set; }
     enum Texts
     {
         CountText,
@@ -79,6 +81,7 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler,
         if (_data == null)
         {
             _itemImage.sprite = null;
+            _gradeImage.color = Color.clear;
             _countBadge.SetActive(false);
             _enchantBadge.SetActive(false);
             return;
@@ -128,13 +131,41 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler,
 
         if (eventData.clickCount == 2)
         {
-            // 쿨타임 체크 후 패킷 전송
-            if (Managers.Cooldown.IsOnCooldown(_data.ItemId))
+            // 외부에서 콜백이 등록된 경우 (장비창 슬롯 등) 기본 동작 대신 실행
+            if (OnDoubleClickOverride != null)
             {
-                Managers.UI.ShowToastPopup("아직 쿨타임이 남았습니다.");
+                OnDoubleClickOverride.Invoke(_data);
                 return;
             }
-            Managers.Cooldown.RequestUseItem(_data.SlotIndex, Util.GetItemType(_data.ItemId));
+
+            ItemType itemType = Util.GetItemType(_data.ItemId);
+
+            if (itemType == ItemType.Equipment)
+            {
+                // 이미 착용 중이면 무시
+                if (_data.IsEquipped)
+                    return;
+
+                // 직업 조건 사전 검사 (클라이언트 피드백용 - 서버도 동일하게 검사)
+                if (!Managers.Equipment.CanEquipByJob(_data.ItemId))
+                {
+                    Managers.UI.ShowToastPopup("직업 제한으로 장비를 착용할 수 없습니다.");
+                    return;
+                }
+
+                C_EquipItem equipPacket = new C_EquipItem { SlotIndex = _data.SlotIndex };
+                Managers.Network.Send(equipPacket);
+            }
+            else
+            {
+                // 소비 아이템: 쿨타임 체크 후 사용 요청
+                if (Managers.Cooldown.IsOnCooldown(_data.ItemId))
+                {
+                    Managers.UI.ShowToastPopup("아직 쿨타임이 남았습니다.");
+                    return;
+                }
+                Managers.Cooldown.RequestUseItem(_data.SlotIndex, itemType);
+            }
         }
         // TODO - 클릭 시 아이템 정보 툴팁 등을 띄운다면 1일 때 처리
         else if (eventData.clickCount == 1)

@@ -318,6 +318,183 @@ namespace Server.Game
             }
         }
 
+        public void HandleEquipItem(int slotIndex)
+        {
+            // 무결성: slotIndex 범위 확인
+            if (slotIndex < 0 || slotIndex >= GetInventorySize(ItemType.Equipment))
+            {
+                SendEquipResult(EquipResult.InvalidItem, null);
+                return;
+            }
+
+            // 1. 인벤토리에서 장비 아이템 확인
+            if (!Items.TryGetValue((ItemType.Equipment, slotIndex), out PlayerItemDb itemDb))
+            {
+                SendEquipResult(EquipResult.InvalidItem, null);
+                return;
+            }
+
+            // 무결성: ItemType이 Equipment인지 메타데이터로 검증
+            ItemMetaData itemMeta = SpecDataManager.Instance.GetItem(itemDb.ItemId);
+            if (itemMeta == null || itemMeta.ItemType != ItemType.Equipment)
+            {
+                SendEquipResult(EquipResult.InvalidItem, null);
+                return;
+            }
+
+            // 2. 이미 착용 중이면 거부
+            if (itemDb.IsEquipped)
+            {
+                SendEquipResult(EquipResult.AlreadyEquipped, null);
+                return;
+            }
+
+            // 3. 장비 메타데이터 확인
+            EquipmentMetaData meta = SpecDataManager.Instance.GetEquipment(itemDb.ItemId);
+            if (meta == null)
+            {
+                SendEquipResult(EquipResult.InvalidItem, null);
+                return;
+            }
+
+            // 4. 레벨 조건 검사
+            if (Level < meta.RequiredLevel)
+            {
+                SendEquipResult(EquipResult.LevelRestricted, null);
+                return;
+            }
+
+            // 5. 스탯 조건 검사
+            if (StatCalculator.GetTotalSTR() < meta.RequiredSTR ||
+                StatCalculator.GetTotalDEX() < meta.RequiredDEX ||
+                StatCalculator.GetTotalINT() < meta.RequiredINT ||
+                StatCalculator.GetTotalLUK() < meta.RequiredLUK)
+            {
+                SendEquipResult(EquipResult.StatRestricted, null);
+                return;
+            }
+
+            // 6. 직업 조건 검사
+            if (!EquipmentUtil.HasRequiredJob(meta.Id, Stat.JobType))
+            {
+                SendEquipResult(EquipResult.ClassRestricted, null);
+                return;
+            }
+
+            List<PlayerItemDb> updatedItemList = new List<PlayerItemDb>();
+
+            // 7. 같은 슬롯 타입에 이미 장착된 아이템이 있으면 교체 (해제)
+            PlayerItemDb existingEquipped = Items.Values.FirstOrDefault(i =>
+                i.IsEquipped &&
+                SpecDataManager.Instance.GetEquipment(i.ItemId)?.EquipmentSlotType == meta.EquipmentSlotType);
+
+            if (existingEquipped != null)
+            {
+                existingEquipped.IsEquipped = false;
+                InventoryTracker.MarkDirty(existingEquipped);
+                updatedItemList.Add(existingEquipped);
+            }
+
+            // 8. 새 아이템 장착
+            itemDb.IsEquipped = true;
+            InventoryTracker.MarkDirty(itemDb);
+            updatedItemList.Add(itemDb);
+
+            SendEquipResult(EquipResult.Success, updatedItemList);
+        }
+
+        public void HandleUnEquipItem(EquipmentSlotType slotType)
+        {
+            // 무결성) 유효한 슬롯 타입인지 확인
+            if (slotType == EquipmentSlotType.None)
+            {
+                SendUnEquipResult(UnEquipResult.InvalidSlot, null);
+                return;
+            }
+
+            // 1. 해당 슬롯에 장착된 아이템 탐색
+            PlayerItemDb equippedItem = Items.Values.FirstOrDefault(i =>
+                i.IsEquipped &&
+                SpecDataManager.Instance.GetEquipment(i.ItemId)?.EquipmentSlotType == slotType);
+
+            if (equippedItem == null)
+            {
+                SendUnEquipResult(UnEquipResult.NotEquipped, null);
+                return;
+            }
+
+            // 무결성: 인메모리 아이템 소유 재확인 (PlayerDbId 일치)
+            if (equippedItem.PlayerDbId != PlayerId)
+            {
+                SendUnEquipResult(UnEquipResult.NotEquipped, null);
+                return;
+            }
+
+            // 2. 해제 처리 - 최소 빈 슬롯으로 이동 (드롭 아이템 습득과 동일한 방식)
+            int oldSlotIndex = equippedItem.SlotIndex;
+            int newSlotIndex = GetNextAvailableSlotIndex(ItemType.Equipment, excludeSlotIndex: oldSlotIndex);
+
+            Items.Remove((ItemType.Equipment, oldSlotIndex));
+            equippedItem.SlotIndex = newSlotIndex;
+            equippedItem.IsEquipped = false;
+            Items[(ItemType.Equipment, newSlotIndex)] = equippedItem;
+
+            InventoryTracker.MarkDirty(equippedItem);
+            SendUnEquipResult(UnEquipResult.Success, equippedItem);
+        }
+
+        private int GetNextAvailableSlotIndex(ItemType itemType, int excludeSlotIndex = -1)
+        {
+            HashSet<int> usedSlots = new HashSet<int>();
+            foreach (var key in Items.Keys)
+            {
+                if (key.Item1 == itemType && key.Item2 != excludeSlotIndex)
+                    usedSlots.Add(key.Item2);
+            }
+
+            int index = 0;
+            while (usedSlots.Contains(index))
+                index++;
+            return index;
+        }
+
+        private void SendUnEquipResult(UnEquipResult result, PlayerItemDb updatedItem)
+        {
+            S_UnequipItem packet = new S_UnequipItem { UnEquipResult = result };
+            if (updatedItem != null)
+            {
+                packet.UpdatedItem = new ItemInfo
+                {
+                    ItemId = updatedItem.ItemId,
+                    Count = updatedItem.Count,
+                    SlotIndex = updatedItem.SlotIndex,
+                    IsEquipped = updatedItem.IsEquipped,
+                    EnchantLevel = updatedItem.EnchantLevel,
+                };
+            }
+            Session?.Send(packet);
+        }
+
+        private void SendEquipResult(EquipResult result, List<PlayerItemDb> updatedItems)
+        {
+            S_EquipItem packet = new S_EquipItem { EquipResult = result };
+            if (updatedItems != null)
+            {
+                foreach (PlayerItemDb item in updatedItems)
+                {
+                    packet.UpdatedItems.Add(new ItemInfo
+                    {
+                        ItemId = item.ItemId,
+                        Count = item.Count,
+                        SlotIndex = item.SlotIndex,
+                        IsEquipped = item.IsEquipped,
+                        EnchantLevel = item.EnchantLevel,
+                    });
+                }
+            }
+            Session?.Send(packet);
+        }
+
         public override void OnDamaged(GameObject instigator, int damage)
         {
             base.OnDamaged(instigator, damage);

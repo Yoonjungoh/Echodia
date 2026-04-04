@@ -23,11 +23,17 @@ namespace Server.Data
         {
             var objectiveList = GetAllQuestObjectiveDefinition();
             foreach (var quest in objectiveList)
+            {
                 _questObjectiveDefinitions[(quest.MainQuestId, quest.SubQuestId)] = quest;
+            }
 
             var definitionList = GetAllQuestDefinition();
             foreach (var def in definitionList)
+            {
                 _questDefinitionByMainQuestId[def.MainQuestId] = def;
+            }
+
+            EquipmentUtil.Initialize();
         }
 
         public QuestObjectiveDefinitionMetaData GetQuestObjectiveDefinition(int mainQuestId, int subQuestId)

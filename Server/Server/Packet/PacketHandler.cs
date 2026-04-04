@@ -303,4 +303,24 @@ class PacketHandler
 
         clientSession.OnPongReceived();
     }
+
+    public static void C_EquipItemHandler(PacketSession session, IMessage packet)
+    {
+        C_EquipItem equipItemPacket = packet as C_EquipItem;
+        ClientSession clientSession = session as ClientSession;
+        if (clientSession == null)
+            return;
+
+        clientSession?.MyPlayer?.HandleEquipItem(equipItemPacket.SlotIndex);
+    }
+
+    public static void C_UnequipItemHandler(PacketSession session, IMessage packet)
+    {
+        C_UnequipItem unEquipItemPacket = packet as C_UnequipItem;
+        ClientSession clientSession = session as ClientSession;
+        if (clientSession == null)
+            return;
+
+        clientSession?.MyPlayer?.HandleUnEquipItem(unEquipItemPacket.SlotType);
+    }
 }

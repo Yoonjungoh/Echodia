@@ -222,7 +222,10 @@ namespace Server.DB
                     {
                         db.PlayerItems
                             .Where(i => i.PlayerItemDbId == item.PlayerItemDbId)
-                            .ExecuteUpdate(s => s.SetProperty(i => i.Count, item.Count));
+                            .ExecuteUpdate(s => s
+                                .SetProperty(i => i.Count, item.Count)
+                                .SetProperty(i => i.IsEquipped, item.IsEquipped)
+                                .SetProperty(i => i.EnchantLevel, item.EnchantLevel));
                     }
                     else
                     {
@@ -232,6 +235,8 @@ namespace Server.DB
                             ItemId = item.ItemId,
                             Count = item.Count,
                             SlotIndex = item.SlotIndex,
+                            IsEquipped = item.IsEquipped,
+                            EnchantLevel = item.EnchantLevel,
                         });
                     }
                 }

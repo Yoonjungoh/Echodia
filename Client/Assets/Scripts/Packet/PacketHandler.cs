@@ -605,6 +605,71 @@ class PacketHandler
         cc.SetHp(healHpPacket.TotalHp, cc.Stat.MaxHp);
     }
 
+    public static void S_UnequipItemHandler(PacketSession session, IMessage packet)
+    {
+        S_UnequipItem unEquipItemPacket = packet as S_UnequipItem;
+        if (unEquipItemPacket == null)
+        {
+            Debug.Log("S_UnequipItem 패킷이 null입니다");
+            return;
+        }
+
+        switch (unEquipItemPacket.UnEquipResult)
+        {
+            case UnEquipResult.Success:
+                Managers.Inventory.UpdateItemData(unEquipItemPacket.UpdatedItem);
+                Managers.UI.ShowToastPopup("장비를 해제했습니다.");
+                break;
+            case UnEquipResult.NotEquipped:
+                Managers.UI.ShowToastPopup("해당 슬롯에 장착된 장비가 없습니다.");
+                break;
+            case UnEquipResult.InvalidSlot:
+            default:
+                Managers.UI.ShowToastPopup("장비를 해제할 수 없습니다.");
+                break;
+        }
+    }
+
+    public static void S_EquipItemHandler(PacketSession session, IMessage packet)
+    {
+        S_EquipItem equipItemPacket = packet as S_EquipItem;
+        if (equipItemPacket == null)
+        {
+            Debug.Log("S_EquipItem 패킷이 null입니다");
+            return;
+        }
+
+        switch (equipItemPacket.EquipResult)
+        {
+            case EquipResult.Success:
+                foreach (ItemInfo itemInfo in equipItemPacket.UpdatedItems)
+                {
+                    Managers.Inventory.UpdateItemData(itemInfo);
+                }
+                Managers.UI.ShowToastPopup("장비를 장착했습니다.");
+                break;
+            case EquipResult.AlreadyEquipped:
+                Managers.UI.ShowToastPopup("이미 착용 중인 장비입니다.");
+                break;
+            case EquipResult.LevelRestricted:
+                Managers.UI.ShowToastPopup("레벨이 부족하여 장비를 착용할 수 없습니다.");
+                break;
+            case EquipResult.StatRestricted:
+                Managers.UI.ShowToastPopup("스탯이 부족하여 장비를 착용할 수 없습니다.");
+                break;
+            case EquipResult.ClassRestricted:
+                Managers.UI.ShowToastPopup("직업 제한으로 장비를 착용할 수 없습니다.");
+                break;
+            case EquipResult.InvalidItem:
+            case EquipResult.NotOwned:
+                Managers.UI.ShowToastPopup("장비를 착용할 수 없습니다.");
+                break;
+            default:
+                Managers.UI.ShowToastPopup("알 수 없는 결과입니다.");
+                break;
+        }
+    }
+
     public static void S_PickUpDropItemHandler(PacketSession session, IMessage packet)
     {
         S_PickUpDropItem pickUpDropItemPacket = packet as S_PickUpDropItem;

@@ -13,6 +13,7 @@ public class Managers : MonoBehaviour
     private ConfigManager _config = new ConfigManager();
     private CooldownManager _cooldown = new CooldownManager();
     private CurrencyManager _currency = new CurrencyManager();
+    private EquipmentManager _equipment = new EquipmentManager();
     private InventoryManager _inventory = new InventoryManager();
     private ImageManager _image = new ImageManager();
     private GameRoomManager _gameRoom = new GameRoomManager();
@@ -37,6 +38,7 @@ public class Managers : MonoBehaviour
     public static ConfigManager Config { get { return Instance._config; } }
     public static CooldownManager Cooldown { get { return Instance._cooldown; } }
     public static CurrencyManager Currency { get { return Instance._currency; } }
+    public static EquipmentManager Equipment { get { return Instance._equipment; } }
     public static InventoryManager Inventory { get { return Instance._inventory; } }
     public static ImageManager Image { get { return Instance._image; } }
     public static GameRoomManager GameRoom { get { return Instance._gameRoom; } }
@@ -108,6 +110,7 @@ public class Managers : MonoBehaviour
         s_instance._gameRoomObject.Init();
         s_instance._image.Init();
         s_instance._quest.Init();
+        s_instance._equipment.Init();
     }
 
     private void OnAllDataReady()

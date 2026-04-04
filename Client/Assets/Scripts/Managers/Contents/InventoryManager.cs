@@ -59,6 +59,24 @@ public class InventoryManager
         OnInventoryChanged?.Invoke();
     }
 
+    // EquipmentSlotType별로 현재 장착된 아이템을 반환 (없으면 null)
+    public ItemInfo GetEquippedItem(EquipmentSlotType slotType)
+    {
+        if (!_items.TryGetValue(ItemType.Equipment, out var equipDict))
+            return null;
+
+        foreach (ItemInfo itemInfo in equipDict.Values)
+        {
+            if (!itemInfo.IsEquipped)
+                continue;
+
+            EquipmentMetaData meta = Managers.SpecData.GetEquipment(itemInfo.ItemId);
+            if (meta != null && meta.EquipmentSlotType == slotType)
+                return itemInfo;
+        }
+        return null;
+    }
+
     public void Clear()
     {
         foreach (var dict in _items.Values)

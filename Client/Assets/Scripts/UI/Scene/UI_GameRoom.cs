@@ -84,6 +84,7 @@ public class UI_GameRoom : UI_Scene
 
         Managers.Input.RegisterKeyAction(KeySettings.ActivationQuestPopup, OnClickQuestPopupInput);
         Managers.Input.RegisterKeyAction(KeySettings.ActivationInventoryPopup, OnClickInventoryPopupInput);
+        Managers.Input.RegisterKeyAction(KeySettings.ActivationEquipmentPopup, OnClickEquipmentPopupInput);
         Managers.Input.RegisterKeyAction(KeySettings.CloseRecentPopup, Managers.UI.ClosePopupUI);
 
         Managers.RedDot.OnRedDotChanged -= OnRedDotChanged;
@@ -125,6 +126,18 @@ public class UI_GameRoom : UI_Scene
         else
         {
             Managers.UI.ShowPopupUI<UI_Inventory>();
+        }
+    }
+
+    private void OnClickEquipmentPopupInput()
+    {
+        if (Managers.UI.IsPopupActive<UI_Equipment>())
+        {
+            Managers.UI.CloseSpecificPopup<UI_Equipment>();
+        }
+        else
+        {
+            Managers.UI.ShowPopupUI<UI_Equipment>();
         }
     }
 

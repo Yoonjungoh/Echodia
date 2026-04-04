@@ -20,6 +20,7 @@ public enum EquipmentType
     BasicChest = 100003,
     BasicPants = 100004,
     BasicBoots = 100005,
+    FlyBoots = 100006,
 }
 
 public enum ConsumableType

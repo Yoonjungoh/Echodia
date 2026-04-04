@@ -70,7 +70,11 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.CPickUpDropItem, MakePacket<C_PickUpDropItem>);
 		_handler.Add((ushort)MsgId.CPickUpDropItem, PacketHandler.C_PickUpDropItemHandler);		
 		_onRecv.Add((ushort)MsgId.CPong, MakePacket<C_Pong>);
-		_handler.Add((ushort)MsgId.CPong, PacketHandler.C_PongHandler);
+		_handler.Add((ushort)MsgId.CPong, PacketHandler.C_PongHandler);		
+		_onRecv.Add((ushort)MsgId.CEquipItem, MakePacket<C_EquipItem>);
+		_handler.Add((ushort)MsgId.CEquipItem, PacketHandler.C_EquipItemHandler);		
+		_onRecv.Add((ushort)MsgId.CUnequipItem, MakePacket<C_UnequipItem>);
+		_handler.Add((ushort)MsgId.CUnequipItem, PacketHandler.C_UnequipItemHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

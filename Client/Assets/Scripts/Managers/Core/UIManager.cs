@@ -241,7 +241,7 @@ public class UIManager
         return worldSpaceUI;
     }
 
-    public T MakeSubItem<T>(Transform parent = null, string name = null) where T : UI_Base
+    public T MakeSubItem<T>(Transform parent = null, string name = null, bool worldPositionStays = false) where T : UI_Base
     {
         if (string.IsNullOrEmpty(name))
         {
@@ -251,7 +251,7 @@ public class UIManager
         GameObject go = Managers.Resource.Instantiate($"UI/SubItem/{name}");
         if (parent != null)
         {
-            go.transform.SetParent(parent);
+            go.transform.SetParent(parent, worldPositionStays);
         }
 
         T subItem = Util.GetOrAddComponent<T>(go);

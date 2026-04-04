@@ -63,6 +63,10 @@ enum MsgId {
   S_PICK_UP_DROP_ITEM = 149;
   S_PING = 150;
   C_PONG = 151;
+  C_EQUIP_ITEM = 152;
+  S_EQUIP_ITEM = 153;
+  C_UNEQUIP_ITEM = 154;
+  S_UNEQUIP_ITEM = 155;
 }
 
 enum CreatureState {
@@ -195,6 +199,14 @@ enum EquipResult {
 
   // 상태 제한
   EQUIP_RESULT_ALREADY_EQUIPPED = 7;  // 이미 착용 중인 아이템 (서버가 착용 중임을 처리 중인데 클라가 다시 요청할 때)
+}
+
+enum UnEquipResult {
+  UNEQUIP_RESULT_NONE = 0;
+  UNEQUIP_RESULT_SUCCESS = 1;
+  UNEQUIP_RESULT_INVALID_SLOT = 2;  // 유효하지 않은 슬롯 타입
+  UNEQUIP_RESULT_NOT_EQUIPPED = 3;  // 해당 슬롯에 장착된 아이템 없음
+  UNEQUIP_RESULT_INVENTORY_FULL = 4; // 인벤토리 공간 부족 (향후 장비창 분리 시 대비)
 }
 
 enum PlayerJobType {
@@ -501,6 +513,24 @@ message S_Ping {
 
 message C_Pong {
   int32 pingId = 1;
+}
+
+message C_EquipItem {
+  int32 slotIndex = 1; // 인벤토리 장비 슬롯 인덱스
+}
+
+message S_EquipItem {
+  EquipResult equipResult = 1;
+  repeated ItemInfo updatedItems = 2; // 변경된 아이템 목록 (장착/해제된 아이템)
+}
+
+message C_UnequipItem {
+  EquipmentSlotType slotType = 1; // 해제할 장비 슬롯
+}
+
+message S_UnequipItem {
+  UnEquipResult unEquipResult = 1;
+  ItemInfo updatedItem = 2; // 해제된 아이템 (성공 시에만 유효)
 }
 
 // 클라가 퀘스트 초기화 할 때 필요한 존재
