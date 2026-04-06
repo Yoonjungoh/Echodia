@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class KeySettings
 {
-    // 전역에서 KeySettings.ActivationQuestPopup으로 바로 접근 가능
     public const KeyCode ActivationQuestPopup = KeyCode.Q;
     public const KeyCode ActivationInventoryPopup = KeyCode.I;
     public const KeyCode ActivationEquipmentPopup = KeyCode.C;
@@ -10,5 +9,6 @@ public class KeySettings
 
     public const KeyCode SpawnProjectile = KeyCode.F;
     public const KeyCode PickupDropItem = KeyCode.Z;
+    public const KeyCode MapTransfer = KeyCode.BackQuote;  // ` 키
 
 }

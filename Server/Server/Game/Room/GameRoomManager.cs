@@ -27,9 +27,8 @@ namespace Server.Game
         {
             lock (_lock)
             {
-                // 1. 맵 개수만큼 GameRoom 생성
-                int mapCount = DataManager.Instance.MaxMapCount;
-                for (int mapId = 0; mapId < mapCount; ++mapId)
+                // DataManager에 등록된 실제 mapId마다 GameRoom 생성
+                foreach (int mapId in DataManager.Instance.MapIds)
                 {
                     CreateGameRoom(mapId);
                 }

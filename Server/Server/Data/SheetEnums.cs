@@ -52,6 +52,7 @@ namespace Server.Data
         DefaultMiscInventorySize = 10,
         DropItemPickupRadius = 11,
         AutoSaveDBIntervalMs = 12,
+        DefaultStartMapId = 13,
     }
     
     

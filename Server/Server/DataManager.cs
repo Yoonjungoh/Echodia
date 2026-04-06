@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using Server.Data;
 using static Server.Define;
 
 namespace Server
@@ -9,7 +10,10 @@ namespace Server
     {
         public static DataManager Instance { get; } = new DataManager();
 
-        public void Init() { }
+        public void Init()
+        {
+            DefaultStartMapId = ConfigManager.Instance.GetInt(ConfigType.DefaultStartMapId);
+        }
 
         public List<string> WorldServerNameList { get; set; } = new List<string>()
         {
@@ -22,14 +26,37 @@ namespace Server
 
         public int MaxChannelPlayerCount { get; set; } = 100;
 
+        // mapId -> 맵 표시 이름
         private Dictionary<int, string> _mapNameDict { get; } = new Dictionary<int, string>()
         {
-            { 1, "초원"},
-            //{ 2, "숲"},
-            //{ 3, "사막"},
+            { 1, "사막" },
+            { 2, "던전" },
         };
 
         public int MaxMapCount { get { return _mapNameDict.Count; } }
+
+        // 모든 맵 Id 목록
+        public IEnumerable<int> MapIds => _mapNameDict.Keys;
+
+        // 플레이어가 처음 입장하는 맵 Id
+        public int DefaultStartMapId { get; private set; }
+
+        // 맵 연결 그래프: mapId -> (이전 맵 Id, 다음 맵 Id), -1 = 없음
+        // EnterPoint 근처에서 이동 -> 이전 맵(Prev)으로, 이전 맵의 LeavePoint에 스폰
+        // LeavePoint 근처에서 이동 -> 다음 맵(Next)으로, 다음 맵의 EnterPoint에 스폰
+        private Dictionary<int, (int Prev, int Next)> _mapGraph { get; } = new Dictionary<int, (int, int)>()
+        {
+            { 1, (-1, 2) },
+            { 2, (1, -1) },
+        };
+
+        public (int Prev, int Next) GetAdjacentMaps(int mapId)
+        {
+            if (_mapGraph.TryGetValue(mapId, out var adj))
+                return adj;
+
+            return (-1, -1);
+        }
 
         public int MaxRoomPlayerCount { get; set; } = 2;
 

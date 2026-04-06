@@ -168,5 +168,18 @@ namespace Server.Game
                 }
             }
         }
+
+        // 마지막으로 접속했던 맵 Id 반환 (DB 없으면 DefaultStartMapId)
+        public int GetPlayerLastLogoutMapId(int playerId)
+        {
+            using (GameDbContext db = new GameDbContext())
+            {
+                PlayerDb playerDb = db.Players.Find(playerId);
+                if (playerDb != null)
+                    return playerDb.LastMapId > 0 ? playerDb.LastMapId : DataManager.Instance.DefaultStartMapId;
+
+                return DataManager.Instance.DefaultStartMapId;
+            }
+        }
 	}
 }

@@ -115,7 +115,8 @@ namespace Server
                 if (MyPlayer != null && MyPlayer.GameRoom != null)
                 {
                     Vector3 pos = MyPlayer.CurrentPosition;
-                    DbTransaction.SavePlayerLogoutPosition(MyPlayer.PlayerId, pos.X, pos.Y, pos.Z);
+                    int mapId = MyPlayer.GameRoom.MapId;
+                    DbTransaction.SavePlayerLogoutState(MyPlayer.PlayerId, pos, mapId);
                     MyPlayer.GameRoom.Push(MyPlayer.GameRoom.LeaveGame, MyPlayer.Id);
                 }
             }

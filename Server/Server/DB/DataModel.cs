@@ -33,6 +33,7 @@ namespace Server.DB
             LastPosX = int.MinValue;
             LastPosY = int.MinValue;
             LastPosZ = int.MinValue;
+            LastMapId = 1;
             Exp = 0;
             Level = 1;
         }
@@ -73,10 +74,12 @@ namespace Server.DB
         public float StatCriticalDamage { get; set; }
         #endregion
 
-        #region 재접속 시 위치
+        #region 재접속 시 위치 및 맵
         public float LastPosX { get; set; }
         public float LastPosY { get; set; }
         public float LastPosZ { get; set; }
+        public int LastMapId { get; set; } = 1;  // 마지막으로 접속한 맵 Id (기본값: 1)
+
         // 코드에서 편하게 쓰기 위한 가상 프로퍼티 (DB에는 저장 안 함)
         [NotMapped]
         public Vector3 LastLogoutPosition

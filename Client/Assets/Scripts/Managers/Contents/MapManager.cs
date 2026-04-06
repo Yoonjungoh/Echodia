@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using UnityEngine;
 
@@ -13,7 +13,7 @@ public class MapData
     public bool[,] CanGo;
 }
 
-public class MapManager
+public class MapManager : MonoBehaviour
 {
     private MapData _mapData { get; set; }
     public static MapManager Instance { get; } = new MapManager();
@@ -45,19 +45,19 @@ public class MapManager
         return _mapData.Height[x, z];
     }
 
-    public void Init()
+    // mapId: 맵 번호 (예: 1 → MapData_1.bytes)
+    public void Init(int mapId = 1)
     {
-        _mapData = new MapData();
-        _mapData = Load();
+        _mapData = Load(mapId);
     }
 
-    private MapData Load()
+    private MapData Load(int mapId)
     {
-        // Resources 폴더에서 map 파일 로드
-        TextAsset mapFile = Resources.Load<TextAsset>("Prefabs/Data/Map/MapData_001");
+        // Resources 폴더에서 맵 파일 로드 (MapData_{mapId}.bytes)
+        TextAsset mapFile = Resources.Load<TextAsset>($"Prefabs/Data/Map/MapData_{mapId}");
         if (mapFile == null)
         {
-            Managers.UI.ShowToastPopup("맵 로딩 실패\n게임을 다시 시작해주세요");
+            Managers.UI.ShowToastPopup($"맵 로딩 실패 (MapData_{mapId})\n게임을 다시 시작해주세요");
             return null;
         }
 
@@ -88,10 +88,7 @@ public class MapManager
                 for (int z = 0; z < sz; z++)
                 {
                     ushort encoded = br.ReadUInt16();
-
-                    map.Height[x, z] = (encoded == 0)
-                        ? -9999f
-                        : (encoded / 100f) - 100f;
+                    map.Height[x, z] = (encoded == 0) ? -9999f : (encoded / 100f) - 100f;
                 }
             }
 
@@ -104,17 +101,20 @@ public class MapManager
             {
                 for (int z = 0; z < sz; z++)
                 {
-                    int byteIndex = idx >> 3;
-                    int bitIndex = idx & 7;
-
-                    bool walkable = ((packed[byteIndex] >> bitIndex) & 1) == 1;
-                    map.CanGo[x, z] = walkable;
-
+                    map.CanGo[x, z] = ((packed[idx >> 3] >> (idx & 7)) & 1) == 1;
                     idx++;
                 }
             }
         }
 
+        SpawnMap(mapId);
+
+        return map;
+    }
+
+    private GameObject SpawnMap(int mapId)
+    {
+        GameObject map = Managers.Resource.Instantiate($"Maps/Map_{mapId}");
         return map;
     }
 }

@@ -16,6 +16,9 @@ namespace Server.Game
         public int PlayerId { get; set; }   // DB에 저장된 플레이어 고유 Id
         public ClientSession Session { get; set; }
         public AOIController AOI { get; set; }
+
+        // 맵 이동 시 일회성 스폰 좌표 (null이면 마지막 로그아웃 위치 사용)
+        public Vector3? PendingTransferPosition { get; set; } = null;
         public QuestTracker QuestTracker { get; private set; }
         public CooldownTracker CooldownTracker { get; private set; }
         public InventoryTracker InventoryTracker { get; private set; }

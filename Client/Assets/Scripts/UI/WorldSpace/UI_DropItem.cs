@@ -16,7 +16,7 @@ public class UI_DropItem : UI_Base, IPoolable
 
     private Camera _mainCamera;
     private int _gameObjectId;  // 게임 오브젝트 ID (서버에 줍기 요청 시 사용, 서버에게 부여받은 Id)
-    private int _specItemId;    // SpecData 아이템 ID (아이콘/이름 표시용)
+    [SerializeField] private int _specItemId;    // SpecData 아이템 ID (아이콘/이름 표시용)
     private int _count;
 
     private ParticleSystem _dropEffect;

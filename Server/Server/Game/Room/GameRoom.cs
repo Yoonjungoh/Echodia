@@ -300,9 +300,13 @@ namespace Server.Game
             Player ownerPlayer = ownerObj is Player p ? p : null;
 
             if (ownerPlayer != null)
+            {
                 (damage, isCritical) = ownerPlayer.StatCalculator.GetFinalDamage();
+            }
             else
+            {
                 damage = projectile.ObjectState.Stat.MagicMissileAttakDamage;
+            }
 
             damagedObject.OnDamaged(projectile, damage);
             projectile.HitCount++;   // 히트 카운트 증가, MaxHitCount 도달 시 이후 요청 거부
@@ -427,22 +431,35 @@ namespace Server.Game
             enteGamePacket.ObjectState.Level = gameObject.Level;
             enteGamePacket.ObjectState.Exp = gameObject.Exp;
 
-            // position 초기화 — zone.Add 전에 올바른 위치를 먼저 설정해야 정확한 존에 등록됨
+            // position 초기화 - zone.Add 전에 올바른 위치를 먼저 설정해야 정확한 존에 등록됨
             Vector3 startPos = Vector3.Zero;
             if (objectType == GameObjectType.Player)
             {
                 Player player = gameObject as Player;
-                Vector3 lastLogoutPos = ObjectManager.Instance.GetPlayerLastLogoutPos(player.PlayerId);
-                if (lastLogoutPos.X == int.MinValue && lastLogoutPos.Y == int.MinValue && lastLogoutPos.Z == int.MinValue)
+
+                // 맵 이동(Transfer) 시 PendingTransferPosition 우선 사용
+                if (player.PendingTransferPosition.HasValue)
                 {
-                    startPos = DataManager.Instance.GetStartPosition();
+                    startPos = player.PendingTransferPosition.Value;
+                    player.PendingTransferPosition = null;
                 }
                 else
                 {
-                    startPos = lastLogoutPos;
+                    Vector3 lastLogoutPos = ObjectManager.Instance.GetPlayerLastLogoutPos(player.PlayerId);
+                    if (lastLogoutPos.X == int.MinValue && lastLogoutPos.Y == int.MinValue && lastLogoutPos.Z == int.MinValue)
+                    {
+                        // 새 플레이어일 경우 맵의 EnterPoint 우선
+                        SpawnPointData enterPoint = Map.MapData?.EnterPoint;
+                        startPos = enterPoint.Position;
+                    }
+                    else
+                    {
+                        startPos = lastLogoutPos;
+                    }
                 }
                 float groundY = Map.GetHeight(startPos);
-                startPos.Y = groundY;
+                if (groundY > Map.NO_HEIGHT_VALUE)
+                    startPos.Y = groundY;
             }
             else
             {
@@ -480,7 +497,6 @@ namespace Server.Game
                 // 투사체는 Move로 변경해주기
                 gameObject.CreatureState = CreatureState.Move;
                 enteGamePacket.ObjectState.CreatureState = CreatureState.Move;
-                Console.WriteLine("Enter Projectile");
             }
             else if (objectType == GameObjectType.DropItem)
             {
@@ -499,6 +515,9 @@ namespace Server.Game
 
             // stat 초기화
             enteGamePacket.ObjectState.Stat = gameObject.Stat;
+
+            // 맵 Id 세팅 (클라이언트가 올바른 맵 바이너리를 로드하도록)
+            enteGamePacket.MapId = MapId;
 
             // 플레이어면 본인 입장 패킷 전송
             if (objectType == GameObjectType.Player)
@@ -620,6 +639,48 @@ namespace Server.Game
                 despawnPacket.PlayerCount = _players.Count;
                 Broadcast(pos, despawnPacket);
             }
+        }
+
+        // 맵 이동 함수
+        // 현재 룸에서 플레이어를 제거하고 새 룸으로 입장시킴
+        // S_LeaveGame으로 처리 안 하고, 클라이언트는 S_MapTransfer로 맵 전환을 준비함
+        public void TransferPlayer(int playerId, int newMapId, Vector3 spawnPos)
+        {
+            if (!_players.TryGetValue(playerId, out Player player))
+                return;
+
+            // 1. 현재 룸에서 제거 (S_LeaveGame 없이 S_Despawn만 전송)
+            Vector3 curPos = player.CurrentPosition;
+
+            Zone zone = GetZone(curPos);
+            zone?.Remove(player);
+
+            player.OnLeaveGame();   // DB 저장 (퀘스트, 인벤토리, 스탯)
+            player.GameRoom = null;
+
+            RemoveObject(playerId);
+
+            S_Despawn despawnPacket = new S_Despawn();
+            despawnPacket.ObjectIdList.Add(playerId);
+            despawnPacket.PlayerCount = _players.Count;
+            Broadcast(curPos, despawnPacket);
+
+            // 2. 클라에게 맵 전환 알림 (이후 S_EnterGame이 옴)
+            S_MapTransfer mapTransferPacket = new S_MapTransfer { MapId = newMapId };
+            player.Session?.Send(mapTransferPacket);
+
+            // 3. 새 룸에 스폰 위치를 심어두고 입장
+            player.PendingTransferPosition = spawnPos;
+
+            ServerChannel channel = ServerManager.Instance.FindChannel(ServerId, ChannelId);
+            GameRoom newRoom = channel?.GameRoomManager.Find(newMapId);
+            if (newRoom == null)
+            {
+                ConsoleLogManager.Instance.Log($"[TransferPlayer] New room not found: MapId={newMapId}");
+                return;
+            }
+
+            newRoom.Push(newRoom.EnterGame, player);
         }
 
         public void HandleMove(Player player, C_Move movePacket)

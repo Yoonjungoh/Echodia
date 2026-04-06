@@ -74,7 +74,9 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.CEquipItem, MakePacket<C_EquipItem>);
 		_handler.Add((ushort)MsgId.CEquipItem, PacketHandler.C_EquipItemHandler);		
 		_onRecv.Add((ushort)MsgId.CUnequipItem, MakePacket<C_UnequipItem>);
-		_handler.Add((ushort)MsgId.CUnequipItem, PacketHandler.C_UnequipItemHandler);
+		_handler.Add((ushort)MsgId.CUnequipItem, PacketHandler.C_UnequipItemHandler);		
+		_onRecv.Add((ushort)MsgId.CRequestMapTransfer, MakePacket<C_RequestMapTransfer>);
+		_handler.Add((ushort)MsgId.CRequestMapTransfer, PacketHandler.C_RequestMapTransferHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

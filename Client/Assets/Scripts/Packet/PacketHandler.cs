@@ -45,6 +45,13 @@ class PacketHandler
             return;
         }
 
+        // 서버가 알려준 맵 Id로 바이너리 + 프리팹 로드
+        if (enterGamePacket.MapId > 0)
+        {
+            Managers.Map.Init(enterGamePacket.MapId);
+            Managers.GameRoom.MapId = enterGamePacket.MapId;
+        }
+
         Managers.GameRoom.HandleEnterGame(enterGamePacket.ObjectState);
     }
 
@@ -668,6 +675,16 @@ class PacketHandler
                 Managers.UI.ShowToastPopup("알 수 없는 결과입니다.");
                 break;
         }
+    }
+
+    // 서버가 맵 전환을 승인했을 때 — 새 맵 바이너리 로드 (이후 S_EnterGame 패킷에서 스폰 위치 적용)
+    public static void S_MapTransferHandler(PacketSession session, IMessage packet)
+    {
+        S_MapTransfer mapTransferPacket = packet as S_MapTransfer;
+        if (mapTransferPacket == null)
+            return;
+
+        Managers.Map.Init(mapTransferPacket.MapId);
     }
 
     public static void S_PickUpDropItemHandler(PacketSession session, IMessage packet)

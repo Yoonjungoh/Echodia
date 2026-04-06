@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
+using System.Numerics;
 using System.Text;
 
 class PacketHandler
@@ -45,13 +46,17 @@ class PacketHandler
         if (channel == null)
             return;
 
-        // 게임에 입장하기 위해선 ServerId, ChannelId, MapId 모두 유효해야 함
-        // MapId만 찾아주면 됨
-        // TODO - DB에서 마지막으로 접속한 곳 찾아오기
-        int mapId = 0;
+        // 마지막으로 접속했던 맵 Id로 룸 찾기 (DB에 없으면 DefaultStartMapId 사용)
+        int mapId = ObjectManager.Instance.GetPlayerLastLogoutMapId(clientSession.MyPlayer.PlayerId);
         GameRoom gameRoom = channel.GameRoomManager.Find(mapId);
         if (gameRoom == null)
-            return;
+        {
+            // 저장된 맵이 현재 없으면 기본 맵으로 폴백
+            mapId = DataManager.Instance.DefaultStartMapId;
+            gameRoom = channel.GameRoomManager.Find(mapId);
+            if (gameRoom == null)
+                return;
+        }
 
         gameRoom.Push(gameRoom.EnterGame, clientSession.MyPlayer);
     }
@@ -322,5 +327,49 @@ class PacketHandler
             return;
 
         clientSession?.MyPlayer?.HandleUnEquipItem(unEquipItemPacket.SlotType);
+    }
+
+    public static void C_RequestMapTransferHandler(PacketSession session, IMessage packet)
+    {
+        C_RequestMapTransfer transferPacket = packet as C_RequestMapTransfer;
+        ClientSession clientSession = session as ClientSession;
+
+        Player player = clientSession?.MyPlayer;
+        if (player == null || player.GameRoom == null)
+            return;
+
+        int currentMapId = player.GameRoom.MapId;
+        (int prevMapId, int nextMapId) = DataManager.Instance.GetAdjacentMaps(currentMapId);
+
+        int targetMapId;
+        Vector3 spawnPos;
+
+        if (transferPacket.TransferPoint == MapTransferPoint.MapTransferLeavePoint)
+        {
+            // LeavePoint -> 다음 맵의 EnterPoint에 스폰
+            targetMapId = nextMapId;
+            MapData targetMap = MapManager.Instance.CreateCopy(targetMapId);
+            if (targetMapId < 0 || targetMap?.EnterPoint == null)
+            {
+                ConsoleLogManager.Instance.Log($"[MapTransfer] No next map from mapId={currentMapId}");
+                return;
+            }
+            spawnPos = targetMap.EnterPoint.Position;
+        }
+        else // MapTransferEnterPoint
+        {
+            // EnterPoint -> 이전 맵의 LeavePoint에 스폰
+            targetMapId = prevMapId;
+            MapData targetMap = MapManager.Instance.CreateCopy(targetMapId);
+            if (targetMapId < 0 || targetMap?.LeavePoint == null)
+            {
+                ConsoleLogManager.Instance.Log($"[MapTransfer] No prev map from mapId={currentMapId}");
+                return;
+            }
+            spawnPos = targetMap.LeavePoint.Position;
+        }
+
+        ConsoleLogManager.Instance.Log($"[MapTransfer] Player {player.Id}: map {currentMapId} → {targetMapId}, spawnPos={spawnPos}");
+        player.GameRoom.Push(player.GameRoom.TransferPlayer, player.Id, targetMapId, spawnPos);
     }
 }

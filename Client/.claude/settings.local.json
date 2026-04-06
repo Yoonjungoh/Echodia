@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(xargs grep:*)"
+      "Bash(xargs grep:*)",
+      "Bash(cmd /c GenProto.bat)",
+      "Bash(protoc.exe -I=./ --csharp_out=./ ./Protocol.proto)"
     ]
   }
 }

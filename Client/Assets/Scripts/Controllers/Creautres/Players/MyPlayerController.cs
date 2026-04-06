@@ -41,6 +41,11 @@ public class MyPlayerController : PlayerController
     private const float PROXIMITY_CHECK_INTERVAL = 0.1f;
     private float _lastProximityCheckTime;
 
+    // 맵 이동 포인트 캐시
+    private const float MAP_TRANSFER_RADIUS = 3f;
+    private Vector3? _mapEnterPointPos = null;
+    private Vector3? _mapLeavePointPos = null;
+
     public override void Init()
     {
         base.Init();
@@ -66,6 +71,8 @@ public class MyPlayerController : PlayerController
         _dropItemLayer = LayerMask.GetMask("DropItem");
         _dropItemPickupRadius = Managers.Config.GetFloat(ConfigType.DropItemPickupRadius);
 
+        CacheMapTransferPoints();
+
         OnStartGame();
     }
 
@@ -87,6 +94,11 @@ public class MyPlayerController : PlayerController
         Managers.Input.RegisterKeyAction(
             KeySettings.PickupDropItem,
             TryPickupClosestItem
+        );
+
+        Managers.Input.RegisterKeyAction(
+            KeySettings.MapTransfer,
+            TryRequestMapTransfer
         );
 
         // TODO - 우선 타이밍 이슈로 어쩔 수 없이 여기서 초기화
@@ -408,6 +420,48 @@ public class MyPlayerController : PlayerController
         if (closestDropItem != null)
         {
             closestDropItem.RequestPickUpDropItem();
+        }
+    }
+
+    // EnterPoint / LeavePoint 씬 배치 오브젝트 위치 캐시
+    private void CacheMapTransferPoints()
+    {
+        MapEnterPoint enter = UnityEngine.Object.FindObjectOfType<MapEnterPoint>();
+        if (enter != null)
+            _mapEnterPointPos = enter.transform.position;
+
+        MapLeavePoint leave = UnityEngine.Object.FindObjectOfType<MapLeavePoint>();
+        if (leave != null)
+            _mapLeavePointPos = leave.transform.position;
+    }
+
+    // ` 키 입력 시 근처 이동 포인트에 따라 맵 전환 요청
+    private void TryRequestMapTransfer()
+    {
+        if (Managers.Scene.CurrentScene != Define.Scene.GameRoom)
+            return;
+
+        Vector3 myPos = transform.position;
+
+        if (_mapEnterPointPos.HasValue &&
+            Vector3.Distance(myPos, _mapEnterPointPos.Value) <= MAP_TRANSFER_RADIUS)
+        {
+            C_RequestMapTransfer packet = new C_RequestMapTransfer
+            {
+                TransferPoint = MapTransferPoint.MapTransferEnterPoint
+            };
+            Managers.Network.Send(packet);
+            return;
+        }
+
+        if (_mapLeavePointPos.HasValue &&
+            Vector3.Distance(myPos, _mapLeavePointPos.Value) <= MAP_TRANSFER_RADIUS)
+        {
+            C_RequestMapTransfer packet = new C_RequestMapTransfer
+            {
+                TransferPoint = MapTransferPoint.MapTransferLeavePoint
+            };
+            Managers.Network.Send(packet);
         }
     }
 

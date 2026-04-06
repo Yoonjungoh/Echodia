@@ -106,7 +106,7 @@ public class Managers : MonoBehaviour
         s_instance._data.Init();
         s_instance._sound.Init();
         s_instance._resource.Init();
-        s_instance._map.Init();
+        // s_instance._map.Init(1);
         s_instance._gameRoomObject.Init();
         s_instance._image.Init();
         s_instance._quest.Init();

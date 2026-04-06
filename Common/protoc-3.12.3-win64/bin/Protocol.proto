@@ -67,6 +67,8 @@ enum MsgId {
   S_EQUIP_ITEM = 153;
   C_UNEQUIP_ITEM = 154;
   S_UNEQUIP_ITEM = 155;
+  C_REQUEST_MAP_TRANSFER = 156;
+  S_MAP_TRANSFER = 157;
 }
 
 enum CreatureState {
@@ -201,6 +203,12 @@ enum EquipResult {
   EQUIP_RESULT_ALREADY_EQUIPPED = 7;  // 이미 착용 중인 아이템 (서버가 착용 중임을 처리 중인데 클라가 다시 요청할 때)
 }
 
+enum MapTransferPoint {
+  MAP_TRANSFER_POINT_NONE = 0;
+  MAP_TRANSFER_ENTER_POINT = 1;  // EnterPoint 근처에서 요청 → 이전 맵으로, 이전 맵의 LeavePoint에 스폰
+  MAP_TRANSFER_LEAVE_POINT = 2;  // LeavePoint 근처에서 요청 → 다음 맵으로, 다음 맵의 EnterPoint에 스폰
+}
+
 enum UnEquipResult {
   UNEQUIP_RESULT_NONE = 0;
   UNEQUIP_RESULT_SUCCESS = 1;
@@ -257,6 +265,7 @@ message C_ExitRoom {
 
 message S_EnterGame {
   ObjectState objectState = 1;
+  int32 map_id = 2;  // 클라이언트가 로드해야 할 맵 Id
 }
 
 message C_EnterGame {
@@ -531,6 +540,14 @@ message C_UnequipItem {
 message S_UnequipItem {
   UnEquipResult unEquipResult = 1;
   ItemInfo updatedItem = 2; // 해제된 아이템 (성공 시에만 유효)
+}
+
+message C_RequestMapTransfer {
+  MapTransferPoint transfer_point = 1;
+}
+
+message S_MapTransfer {
+  int32 map_id = 1;
 }
 
 // 클라가 퀘스트 초기화 할 때 필요한 존재

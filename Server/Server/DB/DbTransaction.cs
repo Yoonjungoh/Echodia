@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Numerics;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -322,19 +323,20 @@ namespace Server.DB
 
         #region Player
 
-        public static void SavePlayerLogoutPosition(int playerDbId, float x, float y, float z, Action callback = null)
+        public static void SavePlayerLogoutState(int playerDbId, Vector3 pos, int mapId, Action callback = null)
         {
-            Instance.Push(SavePlayerLogoutPosition_Db, playerDbId, x, y, z, callback);
+            Instance.Push(SavePlayerLogoutState_Db, playerDbId, pos, mapId, callback);
         }
 
-        private static void SavePlayerLogoutPosition_Db(int playerDbId, float x, float y, float z, Action callback = null)
+        private static void SavePlayerLogoutState_Db(int playerDbId, Vector3 pos, int mapId, Action callback = null)
         {
             using (GameDbContext db = new GameDbContext())
             {
                 int successRows = db.Players.Where(p => p.PlayerDbId == playerDbId).ExecuteUpdate(s => s
-                    .SetProperty(p => p.LastPosX, p => x)
-                    .SetProperty(p => p.LastPosY, p => y)
-                    .SetProperty(p => p.LastPosZ, p => z));
+                    .SetProperty(p => p.LastPosX,  p => pos.X)
+                    .SetProperty(p => p.LastPosY,  p => pos.Y)
+                    .SetProperty(p => p.LastPosZ,  p => pos.Z)
+                    .SetProperty(p => p.LastMapId, p => mapId));
 
                 if (successRows > 0)
                     callback?.Invoke();

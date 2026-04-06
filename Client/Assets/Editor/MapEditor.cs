@@ -19,7 +19,7 @@ public class MapEditor : EditorWindow
     int groundLayerIndex = 0;
     int blockLayerIndex = 0;
 
-    string mapDataName = "";
+    int mapId = 0;
 
     LayerMask groundMask;
     LayerMask blockMask;
@@ -38,7 +38,7 @@ public class MapEditor : EditorWindow
         groundLayerIndex = EditorGUILayout.LayerField("Ground Layer", groundLayerIndex);
         blockLayerIndex = EditorGUILayout.LayerField("Block Layer", blockLayerIndex);
 
-        mapDataName = EditorGUILayout.TextField("Map Data Name", mapDataName);
+        mapId = EditorGUILayout.IntField("Map ID", mapId);
 
         groundMask = 1 << groundLayerIndex;
         blockMask = 1 << blockLayerIndex;
@@ -138,7 +138,7 @@ public class MapEditor : EditorWindow
 
     void SaveBinary(float[,] height, bool[,] canGo)
     {
-        string fileName = $"{mapDataName}.bytes";
+        string fileName = $"MapData_{mapId}.bytes";
 
         string localPath = Path.Combine(Application.dataPath, "Resources/Prefabs/Data/Map");
         EnsureDirectory(localPath);
@@ -200,9 +200,9 @@ public class MapEditor : EditorWindow
     // ──────────────────────────────────────────────────────────────
     void GenerateMeta()
     {
-        if (string.IsNullOrEmpty(mapDataName))
+        if (mapId == 0)
         {
-            Debug.LogError("[MapEditor] Map Data Name이 비어있습니다.");
+            Debug.LogError("[MapEditor] Map ID가 설정되지 않았습니다.");
             return;
         }
 
@@ -268,7 +268,7 @@ public class MapEditor : EditorWindow
     void SaveMeta(MapMetaJson meta)
     {
         string json = JsonUtility.ToJson(meta, prettyPrint: true);
-        string fileName = $"{mapDataName}_meta.json";
+        string fileName = $"MapData_{mapId}_meta.json";
 
         string externalPath = Path.GetFullPath(Path.Combine(Application.dataPath, "../../Common/MapData"));
         EnsureDirectory(externalPath);
