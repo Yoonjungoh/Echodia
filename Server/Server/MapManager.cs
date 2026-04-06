@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Numerics;
+using System.Text.Json;
 
 namespace Server
 {
@@ -13,6 +14,13 @@ namespace Server
         public int SizeZ { get; set; }
         public float[,] Height { get; set; }  // float 로 유지
         public bool[,] CanGo { get; set; }
+
+        // 스폰 포인트 (메타 JSON에서 로드, 없으면 null)
+        public SpawnPointData EnterPoint { get; set; }
+        public SpawnPointData LeavePoint { get; set; }
+
+        // 몬스터 스포너 목록 (메타 JSON에서 로드)
+        public System.Collections.Generic.List<MonsterSpawnerData> MonsterSpawners { get; set; } = new();
 
         public int MinX { get { return -(SizeX / 2); } }
 
@@ -41,11 +49,15 @@ namespace Server
                 Console.WriteLine("[MapManager] Map file not found.");
                 return;
             }
-            
+
             // TODO - 여러 맵 로드 지원
             int mapId = 0;
             _globalMap = Load(mapId, path);
             Console.WriteLine($"[MapManager] Loaded map: {_globalMap.SizeX} x {_globalMap.SizeZ}");
+
+            // 메타 파일 로드 (스폰 포인트, 몬스터 스포너)
+            string metaPath = Path.ChangeExtension(path, null) + "_meta.json";
+            LoadMeta(_globalMap, metaPath);
         }
 
         public MapData CreateCopy(int mapId)
@@ -63,6 +75,40 @@ namespace Server
             copy.CanGo = (bool[,])_globalMap.CanGo.Clone();
 
             return copy;
+        }
+
+        private void LoadMeta(MapData map, string metaPath)
+        {
+            if (!File.Exists(metaPath))
+            {
+                Console.WriteLine($"[MapManager] Meta file not found, skipping: {metaPath}");
+                return;
+            }
+
+            try
+            {
+                string json = File.ReadAllText(metaPath);
+                JsonSerializerOptions options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                };
+                MapMetaData meta = JsonSerializer.Deserialize<MapMetaData>(json, options);
+                if (meta == null)
+                    return;
+
+                map.EnterPoint     = meta.EnterPoint;
+                map.LeavePoint     = meta.LeavePoint;
+                map.MonsterSpawners = meta.MonsterSpawners ?? new();
+
+                Console.WriteLine($"[MapManager] Meta loaded: " +
+                    $"EnterPoint={map.EnterPoint?.Position}, " +
+                    $"LeavePoint={map.LeavePoint?.Position}, " +
+                    $"Spawners={map.MonsterSpawners.Count}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"[MapManager] Failed to load meta: {e.Message}");
+            }
         }
 
         private string GetMapPath()

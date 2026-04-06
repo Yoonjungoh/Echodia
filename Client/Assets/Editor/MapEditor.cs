@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using UnityEngine;
 using UnityEditor;
@@ -19,6 +19,8 @@ public class MapEditor : EditorWindow
     int groundLayerIndex = 0;
     int blockLayerIndex = 0;
 
+    string mapDataName = "";
+
     LayerMask groundMask;
     LayerMask blockMask;
 
@@ -36,6 +38,8 @@ public class MapEditor : EditorWindow
         groundLayerIndex = EditorGUILayout.LayerField("Ground Layer", groundLayerIndex);
         blockLayerIndex = EditorGUILayout.LayerField("Block Layer", blockLayerIndex);
 
+        mapDataName = EditorGUILayout.TextField("Map Data Name", mapDataName);
+
         groundMask = 1 << groundLayerIndex;
         blockMask = 1 << blockLayerIndex;
 
@@ -43,8 +47,33 @@ public class MapEditor : EditorWindow
 
         if (GUILayout.Button("Generate Binary Map"))
             Generate();
+
+        EditorGUILayout.Space();
+
+        if (GUILayout.Button("Generate Map Meta (Spawn Points)"))
+            GenerateMeta();
+
+        EditorGUILayout.Space();
+
+        if (GUILayout.Button("Generate All (Binary + Meta)"))
+        {
+            Generate();
+            GenerateMeta();
+        }
+
+        EditorGUILayout.Space();
+        EditorGUILayout.HelpBox(
+            "씬에 배치된 컴포넌트:\n" +
+            "• MapEnterPoint  - 순방향 진입 스폰 위치 (초록)\n" +
+            "• MapLeavePoint  - 역방향 진입 스폰 위치 (주황)\n" +
+            "• MonsterSpawner - 몬스터 스포너 (빨강)",
+            MessageType.Info
+        );
     }
 
+    // ──────────────────────────────────────────────────────────────
+    // Binary Map 생성 (기존)
+    // ──────────────────────────────────────────────────────────────
     void Generate()
     {
         origin = new Vector3(MapMinX, 0, MapMinZ);
@@ -71,21 +100,18 @@ public class MapEditor : EditorWindow
                 {
                     height[x, z] = hit.point.y;
 
-                    // ---- 원본과 동일한 Capsule 영역 ----
                     Vector3 capStart = hit.point + Vector3.up * 0.5f;
                     Vector3 capEnd = hit.point + Vector3.up * 1.5f;
                     float radius = 0.3f;
 
                     bool blocked = false;
 
-                    // 🔥 2번 방법: 아래 묻힌 collider 제거
                     Collider[] cols = Physics.OverlapCapsule(capStart, capEnd, radius, blockMask);
 
                     foreach (var col in cols)
                     {
                         float colliderBottom = col.bounds.min.y;
 
-                        // ⛔ 지면 아래 묻힌 collider는 무시
                         if (colliderBottom < hit.point.y - 0.1f)
                             continue;
 
@@ -112,7 +138,7 @@ public class MapEditor : EditorWindow
 
     void SaveBinary(float[,] height, bool[,] canGo)
     {
-        string fileName = "MapData_001.bytes";
+        string fileName = $"{mapDataName}.bytes";
 
         string localPath = Path.Combine(Application.dataPath, "Resources/Prefabs/Data/Map");
         EnsureDirectory(localPath);
@@ -169,9 +195,125 @@ public class MapEditor : EditorWindow
         }
     }
 
+    // ──────────────────────────────────────────────────────────────
+    // Map Meta 생성 (스폰 포인트 + 몬스터 스포너)
+    // ──────────────────────────────────────────────────────────────
+    void GenerateMeta()
+    {
+        if (string.IsNullOrEmpty(mapDataName))
+        {
+            Debug.LogError("[MapEditor] Map Data Name이 비어있습니다.");
+            return;
+        }
+
+        MapMetaJson meta = new MapMetaJson();
+
+        // EnterPoint
+        MapEnterPoint enterPoint = FindObjectOfType<MapEnterPoint>();
+        if (enterPoint != null)
+        {
+            meta.EnterPoint = ToSpawnPointJson(enterPoint.transform);
+            Debug.Log($"[MapEditor] EnterPoint found: {enterPoint.transform.position}");
+        }
+        else
+        {
+            Debug.LogWarning("[MapEditor] 씬에 MapEnterPoint 컴포넌트가 없습니다.");
+        }
+
+        // LeavePoint
+        MapLeavePoint leavePoint = FindObjectOfType<MapLeavePoint>();
+        if (leavePoint != null)
+        {
+            meta.LeavePoint = ToSpawnPointJson(leavePoint.transform);
+            Debug.Log($"[MapEditor] LeavePoint found: {leavePoint.transform.position}");
+        }
+        else
+        {
+            Debug.LogWarning("[MapEditor] 씬에 MapLeavePoint 컴포넌트가 없습니다.");
+        }
+
+        // MonsterSpawners
+        MonsterSpawner[] spawners = FindObjectsOfType<MonsterSpawner>();
+        meta.MonsterSpawners = new MonsterSpawnerJson[spawners.Length];
+        for (int i = 0; i < spawners.Length; i++)
+        {
+            MonsterSpawner s = spawners[i];
+            meta.MonsterSpawners[i] = new MonsterSpawnerJson
+            {
+                MonsterTypeId  = s.MonsterTypeId,
+                X              = s.transform.position.x,
+                Y              = s.transform.position.y,
+                Z              = s.transform.position.z,
+                RotY           = s.transform.eulerAngles.y,
+                Count          = s.Count,
+                RespawnSeconds = s.RespawnSeconds,
+            };
+            Debug.Log($"[MapEditor] MonsterSpawner found: TypeId={s.MonsterTypeId}, pos={s.transform.position}");
+        }
+
+        SaveMeta(meta);
+    }
+
+    SpawnPointJson ToSpawnPointJson(Transform t)
+    {
+        return new SpawnPointJson
+        {
+            X    = t.position.x,
+            Y    = t.position.y,
+            Z    = t.position.z,
+            RotY = t.eulerAngles.y,
+        };
+    }
+
+    void SaveMeta(MapMetaJson meta)
+    {
+        string json = JsonUtility.ToJson(meta, prettyPrint: true);
+        string fileName = $"{mapDataName}_meta.json";
+
+        string externalPath = Path.GetFullPath(Path.Combine(Application.dataPath, "../../Common/MapData"));
+        EnsureDirectory(externalPath);
+        string fullPath = Path.Combine(externalPath, fileName);
+        File.WriteAllText(fullPath, json);
+
+        Debug.Log($"=== Map Meta Export Completed! ===\n→ {fullPath}");
+    }
+
     void EnsureDirectory(string path)
     {
         if (!Directory.Exists(path))
             Directory.CreateDirectory(path);
+    }
+
+    // ──────────────────────────────────────────────────────────────
+    // JSON 직렬화용 내부 클래스 (JsonUtility 호환 - PascalCase 필드명)
+    // 서버의 MapMetaData.cs와 필드명을 일치시켜 System.Text.Json이 그대로 읽을 수 있게 함
+    // ──────────────────────────────────────────────────────────────
+    [Serializable]
+    class MapMetaJson
+    {
+        public SpawnPointJson    EnterPoint      = null;
+        public SpawnPointJson    LeavePoint      = null;
+        public MonsterSpawnerJson[] MonsterSpawners = new MonsterSpawnerJson[0];
+    }
+
+    [Serializable]
+    class SpawnPointJson
+    {
+        public float X;
+        public float Y;
+        public float Z;
+        public float RotY;
+    }
+
+    [Serializable]
+    class MonsterSpawnerJson
+    {
+        public int   MonsterTypeId;
+        public float X;
+        public float Y;
+        public float Z;
+        public float RotY;
+        public int   Count;
+        public float RespawnSeconds;
     }
 }

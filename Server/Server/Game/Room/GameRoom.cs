@@ -985,10 +985,10 @@ namespace Server.Game
             //{
             //    SpawnMonster(MonsterType.Bear, new Vector3(100, -26, 527 + (i * 2)));
             //}
-            SpawnMonster(MonsterType.Bear, new Vector3(100, -26, 527));
-            SpawnMonster(MonsterType.Bear, new Vector3(80, -27, 500));
-            SpawnMonster(MonsterType.Bear, new Vector3(100, -26, 420));
-            SpawnMonster(MonsterType.Bear, new Vector3(100, -26, 480));
+            SpawnMonster(MonsterType.Bear, new Vector3(6, 2, 14));
+            SpawnMonster(MonsterType.Bear, new Vector3(25, 2, -14));
+            SpawnMonster(MonsterType.Bear, new Vector3(-29, 2, 30));
+            SpawnMonster(MonsterType.Bear, new Vector3(-29, 2, 30));
         }
     }
 }
