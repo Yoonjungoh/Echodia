@@ -45,6 +45,7 @@ public class MyPlayerController : PlayerController
     private const float MAP_TRANSFER_RADIUS = 3f;
     private Vector3? _mapEnterPointPos = null;
     private Vector3? _mapLeavePointPos = null;
+    private bool _isTransferring = false;
 
     public override void Init()
     {
@@ -438,6 +439,9 @@ public class MyPlayerController : PlayerController
     // ` 키 입력 시 근처 이동 포인트에 따라 맵 전환 요청
     private void TryRequestMapTransfer()
     {
+        if (_isTransferring)
+            return;
+
         if (Managers.Scene.CurrentScene != Define.Scene.GameRoom)
             return;
 
@@ -446,6 +450,7 @@ public class MyPlayerController : PlayerController
         if (_mapEnterPointPos.HasValue &&
             Vector3.Distance(myPos, _mapEnterPointPos.Value) <= MAP_TRANSFER_RADIUS)
         {
+            _isTransferring = true;
             C_RequestMapTransfer packet = new C_RequestMapTransfer
             {
                 TransferPoint = MapTransferPoint.MapTransferEnterPoint
@@ -457,6 +462,7 @@ public class MyPlayerController : PlayerController
         if (_mapLeavePointPos.HasValue &&
             Vector3.Distance(myPos, _mapLeavePointPos.Value) <= MAP_TRANSFER_RADIUS)
         {
+            _isTransferring = true;
             C_RequestMapTransfer packet = new C_RequestMapTransfer
             {
                 TransferPoint = MapTransferPoint.MapTransferLeavePoint
