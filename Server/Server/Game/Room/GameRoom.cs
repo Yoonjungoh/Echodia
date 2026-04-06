@@ -656,6 +656,7 @@ namespace Server.Game
             zone?.Remove(player);
 
             player.OnLeaveGame();   // DB 저장 (퀘스트, 인벤토리, 스탯)
+            player.AOI.PreviousGameObjects.Clear();  // 이전 룸 오브젝트 참조 해제
             player.GameRoom = null;
 
             RemoveObject(playerId);
@@ -1041,15 +1042,19 @@ namespace Server.Game
 
         private void InitMonsters()
         {
-            //// TODO
-            //for (int i = 0; i < 50; i++)
-            //{
-            //    SpawnMonster(MonsterType.Bear, new Vector3(100, -26, 527 + (i * 2)));
-            //}
-            SpawnMonster(MonsterType.Bear, new Vector3(6, 2, 14));
-            SpawnMonster(MonsterType.Bear, new Vector3(25, 2, -14));
-            SpawnMonster(MonsterType.Bear, new Vector3(-29, 2, 30));
-            SpawnMonster(MonsterType.Bear, new Vector3(-29, 2, 30));
+            var spawners = Map.MapData?.MonsterSpawners;
+            if (spawners == null || spawners.Count == 0)
+                return;
+
+            foreach (MonsterSpawnerData spawner in spawners)
+            {
+                MonsterType monsterType = (MonsterType)spawner.MonsterTypeId;
+                Vector3 spawnPos = spawner.Position;
+                for (int i = 0; i < spawner.Count; i++)
+                {
+                    SpawnMonster(monsterType, spawnPos);
+                }
+            }
         }
     }
 }

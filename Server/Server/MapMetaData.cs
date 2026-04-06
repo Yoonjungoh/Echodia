@@ -9,8 +9,8 @@ namespace Server
     /// </summary>
     public class MapMetaData
     {
-        public SpawnPointData EnterPoint      { get; set; }
-        public SpawnPointData LeavePoint      { get; set; }
+        public SpawnPointData EnterPoint { get; set; }
+        public SpawnPointData LeavePoint { get; set; }
         public List<MonsterSpawnerData> MonsterSpawners { get; set; } = new();
     }
 
@@ -19,9 +19,9 @@ namespace Server
     /// </summary>
     public class SpawnPointData
     {
-        public float X    { get; set; }
-        public float Y    { get; set; }
-        public float Z    { get; set; }
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float Z { get; set; }
         public float RotY { get; set; }  // Y축 오일러 각도 (도 단위)
 
         public Vector3 Position => new Vector3(X, Y, Z);
@@ -32,12 +32,12 @@ namespace Server
     /// </summary>
     public class MonsterSpawnerData
     {
-        public int   MonsterTypeId  { get; set; }
-        public float X              { get; set; }
-        public float Y              { get; set; }
-        public float Z              { get; set; }
-        public float RotY           { get; set; }
-        public int   Count          { get; set; }
+        public int MonsterTypeId { get; set; }
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float Z { get; set; }
+        public float RotY { get; set; }
+        public int Count { get; set; }
         public float RespawnSeconds { get; set; }
 
         public Vector3 Position => new Vector3(X, Y, Z);

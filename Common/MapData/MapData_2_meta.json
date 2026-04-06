@@ -11,5 +11,7 @@
         "Z": 6.5,
         "RotY": 0.0
     },
-    "MonsterSpawners": []
+    "MonsterSpawners": [
+        { "MonsterTypeId": 30001, "X": -2.5, "Y": 1.0, "Z": 2.5, "RotY": 0.0, "Count": 1, "RespawnSeconds": 30.0 }
+    ]
 }
