@@ -13,10 +13,10 @@ public class MapData
     public bool[,] CanGo;
 }
 
-public class MapManager : MonoBehaviour
+public class MapManager
 {
     private MapData _mapData { get; set; }
-    public static MapManager Instance { get; } = new MapManager();
+    private GameObject _currentMapObject;
     public const float NO_HEIGHT_VALUE = -9999f;
 
     public bool CanGo(float worldX, float worldZ)
@@ -114,7 +114,10 @@ public class MapManager : MonoBehaviour
 
     private GameObject SpawnMap(int mapId)
     {
-        GameObject map = Managers.Resource.Instantiate($"Maps/Map_{mapId}");
-        return map;
+        if (_currentMapObject != null)
+            Managers.Resource.Destroy(_currentMapObject);
+
+        _currentMapObject = Managers.Resource.Instantiate($"Maps/Map_{mapId}");
+        return _currentMapObject;
     }
 }

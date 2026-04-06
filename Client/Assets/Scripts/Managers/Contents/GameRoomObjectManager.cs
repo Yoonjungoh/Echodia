@@ -245,5 +245,6 @@ public class GameRoomObjectManager
                 Managers.Resource.Destroy(obj);
         }
         _objects.Clear();
+        MyPlayer = null;
     }
 }
