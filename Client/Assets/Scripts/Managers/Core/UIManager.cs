@@ -176,7 +176,8 @@ public class UIManager
 
     public void HideItemTooltip()
     {
-        _itemTooltip?.HideTooltip();
+        if (_itemTooltip != null)
+            _itemTooltip.HideTooltip();
     }
 
     public void ShowDamageText(int damage, Vector3 worldPosition, bool isCritical)

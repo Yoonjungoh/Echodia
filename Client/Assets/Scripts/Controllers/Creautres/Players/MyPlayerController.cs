@@ -42,7 +42,7 @@ public class MyPlayerController : PlayerController
     private float _lastProximityCheckTime;
 
     // 맵 이동 포인트 캐시
-    private const float MAP_TRANSFER_RADIUS = 3f;
+    private const float MAP_TRANSFER_RADIUS = 5f;
     private Vector3? _mapEnterPointPos = null;
     private Vector3? _mapLeavePointPos = null;
     private bool _isTransferring = false;
@@ -427,13 +427,17 @@ public class MyPlayerController : PlayerController
     // EnterPoint / LeavePoint 씬 배치 오브젝트 위치 캐시
     private void CacheMapTransferPoints()
     {
-        MapEnterPoint enter = UnityEngine.Object.FindObjectOfType<MapEnterPoint>();
+        MapEnterPoint enter = FindObjectOfType<MapEnterPoint>();
         if (enter != null)
+        {
             _mapEnterPointPos = enter.transform.position;
+        }
 
-        MapLeavePoint leave = UnityEngine.Object.FindObjectOfType<MapLeavePoint>();
+        MapLeavePoint leave = FindObjectOfType<MapLeavePoint>();
         if (leave != null)
+        {
             _mapLeavePointPos = leave.transform.position;
+        }
     }
 
     // ` 키 입력 시 근처 이동 포인트에 따라 맵 전환 요청
