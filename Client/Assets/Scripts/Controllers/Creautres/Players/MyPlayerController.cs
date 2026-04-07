@@ -220,8 +220,8 @@ public class MyPlayerController : PlayerController
 
         Vector3 newPos = _rb.position + _moveDir * Stat.MoveSpeed * Time.fixedDeltaTime;
 
-        if (Managers.Map.CanGo(newPos.x, newPos.z))
-            _rb.MovePosition(newPos);
+        // if (Managers.Map.CanGo(newPos.x, newPos.z))
+        _rb.MovePosition(newPos);
 
         Quaternion targetRot = Quaternion.LookRotation(_moveDir);
         _rb.MoveRotation(Quaternion.Lerp(_rb.rotation, targetRot, _rotateSpeed * Time.fixedDeltaTime));
