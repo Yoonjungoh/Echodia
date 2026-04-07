@@ -92,7 +92,11 @@ namespace Server.Game.Room
         {
             if (Owner == null || Owner.GameRoom == null)
                 return;
-            
+
+            // 이 Update가 스케줄된 룸과 현재 룸이 다르면 맵 이동이 발생한 것 → 중단
+            // (새 룸의 EnterGame에서 AOI.Update()를 직접 호출해 새 사이클을 시작함)
+            GameRoom scheduledRoom = Owner.GameRoom;
+
             HashSet<GameObject> currentGameObjects = GatherGameObjects();
             if (currentGameObjects == null)
                 return;
@@ -138,7 +142,9 @@ namespace Server.Game.Room
 
             PreviousGameObjects = currentGameObjects;
 
-            Owner.GameRoom.PushAfter(Update, 500);
+            // 맵 이동이 없었을 때만 같은 룸에서 다음 사이클 등록
+            if (Owner.GameRoom == scheduledRoom)
+                scheduledRoom.PushAfter(Update, 500);
         }
     }
 }
