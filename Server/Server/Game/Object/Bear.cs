@@ -27,7 +27,6 @@ namespace Server.Game.Object
                 _gold = spec.Gold;
                 Level = spec.Level;
                 SetExp(spec.Exp, needLevelUp: false);
-                _respawnTime = spec.RespawnTime;
             }
             else
             {

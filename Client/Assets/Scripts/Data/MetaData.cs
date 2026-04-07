@@ -148,7 +148,6 @@ public class MonsterMetaData
     public int Exp;
     public int Gold;
     public float SearchRange;
-    public float RespawnTime;
 }
 
 // ── DropItem

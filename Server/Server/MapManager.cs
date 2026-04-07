@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
 using System.Text.Json;
@@ -20,7 +21,7 @@ namespace Server
         public SpawnPointData LeavePoint { get; set; }
 
         // 몬스터 스포너 목록 (메타 JSON에서 로드)
-        public System.Collections.Generic.List<MonsterSpawnerData> MonsterSpawners { get; set; } = new();
+        public List<MonsterSpawnerData> MonsterSpawners { get; set; } = new();
 
         public int MinX { get { return -(SizeX / 2); } }
         public int MaxX { get { return (SizeX / 2); } }
@@ -35,9 +36,8 @@ namespace Server
 
     public class MapManager
     {
-        // 템플릿 맵 (Zone 없는 순수 지형 데이터) — GameRoom.Init()에서 Clone해 사용
-        private System.Collections.Generic.Dictionary<int, MapData> _maps
-            = new System.Collections.Generic.Dictionary<int, MapData>();
+        // 템플릿 맵 (Zone 없는 순수 지형 데이터) - GameRoom.Init()에서 Clone해 사용
+        private Dictionary<int, MapData> _maps = new Dictionary<int, MapData>();
 
         public static MapManager Instance { get; } = new MapManager();
 
@@ -92,10 +92,7 @@ namespace Server
             return copy;
         }
 
-        // ──────────────────────────────────────────────────────
         // 경로 헬퍼
-        // ──────────────────────────────────────────────────────
-
         // MapData_{mapId}.bytes  (예: MapData_1.bytes, MapData_12.bytes)
         private string GetMapPath(int mapId)
             => Path.Combine(_rootPath, "Common", "MapData", $"MapData_{mapId}.bytes");
@@ -104,9 +101,7 @@ namespace Server
         private string GetMetaPath(int mapId)
             => Path.Combine(_rootPath, "Common", "MapData", $"MapData_{mapId}_meta.json");
 
-        // ──────────────────────────────────────────────────────
         // 메타 로드
-        // ──────────────────────────────────────────────────────
         private void LoadMeta(MapData map, string metaPath)
         {
             if (!File.Exists(metaPath))
@@ -141,9 +136,7 @@ namespace Server
             }
         }
 
-        // ──────────────────────────────────────────────────────
         // 바이너리 로드
-        // ──────────────────────────────────────────────────────
         private MapData Load(int mapId, string filePath)
         {
             MapData map = new MapData(mapId);

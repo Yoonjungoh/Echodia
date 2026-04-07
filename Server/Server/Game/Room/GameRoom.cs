@@ -191,22 +191,64 @@ namespace Server.Game
             ConsoleLogManager.Instance.Log($"Dont Exist Monster: {monsterId} in {ServerId}-{ChannelId}");
         }
 
-        public void SpawnMonster(MonsterType monsterType, Vector3 spawnPos)
+        public void SpawnMonster(MonsterType monsterType, Vector3 spawnPos, float respawnSeconds, float spawnRadius = 0f)
         {
             Monster monster = MonsterFactory.Create(monsterType);
 
+            Vector3 finalPos = spawnRadius > 0f
+                ? FindValidSpawnPosition(spawnPos, spawnRadius)
+                : spawnPos;
+
             monster.MonsterType = monsterType;
             monster.Name = $"{monsterType}_{monster.ObjectState.ObjectId}";
-            monster.Position = MovementHelper.Vec3ToProtoVec3(spawnPos);
-            monster.SpawnPosition =
-            new ProtoVector3
-            {
-                X = spawnPos.X,
-                Y = spawnPos.Y,
-                Z = spawnPos.Z
-            };
+            monster.Position = MovementHelper.Vec3ToProtoVec3(finalPos);
+            monster.SpawnPosition = new ProtoVector3 { X = finalPos.X, Y = finalPos.Y, Z = finalPos.Z };
+            monster.RespawnTime = respawnSeconds;
 
             Push(EnterGame, monster);
+        }
+
+        // radius 내에서 CanGo이고 기존 몬스터와 겹치지 않는 위치를 탐색한다.
+        // 30번 시도 후에도 못 찾으면 center를 반환한다.
+        private static readonly Random _spawnRng = new Random();
+        private const float MonsterMinSeparation = 1.5f;
+
+        private Vector3 FindValidSpawnPosition(Vector3 center, float radius, int maxAttempts = 30)
+        {
+            for (int attempt = 0; attempt < maxAttempts; attempt++)
+            {
+                // 원 안에서 균등 분포 랜덤 좌표 (rejection sampling 대신 sqrt로 반경 보정)
+                float angle = (float)(_spawnRng.NextDouble() * Math.PI * 2.0);
+                float dist  = (float)(Math.Sqrt(_spawnRng.NextDouble()) * radius);
+
+                float x = center.X + (float)Math.Cos(angle) * dist;
+                float z = center.Z + (float)Math.Sin(angle) * dist;
+
+                // 구조물 충돌 검사
+                if (!Map.CanGo(x, z))
+                    continue;
+
+                // 이미 스폰된 몬스터와 최소 거리 검사
+                bool tooClose = false;
+                foreach (Monster m in _monsters.Values)
+                {
+                    float dx = m.Position.X - x;
+                    float dz = m.Position.Z - z;
+                    if (dx * dx + dz * dz < MonsterMinSeparation * MonsterMinSeparation)
+                    {
+                        tooClose = true;
+                        break;
+                    }
+                }
+                if (tooClose)
+                    continue;
+
+                float y = Map.GetHeight(new Vector3(x, 0, z));
+                return new Vector3(x, y, z);
+            }
+
+            ConsoleLogManager.Instance.Log($"[SpawnMonster] Valid position not found in radius={radius}, fallback to center");
+            return center;
         }
 
         public void SpawnProjectile(int ownerId, ProjectileType projectileType)
@@ -1052,7 +1094,7 @@ namespace Server.Game
                 Vector3 spawnPos = spawner.Position;
                 for (int i = 0; i < spawner.Count; i++)
                 {
-                    SpawnMonster(monsterType, spawnPos);
+                    SpawnMonster(monsterType, spawnPos, spawner.RespawnSeconds, spawner.SpawnRadius);
                 }
             }
         }

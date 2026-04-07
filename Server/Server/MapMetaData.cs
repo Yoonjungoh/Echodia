@@ -39,6 +39,7 @@ namespace Server
         public float RotY { get; set; }
         public int Count { get; set; }
         public float RespawnSeconds { get; set; }
+        public float SpawnRadius { get; set; }
 
         public Vector3 Position => new Vector3(X, Y, Z);
     }

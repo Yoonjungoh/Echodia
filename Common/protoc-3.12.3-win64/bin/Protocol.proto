@@ -100,6 +100,12 @@ enum MonsterType {
   BEAR = 30001;
 }
 
+enum PortalType {
+  PORTAL_TYPE_NONE = 0;
+  PORTAL_TYPE_COMMON = 1;  // 일반 이동 포탈 — 즉시 다음·이전 맵으로 이동
+  PORTAL_TYPE_BOSS = 2;    // 보스 입장 포탈 — 특정 조건을 충족해야 입장 가능
+}
+
 enum ProjectileType {
   PROJECTILE_TYPE_NONE = 0;
   MAGIC_MISSILE = 70001;

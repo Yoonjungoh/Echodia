@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Google.Protobuf.Protocol;
 using UnityEngine;
 
 public class MapData
@@ -118,6 +119,37 @@ public class MapManager
             Managers.Resource.Destroy(_currentMapObject);
 
         _currentMapObject = Managers.Resource.Instantiate($"Maps/Map_{mapId}");
+        SpawnPortals();
         return _currentMapObject;
+    }
+
+    // ──────────────────────────────────────────────────────────────
+    // 포탈 소환
+    // ──────────────────────────────────────────────────────────────
+
+    private void SpawnPortals()
+    {
+        MapEnterPoint enterPoint = _currentMapObject.GetComponentInChildren<MapEnterPoint>();
+        if (enterPoint != null)
+            SpawnPortal(enterPoint.PortalType, enterPoint.transform);
+        else
+            Debug.LogWarning("[MapManager] MapEnterPoint 컴포넌트를 찾을 수 없습니다.");
+
+        MapLeavePoint leavePoint = _currentMapObject.GetComponentInChildren<MapLeavePoint>();
+        if (leavePoint != null)
+            SpawnPortal(leavePoint.PortalType, leavePoint.transform);
+        else
+            Debug.LogWarning("[MapManager] MapLeavePoint 컴포넌트를 찾을 수 없습니다.");
+    }
+
+    private void SpawnPortal(PortalType portalType, Transform point)
+    {
+        string path = portalType switch
+        {
+            PortalType.Boss => "Portals/Boss_Portal",
+            _               => "Portals/Common_Portal",
+        };
+
+        Managers.Resource.Instantiate(path, point.position, point.rotation, _currentMapObject.transform);
     }
 }

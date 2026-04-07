@@ -64,9 +64,13 @@ public class MapEditor : EditorWindow
         EditorGUILayout.Space();
         EditorGUILayout.HelpBox(
             "씬에 배치된 컴포넌트:\n" +
-            "• MapEnterPoint  - 순방향 진입 스폰 위치 (초록)\n" +
-            "• MapLeavePoint  - 역방향 진입 스폰 위치 (주황)\n" +
-            "• MonsterSpawner - 몬스터 스포너 (빨강)",
+            "• MapEnterPoint  - 순방향 진입 스폰 위치 (초록) / PortalType 설정 가능\n" +
+            "• MapLeavePoint  - 역방향 진입 스폰 위치 (주황) / PortalType 설정 가능\n" +
+            "• MonsterSpawner - 몬스터 스포너 (빨강)\n" +
+            "  ├ MonsterTypeId  : Protocol.MonsterType 값\n" +
+            "  ├ Count          : 동시 유지 최대 수\n" +
+            "  ├ RespawnSeconds : 재스폰 대기 시간 (초)\n" +
+            "  └ SpawnRadius    : 랜덤 스폰 반경 (0이면 정확한 위치)",
             MessageType.Info
         );
     }
@@ -240,15 +244,16 @@ public class MapEditor : EditorWindow
             MonsterSpawner s = spawners[i];
             meta.MonsterSpawners[i] = new MonsterSpawnerJson
             {
-                MonsterTypeId  = s.MonsterTypeId,
-                X              = s.transform.position.x,
-                Y              = s.transform.position.y,
-                Z              = s.transform.position.z,
-                RotY           = s.transform.eulerAngles.y,
-                Count          = s.Count,
+                MonsterTypeId = (int)s.MonsterType,
+                X = s.transform.position.x,
+                Y = s.transform.position.y,
+                Z = s.transform.position.z,
+                RotY = s.transform.eulerAngles.y,
+                Count = s.Count,
                 RespawnSeconds = s.RespawnSeconds,
+                SpawnRadius = s.SpawnRadius,
             };
-            Debug.Log($"[MapEditor] MonsterSpawner found: TypeId={s.MonsterTypeId}, pos={s.transform.position}");
+            Debug.Log($"[MapEditor] MonsterSpawner found: TypeId={(int)s.MonsterType}, pos={s.transform.position}");
         }
 
         SaveMeta(meta);
@@ -258,9 +263,9 @@ public class MapEditor : EditorWindow
     {
         return new SpawnPointJson
         {
-            X    = t.position.x,
-            Y    = t.position.y,
-            Z    = t.position.z,
+            X = t.position.x,
+            Y = t.position.y,
+            Z = t.position.z,
             RotY = t.eulerAngles.y,
         };
     }
@@ -291,8 +296,8 @@ public class MapEditor : EditorWindow
     [Serializable]
     class MapMetaJson
     {
-        public SpawnPointJson    EnterPoint      = null;
-        public SpawnPointJson    LeavePoint      = null;
+        public SpawnPointJson EnterPoint = null;
+        public SpawnPointJson LeavePoint = null;
         public MonsterSpawnerJson[] MonsterSpawners = new MonsterSpawnerJson[0];
     }
 
@@ -308,12 +313,13 @@ public class MapEditor : EditorWindow
     [Serializable]
     class MonsterSpawnerJson
     {
-        public int   MonsterTypeId;
+        public int MonsterTypeId;
         public float X;
         public float Y;
         public float Z;
         public float RotY;
-        public int   Count;
+        public int Count;
         public float RespawnSeconds;
+        public float SpawnRadius;
     }
 }

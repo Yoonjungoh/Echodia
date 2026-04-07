@@ -14,6 +14,7 @@ namespace Server.Game
         protected Player _target;
         protected int _gold;
         protected float _respawnTime;
+        public float RespawnTime { get => _respawnTime; set => _respawnTime = value; }
         public Monster()
         {
             ObjectType = GameObjectType.Monster;

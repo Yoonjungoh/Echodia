@@ -1168,7 +1168,7 @@ public partial class SpecDataManager
             _monsterDict.Clear();
             _monsterList.Clear();
 
-            List<string[]> rows = GvizParser.Parse(raw, colCount: 14);
+            List<string[]> rows = GvizParser.Parse(raw, colCount: 13);
             for (int i = 2; i < rows.Count; i++)
             {
                 string[] cells = rows[i];
@@ -1317,17 +1317,6 @@ public partial class SpecDataManager
                         "  위치: 시트 행 " + sheetRow + ", 열 13 (SearchRange)\n" +
                         "  타입: float\n" +
                         "  값: \"" + cells[12] + "\"\n" +
-                        "  원인: " + e.Message);
-                    rowOk = false;
-                }
-                // RespawnTime (float)
-                try { data.RespawnTime = ParseFloat(cells[13]); }
-                catch (Exception e)
-                {
-                    Console.Error.WriteLine("[SpecDataManager] [Monster] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 14 (RespawnTime)\n" +
-                        "  타입: float\n" +
-                        "  값: \"" + cells[13] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }

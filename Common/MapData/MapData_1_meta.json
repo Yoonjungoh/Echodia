@@ -12,8 +12,15 @@
         "RotY": 0.0
     },
     "MonsterSpawners": [
-        { "MonsterTypeId": 30001, "X": 6.0,   "Y": 2.0, "Z": 14.0,  "RotY": 0.0, "Count": 1, "RespawnSeconds": 30.0 },
-        { "MonsterTypeId": 30001, "X": 25.0,  "Y": 2.0, "Z": -14.0, "RotY": 0.0, "Count": 1, "RespawnSeconds": 30.0 },
-        { "MonsterTypeId": 30001, "X": -29.0, "Y": 2.0, "Z": 30.0,  "RotY": 0.0, "Count": 1, "RespawnSeconds": 30.0 }
+        {
+            "MonsterTypeId": 30001,
+            "X": 1.2999999523162842,
+            "Y": 1.5,
+            "Z": 0.0,
+            "RotY": 0.0,
+            "Count": 5,
+            "RespawnSeconds": 10.0,
+            "SpawnRadius": 30.0
+        }
     ]
 }
