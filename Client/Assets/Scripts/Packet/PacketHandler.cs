@@ -52,6 +52,9 @@ class PacketHandler
             Managers.GameRoom.MapId = enterGamePacket.MapId;
         }
 
+        // S_Spawn(Player) 브로드캐스트가 S_EnterGame보다 먼저 도착해 OtherPlayer로 잘못 등록된 경우 제거
+        Managers.GameRoomObject.RemoveIfNotMyPlayer(enterGamePacket.ObjectState.ObjectId);
+
         Managers.GameRoom.HandleEnterGame(enterGamePacket.ObjectState);
     }
 

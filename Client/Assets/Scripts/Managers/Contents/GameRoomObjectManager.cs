@@ -135,6 +135,19 @@ public class GameRoomObjectManager
         }
     }
 
+    // S_Spawn 브로드캐스트가 S_EnterGame보다 먼저 도착해 플레이어 자신이 OtherPlayer로 잘못 등록된 경우 제거
+    public void RemoveIfNotMyPlayer(int id)
+    {
+        if (MyPlayer != null && MyPlayer.Id == id)
+            return;
+
+        if (!_objects.TryGetValue(id, out GameObject go))
+            return;
+
+        Managers.Resource.Destroy(go);
+        _objects.Remove(id);
+    }
+
     // 게임룸에서 사라질 때 반드시 호출하는 함수 (이것만 호출하면 됨)
     public void Remove(int id, bool isDead)
     {
