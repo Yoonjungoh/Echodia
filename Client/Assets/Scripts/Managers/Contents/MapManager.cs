@@ -152,4 +152,11 @@ public class MapManager
 
         Managers.Resource.Instantiate(path, point.position, point.rotation, _currentMapObject.transform);
     }
+
+    // 맵 이동시 호출
+    public void OnMapTransfer()
+    {
+        Managers.GameRoomObject.Clear();
+        Managers.UI.OnMapTransfer();
+    }
 }

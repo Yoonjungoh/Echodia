@@ -874,7 +874,7 @@ namespace Server.Game
             }
         }
 
-        // AOI 기반 브로드캐스트 (제외자 있음)
+        // AOI 기반 브로드캐스트 (제외자 있음) 
         public void Broadcast(Vector3 pos, IMessage packet, int exceptId)
         {
             List<Zone> adjacentZones = GetAdjacentZones(pos);

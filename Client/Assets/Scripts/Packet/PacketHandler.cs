@@ -682,7 +682,7 @@ class PacketHandler
     {
         // 기존 룸의 오브젝트(몬스터, 아이템, 플레이어 포함) 전부 제거
         // MyPlayer도 null로 초기화되어 이후 S_EnterGame에서 정상 스폰됨
-        Managers.GameRoomObject.Clear();
+        Managers.Map.OnMapTransfer();
     }
 
     public static void S_PickUpDropItemHandler(PacketSession session, IMessage packet)

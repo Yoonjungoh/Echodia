@@ -180,6 +180,12 @@ public class UIManager
             _itemTooltip.HideTooltip();
     }
 
+    // 맵 이동 시 UI 상태 초기화
+    public void OnMapTransfer()
+    {
+        HideItemTooltip();
+    }
+
     public void ShowDamageText(int damage, Vector3 worldPosition, bool isCritical)
     {
         UI_DamageViewer damageViewer = Managers.UI.MakeWorldSpaceUI<UI_DamageViewer>();
