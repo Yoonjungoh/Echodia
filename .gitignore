@@ -75,3 +75,11 @@ crashlytics-build.properties
 # --- Custom: External asset folders ---
 # Terrain demo and large assets managed outside Git
 Client/[Aa]ssets/TerrainDemoScene_URP/
+
+# --- Custom: .NET Server build artifacts ---
+Server/**/obj/
+Server/**/bin/Debug/
+Server/**/bin/Release/
+Server/PacketGenerator/bin/*.dll
+Server/PacketGenerator/bin/*.exe
+Server/PacketGenerator/bin/*.json
