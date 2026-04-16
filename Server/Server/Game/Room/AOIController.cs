@@ -79,9 +79,25 @@ namespace Server.Game.Room
 
                     if (MathF.Abs(dz) > DataManager.Instance.AOICells)
                         continue;
-                    
+
                     // 2-3. 시야각 안에 있다는 의미니 추가
                     gameObjects.Add(projectile);
+                }
+
+                foreach (DropItem dropItem in zone.DropItems)
+                {
+                    // 2-2. diff 떠서 확인 하기
+                    float dx = dropItem.CurrentPosition.X - ownerPos.X;
+                    float dz = dropItem.CurrentPosition.Z - ownerPos.Z;
+
+                    if (MathF.Abs(dx) > DataManager.Instance.AOICells)
+                        continue;
+
+                    if (MathF.Abs(dz) > DataManager.Instance.AOICells)
+                        continue;
+
+                    // 2-3. 시야각 안에 있다는 의미니 추가
+                    gameObjects.Add(dropItem);
                 }
             }
 

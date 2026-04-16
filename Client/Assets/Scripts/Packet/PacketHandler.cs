@@ -710,4 +710,30 @@ class PacketHandler
             Managers.GameRoomObject.Remove(pickUpDropItemPacket.ItemId, isDead: false);
         }
     }
+
+    public static void S_ChangeMpHandler(PacketSession session, IMessage packet)
+    {
+        S_ChangeMp changeMpPacket = packet as S_ChangeMp;
+        if (changeMpPacket == null)
+        {
+            Debug.Log("S_ChangeMp 패킷이 null입니다");
+            return;
+        }
+
+        GameObject go = Managers.GameRoomObject.FindById(changeMpPacket.ObjectId);
+        if (go == null)
+        {
+            Debug.Log($"Id: {changeMpPacket.ObjectId}가 존재하지 않음");
+            return;
+        }
+
+        CreatureController cc = go.GetComponent<CreatureController>();
+        if (cc == null)
+        {
+            Debug.Log($"Id: {changeMpPacket.ObjectId}의 CreatureController가 존재하지 않음");
+            return;
+        }
+
+        cc.SetMp(changeMpPacket.TotalMp, cc.Stat.MaxMp);
+    }
 }

@@ -10,12 +10,16 @@ namespace Server.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "LastMapId",
-                table: "Player",
-                type: "int",
-                nullable: false,
-                defaultValue: 1);
+            // 컬럼이 이미 존재할 경우를 대비해 IF NOT EXISTS 조건으로 추가
+            migrationBuilder.Sql(@"
+                IF NOT EXISTS (
+                    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
+                    WHERE TABLE_NAME = 'Player' AND COLUMN_NAME = 'LastMapId'
+                )
+                BEGIN
+                    ALTER TABLE [Player] ADD [LastMapId] int NOT NULL DEFAULT 1;
+                END
+            ");
         }
 
         /// <inheritdoc />

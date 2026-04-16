@@ -157,6 +157,6 @@ public class MapManager
     public void OnMapTransfer()
     {
         Managers.GameRoomObject.Clear();
-        Managers.UI.OnMapTransfer();
+        Managers.UI.ProcessOnMapTransfer();
     }
 }

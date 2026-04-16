@@ -26,6 +26,7 @@ namespace Server.Game
         // (ItemType, SlotIndex) -> PlayerItemDb (타입별로 슬롯 번호 독립)
         public Dictionary<(ItemType, int), PlayerItemDb> Items { get; private set; } = new();
         public PlayerStatCalculator StatCalculator { get; private set; }
+        public float MpRegen { get; private set; }  // 초당 마나 재생량 (서버 내부 전용)
 
         public Player()
         {
@@ -107,6 +108,8 @@ namespace Server.Game
                         player.StatLUK = spec.BaseLUK;
                         player.StatCriticalRate = spec.CriticalRate;
                         player.StatCriticalDamage = spec.CriticalDamage;
+                        player.StatMaxMp = spec.MaxMp;
+                        player.StatMpRegen = spec.MpRegen;
                         player.IsStatInitialized = true;
                         db.SaveChangesEx();
                     }
@@ -129,6 +132,9 @@ namespace Server.Game
                 ObjectState.Stat.CriticalRate = player.StatCriticalRate;
                 ObjectState.Stat.CriticalDamage = player.StatCriticalDamage;
                 ObjectState.Stat.JobType = player.JobType;
+                ObjectState.Stat.MaxMp = player.StatMaxMp;
+                ObjectState.Stat.Mp = player.StatMaxMp;    // 로그인 시 마나 풀로 시작
+                MpRegen = player.StatMpRegen;
             }
         }
 

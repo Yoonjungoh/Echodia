@@ -69,6 +69,7 @@ enum MsgId {
   S_UNEQUIP_ITEM = 155;
   C_REQUEST_MAP_TRANSFER = 156;
   S_MAP_TRANSFER = 157;
+  S_Change_Mp = 158;
 }
 
 enum CreatureState {
@@ -513,6 +514,13 @@ message S_HealHp {
   int32 totalHp = 3;
 }
 
+// 마나 변경 알림 (양수 = 회복, 음수 = 소모)
+message S_ChangeMp {
+  int32 objectId = 1;
+  int32 changeAmount = 2;
+  int32 totalMp = 3;
+}
+
 message C_PickUpDropItem {
   int32 itemId = 1;
 }
@@ -643,6 +651,8 @@ message Stat {
   int32 critical_rate = 18;           // 크리티컬 확률 (0.0 ~ 1.0)
   float critical_damage = 19;         // 크리티컬 배율 (예: 1.5 = 150%)
   PlayerJobType job_type = 20;        // 직업
+  int32 maxMp = 21;                   // 최대 마나
+  int32 mp = 22;                      // 현재 마나
 }
 
 message CurrencyData {

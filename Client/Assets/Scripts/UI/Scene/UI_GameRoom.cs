@@ -10,6 +10,7 @@ public class UI_GameRoom : UI_Scene
         LevelText,
         ExpText,
         HpText,
+        MpText,
         DropItemNameText,
         DropItemDescText,
         DropItemCountText,
@@ -19,6 +20,7 @@ public class UI_GameRoom : UI_Scene
     {
         ExpSlider,
         HpBarSlider,
+        MpBarSlider,
     }
 
     enum Buttons
@@ -45,7 +47,9 @@ public class UI_GameRoom : UI_Scene
     private TextMeshProUGUI _levelText;
     private TextMeshProUGUI _expText;
     private TextMeshProUGUI _hpText;
+    private TextMeshProUGUI _mpText;
     private Slider _hpBarSlider;
+    private Slider _mpBarSlider;
     private Slider _expSlider;
     private GameObject _questRedDot;
 
@@ -68,8 +72,10 @@ public class UI_GameRoom : UI_Scene
         _levelText = GetTextMeshProUGUI((int)Texts.LevelText);
         _expText = GetTextMeshProUGUI((int)Texts.ExpText);
         _hpText = GetTextMeshProUGUI((int)Texts.HpText);
+        _mpText = GetTextMeshProUGUI((int)Texts.MpText);
         _expSlider = Get<Slider>((int)Sliders.ExpSlider);
         _hpBarSlider = Get<Slider>((int)Sliders.HpBarSlider);
+        _mpBarSlider = Get<Slider>((int)Sliders.MpBarSlider);
         _questRedDot = Get<GameObject>((int)GameObjects.QuestRedDot);
 
         _dropItemTooltipPanel = GetObject((int)GameObjects.DropItemTooltipPanel);
@@ -91,12 +97,16 @@ public class UI_GameRoom : UI_Scene
         Managers.RedDot.OnRedDotChanged += OnRedDotChanged;
         _questRedDot.SetActive(Managers.RedDot.IsActive(RedDotType.Quest));
 
+        Managers.UI.OnMapTransfer -= HideDropItemTooltip;
+        Managers.UI.OnMapTransfer += HideDropItemTooltip;
+
         RequestInitGameRoomData();
     }
 
     private void OnDestroy()
     {
         Managers.RedDot.OnRedDotChanged -= OnRedDotChanged;
+        Managers.UI.OnMapTransfer -= HideDropItemTooltip;
     }
 
     private void OnRedDotChanged(RedDotType type, bool isActive)
@@ -175,6 +185,13 @@ public class UI_GameRoom : UI_Scene
     {
         _hpText.text = $"Hp: {hp}/{maxHp}";
         _hpBarSlider.value = hp / maxHp;
+    }
+
+    // 마나 텍스트 및 슬라이더 갱신
+    public void SetMp(float mp, float maxMp)
+    {
+        _mpText.text = $"Mp: {mp}/{maxMp}";
+        _mpBarSlider.value = mp / maxMp;
     }
 
     public void ShowDropItemTooltip(int specItemId, int count)

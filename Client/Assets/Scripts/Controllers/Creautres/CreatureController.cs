@@ -236,4 +236,11 @@ public class CreatureController : BaseController
             _hpBar.UpdateHpBar(hp, maxHp);
         }
     }
+
+    // 마나 갱신 — 서버 패킷 수신 시 또는 내부 직접 호출
+    public virtual void SetMp(int mp, int maxMp)
+    {
+        ObjectState.Stat.Mp = mp;
+        ObjectState.Stat.MaxMp = maxMp;
+    }
 }

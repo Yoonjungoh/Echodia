@@ -172,6 +172,8 @@ namespace Server.Data
         public PlayerJobType PlayerJobType;
         public JobMainDamageType JobMainDamageType;
         public int MaxHp;
+        public int MaxMp;
+        public int MpRegen;
         public int PhysicalDamage;
         public int MagicDamage;
         public float CommonAttackCoolTime;

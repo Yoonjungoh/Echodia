@@ -246,6 +246,6 @@ public class GameRoomObjectManager
         }
         _objects.Clear();
         MyPlayer = null;
-        Managers.Input.Clear();  // 맵 이동 시 키 액션 중복 누적 방지
+        // Managers.Input.Clear();  // 맵 이동 시 키 액션 중복 누적 방지
     }
 }

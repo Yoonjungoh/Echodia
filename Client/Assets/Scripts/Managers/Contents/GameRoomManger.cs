@@ -25,7 +25,9 @@ public class GameRoomManager
     public void HandleEnterGame(ObjectState objectState)
     {
         Managers.GameRoomObject.Add(objectState, isMyPlayer: true);
-        Managers.UI.ShowSceneUI<UI_Currency>();
+
+        if (Managers.UI.CurrencyUI == null)
+            Managers.UI.CurrencyUI = Managers.UI.ShowSceneUI<UI_Currency>();
     }
 
     public void ExitGame()

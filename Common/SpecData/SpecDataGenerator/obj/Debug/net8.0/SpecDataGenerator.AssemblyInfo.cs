@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SpecDataGenerator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9a3620d5fc8fc7f44deddab79679716bf7901c4a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+512873d6c9673019ef57d5a85a63e29da248ab88")]
 [assembly: System.Reflection.AssemblyProductAttribute("SpecDataGenerator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SpecDataGenerator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

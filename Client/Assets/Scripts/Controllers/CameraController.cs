@@ -20,12 +20,10 @@ public class CameraController : MonoBehaviour
 
     public void Init()
     {
-        if (_target == null)
+        // 맵 이동 시 Destroy()는 프레임 끝에 반영되므로 null 체크 없이 항상 재할당
+        if (Managers.Scene.CurrentScene == Define.Scene.GameRoom)
         {
-            if (Managers.Scene.CurrentScene == Define.Scene.GameRoom)
-            {
-                _target = Managers.GameRoomObject.MyPlayer;
-            }
+            _target = Managers.GameRoomObject.MyPlayer;
         }
 
         Vector3 angles = transform.eulerAngles;

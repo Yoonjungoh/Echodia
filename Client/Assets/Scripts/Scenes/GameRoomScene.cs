@@ -21,7 +21,7 @@ public class GameRoomScene : BaseScene
         };
         Managers.Network.Send(enterGamePacket);
         
-        Managers.UI.ShowSceneUI<UI_GameRoom>();
+        Managers.UI.GameRoomUI = Managers.UI.ShowSceneUI<UI_GameRoom>();
     }
 
     private void InitPoolingObjects()

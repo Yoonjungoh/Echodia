@@ -13,10 +13,12 @@ public class UIManager
     private UI_Scene _sceneUI = null;
     public UI_Scene CurrentScene { get { return _sceneUI; } }
 
+    public UI_GameRoom GameRoomUI { get; set; }
     public UI_Currency CurrencyUI { get; set; }
     private UI_ToastPopup _toastPopup;
     private UI_ItemTooltip _itemTooltip;
     private float _damageViewerDuration = -1f;
+    public Action OnMapTransfer;    // 맵 이동할 때 호출
 
     public GameObject Root
     {
@@ -177,13 +179,16 @@ public class UIManager
     public void HideItemTooltip()
     {
         if (_itemTooltip != null)
+        {
             _itemTooltip.HideTooltip();
+        }
     }
 
     // 맵 이동 시 UI 상태 초기화
-    public void OnMapTransfer()
+    public void ProcessOnMapTransfer()
     {
         HideItemTooltip();
+        OnMapTransfer?.Invoke();
     }
 
     public void ShowDamageText(int damage, Vector3 worldPosition, bool isCritical)

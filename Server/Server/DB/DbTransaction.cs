@@ -315,6 +315,8 @@ namespace Server.DB
             playerDb.StatCriticalRate       = s.CriticalRate;
             playerDb.StatCriticalDamage     = s.CriticalDamage;
             playerDb.JobType                = s.JobType;
+            playerDb.StatMaxMp              = s.MaxMp;
+            playerDb.StatMpRegen            = player.MpRegen;
 
             db.SaveChangesEx();
         }

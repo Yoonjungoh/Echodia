@@ -31,6 +31,7 @@ public class MyPlayerController : PlayerController
     private Action<int> OnLevelChanged;
     private Action<int, int> OnExpChanged;
     public Action<float, float> OnHpChanged;
+    public Action<float, float> OnMpChanged;
     public Action<int, int> OnDetectedDropItem;
 
     private LayerMask _dropItemLayer;
@@ -298,7 +299,7 @@ public class MyPlayerController : PlayerController
     public void SetGameRoomUI()
     {
         // UI 적용
-        UI_GameRoom gameRoomUI = Managers.UI.CurrentScene.GetComponent<UI_GameRoom>();
+        UI_GameRoom gameRoomUI = Managers.UI.GameRoomUI;
         if (gameRoomUI == null)
             return;
 
@@ -311,12 +312,16 @@ public class MyPlayerController : PlayerController
         OnHpChanged -= gameRoomUI.SetHp;
         OnHpChanged += gameRoomUI.SetHp;
 
+        OnMpChanged -= gameRoomUI.SetMp;
+        OnMpChanged += gameRoomUI.SetMp;
+
         OnDetectedDropItem -= gameRoomUI.ShowDropItemTooltip;
         OnDetectedDropItem += gameRoomUI.ShowDropItemTooltip;
 
         OnLevelChanged?.Invoke(Level);
         OnExpChanged?.Invoke(Exp, Managers.Data.GetMaxExpForLevelUp(Level));
         OnHpChanged?.Invoke(Stat.Hp, Stat.MaxHp);
+        OnMpChanged?.Invoke(Stat.Mp, Stat.MaxMp);
         OnDetectedDropItem?.Invoke(0, 0); // 초기에는 아이템 없음 상태로 툴팁 숨김
     }
 
@@ -336,6 +341,12 @@ public class MyPlayerController : PlayerController
     {
         base.SetHp(hp, maxHp);
         OnHpChanged?.Invoke(hp, maxHp);
+    }
+
+    public override void SetMp(int mp, int maxMp)
+    {
+        base.SetMp(mp, maxMp);
+        OnMpChanged?.Invoke(mp, maxMp);
     }
 
     private void OnMeleeAttackInput()

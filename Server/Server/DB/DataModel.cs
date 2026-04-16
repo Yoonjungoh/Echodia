@@ -72,6 +72,8 @@ namespace Server.DB
         public int StatLUK { get; set; }
         public int StatCriticalRate { get; set; }
         public float StatCriticalDamage { get; set; }
+        public int StatMaxMp { get; set; }      // 최대 마나
+        public float StatMpRegen { get; set; }  // 초당 마나 재생량
         #endregion
 
         #region 재접속 시 위치 및 맵

@@ -154,6 +154,46 @@ namespace Server.Game
             Stat.Hp = hp;
         }
 
+        // 마나 회복 (포션, 재생 등) — 최대 마나를 초과하지 않도록 클램핑
+        public void HealMp(int healAmount)
+        {
+            SetMp(ObjectState.Stat.Mp + healAmount);
+
+            // 마나 변경 패킷 전송
+            S_ChangeMp changeMpPacket = new S_ChangeMp();
+            changeMpPacket.ObjectId = Id;
+            changeMpPacket.ChangeAmount = healAmount;
+            changeMpPacket.TotalMp = ObjectState.Stat.Mp;
+
+            GameRoom.Push(GameRoom.Broadcast, CurrentPosition, changeMpPacket);
+        }
+
+        // 스킬 사용 시 마나 소모 — 마나가 부족하면 false 반환
+        public bool ConsumeMp(int amount)
+        {
+            if (ObjectState.Stat.Mp < amount)
+            {
+                return false;
+            }
+
+            SetMp(ObjectState.Stat.Mp - amount);
+
+            // 마나 변경 패킷 전송 (소모이므로 음수)
+            S_ChangeMp changeMpPacket = new S_ChangeMp();
+            changeMpPacket.ObjectId = Id;
+            changeMpPacket.ChangeAmount = -amount;
+            changeMpPacket.TotalMp = ObjectState.Stat.Mp;
+
+            GameRoom.Push(GameRoom.Broadcast, CurrentPosition, changeMpPacket);
+            return true;
+        }
+
+        // 마나 직접 설정 — 0 ~ MaxMp 범위로 클램핑
+        public void SetMp(int mp)
+        {
+            Stat.Mp = Math.Clamp(mp, 0, Stat.MaxMp);
+        }
+
         // LevelUp 개수를 반환
         public int SetExp(int exp, bool needLevelUp)
         {
