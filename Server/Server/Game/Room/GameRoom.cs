@@ -292,6 +292,45 @@ namespace Server.Game
             Push(EnterGame, projectile);
         }
 
+        /// <summary>SkillTargetSelector가 탐색에 사용하는 전체 게임 오브젝트 열거.</summary>
+        public IEnumerable<GameObject> GetAllObjects() => _gameObjects.Values;
+
+        public void HandleUseSkill(int playerId, int skillId)
+        {
+            _players.TryGetValue(playerId, out Player player);
+            if (player == null || player.SkillExecutor == null)
+            {
+                return;
+            }
+
+            UseSkillResult result = player.SkillExecutor.CanUse(skillId);
+
+            if (result != UseSkillResult.Success)
+            {
+                S_UseSkill failPacket = new S_UseSkill
+                {
+                    CasterId = playerId,
+                    SkillId  = skillId,
+                    Result   = result,
+                };
+                player.Session?.Send(failPacket);
+                return;
+            }
+
+            player.SkillExecutor.Use(skillId);
+
+            // 근접/버프 계열은 Use() 내부에서 패킷을 전송하고,
+            // 원거리(SpawnProjectile)는 투사체 충돌 시 별도 패킷이 처리되므로
+            // 여기서는 시전 성공 알림만 전송한다.
+            S_UseSkill successPacket = new S_UseSkill
+            {
+                CasterId = playerId,
+                SkillId  = skillId,
+                Result   = UseSkillResult.Success,
+            };
+            Broadcast(player.CurrentPosition, successPacket);
+        }
+
         public void HandleAttack(int InstigatorId, int damagedObjectId, AttackType attackType)
         {
             switch (attackType)

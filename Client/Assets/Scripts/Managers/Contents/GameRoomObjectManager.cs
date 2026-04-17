@@ -242,7 +242,9 @@ public class GameRoomObjectManager
         foreach (GameObject obj in _objects.Values)
         {
             if (obj != null)
+            {
                 Managers.Resource.Destroy(obj);
+            }
         }
         _objects.Clear();
         MyPlayer = null;

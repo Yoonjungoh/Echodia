@@ -47,5 +47,19 @@ namespace Server.Data
             ExpMetaData entry = GetAllExp().FirstOrDefault(x => x.Level == level);
             return entry != null ? (int)entry.RequiredExp : 0;
         }
+
+        // ── 스킬 보조 조회 ──────────────────────────────────────
+
+        /// <summary>특정 스킬에 묶인 모든 비용 항목을 반환한다.</summary>
+        public List<SkillCostMetaData> GetSkillCostsBySkillId(int skillId)
+        {
+            return GetAllSkillCost().Where(c => c.SkillId == skillId).ToList();
+        }
+
+        /// <summary>특정 스킬에 묶인 모든 액션을 DelayMs 순으로 반환한다.</summary>
+        public List<SkillActionMetaData> GetSkillActionsBySkillId(int skillId)
+        {
+            return GetAllSkillAction().Where(a => a.SkillId == skillId).OrderBy(a => a.DelayMs).ToList();
+        }
     }
 }

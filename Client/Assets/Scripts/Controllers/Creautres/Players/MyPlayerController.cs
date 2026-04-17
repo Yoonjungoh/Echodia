@@ -103,6 +103,11 @@ public class MyPlayerController : PlayerController
             TryRequestMapTransfer
         );
 
+        Managers.Input.RegisterKeyAction(
+            KeySettings.UseSkill1,
+            OnUseSkill1Input
+        );
+
         // TODO - 우선 타이밍 이슈로 어쩔 수 없이 여기서 초기화
         _commonAttackAnimSpeedTime = 2.0f;
         _commonAttackAnimLength = _anim.GetAnimationClipLength(_commonAttackanimName) / _commonAttackAnimSpeedTime;
@@ -357,6 +362,26 @@ public class MyPlayerController : PlayerController
     private void OnProjectileSpawnInput()
     {
         ProjectileSpawn(_rangedAttackType);
+    }
+
+    private void OnUseSkill1Input()
+    {
+        UseSkill((int)SkillType.SkillTypeMagicMissile);
+    }
+
+    private void UseSkill(int skillId)
+    {
+        if (Managers.Scene.CurrentScene != Define.Scene.GameRoom)
+            return;
+
+        if (CreatureState == CreatureState.Die || CreatureState == CreatureState.Attack)
+            return;
+
+        if (Managers.Cooldown.IsOnCooldown(skillId))
+            return;
+
+        C_UseSkill useSkillPacket = new C_UseSkill { SkillId = skillId };
+        Managers.Network.Send(useSkillPacket);
     }
 
     private void CheckDropItemProximity()

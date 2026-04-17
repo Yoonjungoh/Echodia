@@ -41,6 +41,18 @@ public partial class SpecDataManager
     List<DropItemMetaData>            _dropItemList = new List<DropItemMetaData>();
     Dictionary<int, PlayerMetaData> _playerDict = new Dictionary<int, PlayerMetaData>();
     List<PlayerMetaData>            _playerList = new List<PlayerMetaData>();
+    Dictionary<int, SkillMetaData> _skillDict = new Dictionary<int, SkillMetaData>();
+    List<SkillMetaData>            _skillList = new List<SkillMetaData>();
+    Dictionary<int, SkillCostMetaData> _skillCostDict = new Dictionary<int, SkillCostMetaData>();
+    List<SkillCostMetaData>            _skillCostList = new List<SkillCostMetaData>();
+    Dictionary<int, SkillActionMetaData> _skillActionDict = new Dictionary<int, SkillActionMetaData>();
+    List<SkillActionMetaData>            _skillActionList = new List<SkillActionMetaData>();
+    Dictionary<int, SkillAttackDetailMetaData> _skillAttackDetailDict = new Dictionary<int, SkillAttackDetailMetaData>();
+    List<SkillAttackDetailMetaData>            _skillAttackDetailList = new List<SkillAttackDetailMetaData>();
+    Dictionary<int, SkillBuffDetailMetaData> _skillBuffDetailDict = new Dictionary<int, SkillBuffDetailMetaData>();
+    List<SkillBuffDetailMetaData>            _skillBuffDetailList = new List<SkillBuffDetailMetaData>();
+    Dictionary<int, SkillDebuffDetailMetaData> _skillDebuffDetailDict = new Dictionary<int, SkillDebuffDetailMetaData>();
+    List<SkillDebuffDetailMetaData>            _skillDebuffDetailList = new List<SkillDebuffDetailMetaData>();
 
     public async UniTask DownloadDataSheetAsync()
     {
@@ -59,7 +71,13 @@ public partial class SpecDataManager
             Fetch_ExpAsync(),
             Fetch_MonsterAsync(),
             Fetch_DropItemAsync(),
-            Fetch_PlayerAsync()
+            Fetch_PlayerAsync(),
+            Fetch_SkillAsync(),
+            Fetch_SkillCostAsync(),
+            Fetch_SkillActionAsync(),
+            Fetch_SkillAttackDetailAsync(),
+            Fetch_SkillBuffDetailAsync(),
+            Fetch_SkillDebuffDetailAsync()
         );
 
         IsReady = true;
@@ -1734,6 +1752,664 @@ public partial class SpecDataManager
         }
     }
 
+    async UniTask Fetch_SkillAsync()
+    {
+        string url = GoogleSheetConfig.BuildJsonUrl("Skill");
+        using (UnityWebRequest req = UnityWebRequest.Get(url))
+        {
+            await req.SendWebRequest();
+            if (req.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("[SpecDataManager] Skill 다운로드 실패: " + req.error);
+                return;
+            }
+
+            _skillDict.Clear();
+            _skillList.Clear();
+
+            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 14);
+            for (int i = 2; i < rows.Count; i++)
+            {
+                string[] cells = rows[i];
+                if (string.IsNullOrEmpty(cells[0])) continue;
+                int sheetRow = i + 1;
+                SkillMetaData data = new SkillMetaData();
+                bool rowOk = true;
+
+                // Id (int)
+                try { data.Id = ParseInt(cells[0]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Skill] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 1 (Id)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[0] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // SkillType (enum)
+                try { data.SkillType = ParseEnum<SkillType>(cells[1]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Skill] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 2 (SkillType)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[1] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Name (string)
+                try { data.Name = cells[2]; }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Skill] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (Name)\n" +
+                        "  타입: string\n" +
+                        "  값: \"" + cells[2] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // SkillCategoryType (enum)
+                try { data.SkillCategoryType = ParseEnum<SkillCategoryType>(cells[3]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Skill] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 4 (SkillCategoryType)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[3] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // SkillActivationType (enum)
+                try { data.SkillActivationType = ParseEnum<SkillActivationType>(cells[4]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Skill] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 5 (SkillActivationType)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[4] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // CastDirections (list<enum>)
+                try { data.CastDirections = ParseList(cells[5], s => ParseEnum<CastDirectionType>(s)); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Skill] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 6 (CastDirections)\n" +
+                        "  타입: list<enum>\n" +
+                        "  값: \"" + cells[5] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // CastRange (float)
+                try { data.CastRange = ParseFloat(cells[6]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Skill] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 7 (CastRange)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[6] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // TargetingType (enum)
+                try { data.TargetingType = ParseEnum<SkillTargetingType>(cells[7]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Skill] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 8 (TargetingType)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[7] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // MaxTargets (int)
+                try { data.MaxTargets = ParseInt(cells[8]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Skill] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 9 (MaxTargets)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[8] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // RequiredLevel (int)
+                try { data.RequiredLevel = ParseInt(cells[9]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Skill] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 10 (RequiredLevel)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[9] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // RequiredJobs (list<enum>)
+                try { data.RequiredJobs = ParseList(cells[10], s => ParseEnum<PlayerJobType>(s)); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Skill] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 11 (RequiredJobs)\n" +
+                        "  타입: list<enum>\n" +
+                        "  값: \"" + cells[10] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // CoolTime (float)
+                try { data.CoolTime = ParseFloat(cells[11]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Skill] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 12 (CoolTime)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[11] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // CastTime (float)
+                try { data.CastTime = ParseFloat(cells[12]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Skill] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 13 (CastTime)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[12] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // SkillActionIds (list<int>)
+                try { data.SkillActionIds = ParseList(cells[13], s => ParseInt(s)); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Skill] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 14 (SkillActionIds)\n" +
+                        "  타입: list<int>\n" +
+                        "  값: \"" + cells[13] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+
+                if (rowOk)
+                {
+                    _skillDict[data.Id] = data;
+                    _skillList.Add(data);
+                }
+                else
+                {
+                    Debug.LogWarning("[SpecDataManager] [Skill] 행 " + sheetRow + " 파싱 오류로 스킵됨.");
+                }
+            }
+
+            Debug.Log("[SpecDataManager] Skill 로드 완료: " + _skillList.Count + "개");
+        }
+    }
+
+    async UniTask Fetch_SkillCostAsync()
+    {
+        string url = GoogleSheetConfig.BuildJsonUrl("SkillCost");
+        using (UnityWebRequest req = UnityWebRequest.Get(url))
+        {
+            await req.SendWebRequest();
+            if (req.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("[SpecDataManager] SkillCost 다운로드 실패: " + req.error);
+                return;
+            }
+
+            _skillCostDict.Clear();
+            _skillCostList.Clear();
+
+            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 5);
+            for (int i = 2; i < rows.Count; i++)
+            {
+                string[] cells = rows[i];
+                if (string.IsNullOrEmpty(cells[0])) continue;
+                int sheetRow = i + 1;
+                SkillCostMetaData data = new SkillCostMetaData();
+                bool rowOk = true;
+
+                // Id (int)
+                try { data.Id = ParseInt(cells[0]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillCost] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 1 (Id)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[0] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // SkillId (int)
+                try { data.SkillId = ParseInt(cells[1]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillCost] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 2 (SkillId)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[1] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // CostType (enum)
+                try { data.CostType = ParseEnum<SkillCostType>(cells[2]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillCost] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (CostType)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[2] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Amount (int)
+                try { data.Amount = ParseInt(cells[3]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillCost] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 4 (Amount)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[3] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // ItemId (int)
+                try { data.ItemId = ParseInt(cells[4]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillCost] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 5 (ItemId)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[4] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+
+                if (rowOk)
+                {
+                    _skillCostDict[data.Id] = data;
+                    _skillCostList.Add(data);
+                }
+                else
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillCost] 행 " + sheetRow + " 파싱 오류로 스킵됨.");
+                }
+            }
+
+            Debug.Log("[SpecDataManager] SkillCost 로드 완료: " + _skillCostList.Count + "개");
+        }
+    }
+
+    async UniTask Fetch_SkillActionAsync()
+    {
+        string url = GoogleSheetConfig.BuildJsonUrl("SkillAction");
+        using (UnityWebRequest req = UnityWebRequest.Get(url))
+        {
+            await req.SendWebRequest();
+            if (req.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("[SpecDataManager] SkillAction 다운로드 실패: " + req.error);
+                return;
+            }
+
+            _skillActionDict.Clear();
+            _skillActionList.Clear();
+
+            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 5);
+            for (int i = 2; i < rows.Count; i++)
+            {
+                string[] cells = rows[i];
+                if (string.IsNullOrEmpty(cells[0])) continue;
+                int sheetRow = i + 1;
+                SkillActionMetaData data = new SkillActionMetaData();
+                bool rowOk = true;
+
+                // Id (int)
+                try { data.Id = ParseInt(cells[0]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillAction] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 1 (Id)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[0] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // SkillId (int)
+                try { data.SkillId = ParseInt(cells[1]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillAction] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 2 (SkillId)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[1] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // ActionType (enum)
+                try { data.ActionType = ParseEnum<SkillActionType>(cells[2]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillAction] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (ActionType)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[2] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // DelayMs (int)
+                try { data.DelayMs = ParseInt(cells[3]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillAction] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 4 (DelayMs)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[3] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // SkillDetailId (int)
+                try { data.SkillDetailId = ParseInt(cells[4]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillAction] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 5 (SkillDetailId)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[4] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+
+                if (rowOk)
+                {
+                    _skillActionDict[data.Id] = data;
+                    _skillActionList.Add(data);
+                }
+                else
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillAction] 행 " + sheetRow + " 파싱 오류로 스킵됨.");
+                }
+            }
+
+            Debug.Log("[SpecDataManager] SkillAction 로드 완료: " + _skillActionList.Count + "개");
+        }
+    }
+
+    async UniTask Fetch_SkillAttackDetailAsync()
+    {
+        string url = GoogleSheetConfig.BuildJsonUrl("SkillAttackDetail");
+        using (UnityWebRequest req = UnityWebRequest.Get(url))
+        {
+            await req.SendWebRequest();
+            if (req.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("[SpecDataManager] SkillAttackDetail 다운로드 실패: " + req.error);
+                return;
+            }
+
+            _skillAttackDetailDict.Clear();
+            _skillAttackDetailList.Clear();
+
+            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 5);
+            for (int i = 2; i < rows.Count; i++)
+            {
+                string[] cells = rows[i];
+                if (string.IsNullOrEmpty(cells[0])) continue;
+                int sheetRow = i + 1;
+                SkillAttackDetailMetaData data = new SkillAttackDetailMetaData();
+                bool rowOk = true;
+
+                // Id (int)
+                try { data.Id = ParseInt(cells[0]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillAttackDetail] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 1 (Id)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[0] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // DamageType (enum)
+                try { data.DamageType = ParseEnum<JobMainDamageType>(cells[1]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillAttackDetail] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 2 (DamageType)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[1] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // DamageCoefficient (float)
+                try { data.DamageCoefficient = ParseFloat(cells[2]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillAttackDetail] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (DamageCoefficient)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[2] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // AttackKind (enum)
+                try { data.AttackKind = ParseEnum<SkillAttackKind>(cells[3]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillAttackDetail] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 4 (AttackKind)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[3] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // ProjectileTypeId (int)
+                try { data.ProjectileTypeId = ParseInt(cells[4]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillAttackDetail] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 5 (ProjectileTypeId)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[4] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+
+                if (rowOk)
+                {
+                    _skillAttackDetailDict[data.Id] = data;
+                    _skillAttackDetailList.Add(data);
+                }
+                else
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillAttackDetail] 행 " + sheetRow + " 파싱 오류로 스킵됨.");
+                }
+            }
+
+            Debug.Log("[SpecDataManager] SkillAttackDetail 로드 완료: " + _skillAttackDetailList.Count + "개");
+        }
+    }
+
+    async UniTask Fetch_SkillBuffDetailAsync()
+    {
+        string url = GoogleSheetConfig.BuildJsonUrl("SkillBuffDetail");
+        using (UnityWebRequest req = UnityWebRequest.Get(url))
+        {
+            await req.SendWebRequest();
+            if (req.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("[SpecDataManager] SkillBuffDetail 다운로드 실패: " + req.error);
+                return;
+            }
+
+            _skillBuffDetailDict.Clear();
+            _skillBuffDetailList.Clear();
+
+            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 5);
+            for (int i = 2; i < rows.Count; i++)
+            {
+                string[] cells = rows[i];
+                if (string.IsNullOrEmpty(cells[0])) continue;
+                int sheetRow = i + 1;
+                SkillBuffDetailMetaData data = new SkillBuffDetailMetaData();
+                bool rowOk = true;
+
+                // Id (int)
+                try { data.Id = ParseInt(cells[0]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillBuffDetail] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 1 (Id)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[0] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // BuffTargetStat (enum)
+                try { data.BuffTargetStat = ParseEnum<StatType>(cells[1]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillBuffDetail] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 2 (BuffTargetStat)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[1] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // ValueType (enum)
+                try { data.ValueType = ParseEnum<BuffValueType>(cells[2]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillBuffDetail] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (ValueType)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[2] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Value (float)
+                try { data.Value = ParseFloat(cells[3]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillBuffDetail] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 4 (Value)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[3] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Duration (float)
+                try { data.Duration = ParseFloat(cells[4]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillBuffDetail] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 5 (Duration)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[4] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+
+                if (rowOk)
+                {
+                    _skillBuffDetailDict[data.Id] = data;
+                    _skillBuffDetailList.Add(data);
+                }
+                else
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillBuffDetail] 행 " + sheetRow + " 파싱 오류로 스킵됨.");
+                }
+            }
+
+            Debug.Log("[SpecDataManager] SkillBuffDetail 로드 완료: " + _skillBuffDetailList.Count + "개");
+        }
+    }
+
+    async UniTask Fetch_SkillDebuffDetailAsync()
+    {
+        string url = GoogleSheetConfig.BuildJsonUrl("SkillDebuffDetail");
+        using (UnityWebRequest req = UnityWebRequest.Get(url))
+        {
+            await req.SendWebRequest();
+            if (req.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("[SpecDataManager] SkillDebuffDetail 다운로드 실패: " + req.error);
+                return;
+            }
+
+            _skillDebuffDetailDict.Clear();
+            _skillDebuffDetailList.Clear();
+
+            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 4);
+            for (int i = 2; i < rows.Count; i++)
+            {
+                string[] cells = rows[i];
+                if (string.IsNullOrEmpty(cells[0])) continue;
+                int sheetRow = i + 1;
+                SkillDebuffDetailMetaData data = new SkillDebuffDetailMetaData();
+                bool rowOk = true;
+
+                // Id (int)
+                try { data.Id = ParseInt(cells[0]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillDebuffDetail] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 1 (Id)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[0] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // DebuffType (enum)
+                try { data.DebuffType = ParseEnum<DebuffType>(cells[1]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillDebuffDetail] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 2 (DebuffType)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[1] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Value (float)
+                try { data.Value = ParseFloat(cells[2]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillDebuffDetail] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (Value)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[2] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Duration (float)
+                try { data.Duration = ParseFloat(cells[3]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillDebuffDetail] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 4 (Duration)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[3] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+
+                if (rowOk)
+                {
+                    _skillDebuffDetailDict[data.Id] = data;
+                    _skillDebuffDetailList.Add(data);
+                }
+                else
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillDebuffDetail] 행 " + sheetRow + " 파싱 오류로 스킵됨.");
+                }
+            }
+
+            Debug.Log("[SpecDataManager] SkillDebuffDetail 로드 완료: " + _skillDebuffDetailList.Count + "개");
+        }
+    }
+
     public CurrencyMetaData GetCurrency(int id)
     {
         _currencyDict.TryGetValue(id, out CurrencyMetaData result);
@@ -1909,6 +2585,82 @@ public partial class SpecDataManager
     public List<PlayerMetaData> GetAllPlayer()
     {
         return _playerList;
+    }
+
+    public SkillMetaData GetSkill(int id)
+    {
+        _skillDict.TryGetValue(id, out SkillMetaData result);
+        return result;
+    }
+
+    public SkillMetaData GetSkill(SkillType key)
+    {
+        return GetSkill((int)key);
+    }
+
+    public List<SkillMetaData> GetAllSkill()
+    {
+        return _skillList;
+    }
+
+    public SkillCostMetaData GetSkillCost(int id)
+    {
+        _skillCostDict.TryGetValue(id, out SkillCostMetaData result);
+        return result;
+    }
+
+    public List<SkillCostMetaData> GetAllSkillCost()
+    {
+        return _skillCostList;
+    }
+
+    public SkillActionMetaData GetSkillAction(int id)
+    {
+        _skillActionDict.TryGetValue(id, out SkillActionMetaData result);
+        return result;
+    }
+
+    public List<SkillActionMetaData> GetAllSkillAction()
+    {
+        return _skillActionList;
+    }
+
+    public SkillAttackDetailMetaData GetSkillAttackDetail(int id)
+    {
+        _skillAttackDetailDict.TryGetValue(id, out SkillAttackDetailMetaData result);
+        return result;
+    }
+
+    public SkillAttackDetailMetaData GetSkillAttackDetail(JobMainDamageType key)
+    {
+        return GetSkillAttackDetail((int)key);
+    }
+
+    public List<SkillAttackDetailMetaData> GetAllSkillAttackDetail()
+    {
+        return _skillAttackDetailList;
+    }
+
+    public SkillBuffDetailMetaData GetSkillBuffDetail(int id)
+    {
+        _skillBuffDetailDict.TryGetValue(id, out SkillBuffDetailMetaData result);
+        return result;
+    }
+
+    public List<SkillBuffDetailMetaData> GetAllSkillBuffDetail()
+    {
+        return _skillBuffDetailList;
+    }
+
+    public SkillDebuffDetailMetaData GetSkillDebuffDetail(int id)
+    {
+        _skillDebuffDetailDict.TryGetValue(id, out SkillDebuffDetailMetaData result);
+        return result;
+    }
+
+    public List<SkillDebuffDetailMetaData> GetAllSkillDebuffDetail()
+    {
+        return _skillDebuffDetailList;
     }
 
     static int ParseInt(string s)

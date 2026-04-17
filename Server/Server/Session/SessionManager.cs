@@ -7,13 +7,13 @@ using System.Threading;
 
 namespace Server
 {
-	class SessionManager
-	{
-		static SessionManager _session = new SessionManager();
-		public static SessionManager Instance { get { return _session; } }
+    class SessionManager
+    {
+        static SessionManager _session = new SessionManager();
+        public static SessionManager Instance { get { return _session; } }
 
         private int _sessionId = 0;
-		private Dictionary<int, ClientSession> _sessions = new Dictionary<int, ClientSession>();
+        private Dictionary<int, ClientSession> _sessions = new Dictionary<int, ClientSession>();
         private object _lock = new object();
 
         private const long PingIntervalMs = 10000;
@@ -30,14 +30,16 @@ namespace Server
 
         private void OnPingTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            long now = Environment.TickCount64;
             List<ClientSession> sessions = GetSessions();
+            if (sessions != null || sessions.Count == 0)
+                return;
 
+            long now = Environment.TickCount64;
             foreach (ClientSession session in sessions)
             {
                 if (session == null)
                     continue;
-                    
+
                 if (now - session.LastPongReceivedTime > PingTimeoutMs)
                 {
                     ConsoleLogManager.Instance.Log($"Ping timeout - disconnecting session {session.SessionId}");
@@ -50,45 +52,46 @@ namespace Server
         }
 
         public List<ClientSession> GetSessions()
-		{
-			lock (_lock)
+        {
+            lock (_lock)
             {
                 return _sessions.Values.ToList();
             }
         }
 
         public ClientSession Generate()
-		{
-			lock (_lock)
-			{
-				int sessionId = ++_sessionId;
+        {
+            lock (_lock)
+            {
+                int sessionId = ++_sessionId;
 
-				ClientSession session = new ClientSession();
-				session.SessionId = sessionId;
-				_sessions.Add(sessionId, session);
+                ClientSession session = new ClientSession();
+                session.SessionId = sessionId;
+                _sessions.Add(sessionId, session);
 
                 ConsoleLogManager.Instance.Log($"Connected ({_sessions.Count}) Players");
 
                 return session;
-			}
-		}
+            }
+        }
 
-		public ClientSession Find(int id)
-		{
-			lock (_lock)
-			{
-				ClientSession session = null;
-				_sessions.TryGetValue(id, out session);
-				return session;
-			}
-		}
-		public void Remove(ClientSession session)
-		{
-			lock (_lock)
-			{
-				_sessions.Remove(session.SessionId);
-				ConsoleLogManager.Instance.Log($"Connected ({_sessions.Count}) Players");
-			}
-		}
-	}
+        public ClientSession Find(int id)
+        {
+            lock (_lock)
+            {
+                ClientSession session = null;
+                _sessions.TryGetValue(id, out session);
+                return session;
+            }
+        }
+        
+        public void Remove(ClientSession session)
+        {
+            lock (_lock)
+            {
+                _sessions.Remove(session.SessionId);
+                ConsoleLogManager.Instance.Log($"Connected ({_sessions.Count}) Players");
+            }
+        }
+    }
 }

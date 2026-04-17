@@ -70,6 +70,8 @@ enum MsgId {
   C_REQUEST_MAP_TRANSFER = 156;
   S_MAP_TRANSFER = 157;
   S_Change_Mp = 158;
+  C_USE_SKILL = 159;
+  S_USE_SKILL = 160;
 }
 
 enum CreatureState {
@@ -110,6 +112,21 @@ enum PortalType {
 enum ProjectileType {
   PROJECTILE_TYPE_NONE = 0;
   MAGIC_MISSILE = 70001;
+}
+
+enum SkillType {
+  SKILL_TYPE_NONE = 0;
+  SKILL_TYPE_MAGIC_MISSILE = 40001;
+}
+
+enum UseSkillResult {
+  USE_SKILL_RESULT_NONE = 0;
+  USE_SKILL_RESULT_SUCCESS = 1;
+  USE_SKILL_RESULT_NOT_ENOUGH_LEVEL = 2;
+  USE_SKILL_RESULT_WRONG_JOB = 3;
+  USE_SKILL_RESULT_NOT_ENOUGH_RESOURCE = 4;
+  USE_SKILL_RESULT_COOLDOWN = 5;
+  USE_SKILL_RESULT_WRONG_STATE = 6;
 }
 
 enum RoomExitReason {
@@ -562,6 +579,19 @@ message C_RequestMapTransfer {
 
 message S_MapTransfer {
   int32 map_id = 1;
+}
+
+// 클라 → 서버: 스킬 사용 요청
+message C_UseSkill {
+  int32 skill_id = 1;
+}
+
+// 서버 → 클라: 스킬 사용 결과 브로드캐스트
+message S_UseSkill {
+  int32 caster_id = 1;
+  int32 skill_id = 2;
+  UseSkillResult result = 3;
+  repeated DamagedInfo damaged_list = 4;  // 근접 공격 결과 (Ranged는 투사체로 처리)
 }
 
 // 클라가 퀘스트 초기화 할 때 필요한 존재

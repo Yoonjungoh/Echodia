@@ -24,6 +24,15 @@ public class CooldownManager
         _cooldowns[itemId] = Time.time + cooldownDuration;
     }
 
+    /// <summary>스킬처럼 SpecData 타입 분기 없이 쿨타임을 직접 지정할 때 사용한다.</summary>
+    public void StartCooldown(int id, float duration)
+    {
+        if (duration <= 0f)
+            return;
+
+        _cooldowns[id] = Time.time + duration;
+    }
+
     public float GetRemainingCooldownSeconds(int itemId)
     {
         if (_cooldowns.TryGetValue(itemId, out float endTime))

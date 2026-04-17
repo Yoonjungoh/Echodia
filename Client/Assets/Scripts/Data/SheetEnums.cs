@@ -53,3 +53,66 @@ public enum ConfigType
     DefaultStartMapId = 13,
 }
 
+public enum SkillCategoryType
+{
+    None = 0,
+    Attack = 40001,
+}
+
+public enum SkillActivationType
+{
+    None = 0,
+    Instant = 40001,
+}
+
+public enum CastDirectionType
+{
+    None = 0,
+    Front,
+}
+
+public enum SkillTargetingType
+{
+    None = 0,
+    Enemy = 40001,
+}
+
+public enum SkillCostType
+{
+    None = 0,
+    Mp = 1,
+}
+
+public enum SkillActionType
+{
+    None = 0,
+    SpawnProjectile = 1,
+}
+
+public enum SkillAttackKind
+{
+    None = 0,
+    Ranged = 1,
+}
+
+public enum StatType
+{
+    None = 0,
+    STR = 700001,
+}
+
+public enum BuffValueType
+{
+    None = 0,
+    Percent = 700001,
+}
+
+public enum DebuffType
+{
+    None = 0,
+    Stun = 700002,
+    Slow = 700003,
+    Poison = 700004,
+    Bleed = 700005,
+}
+

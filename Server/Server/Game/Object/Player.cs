@@ -3,6 +3,7 @@ using Microsoft.Identity.Client;
 using Server.Data;
 using Server.DB;
 using Server.Game.Room;
+using Server.Game.Skill;
 using System.Numerics;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace Server.Game
         public CooldownTracker CooldownTracker { get; private set; }
         public InventoryTracker InventoryTracker { get; private set; }
         public CurrencyTracker CurrencyTracker { get; private set; }
+        public SkillExecutor SkillExecutor { get; private set; }
         // (ItemType, SlotIndex) -> PlayerItemDb (타입별로 슬롯 번호 독립)
         public Dictionary<(ItemType, int), PlayerItemDb> Items { get; private set; } = new();
         public PlayerStatCalculator StatCalculator { get; private set; }
@@ -59,6 +61,8 @@ namespace Server.Game
 
             CooldownTracker = new CooldownTracker(this);
             CooldownTracker.Load();
+
+            SkillExecutor = new SkillExecutor(this);
 
             InventoryTracker = new InventoryTracker(this);
             InventoryTracker.Load();

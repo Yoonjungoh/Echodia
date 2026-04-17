@@ -187,3 +187,77 @@ public class PlayerMetaData
     public int CriticalRate;
     public float CriticalDamage;
 }
+
+// ── Skill
+[Serializable]
+public class SkillMetaData
+{
+    public int Id;
+    public SkillType SkillType;
+    public string Name;
+    public SkillCategoryType SkillCategoryType;
+    public SkillActivationType SkillActivationType;
+    public List<CastDirectionType> CastDirections;
+    public float CastRange;
+    public SkillTargetingType TargetingType;
+    public int MaxTargets;
+    public int RequiredLevel;
+    public List<PlayerJobType> RequiredJobs;
+    public float CoolTime;
+    public float CastTime;
+    public List<int> SkillActionIds;
+}
+
+// ── SkillCost
+[Serializable]
+public class SkillCostMetaData
+{
+    public int Id;
+    public int SkillId;
+    public SkillCostType CostType;
+    public int Amount;
+    public int ItemId;
+}
+
+// ── SkillAction
+[Serializable]
+public class SkillActionMetaData
+{
+    public int Id;
+    public int SkillId;
+    public SkillActionType ActionType;
+    public int DelayMs;
+    public int SkillDetailId;
+}
+
+// ── SkillAttackDetail
+[Serializable]
+public class SkillAttackDetailMetaData
+{
+    public int Id;
+    public JobMainDamageType DamageType;
+    public float DamageCoefficient;
+    public SkillAttackKind AttackKind;
+    public int ProjectileTypeId;
+}
+
+// ── SkillBuffDetail
+[Serializable]
+public class SkillBuffDetailMetaData
+{
+    public int Id;
+    public StatType BuffTargetStat;
+    public BuffValueType ValueType;
+    public float Value;
+    public float Duration;
+}
+
+// ── SkillDebuffDetail
+[Serializable]
+public class SkillDebuffDetailMetaData
+{
+    public int Id;
+    public DebuffType DebuffType;
+    public float Value;
+    public float Duration;
+}

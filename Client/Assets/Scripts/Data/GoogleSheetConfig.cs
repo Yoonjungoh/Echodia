@@ -24,6 +24,12 @@ public static class GoogleSheetConfig
         "DropItem",
         "Player",
         "Config",
+        "Skill",
+        "SkillCost",
+        "SkillAction",
+        "SkillAttackDetail",
+        "SkillBuffDetail",
+        "SkillDebuffDetail",
     };
 
     public static string BuildJsonUrl(string sheetName)

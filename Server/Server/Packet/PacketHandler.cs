@@ -372,4 +372,18 @@ class PacketHandler
         ConsoleLogManager.Instance.Log($"[MapTransfer] Player {player.Id}: map {currentMapId} → {targetMapId}, spawnPos={spawnPos}");
         player.GameRoom.Push(player.GameRoom.TransferPlayer, player.Id, targetMapId, spawnPos);
     }
+
+    public static void C_UseSkillHandler(PacketSession session, IMessage packet)
+    {
+        C_UseSkill useSkillPacket = packet as C_UseSkill;
+        ClientSession clientSession = session as ClientSession;
+
+        Player player = clientSession?.MyPlayer;
+        if (player == null || player.GameRoom == null)
+        {
+            return;
+        }
+
+        player.GameRoom.Push(player.GameRoom.HandleUseSkill, player.Id, useSkillPacket.SkillId);
+    }
 }

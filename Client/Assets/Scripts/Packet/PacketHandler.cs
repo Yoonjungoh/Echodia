@@ -736,4 +736,52 @@ class PacketHandler
 
         cc.SetMp(changeMpPacket.TotalMp, cc.Stat.MaxMp);
     }
+
+    public static void S_UseSkillHandler(PacketSession session, IMessage packet)
+    {
+        S_UseSkill useSkillPacket = packet as S_UseSkill;
+        if (useSkillPacket == null)
+        {
+            Debug.Log("S_UseSkill 패킷이 null입니다");
+            return;
+        }
+
+        switch (useSkillPacket.Result)
+        {
+            case UseSkillResult.UseSkillResultSuccess:
+                // TODO: GenSpecData.bat 실행 후 Managers.SpecData.GetSkill(useSkillPacket.SkillId).CoolTime 로 교체
+                // Managers.Cooldown.StartCooldown(useSkillPacket.SkillId, Managers.SpecData.GetSkill(useSkillPacket.SkillId).CoolTime);
+                Managers.Cooldown.StartCooldown(useSkillPacket.SkillId, 5.0f);
+                foreach (DamagedInfo damagedInfo in useSkillPacket.DamagedList)
+                {
+                    GameObject go = Managers.GameRoomObject.FindById(damagedInfo.ObjectId);
+                    if (go == null)
+                        continue;
+
+                    CreatureController cc = go.GetComponent<CreatureController>();
+                    if (cc == null)
+                        continue;
+
+                    cc.OnDamaged(damagedInfo.RemainHp, damagedInfo.IsCritical);
+                }
+                break;
+            case UseSkillResult.UseSkillResultNotEnoughLevel:
+                Managers.UI.ShowToastPopup("레벨이 부족하여 스킬을 사용할 수 없습니다.");
+                break;
+            case UseSkillResult.UseSkillResultWrongJob:
+                Managers.UI.ShowToastPopup("해당 직업에서 사용할 수 없는 스킬입니다.");
+                break;
+            case UseSkillResult.UseSkillResultNotEnoughResource:
+                Managers.UI.ShowToastPopup("자원이 부족하여 스킬을 사용할 수 없습니다.");
+                break;
+            case UseSkillResult.UseSkillResultCooldown:
+                Managers.UI.ShowToastPopup("스킬 쿨타임 중입니다.");
+                break;
+            case UseSkillResult.UseSkillResultWrongState:
+                Managers.UI.ShowToastPopup("현재 상태에서 스킬을 사용할 수 없습니다.");
+                break;
+            default:
+                break;
+        }
+    }
 }
