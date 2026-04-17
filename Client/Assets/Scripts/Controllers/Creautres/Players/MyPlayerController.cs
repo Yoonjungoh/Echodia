@@ -366,7 +366,7 @@ public class MyPlayerController : PlayerController
 
     private void OnUseSkill1Input()
     {
-        UseSkill((int)SkillType.SkillTypeMagicMissile);
+        UseSkill((int)SkillType.MagicMissile);
     }
 
     private void UseSkill(int skillId)

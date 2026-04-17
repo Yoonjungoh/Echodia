@@ -748,7 +748,7 @@ class PacketHandler
 
         switch (useSkillPacket.Result)
         {
-            case UseSkillResult.UseSkillResultSuccess:
+            case UseSkillResult.Success:
                 // TODO: GenSpecData.bat 실행 후 Managers.SpecData.GetSkill(useSkillPacket.SkillId).CoolTime 로 교체
                 // Managers.Cooldown.StartCooldown(useSkillPacket.SkillId, Managers.SpecData.GetSkill(useSkillPacket.SkillId).CoolTime);
                 Managers.Cooldown.StartCooldown(useSkillPacket.SkillId, 5.0f);
@@ -765,19 +765,19 @@ class PacketHandler
                     cc.OnDamaged(damagedInfo.RemainHp, damagedInfo.IsCritical);
                 }
                 break;
-            case UseSkillResult.UseSkillResultNotEnoughLevel:
+            case UseSkillResult.NotEnoughLevel:
                 Managers.UI.ShowToastPopup("레벨이 부족하여 스킬을 사용할 수 없습니다.");
                 break;
-            case UseSkillResult.UseSkillResultWrongJob:
+            case UseSkillResult.WrongJob:
                 Managers.UI.ShowToastPopup("해당 직업에서 사용할 수 없는 스킬입니다.");
                 break;
-            case UseSkillResult.UseSkillResultNotEnoughResource:
+            case UseSkillResult.NotEnoughResource:
                 Managers.UI.ShowToastPopup("자원이 부족하여 스킬을 사용할 수 없습니다.");
                 break;
-            case UseSkillResult.UseSkillResultCooldown:
+            case UseSkillResult.Cooldown:
                 Managers.UI.ShowToastPopup("스킬 쿨타임 중입니다.");
                 break;
-            case UseSkillResult.UseSkillResultWrongState:
+            case UseSkillResult.WrongState:
                 Managers.UI.ShowToastPopup("현재 상태에서 스킬을 사용할 수 없습니다.");
                 break;
             default:

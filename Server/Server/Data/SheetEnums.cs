@@ -106,7 +106,18 @@ namespace Server.Data
     public enum StatType
     {
         None = 0,
-        STR = 700001,
+        Str = 700001,
+        Dex = 700002,
+        Int,
+        Luk,
+        Hp,
+        Mp,
+        PhysicalDamage,
+        MagicDamage,
+        Defense,
+        MoveSpeed,
+        CritRate,
+        CritDamage,
     }
     
     public enum BuffValueType
