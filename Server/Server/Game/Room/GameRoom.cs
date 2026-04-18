@@ -42,6 +42,7 @@ namespace Server.Game
         public event Action OnPlayerInfoChanged;  // 방 정보 바뀌었을 때 알림 (roomId)
 
         private PriorityQueue<int, DateTime> _respawnQueue = new PriorityQueue<int, DateTime>();
+        private PriorityQueue<Action, DateTime> _delayedActions = new PriorityQueue<Action, DateTime>();
 
         public GameRoom(int serverId, int channelId, int mapId)
         {
@@ -95,6 +96,12 @@ namespace Server.Game
             return Zones[x, z];
         }
 
+        /// <summary>GameRoom 스레드에서만 호출할 것. 지정된 ms 후에 action을 실행한다.</summary>
+        public void ScheduleDelayedAction(int delayMs, Action action)
+        {
+            _delayedActions.Enqueue(action, DateTime.UtcNow.AddMilliseconds(delayMs));
+        }
+
         // 어디선가 주기적으로 호출해줘야 함
         public void Update()
         {
@@ -102,6 +109,7 @@ namespace Server.Game
             UpdateMonsters();
             UpdateProjectiles();
             UpdateRespawn();
+            UpdateDelayedActions();
             UpdateAutoSave();
         }
 
@@ -158,6 +166,17 @@ namespace Server.Game
             foreach (int id in removeList)
             {
                 LeaveGame(id);
+            }
+        }
+
+        private void UpdateDelayedActions()
+        {
+            while (_delayedActions.TryPeek(out _, out DateTime executeAt))
+            {
+                if (executeAt > DateTime.UtcNow)
+                    break;
+
+                _delayedActions.Dequeue()();
             }
         }
 
@@ -252,6 +271,9 @@ namespace Server.Game
         }
 
         public void SpawnProjectile(int ownerId, ProjectileType projectileType)
+            => SpawnProjectile(ownerId, projectileType, 1.0f);
+
+        public void SpawnProjectile(int ownerId, ProjectileType projectileType, float damageCoefficient)
         {
             Projectile projectile = ProjectileFactory.Create(projectileType);
             // 주인이 존재하지 않는 오브젝트거나 똑같은 투사체 존재하면 스폰 안 함  
@@ -263,6 +285,7 @@ namespace Server.Game
 
             // 주인 추가해주기
             projectile.OwnerId = ownerId;
+            projectile.DamageCoefficient = damageCoefficient;
             var owner = _gameObjects[ownerId];
 
             // 먼저 회전부터 세팅
@@ -318,17 +341,7 @@ namespace Server.Game
             }
 
             player.SkillExecutor.Use(skillId);
-
-            // 근접/버프 계열은 Use() 내부에서 패킷을 전송하고,
-            // 원거리(SpawnProjectile)는 투사체 충돌 시 별도 패킷이 처리되므로
-            // 여기서는 시전 성공 알림만 전송한다.
-            S_UseSkill successPacket = new S_UseSkill
-            {
-                CasterId = playerId,
-                SkillId  = skillId,
-                Result   = UseSkillResult.Success,
-            };
-            Broadcast(player.CurrentPosition, successPacket);
+            // S_UseSkill Success 브로드캐스트는 SkillExecutor.Use() 내부에서 담당
         }
 
         public void HandleAttack(int InstigatorId, int damagedObjectId, AttackType attackType)
@@ -382,11 +395,13 @@ namespace Server.Game
 
             if (ownerPlayer != null)
             {
-                (damage, isCritical) = ownerPlayer.StatCalculator.GetFinalDamage();
+                (int baseDamage, bool isCrit) = ownerPlayer.StatCalculator.GetFinalDamage();
+                damage     = (int)(baseDamage * projectile.DamageCoefficient);
+                isCritical = isCrit;
             }
             else
             {
-                damage = projectile.ObjectState.Stat.MagicMissileAttakDamage;
+                damage = (int)(projectile.ObjectState.Stat.MagicMissileAttakDamage * projectile.DamageCoefficient);
             }
 
             damagedObject.OnDamaged(projectile, damage);

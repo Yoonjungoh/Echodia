@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using Server.Data;
 using System;
 using System.Collections.Generic;
@@ -49,7 +50,7 @@ namespace Server.Game.Skill.Targeting
                 }
 
                 // 방향 검사 (Sphere 포함 시 무조건 통과)
-                if (!isSphere && !IsInDirections(toTarget, forwardXZ, rightXZ, skill.CastDirections))
+                if (!isSphere && !IsInDirections(toTarget, forwardXZ, rightXZ, skill.CastDirections, skill.CastHalfAngles))
                 {
                     continue;
                 }
@@ -86,11 +87,13 @@ namespace Server.Game.Skill.Targeting
             }
         }
 
+        // halfAngles[i]는 directions[i]에 대응하는 반각(degree). null이거나 인덱스 초과 시 45도 기본값 사용.
         private static bool IsInDirections(
             Vector3 toTarget,
             Vector3 forwardXZ,
             Vector3 rightXZ,
-            List<CastDirectionType> directions)
+            List<CastDirectionType> directions,
+            List<float> halfAngles)
         {
             if (toTarget == Vector3.Zero)
             {
@@ -99,33 +102,29 @@ namespace Server.Game.Skill.Targeting
 
             Vector3 dirXZ = NormalizeXZ(toTarget);
 
-            foreach (CastDirectionType dir in directions)
+            for (int i = 0; i < directions.Count; i++)
             {
+                CastDirectionType dir = directions[i];
+                float halfDeg = (halfAngles != null && i < halfAngles.Count) ? halfAngles[i] : 45f;
+                float threshold = (float)Math.Cos(halfDeg * Math.PI / 180.0);
+
                 switch (dir)
                 {
                     case CastDirectionType.Front:
-                        if (Vector3.Dot(dirXZ, forwardXZ) > 0f)
-                        {
+                        if (Vector3.Dot(dirXZ, forwardXZ) >= threshold)
                             return true;
-                        }
                         break;
                     case CastDirectionType.Back:
-                        if (Vector3.Dot(dirXZ, forwardXZ) < 0f)
-                        {
+                        if (Vector3.Dot(dirXZ, -forwardXZ) >= threshold)
                             return true;
-                        }
                         break;
                     case CastDirectionType.Right:
-                        if (Vector3.Dot(dirXZ, rightXZ) > 0f)
-                        {
+                        if (Vector3.Dot(dirXZ, rightXZ) >= threshold)
                             return true;
-                        }
                         break;
                     case CastDirectionType.Left:
-                        if (Vector3.Dot(dirXZ, rightXZ) < 0f)
-                        {
+                        if (Vector3.Dot(dirXZ, -rightXZ) >= threshold)
                             return true;
-                        }
                         break;
                     case CastDirectionType.Sphere:
                         return true;

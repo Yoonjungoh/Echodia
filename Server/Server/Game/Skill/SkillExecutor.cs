@@ -7,17 +7,14 @@ using System.Collections.Generic;
 
 namespace Server.Game.Skill
 {
-    /// <summary>
-    /// 플레이어에 붙는 스킬 실행 컴포넌트.
-    /// SkillFactory가 MetaData로부터 빌드한 Requirement/Effect 배열을 캐싱하여 재사용한다.
-    /// </summary>
     public class SkillExecutor
     {
         private readonly Player _owner;
 
-        // skillId → (requirements, effects, skillMeta) 캐시
         private readonly Dictionary<int, (ISkillRequirement[] reqs, ISkillEffect[] effects, SkillMetaData meta)> _cache
             = new Dictionary<int, (ISkillRequirement[], ISkillEffect[], SkillMetaData)>();
+
+        private readonly HashSet<int> _channelingSkills = new HashSet<int>();
 
         public SkillExecutor(Player owner)
         {
@@ -28,82 +25,180 @@ namespace Server.Game.Skill
         // 공개 API
         // ────────────────────────────────────────────────────────
 
-        /// <summary>현재 스킬 상태를 반환한다.</summary>
         public SkillState GetState(int skillId)
         {
+            if (_channelingSkills.Contains(skillId))
+                return SkillState.Active;
+
             if (_owner.CooldownTracker.IsOnCooldown(skillId))
-            {
                 return SkillState.Cooldown;
-            }
+
             return SkillState.Ready;
         }
 
-        /// <summary>스킬 사용 가능 여부를 검사한다 (쿨타임 + 모든 Requirement).</summary>
         public UseSkillResult CanUse(int skillId)
         {
-            if (GetState(skillId) == SkillState.Cooldown)
-            {
+            SkillState state = GetState(skillId);
+            if (state == SkillState.Cooldown || state == SkillState.Active)
                 return UseSkillResult.Cooldown;
-            }
 
             var (reqs, _, _) = GetOrBuildCache(skillId);
             if (reqs == null)
-            {
                 return UseSkillResult.WrongState;
-            }
 
             foreach (ISkillRequirement req in reqs)
             {
                 if (!req.Check(_owner))
-                {
                     return RequirementToResult(req);
-                }
             }
 
             return UseSkillResult.Success;
         }
 
-        /// <summary>타겟을 계산하여 반환한다.</summary>
         public List<GameObject> GetTargets(int skillId)
         {
             var (_, _, meta) = GetOrBuildCache(skillId);
-            if (meta == null)
-            {
-                return new List<GameObject>();
-            }
-
-            return SkillTargetSelector.GetTargets(_owner, meta);
+            return meta == null ? new List<GameObject>() : SkillTargetSelector.GetTargets(_owner, meta);
         }
 
-        /// <summary>
-        /// 스킬을 실행한다.
-        /// 호출 전에 반드시 CanUse()로 검사할 것.
-        /// </summary>
+        /// <summary>호출 전에 반드시 CanUse()로 검사할 것.</summary>
         public void Use(int skillId)
         {
             var (reqs, effects, meta) = GetOrBuildCache(skillId);
             if (meta == null)
-            {
                 return;
-            }
 
-            // 1. 자원 소비
             foreach (ISkillRequirement req in reqs)
-            {
                 req.Consume(_owner);
-            }
 
-            // 2. 타겟 계산
+            if (meta.SkillActivationType == SkillActivationType.Channeling)
+                StartChanneling(skillId, effects, meta);
+            else
+                ExecuteInstant(skillId, effects, meta);
+        }
+
+        /// <summary>채널링 중 외부에서 강제 중단 (피격, 이동 등).</summary>
+        public void InterruptChannel(int skillId)
+        {
+            if (!_channelingSkills.Contains(skillId))
+                return;
+
+            EndChanneling(skillId, interrupted: true);
+        }
+
+        // ────────────────────────────────────────────────────────
+        // Instant
+        // ────────────────────────────────────────────────────────
+
+        private void ExecuteInstant(int skillId, ISkillEffect[] effects, SkillMetaData meta)
+        {
             List<GameObject> targets = SkillTargetSelector.GetTargets(_owner, meta);
 
-            // 3. 모든 효과 실행
+            var allDamaged = new List<DamagedInfo>();
             foreach (ISkillEffect effect in effects)
+                allDamaged.AddRange(effect.Execute(_owner, targets));
+
+            _owner.CooldownTracker.StartCooldown(skillId, meta.CoolTime);
+
+            S_UseSkill packet = new S_UseSkill
             {
-                effect.Execute(_owner, targets);
+                CasterId       = _owner.Id,
+                SkillId        = skillId,
+                Result         = UseSkillResult.Success,
+                ActivationType = SkillActivationType.Instant,
+            };
+            packet.DamagedList.AddRange(allDamaged);
+            _owner.GameRoom.Broadcast(_owner.CurrentPosition, packet);
+        }
+
+        // ────────────────────────────────────────────────────────
+        // Channeling (차지 후 1회 공격)
+        // ────────────────────────────────────────────────────────
+
+        private void StartChanneling(int skillId, ISkillEffect[] effects, SkillMetaData meta)
+        {
+            _channelingSkills.Add(skillId);
+
+            S_UseSkill startPacket = new S_UseSkill
+            {
+                CasterId       = _owner.Id,
+                SkillId        = skillId,
+                Result         = UseSkillResult.Success,
+                ActivationType = SkillActivationType.Channeling,
+                CastTimeMs     = (int)(meta.CastTime * 1000),
+            };
+            _owner.GameRoom.Broadcast(startPacket);
+
+            int totalMs   = (int)(meta.CastTime * 1000);
+            int tickMs    = meta.ChannelTickIntervalMs > 0 ? meta.ChannelTickIntervalMs : totalMs;
+            int tickCount = tickMs > 0 ? totalMs / tickMs : 1;
+
+            ScheduleChannelTick(skillId, effects, meta, tickCount, tickMs, completedTicks: 0);
+        }
+
+        private void ScheduleChannelTick(int skillId, ISkillEffect[] effects, SkillMetaData meta,
+            int remainingTicks, int tickMs, int completedTicks)
+        {
+            _owner.GameRoom.ScheduleDelayedAction(tickMs, () =>
+            {
+                if (!_channelingSkills.Contains(skillId))
+                    return;
+
+                int newCompleted = completedTicks + 1;
+
+                if (remainingTicks > 1)
+                {
+                    // 아직 차지 중 — 틱 카운트만 증가, 데미지 없음
+                    ScheduleChannelTick(skillId, effects, meta, remainingTicks - 1, tickMs, newCompleted);
+                }
+                else
+                {
+                    // 마지막 틱 — 차지 완료, 1회 공격 후 종료
+                    EndChanneling(skillId, interrupted: false, effects, meta, chargeMultiplier: newCompleted);
+                }
+            });
+        }
+
+        private void EndChanneling(int skillId, bool interrupted,
+            ISkillEffect[] effects = null, SkillMetaData meta = null, float chargeMultiplier = 1.0f)
+        {
+            _channelingSkills.Remove(skillId);
+
+            if (!interrupted && effects != null && meta != null)
+            {
+                List<GameObject> targets = SkillTargetSelector.GetTargets(_owner, meta);
+
+                var allDamaged = new List<DamagedInfo>();
+                foreach (ISkillEffect effect in effects)
+                    allDamaged.AddRange(effect.Execute(_owner, targets, chargeMultiplier));
+
+                // Melee는 여기서 데미지 결과 브로드캐스트
+                // Ranged는 RangedAttackEffect가 SpawnProjectile → S_Spawn 경로로 처리
+                if (allDamaged.Count > 0)
+                {
+                    S_UseSkill hitPacket = new S_UseSkill
+                    {
+                        CasterId       = _owner.Id,
+                        SkillId        = skillId,
+                        Result         = UseSkillResult.Success,
+                        ActivationType = SkillActivationType.Channeling,
+                    };
+                    hitPacket.DamagedList.AddRange(allDamaged);
+                    _owner.GameRoom.Broadcast(_owner.CurrentPosition, hitPacket);
+                }
             }
 
-            // 4. 쿨타임 시작 (ID 대역이 40001+ 이므로 아이템 쿨타임과 자동 분리)
-            _owner.CooldownTracker.StartCooldown(skillId, meta.CoolTime);
+            var (_, _, cachedMeta) = GetOrBuildCache(skillId);
+            if (cachedMeta != null)
+                _owner.CooldownTracker.StartCooldown(skillId, cachedMeta.CoolTime);
+
+            S_ChannelEnd endPacket = new S_ChannelEnd
+            {
+                CasterId    = _owner.Id,
+                SkillId     = skillId,
+                Interrupted = interrupted,
+            };
+            _owner.GameRoom.Broadcast(endPacket);
         }
 
         // ────────────────────────────────────────────────────────
@@ -113,15 +208,11 @@ namespace Server.Game.Skill
         private (ISkillRequirement[] reqs, ISkillEffect[] effects, SkillMetaData meta) GetOrBuildCache(int skillId)
         {
             if (_cache.TryGetValue(skillId, out var cached))
-            {
                 return cached;
-            }
 
             SkillMetaData meta = SpecDataManager.Instance.GetSkill(skillId);
             if (meta == null)
-            {
                 return (null, null, null);
-            }
 
             ISkillRequirement[] reqs    = SkillFactory.BuildRequirements(meta);
             ISkillEffect[]      effects = SkillFactory.BuildEffects(meta);
@@ -135,10 +226,10 @@ namespace Server.Game.Skill
         {
             return req switch
             {
-                LevelRequirement   => UseSkillResult.NotEnoughLevel,
-                JobRequirement     => UseSkillResult.WrongJob,
-                CostRequirement    => UseSkillResult.NotEnoughResource,
-                _                  => UseSkillResult.WrongState,
+                LevelRequirement => UseSkillResult.NotEnoughLevel,
+                JobRequirement   => UseSkillResult.WrongJob,
+                CostRequirement  => UseSkillResult.NotEnoughResource,
+                _                => UseSkillResult.WrongState,
             };
         }
     }

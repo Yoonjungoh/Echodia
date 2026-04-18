@@ -108,6 +108,11 @@ public class MyPlayerController : PlayerController
             OnUseSkill1Input
         );
 
+        Managers.Input.RegisterKeyAction(
+            KeySettings.UseSkill2,
+            OnUseSkill2Input
+        );
+
         // TODO - 우선 타이밍 이슈로 어쩔 수 없이 여기서 초기화
         _commonAttackAnimSpeedTime = 2.0f;
         _commonAttackAnimLength = _anim.GetAnimationClipLength(_commonAttackanimName) / _commonAttackAnimSpeedTime;
@@ -366,7 +371,12 @@ public class MyPlayerController : PlayerController
 
     private void OnUseSkill1Input()
     {
-        UseSkill((int)SkillType.MagicMissile);
+        UseSkill((int)SkillType.MagicMissile);  // 700001
+    }
+
+    private void OnUseSkill2Input()
+    {
+        UseSkill((int)SkillType.LightningChannel);  // 700002
     }
 
     private void UseSkill(int skillId)

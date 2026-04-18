@@ -13,6 +13,7 @@ namespace Server.Game
         public long SpawnTime { get; set; }
         public int LifeTime { get; set; } // Ms
         public Vector3 PreviousPosition { get; set; }
+        public float DamageCoefficient { get; set; } = 1.0f;
 
         public Projectile()
         {
@@ -26,6 +27,7 @@ namespace Server.Game
             HitCount = 0;
             SpawnTime = 0;
             PreviousPosition = Vector3.Zero;
+            DamageCoefficient = 1.0f;
             GameRoom = null;
         }
 

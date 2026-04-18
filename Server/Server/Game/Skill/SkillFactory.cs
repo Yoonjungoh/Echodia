@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using Server.Data;
 using Server.Game.Skill.Effects;
 using Server.Game.Skill.Requirements;
@@ -21,7 +22,7 @@ namespace Server.Game.Skill
                 list.Add(new LevelRequirement(skill.RequiredLevel));
             }
 
-            List<Google.Protobuf.Protocol.PlayerJobType> allowedJobs = skill.GetRequiredJobsList();
+            List<Google.Protobuf.Protocol.PlayerJobType> allowedJobs = skill.RequiredJobs;
             if (allowedJobs.Count > 0)
             {
                 list.Add(new JobRequirement(allowedJobs));

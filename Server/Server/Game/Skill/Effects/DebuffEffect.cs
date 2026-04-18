@@ -1,12 +1,10 @@
+using Google.Protobuf.Protocol;
 using Server.Data;
+using System;
 using System.Collections.Generic;
 
 namespace Server.Game.Skill.Effects
 {
-    /// <summary>
-    /// 대상에게 상태이상(Stun, Slow, Poison, Bleed)을 부여한다.
-    /// TODO: 실제 상태이상 시스템(StatusEffectTracker)과 연결 예정.
-    /// </summary>
     public class DebuffEffect : ISkillEffect
     {
         private readonly SkillDebuffDetailMetaData _detail;
@@ -16,12 +14,12 @@ namespace Server.Game.Skill.Effects
             _detail = detail;
         }
 
-        public void Execute(Player caster, List<GameObject> targets)
+        public IReadOnlyList<DamagedInfo> Execute(Player caster, List<GameObject> targets, float chargeMultiplier = 1.0f)
         {
             foreach (GameObject target in targets)
-            {
                 ApplyDebuff(caster, target);
-            }
+
+            return Array.Empty<DamagedInfo>();
         }
 
         private void ApplyDebuff(Player caster, GameObject target)
@@ -35,10 +33,10 @@ namespace Server.Game.Skill.Effects
                     // TODO: target.StatusEffects.AddSlow(_detail.Value, _detail.Duration)
                     break;
                 case DebuffType.Poison:
-                    // TODO: target.StatusEffects.AddPoison(_detail.Value, _detail.Duration)
+                    // TODO: target.StatusEffects.AddPoison(_detail.DamagePerTick, _detail.Duration)
                     break;
                 case DebuffType.Bleed:
-                    // TODO: target.StatusEffects.AddBleed(_detail.Value, _detail.Duration)
+                    // TODO: target.StatusEffects.AddBleed(_detail.DamagePerTick, _detail.Duration)
                     break;
             }
         }

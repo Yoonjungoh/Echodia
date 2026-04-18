@@ -737,6 +737,30 @@ class PacketHandler
         cc.SetMp(changeMpPacket.TotalMp, cc.Stat.MaxMp);
     }
 
+    public static void S_ChannelEndHandler(PacketSession session, IMessage packet)
+    {
+        S_ChannelEnd channelEndPacket = packet as S_ChannelEnd;
+        if (channelEndPacket == null)
+        {
+            Debug.Log("S_ChannelEnd 패킷이 null입니다");
+            return;
+        }
+
+        // 채널링 완료(중단 아님)일 때 쿨타임 시작
+        if (!channelEndPacket.Interrupted)
+        {
+            float coolTime = Managers.SpecData.GetSkill(channelEndPacket.SkillId)?.CoolTime ?? 0f;
+            Managers.Cooldown.StartCooldown(channelEndPacket.SkillId, coolTime);
+        }
+
+        GameObject go = Managers.GameRoomObject.FindById(channelEndPacket.CasterId);
+        if (go == null)
+            return;
+
+        CreatureController cc = go.GetComponent<CreatureController>();
+        cc.OnChannelingEnd(channelEndPacket.Interrupted);
+    }
+
     public static void S_UseSkillHandler(PacketSession session, IMessage packet)
     {
         S_UseSkill useSkillPacket = packet as S_UseSkill;
@@ -749,9 +773,12 @@ class PacketHandler
         switch (useSkillPacket.Result)
         {
             case UseSkillResult.Success:
-                // TODO: GenSpecData.bat 실행 후 Managers.SpecData.GetSkill(useSkillPacket.SkillId).CoolTime 로 교체
-                // Managers.Cooldown.StartCooldown(useSkillPacket.SkillId, Managers.SpecData.GetSkill(useSkillPacket.SkillId).CoolTime);
-                Managers.Cooldown.StartCooldown(useSkillPacket.SkillId, 5.0f);
+                // 채널링은 S_ChannelEnd 수신 시 쿨타임 시작 — 여기서는 Instant만 처리
+                if (useSkillPacket.ActivationType != SkillActivationType.Channeling)
+                {
+                    float coolTime = Managers.SpecData.GetSkill(useSkillPacket.SkillId).CoolTime;
+                    Managers.Cooldown.StartCooldown(useSkillPacket.SkillId, coolTime);
+                }
                 foreach (DamagedInfo damagedInfo in useSkillPacket.DamagedList)
                 {
                     GameObject go = Managers.GameRoomObject.FindById(damagedInfo.ObjectId);

@@ -1767,7 +1767,7 @@ public partial class SpecDataManager
             _skillDict.Clear();
             _skillList.Clear();
 
-            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 14);
+            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 16);
             for (int i = 2; i < rows.Count; i++)
             {
                 string[] cells = rows[i];
@@ -1927,6 +1927,28 @@ public partial class SpecDataManager
                         "  위치: 시트 행 " + sheetRow + ", 열 14 (SkillActionIds)\n" +
                         "  타입: list<int>\n" +
                         "  값: \"" + cells[13] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // CastHalfAngles (list<float>)
+                try { data.CastHalfAngles = ParseList(cells[40], s => ParseFloat(s)); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Skill] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 41 (CastHalfAngles)\n" +
+                        "  타입: list<float>\n" +
+                        "  값: \"" + cells[40] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // ChannelTickIntervalMs (int)
+                try { data.ChannelTickIntervalMs = ParseInt(cells[41]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [Skill] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 42 (ChannelTickIntervalMs)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[41] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
@@ -2341,7 +2363,7 @@ public partial class SpecDataManager
             _skillDebuffDetailDict.Clear();
             _skillDebuffDetailList.Clear();
 
-            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 4);
+            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 5);
             for (int i = 2; i < rows.Count; i++)
             {
                 string[] cells = rows[i];
@@ -2383,14 +2405,25 @@ public partial class SpecDataManager
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
-                // Duration (float)
-                try { data.Duration = ParseFloat(cells[3]); }
+                // DamagePerTick (int)
+                try { data.DamagePerTick = ParseInt(cells[3]); }
                 catch (Exception e)
                 {
                     Debug.LogWarning("[SpecDataManager] [SkillDebuffDetail] 파싱 오류\n" +
-                        "  위치: 시트 행 " + sheetRow + ", 열 4 (Duration)\n" +
-                        "  타입: float\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 4 (DamagePerTick)\n" +
+                        "  타입: int\n" +
                         "  값: \"" + cells[3] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // Duration (float)
+                try { data.Duration = ParseFloat(cells[4]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillDebuffDetail] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 5 (Duration)\n" +
+                        "  타입: float\n" +
+                        "  값: \"" + cells[4] + "\"\n" +
                         "  원인: " + e.Message);
                     rowOk = false;
                 }
@@ -2598,6 +2631,16 @@ public partial class SpecDataManager
         return GetSkill((int)key);
     }
 
+    public SkillMetaData GetSkill(SkillActivationType key)
+    {
+        return GetSkill((int)key);
+    }
+
+    public SkillMetaData GetSkill(SkillTargetingType key)
+    {
+        return GetSkill((int)key);
+    }
+
     public List<SkillMetaData> GetAllSkill()
     {
         return _skillList;
@@ -2609,6 +2652,11 @@ public partial class SpecDataManager
         return result;
     }
 
+    public SkillCostMetaData GetSkillCost(SkillCostType key)
+    {
+        return GetSkillCost((int)key);
+    }
+
     public List<SkillCostMetaData> GetAllSkillCost()
     {
         return _skillCostList;
@@ -2618,6 +2666,11 @@ public partial class SpecDataManager
     {
         _skillActionDict.TryGetValue(id, out SkillActionMetaData result);
         return result;
+    }
+
+    public SkillActionMetaData GetSkillAction(SkillActionType key)
+    {
+        return GetSkillAction((int)key);
     }
 
     public List<SkillActionMetaData> GetAllSkillAction()
@@ -2647,6 +2700,11 @@ public partial class SpecDataManager
         return result;
     }
 
+    public SkillBuffDetailMetaData GetSkillBuffDetail(StatType key)
+    {
+        return GetSkillBuffDetail((int)key);
+    }
+
     public List<SkillBuffDetailMetaData> GetAllSkillBuffDetail()
     {
         return _skillBuffDetailList;
@@ -2656,6 +2714,11 @@ public partial class SpecDataManager
     {
         _skillDebuffDetailDict.TryGetValue(id, out SkillDebuffDetailMetaData result);
         return result;
+    }
+
+    public SkillDebuffDetailMetaData GetSkillDebuffDetail(DebuffType key)
+    {
+        return GetSkillDebuffDetail((int)key);
     }
 
     public List<SkillDebuffDetailMetaData> GetAllSkillDebuffDetail()

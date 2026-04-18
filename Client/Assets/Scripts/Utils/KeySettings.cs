@@ -11,5 +11,6 @@ public class KeySettings
     public const KeyCode PickupDropItem = KeyCode.Z;
     public const KeyCode MapTransfer = KeyCode.BackQuote;  // ` 키
     public const KeyCode UseSkill1 = KeyCode.R;
+    public const KeyCode UseSkill2 = KeyCode.T;
 
 }

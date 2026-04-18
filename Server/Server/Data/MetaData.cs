@@ -208,6 +208,8 @@ namespace Server.Data
         public float CoolTime;
         public float CastTime;
         public List<int> SkillActionIds;
+        public List<float> CastHalfAngles;
+        public int ChannelTickIntervalMs;
     }
 
     // ── SkillCost
@@ -261,6 +263,7 @@ namespace Server.Data
         public int Id;
         public DebuffType DebuffType;
         public float Value;
+        public int DamagePerTick;
         public float Duration;
     }
 }

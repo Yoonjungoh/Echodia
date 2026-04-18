@@ -72,6 +72,7 @@ enum MsgId {
   S_Change_Mp = 158;
   C_USE_SKILL = 159;
   S_USE_SKILL = 160;
+  S_CHANNEL_END = 161;
 }
 
 enum CreatureState {
@@ -116,7 +117,23 @@ enum ProjectileType {
 
 enum SkillType {
   SKILL_TYPE_NONE = 0;
-  SKILL_TYPE_MAGIC_MISSILE = 40001;
+  SKILL_TYPE_MAGIC_MISSILE = 700001;
+  SKILL_TYPE_LIGHTNING_CHANNEL = 700002;
+}
+
+enum SkillActivationType {
+  SKILL_ACTIVATION_TYPE_NONE = 0;
+  SKILL_ACTIVATION_TYPE_INSTANT = 1;
+  SKILL_ACTIVATION_TYPE_CHANNELING = 2;
+  SKILL_ACTIVATION_TYPE_CHARGE_RELEASE = 3;
+}
+
+enum DebuffType {
+  DEBUFF_TYPE_NONE = 0;
+  DEBUFF_TYPE_STUN = 1;
+  DEBUFF_TYPE_SLOW = 2;
+  DEBUFF_TYPE_POISON = 3;
+  DEBUFF_TYPE_BLEED = 4;
 }
 
 enum UseSkillResult {
@@ -268,9 +285,61 @@ enum EquipmentSlotType {
 
 enum JobMainDamageType {
   JOB_MAIN_DAMAGE_TYPE_NONE = 0;
-  JOB_MAIN_DAMAGE_TYPE_PHYSICAL = 1;    // 물리 (Knight, Archer, Thief 등)
-  JOB_MAIN_DAMAGE_TYPE_MAGICAL = 2;      // 마법 (Mage 등)
-  // 하이브리드 직업이 생길 가능성이 있다면 Hybrid 추가 가능
+  JOB_MAIN_DAMAGE_TYPE_PHYSICAL = 1;
+  JOB_MAIN_DAMAGE_TYPE_MAGICAL = 2;
+}
+
+enum SkillCostType {
+  SKILL_COST_TYPE_NONE = 0;
+  SKILL_COST_TYPE_HP = 1;
+  SKILL_COST_TYPE_MP = 2;
+  SKILL_COST_TYPE_ITEM = 3;
+  SKILL_COST_TYPE_GOLD = 4;
+  SKILL_COST_TYPE_JEWEL = 5;
+}
+
+enum SkillActionType {
+  SKILL_ACTION_TYPE_NONE = 0;
+  SKILL_ACTION_TYPE_DAMAGE = 1;
+  SKILL_ACTION_TYPE_SPAWN_PROJECTILE = 2;
+  SKILL_ACTION_TYPE_BUFF = 3;
+  SKILL_ACTION_TYPE_DEBUFF = 4;
+}
+
+enum SkillTargetingType {
+  SKILL_TARGETING_TYPE_NONE = 0;
+  SKILL_TARGETING_TYPE_ENEMY = 1;
+  SKILL_TARGETING_TYPE_ALLY = 2;
+  SKILL_TARGETING_TYPE_SELF = 3;
+  SKILL_TARGETING_TYPE_ALL = 4;
+}
+
+enum CastDirectionType {
+  CAST_DIRECTION_TYPE_NONE = 0;
+  CAST_DIRECTION_TYPE_FRONT = 1;
+  CAST_DIRECTION_TYPE_BACK = 2;
+  CAST_DIRECTION_TYPE_LEFT = 3;
+  CAST_DIRECTION_TYPE_RIGHT = 4;
+  CAST_DIRECTION_TYPE_SPHERE = 5;
+}
+
+enum StatType {
+  STAT_TYPE_NONE = 0;
+  STAT_TYPE_HP = 1;
+  STAT_TYPE_MAX_HP = 2;
+  STAT_TYPE_MP = 3;
+  STAT_TYPE_MAX_MP = 4;
+  STAT_TYPE_PHYSICAL_DAMAGE = 5;
+  STAT_TYPE_MAGIC_DAMAGE = 6;
+  STAT_TYPE_DEFENSE = 7;
+  STAT_TYPE_MOVE_SPEED = 8;
+  STAT_TYPE_STR = 9;
+  STAT_TYPE_DEX = 10;
+  STAT_TYPE_INT = 11;
+  STAT_TYPE_LUK = 12;
+  STAT_TYPE_CRITICAL_RATE = 13;
+  STAT_TYPE_CRITICAL_DAMAGE = 14;
+  STAT_TYPE_ATTACK_RANGE = 15;
 }
 
 message S_AssignUserId {
@@ -591,7 +660,16 @@ message S_UseSkill {
   int32 caster_id = 1;
   int32 skill_id = 2;
   UseSkillResult result = 3;
-  repeated DamagedInfo damaged_list = 4;  // 근접 공격 결과 (Ranged는 투사체로 처리)
+  repeated DamagedInfo damaged_list = 4;
+  SkillActivationType activation_type = 5;
+  int32 cast_time_ms = 6;
+}
+
+// 서버 → 클라: 채널링 종료 알림
+message S_ChannelEnd {
+  int32 caster_id = 1;
+  int32 skill_id = 2;
+  bool interrupted = 3;
 }
 
 // 클라가 퀘스트 초기화 할 때 필요한 존재

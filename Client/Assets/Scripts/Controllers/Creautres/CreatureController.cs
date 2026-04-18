@@ -25,6 +25,10 @@ public class CreatureController : BaseController
     protected string _dieEffectName;
     protected Vector3 _dieEffectOffset;
 
+    protected string _channelingEffectName;
+    protected Vector3 _channelingEffectOffset;
+    private ParticleSystem _channelingParticle;
+
     protected AttackType _meleeAttackType = AttackType.None;
     protected AttackType _rangedAttackType = AttackType.None;
 
@@ -80,6 +84,12 @@ public class CreatureController : BaseController
 
         _dieEffectName = $"{CreatureState.Die}Effect";
         _dieEffectOffset = new Vector3(0, _collider.bounds.size.y / 2, 0);
+
+        _channelingEffectName = "ChannelingEffect";
+        _channelingEffectOffset = new Vector3(0, _collider.bounds.size.y / 2, 0);
+
+        ChannelingStarted += HandleChannelingStarted;
+        ChannelingEnded   += HandleChannelingEnded;
     }
 
     // 풀에서 꺼낼 때 상태 초기화 (IPoolable.Reset() → BearController.Reset() 에서 호출)
@@ -242,5 +252,48 @@ public class CreatureController : BaseController
     {
         ObjectState.Stat.Mp = mp;
         ObjectState.Stat.MaxMp = maxMp;
+    }
+
+    // ── 채널링 ────────────────────────────────────────────────────────────────
+
+    public event Action<int> ChannelingStarted;
+    public event Action<bool> ChannelingEnded;
+
+    public virtual void OnStartChanneling(int castTimeMs)
+    {
+        CreatureState = CreatureState.Attack;
+        ChannelingStarted?.Invoke(castTimeMs);
+    }
+
+    public virtual void OnChannelingEnd(bool interrupted)
+    {
+        CreatureState = CreatureState.Idle;
+        ChannelingEnded?.Invoke(interrupted);
+    }
+
+    private void HandleChannelingStarted(int castTimeMs)
+    {
+        GameObject fx = Managers.Resource.SpawnEffect(
+            _channelingEffectName,
+            _channelingEffectOffset,
+            Quaternion.identity,
+            worldPositionStays: false,
+            transform);
+
+        if (fx == null)
+            return;
+
+        _channelingParticle = fx.GetComponent<ParticleSystem>();
+    }
+
+    private void HandleChannelingEnded(bool interrupted)
+    {
+        if (_channelingParticle == null)
+            return;
+
+        _channelingParticle.Stop(withChildren: true, stopBehavior: ParticleSystemStopBehavior.StopEmitting);
+        float remaining = _channelingParticle.main.startLifetime.constantMax;
+        Managers.Resource.Destroy(_channelingParticle.gameObject, remaining);
+        _channelingParticle = null;
     }
 }
