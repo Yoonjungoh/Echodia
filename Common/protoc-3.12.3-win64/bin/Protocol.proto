@@ -73,6 +73,7 @@ enum MsgId {
   C_USE_SKILL = 159;
   S_USE_SKILL = 160;
   S_CHANNEL_END = 161;
+  C_STOP_CHANNEL = 162;
 }
 
 enum CreatureState {
@@ -670,6 +671,12 @@ message S_ChannelEnd {
   int32 caster_id = 1;
   int32 skill_id = 2;
   bool interrupted = 3;
+}
+
+// 클라 → 서버: 채널링 종료 요청 (키 뗐을 때)
+message C_StopChannel {
+  int32 skill_id = 1;
+  int32 elapsed_ms = 2;
 }
 
 // 클라가 퀘스트 초기화 할 때 필요한 존재

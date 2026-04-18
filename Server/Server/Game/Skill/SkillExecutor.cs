@@ -86,6 +86,24 @@ namespace Server.Game.Skill
             EndChanneling(skillId, interrupted: true);
         }
 
+        /// <summary>클라이언트가 키를 뗐을 때 호출 — 실제 보유 시간 기반으로 1회 공격 후 종료.</summary>
+        public void StopChannel(int skillId, int elapsedMs)
+        {
+            if (!_channelingSkills.Contains(skillId))
+                return;
+
+            var (_, effects, meta) = GetOrBuildCache(skillId);
+            if (meta == null)
+                return;
+
+            int totalMs = (int)(meta.CastTime * 1000);
+            int tickMs = meta.ChannelTickIntervalMs > 0 ? meta.ChannelTickIntervalMs : totalMs;
+            int cappedMs = System.Math.Min(elapsedMs, totalMs);
+            float chargeMultiplier = tickMs > 0 ? System.Math.Max(1f, (float)cappedMs / tickMs) : 1f;
+
+            EndChanneling(skillId, interrupted: false, effects, meta, chargeMultiplier);
+        }
+
         // ────────────────────────────────────────────────────────
         // Instant
         // ────────────────────────────────────────────────────────

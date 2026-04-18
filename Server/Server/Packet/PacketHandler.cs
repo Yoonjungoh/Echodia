@@ -380,10 +380,23 @@ class PacketHandler
 
         Player player = clientSession?.MyPlayer;
         if (player == null || player.GameRoom == null)
-        {
             return;
-        }
 
         player.GameRoom.Push(player.GameRoom.HandleUseSkill, player.Id, useSkillPacket.SkillId);
+    }
+
+    public static void C_StopChannelHandler(PacketSession session, IMessage packet)
+    {
+        C_StopChannel stopChannelPacket = packet as C_StopChannel;
+        ClientSession clientSession = session as ClientSession;
+
+        Player player = clientSession?.MyPlayer;
+        if (player == null || player.GameRoom == null)
+            return;
+
+        player.GameRoom.Push(() =>
+        {
+            player.SkillExecutor.StopChannel(stopChannelPacket.SkillId, stopChannelPacket.ElapsedMs);
+        });
     }
 }

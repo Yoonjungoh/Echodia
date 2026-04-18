@@ -44,6 +44,8 @@ public class PlayerController : CreatureController
     protected override void UpdateAttack()
     {
         base.UpdateAttack();
+        if (_skillAnimPlaying)
+            return;
         if (_lastAnimState != CreatureState.Attack)
         {
             _anim.CrossFade(_commonAttackanimName, _transitionTime);

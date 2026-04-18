@@ -33,6 +33,8 @@ public class CreatureController : BaseController
     protected AttackType _meleeAttackType = AttackType.None;
     protected AttackType _rangedAttackType = AttackType.None;
 
+    protected bool _skillAnimPlaying = false;
+
     protected override void OnUpdate()
     {
         base.OnUpdate();
@@ -220,6 +222,7 @@ public class CreatureController : BaseController
         if (this == null || _anim == null)
             return;
 
+        _skillAnimPlaying = false;
         CreatureState = CreatureState.Idle;
 
         // 상태 변화 패킷 전송
@@ -268,6 +271,7 @@ public class CreatureController : BaseController
         if (string.IsNullOrEmpty(animName))
             return;
 
+        _skillAnimPlaying = true;
         CreatureState = CreatureState.Attack;
         _anim.CrossFade(animName, 0.1f);
 

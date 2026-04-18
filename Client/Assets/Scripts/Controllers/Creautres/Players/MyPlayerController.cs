@@ -42,6 +42,12 @@ public class MyPlayerController : PlayerController
     private const float PROXIMITY_CHECK_INTERVAL = 0.1f;
     private float _lastProximityCheckTime;
 
+    // 채널링 상태 추적
+    private bool _isChanneling = false;
+    private int _channelingSkillId = 0;
+    private float _channelingStartTimeMs = 0f;
+    private int _maxChannelMs = 0;
+
     // 맵 이동 포인트 캐시
     private const float MAP_TRANSFER_RADIUS = 5f;
     private Vector3? _mapEnterPointPos = null;
@@ -186,6 +192,13 @@ public class MyPlayerController : PlayerController
     {
         if (Managers.Scene.CurrentScene != Define.Scene.GameRoom)
             return;
+
+        // 채널링 키업은 Attack 상태 가드 이전에 처리
+        if (_isChanneling && Input.GetKeyUp(KeySettings.UseSkill2))
+        {
+            StopChanneling();
+            return;
+        }
 
         if (CreatureState == CreatureState.Die || CreatureState == CreatureState.Attack)
             return;
@@ -371,27 +384,71 @@ public class MyPlayerController : PlayerController
 
     private void OnUseSkill1Input()
     {
-        UseSkill((int)SkillType.MagicMissile);  // 700001
+        UseSkill((int)SkillType.MagicMissile);
     }
 
     private void OnUseSkill2Input()
     {
-        UseSkill((int)SkillType.LightningChannel);  // 700002
+        int skillId = (int)SkillType.LightningChannel;
+        if (!UseSkill(skillId))
+            return;
+
+        _channelingSkillId = skillId;
+        _isChanneling = true;
+        _channelingStartTimeMs = Time.realtimeSinceStartup * 1000f;
     }
 
-    private void UseSkill(int skillId)
+    private bool UseSkill(int skillId)
     {
         if (Managers.Scene.CurrentScene != Define.Scene.GameRoom)
-            return;
+            return false;
 
         if (CreatureState == CreatureState.Die || CreatureState == CreatureState.Attack)
-            return;
+            return false;
 
         if (Managers.Cooldown.IsOnCooldown(skillId))
-            return;
+            return false;
 
         C_UseSkill useSkillPacket = new C_UseSkill { SkillId = skillId };
         Managers.Network.Send(useSkillPacket);
+        return true;
+    }
+
+    private void StopChanneling()
+    {
+        if (!_isChanneling)
+            return;
+
+        _isChanneling = false;
+
+        float nowMs = Time.realtimeSinceStartup * 1000f;
+        int elapsedMs = (int)(nowMs - _channelingStartTimeMs);
+        if (_maxChannelMs > 0)
+            elapsedMs = Mathf.Min(elapsedMs, _maxChannelMs);
+
+        C_StopChannel stopPacket = new C_StopChannel
+        {
+            SkillId = _channelingSkillId,
+            ElapsedMs = elapsedMs
+        };
+        Managers.Network.Send(stopPacket);
+        _channelingSkillId = 0;
+    }
+
+    public override void OnStartChanneling(int castTimeMs)
+    {
+        base.OnStartChanneling(castTimeMs);
+        SkillChannelMetaData channelMeta = Managers.Data.GetSkillChannel((SkillType)_channelingSkillId);
+        if (channelMeta != null)
+            _maxChannelMs = channelMeta.ChannelTickIntervalMs;
+    }
+
+    public override void OnChannelingEnd(bool interrupted)
+    {
+        base.OnChannelingEnd(interrupted);
+        _isChanneling = false;
+        _channelingSkillId = 0;
+        _maxChannelMs = 0;
     }
 
     private void CheckDropItemProximity()
