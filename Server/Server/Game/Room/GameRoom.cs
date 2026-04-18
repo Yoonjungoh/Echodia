@@ -318,6 +318,29 @@ namespace Server.Game
         /// <summary>SkillTargetSelector가 탐색에 사용하는 전체 게임 오브젝트 열거.</summary>
         public IEnumerable<GameObject> GetAllObjects() => _gameObjects.Values;
 
+        /// <summary>
+        /// center 기준 range 반경 내 Zone들에 있는 Player/Monster를 열거한다.
+        /// Zone AABB 기반 pre-filter이므로 호출부에서 정확한 distSq 체크를 추가로 수행해야 함.
+        /// </summary>
+        public IEnumerable<GameObject> GetObjectsInRange(Vector3 center, float range)
+        {
+            int minX = Math.Max(0, (int)((center.X - range - Map.MapData.MinX) / ZoneCells));
+            int maxX = Math.Min(Zones.GetLength(0) - 1, (int)((center.X + range - Map.MapData.MinX) / ZoneCells));
+            int minZ = Math.Max(0, (int)((center.Z - range - Map.MapData.MinZ) / ZoneCells));
+            int maxZ = Math.Min(Zones.GetLength(1) - 1, (int)((center.Z + range - Map.MapData.MinZ) / ZoneCells));
+
+            for (int x = minX; x <= maxX; x++)
+            {
+                for (int z = minZ; z <= maxZ; z++)
+                {
+                    Zone zone = Zones[x, z];
+                    if (zone == null) continue;
+                    foreach (Player p in zone.Players)   yield return p;
+                    foreach (Monster m in zone.Monsters) yield return m;
+                }
+            }
+        }
+
         public void HandleUseSkill(int playerId, int skillId)
         {
             _players.TryGetValue(playerId, out Player player);

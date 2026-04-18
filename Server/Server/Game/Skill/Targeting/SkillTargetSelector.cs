@@ -27,7 +27,11 @@ namespace Server.Game.Skill.Targeting
 
             var candidates = new List<(GameObject obj, float distSq)>();
 
-            foreach (GameObject obj in caster.GameRoom.GetAllObjects())
+            IEnumerable<GameObject> pool = range > 0f
+                ? caster.GameRoom.GetObjectsInRange(casterPos, range)
+                : caster.GameRoom.GetAllObjects();
+
+            foreach (GameObject obj in pool)
             {
                 if (obj == null || obj.Id == caster.Id)
                 {

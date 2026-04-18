@@ -102,9 +102,9 @@ namespace Server.Game.Skill
 
             S_UseSkill packet = new S_UseSkill
             {
-                CasterId       = _owner.Id,
-                SkillId        = skillId,
-                Result         = UseSkillResult.Success,
+                CasterId = _owner.Id,
+                SkillId = skillId,
+                Result = UseSkillResult.Success,
                 ActivationType = SkillActivationType.Instant,
             };
             packet.DamagedList.AddRange(allDamaged);
@@ -121,16 +121,16 @@ namespace Server.Game.Skill
 
             S_UseSkill startPacket = new S_UseSkill
             {
-                CasterId       = _owner.Id,
-                SkillId        = skillId,
-                Result         = UseSkillResult.Success,
+                CasterId = _owner.Id,
+                SkillId = skillId,
+                Result = UseSkillResult.Success,
                 ActivationType = SkillActivationType.Channeling,
-                CastTimeMs     = (int)(meta.CastTime * 1000),
+                CastTimeMs = (int)(meta.CastTime * 1000),
             };
             _owner.GameRoom.Broadcast(startPacket);
 
-            int totalMs   = (int)(meta.CastTime * 1000);
-            int tickMs    = meta.ChannelTickIntervalMs > 0 ? meta.ChannelTickIntervalMs : totalMs;
+            int totalMs = (int)(meta.CastTime * 1000);
+            int tickMs = meta.ChannelTickIntervalMs > 0 ? meta.ChannelTickIntervalMs : totalMs;
             int tickCount = tickMs > 0 ? totalMs / tickMs : 1;
 
             ScheduleChannelTick(skillId, effects, meta, tickCount, tickMs, completedTicks: 0);
@@ -178,9 +178,9 @@ namespace Server.Game.Skill
                 {
                     S_UseSkill hitPacket = new S_UseSkill
                     {
-                        CasterId       = _owner.Id,
-                        SkillId        = skillId,
-                        Result         = UseSkillResult.Success,
+                        CasterId = _owner.Id,
+                        SkillId = skillId,
+                        Result = UseSkillResult.Success,
                         ActivationType = SkillActivationType.Channeling,
                     };
                     hitPacket.DamagedList.AddRange(allDamaged);
@@ -194,8 +194,8 @@ namespace Server.Game.Skill
 
             S_ChannelEnd endPacket = new S_ChannelEnd
             {
-                CasterId    = _owner.Id,
-                SkillId     = skillId,
+                CasterId = _owner.Id,
+                SkillId = skillId,
                 Interrupted = interrupted,
             };
             _owner.GameRoom.Broadcast(endPacket);
@@ -214,8 +214,8 @@ namespace Server.Game.Skill
             if (meta == null)
                 return (null, null, null);
 
-            ISkillRequirement[] reqs    = SkillFactory.BuildRequirements(meta);
-            ISkillEffect[]      effects = SkillFactory.BuildEffects(meta);
+            ISkillRequirement[] reqs = SkillFactory.BuildRequirements(meta);
+            ISkillEffect[] effects = SkillFactory.BuildEffects(meta);
 
             var entry = (reqs, effects, meta);
             _cache[skillId] = entry;
@@ -227,9 +227,9 @@ namespace Server.Game.Skill
             return req switch
             {
                 LevelRequirement => UseSkillResult.NotEnoughLevel,
-                JobRequirement   => UseSkillResult.WrongJob,
-                CostRequirement  => UseSkillResult.NotEnoughResource,
-                _                => UseSkillResult.WrongState,
+                JobRequirement => UseSkillResult.WrongJob,
+                CostRequirement => UseSkillResult.NotEnoughResource,
+                _ => UseSkillResult.WrongState,
             };
         }
     }
