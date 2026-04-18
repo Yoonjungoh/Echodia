@@ -210,6 +210,17 @@ public class SkillMetaData
     public int ChannelTickIntervalMs;
 }
 
+// ── SkillChannel
+[Serializable]
+public class SkillChannelMetaData
+{
+    public int Id;
+    public SkillType SkillType;
+    public int MaxChannelMs;
+    public List<float> CastHalfAngles;
+    public int ChannelTickIntervalMs;
+}
+
 // ── SkillCost
 [Serializable]
 public class SkillCostMetaData

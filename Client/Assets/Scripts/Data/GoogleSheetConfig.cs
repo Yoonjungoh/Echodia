@@ -25,6 +25,7 @@ public static class GoogleSheetConfig
         "Player",
         "Config",
         "Skill",
+        "SkillChannel",
         "SkillCost",
         "SkillAction",
         "SkillAttackDetail",

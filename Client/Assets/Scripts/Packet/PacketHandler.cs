@@ -774,11 +774,33 @@ class PacketHandler
         {
             case UseSkillResult.Success:
                 // 채널링은 S_ChannelEnd 수신 시 쿨타임 시작 — 여기서는 Instant만 처리
-                if (useSkillPacket.ActivationType != SkillActivationType.Channeling)
+                bool isChanneling = useSkillPacket.ActivationType == SkillActivationType.Channeling;
+                if (!isChanneling)
                 {
                     float coolTime = Managers.SpecData.GetSkill(useSkillPacket.SkillId).CoolTime;
                     Managers.Cooldown.StartCooldown(useSkillPacket.SkillId, coolTime);
                 }
+
+                // 시전자 애니메이션 재생 + 채널링 상태 진입
+                GameObject casterGo = Managers.GameRoomObject.FindById(useSkillPacket.CasterId);
+                if (casterGo != null)
+                {
+                    CreatureController casterCc = casterGo.GetComponent<CreatureController>();
+                    if (casterCc != null)
+                    {
+                        SkillType skillType = (SkillType)useSkillPacket.SkillId;
+                        if (System.Enum.IsDefined(typeof(SkillType), skillType) && skillType != SkillType.None)
+                        {
+                            // Channeling: OnChannelingEnd에서 Idle 복귀 — returnToIdle=false
+                            // Instant: 클립 길이 후 자동 Idle 복귀 — returnToIdle=true
+                            casterCc.PlaySkillAnimation(skillType.ToString(), returnToIdle: !isChanneling);
+                        }
+
+                        if (isChanneling)
+                            casterCc.OnStartChanneling(useSkillPacket.CastTimeMs);
+                    }
+                }
+
                 foreach (DamagedInfo damagedInfo in useSkillPacket.DamagedList)
                 {
                     GameObject go = Managers.GameRoomObject.FindById(damagedInfo.ObjectId);

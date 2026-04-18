@@ -27,6 +27,7 @@ namespace Server.Data
             "Player",
             "Config",
             "Skill",
+            "SkillChannel",
             "SkillCost",
             "SkillAction",
             "SkillAttackDetail",

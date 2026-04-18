@@ -43,6 +43,8 @@ public partial class SpecDataManager
     List<PlayerMetaData>            _playerList = new List<PlayerMetaData>();
     Dictionary<int, SkillMetaData> _skillDict = new Dictionary<int, SkillMetaData>();
     List<SkillMetaData>            _skillList = new List<SkillMetaData>();
+    Dictionary<int, SkillChannelMetaData> _skillChannelDict = new Dictionary<int, SkillChannelMetaData>();
+    List<SkillChannelMetaData>            _skillChannelList = new List<SkillChannelMetaData>();
     Dictionary<int, SkillCostMetaData> _skillCostDict = new Dictionary<int, SkillCostMetaData>();
     List<SkillCostMetaData>            _skillCostList = new List<SkillCostMetaData>();
     Dictionary<int, SkillActionMetaData> _skillActionDict = new Dictionary<int, SkillActionMetaData>();
@@ -73,6 +75,7 @@ public partial class SpecDataManager
             Fetch_DropItemAsync(),
             Fetch_PlayerAsync(),
             Fetch_SkillAsync(),
+            Fetch_SkillChannelAsync(),
             Fetch_SkillCostAsync(),
             Fetch_SkillActionAsync(),
             Fetch_SkillAttackDetailAsync(),
@@ -1968,6 +1971,101 @@ public partial class SpecDataManager
         }
     }
 
+    async UniTask Fetch_SkillChannelAsync()
+    {
+        string url = GoogleSheetConfig.BuildJsonUrl("SkillChannel");
+        using (UnityWebRequest req = UnityWebRequest.Get(url))
+        {
+            await req.SendWebRequest();
+            if (req.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("[SpecDataManager] SkillChannel 다운로드 실패: " + req.error);
+                return;
+            }
+
+            _skillChannelDict.Clear();
+            _skillChannelList.Clear();
+
+            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: 5);
+            for (int i = 2; i < rows.Count; i++)
+            {
+                string[] cells = rows[i];
+                if (string.IsNullOrEmpty(cells[0])) continue;
+                int sheetRow = i + 1;
+                SkillChannelMetaData data = new SkillChannelMetaData();
+                bool rowOk = true;
+
+                // Id (int)
+                try { data.Id = ParseInt(cells[0]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillChannel] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 1 (Id)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[0] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // SkillType (enum)
+                try { data.SkillType = ParseEnum<SkillType>(cells[1]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillChannel] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 2 (SkillType)\n" +
+                        "  타입: enum\n" +
+                        "  값: \"" + cells[1] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // MaxChannelMs (int)
+                try { data.MaxChannelMs = ParseInt(cells[2]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillChannel] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 3 (MaxChannelMs)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[2] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // CastHalfAngles (list<float>)
+                try { data.CastHalfAngles = ParseList(cells[40], s => ParseFloat(s)); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillChannel] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 41 (CastHalfAngles)\n" +
+                        "  타입: list<float>\n" +
+                        "  값: \"" + cells[40] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+                // ChannelTickIntervalMs (int)
+                try { data.ChannelTickIntervalMs = ParseInt(cells[41]); }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillChannel] 파싱 오류\n" +
+                        "  위치: 시트 행 " + sheetRow + ", 열 42 (ChannelTickIntervalMs)\n" +
+                        "  타입: int\n" +
+                        "  값: \"" + cells[41] + "\"\n" +
+                        "  원인: " + e.Message);
+                    rowOk = false;
+                }
+
+                if (rowOk)
+                {
+                    _skillChannelDict[data.Id] = data;
+                    _skillChannelList.Add(data);
+                }
+                else
+                {
+                    Debug.LogWarning("[SpecDataManager] [SkillChannel] 행 " + sheetRow + " 파싱 오류로 스킵됨.");
+                }
+            }
+
+            Debug.Log("[SpecDataManager] SkillChannel 로드 완료: " + _skillChannelList.Count + "개");
+        }
+    }
+
     async UniTask Fetch_SkillCostAsync()
     {
         string url = GoogleSheetConfig.BuildJsonUrl("SkillCost");
@@ -2644,6 +2742,22 @@ public partial class SpecDataManager
     public List<SkillMetaData> GetAllSkill()
     {
         return _skillList;
+    }
+
+    public SkillChannelMetaData GetSkillChannel(int id)
+    {
+        _skillChannelDict.TryGetValue(id, out SkillChannelMetaData result);
+        return result;
+    }
+
+    public SkillChannelMetaData GetSkillChannel(SkillType key)
+    {
+        return GetSkillChannel((int)key);
+    }
+
+    public List<SkillChannelMetaData> GetAllSkillChannel()
+    {
+        return _skillChannelList;
     }
 
     public SkillCostMetaData GetSkillCost(int id)

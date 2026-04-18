@@ -26,6 +26,7 @@ public class CreatureController : BaseController
     protected Vector3 _dieEffectOffset;
 
     protected string _channelingEffectName;
+    protected string _channelingEndEffectName;
     protected Vector3 _channelingEffectOffset;
     private ParticleSystem _channelingParticle;
 
@@ -85,8 +86,9 @@ public class CreatureController : BaseController
         _dieEffectName = $"{CreatureState.Die}Effect";
         _dieEffectOffset = new Vector3(0, _collider.bounds.size.y / 2, 0);
 
-        _channelingEffectName = "ChannelingEffect";
-        _channelingEffectOffset = new Vector3(0, _collider.bounds.size.y / 2, 0);
+        _channelingEffectName    = "ChannelingEffect";
+        _channelingEndEffectName = "ChannelingEndEffect";
+        _channelingEffectOffset  = new Vector3(0, _collider.bounds.size.y / 2, 0);
 
         ChannelingStarted += HandleChannelingStarted;
         ChannelingEnded   += HandleChannelingEnded;
@@ -254,6 +256,29 @@ public class CreatureController : BaseController
         ObjectState.Stat.MaxMp = maxMp;
     }
 
+    // ── 스킬 애니메이션 ────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// 스킬 타입 이름에 해당하는 애니메이션을 재생한다.
+    /// returnToIdle=true 이면 클립 길이만큼 대기 후 Idle로 복귀 (Instant 스킬용).
+    /// returnToIdle=false 이면 외부에서 복귀를 관리한다 (Channeling 스킬은 OnChannelingEnd에서 처리).
+    /// </summary>
+    public void PlaySkillAnimation(string animName, bool returnToIdle = true)
+    {
+        if (string.IsNullOrEmpty(animName))
+            return;
+
+        CreatureState = CreatureState.Attack;
+        _anim.CrossFade(animName, 0.1f);
+
+        if (returnToIdle)
+        {
+            float clipLength = _anim.GetAnimationClipLength(animName);
+            if (clipLength > 0f)
+                CoReturnToIdleAfterAttack((int)(clipLength * 1000)).Forget();
+        }
+    }
+
     // ── 채널링 ────────────────────────────────────────────────────────────────
 
     public event Action<int> ChannelingStarted;
@@ -288,12 +313,31 @@ public class CreatureController : BaseController
 
     private void HandleChannelingEnded(bool interrupted)
     {
-        if (_channelingParticle == null)
-            return;
+        // 채널링 루프 이펙트 정지
+        if (_channelingParticle != null)
+        {
+            _channelingParticle.Stop(withChildren: true, stopBehavior: ParticleSystemStopBehavior.StopEmitting);
+            float remaining = _channelingParticle.main.startLifetime.constantMax;
+            Managers.Resource.Destroy(_channelingParticle.gameObject, remaining);
+            _channelingParticle = null;
+        }
 
-        _channelingParticle.Stop(withChildren: true, stopBehavior: ParticleSystemStopBehavior.StopEmitting);
-        float remaining = _channelingParticle.main.startLifetime.constantMax;
-        Managers.Resource.Destroy(_channelingParticle.gameObject, remaining);
-        _channelingParticle = null;
+        // 채널링 종료 이펙트 (완료/중단 무관하게 재생)
+        GameObject endFx = Managers.Resource.SpawnEffect(
+            _channelingEndEffectName,
+            _channelingEffectOffset,
+            Quaternion.identity,
+            worldPositionStays: false,
+            transform);
+
+        if (endFx != null)
+        {
+            ParticleSystem endPs = endFx.GetComponent<ParticleSystem>();
+            if (endPs != null)
+            {
+                float duration = endPs.main.duration + endPs.main.startLifetime.constantMax;
+                Managers.Resource.Destroy(endFx, duration);
+            }
+        }
     }
 }
