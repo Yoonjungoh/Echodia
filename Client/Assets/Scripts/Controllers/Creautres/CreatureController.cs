@@ -278,8 +278,8 @@ public class CreatureController : BaseController
         if (returnToIdle)
         {
             float clipLength = _anim.GetAnimationClipLength(animName);
-            if (clipLength > 0f)
-                CoReturnToIdleAfterAttack((int)(clipLength * 1000)).Forget();
+            int delayMs = clipLength > 0f ? (int)(clipLength * 1000) : 500;
+            CoReturnToIdleAfterAttack(delayMs).Forget();
         }
     }
 

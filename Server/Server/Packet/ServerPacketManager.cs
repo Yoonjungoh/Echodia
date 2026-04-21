@@ -78,7 +78,7 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.CRequestMapTransfer, MakePacket<C_RequestMapTransfer>);
 		_handler.Add((ushort)MsgId.CRequestMapTransfer, PacketHandler.C_RequestMapTransferHandler);		
 		_onRecv.Add((ushort)MsgId.CUseSkill, MakePacket<C_UseSkill>);
-		_handler.Add((ushort)MsgId.CUseSkill, PacketHandler.C_UseSkillHandler);
+		_handler.Add((ushort)MsgId.CUseSkill, PacketHandler.C_UseSkillHandler);		
 		_onRecv.Add((ushort)MsgId.CStopChannel, MakePacket<C_StopChannel>);
 		_handler.Add((ushort)MsgId.CStopChannel, PacketHandler.C_StopChannelHandler);
 	}

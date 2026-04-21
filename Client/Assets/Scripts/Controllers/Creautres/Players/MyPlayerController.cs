@@ -409,6 +409,8 @@ public class MyPlayerController : PlayerController
         if (Managers.Cooldown.IsOnCooldown(skillId))
             return false;
 
+        CreatureState = CreatureState.Attack;
+
         C_UseSkill useSkillPacket = new C_UseSkill { SkillId = skillId };
         Managers.Network.Send(useSkillPacket);
         return true;
@@ -438,7 +440,7 @@ public class MyPlayerController : PlayerController
     public override void OnStartChanneling(int castTimeMs)
     {
         base.OnStartChanneling(castTimeMs);
-        SkillChannelMetaData channelMeta = Managers.Data.GetSkillChannel((SkillType)_channelingSkillId);
+        SkillChannelMetaData channelMeta = Managers.SpecData.GetSkillChannel((SkillType)_channelingSkillId);
         if (channelMeta != null)
             _maxChannelMs = channelMeta.ChannelTickIntervalMs;
     }
