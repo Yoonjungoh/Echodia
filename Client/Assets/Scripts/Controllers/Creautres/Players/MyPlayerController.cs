@@ -546,6 +546,11 @@ public class MyPlayerController : PlayerController
     }
 
     // ` 키 입력 시 근처 이동 포인트에 따라 맵 전환 요청
+    public void OnMapTransferFailed()
+    {
+        _isTransferring = false;
+    }
+
     private void TryRequestMapTransfer()
     {
         if (_isTransferring)

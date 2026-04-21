@@ -352,6 +352,7 @@ class PacketHandler
             if (targetMapId < 0 || targetMap?.EnterPoint == null)
             {
                 ConsoleLogManager.Instance.Log($"[MapTransfer] No next map from mapId={currentMapId}");
+                player.Session?.Send(new S_MapTransfer { MapId = 0 });
                 return;
             }
             spawnPos = targetMap.EnterPoint.Position;
@@ -364,6 +365,7 @@ class PacketHandler
             if (targetMapId < 0 || targetMap?.LeavePoint == null)
             {
                 ConsoleLogManager.Instance.Log($"[MapTransfer] No prev map from mapId={currentMapId}");
+                player.Session?.Send(new S_MapTransfer { MapId = 0 });
                 return;
             }
             spawnPos = targetMap.LeavePoint.Position;

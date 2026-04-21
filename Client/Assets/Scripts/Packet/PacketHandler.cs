@@ -680,6 +680,14 @@ class PacketHandler
     // 서버가 맵 전환을 승인했을 때 — 이전 맵의 모든 오브젝트 정리
     public static void S_MapTransferHandler(PacketSession session, IMessage packet)
     {
+        S_MapTransfer mapTransferPacket = packet as S_MapTransfer;
+
+        if (mapTransferPacket.MapId == 0)
+        {
+            Managers.GameRoomObject.MyPlayer?.OnMapTransferFailed();
+            return;
+        }
+
         // 기존 룸의 오브젝트(몬스터, 아이템, 플레이어 포함) 전부 제거
         // MyPlayer도 null로 초기화되어 이후 S_EnterGame에서 정상 스폰됨
         Managers.Map.OnMapTransfer();
