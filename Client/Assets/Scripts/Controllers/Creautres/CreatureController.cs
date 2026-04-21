@@ -222,6 +222,9 @@ public class CreatureController : BaseController
         if (this == null || _anim == null)
             return;
 
+        if (CreatureState == CreatureState.Die)
+            return;
+
         _skillAnimPlaying = false;
         CreatureState = CreatureState.Idle;
 

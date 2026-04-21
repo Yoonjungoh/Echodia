@@ -183,18 +183,17 @@ namespace Server.Game
             float currentY = CurrentPosition.Y;
             float diff = groundY - currentY;
 
-            // 1. 경사면 미세한 차이는 그대로 따라가기
-            if (Math.Abs(diff) <= 0.3f)
+            // 1m 이내 높이 차이(계단 포함)는 지형에 즉시 스냅
+            if (Math.Abs(diff) <= 1.0f)
             {
                 newPos.Y = groundY;
             }
             else
             {
-                // 2. 급경사 / 튐 방지: 변화량 제한
+                // 1m 초과 절벽/낙하: 점진적 보간으로 튐 방지
                 if (diff > 1f) diff = 1f;
                 if (diff < -1f) diff = -1f;
 
-                // 3. 부드럽게 보간하여 높이 이동
                 newPos.Y = currentY + diff * 0.35f;
             }
 
