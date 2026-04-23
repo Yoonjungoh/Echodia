@@ -81,8 +81,6 @@ class PacketManager
 		_handler.Add((ushort)MsgId.CUseSkill, PacketHandler.C_UseSkillHandler);		
 		_onRecv.Add((ushort)MsgId.CStopChannel, MakePacket<C_StopChannel>);
 		_handler.Add((ushort)MsgId.CStopChannel, PacketHandler.C_StopChannelHandler);
-		_onRecv.Add((ushort)MsgId.CMoveItem, MakePacket<C_MoveItem>);
-		_handler.Add((ushort)MsgId.CMoveItem, PacketHandler.C_MoveItemHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

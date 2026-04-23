@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Google.Protobuf.Protocol;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager
 {
@@ -214,14 +215,14 @@ public class UIManager
 
         Image img = imageGo.AddComponent<Image>();
         img.sprite = icon;
-        img.color = new UnityEngine.Color(1f, 1f, 1f, 0.6f);
+        img.color = new Color(1f, 1f, 1f, 0.6f);
         img.raycastTarget = false;
 
         RectTransform rt = imageGo.GetComponent<RectTransform>();
-        rt.sizeDelta = new UnityEngine.Vector2(75f, 75f);
-        rt.anchorMin = UnityEngine.Vector2.zero;
-        rt.anchorMax = UnityEngine.Vector2.zero;
-        rt.pivot = new UnityEngine.Vector2(0.5f, 0.5f);
+        rt.sizeDelta = new Vector2(75f, 75f);
+        rt.anchorMin = new Vector2(0.5f, 0.5f);
+        rt.anchorMax = new Vector2(0.5f, 0.5f);
+        rt.pivot = new Vector2(0.5f, 0.5f);
 
         UI_ItemDragGhost ghost = imageGo.AddComponent<UI_ItemDragGhost>();
         ghost.Setup(ghostCanvas);

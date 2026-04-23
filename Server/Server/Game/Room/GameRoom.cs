@@ -238,7 +238,7 @@ namespace Server.Game
             {
                 // 원 안에서 균등 분포 랜덤 좌표 (rejection sampling 대신 sqrt로 반경 보정)
                 float angle = (float)(_spawnRng.NextDouble() * Math.PI * 2.0);
-                float dist  = (float)(Math.Sqrt(_spawnRng.NextDouble()) * radius);
+                float dist = (float)(Math.Sqrt(_spawnRng.NextDouble()) * radius);
 
                 float x = center.X + (float)Math.Cos(angle) * dist;
                 float z = center.Z + (float)Math.Sin(angle) * dist;
@@ -329,14 +329,19 @@ namespace Server.Game
             int minZ = Math.Max(0, (int)((center.Z - range - Map.MapData.MinZ) / ZoneCells));
             int maxZ = Math.Min(Zones.GetLength(1) - 1, (int)((center.Z + range - Map.MapData.MinZ) / ZoneCells));
 
-            for (int x = minX; x <= maxX; x++)
+            for (int x = minX; x <= maxX; ++x)
             {
-                for (int z = minZ; z <= maxZ; z++)
+                for (int z = minZ; z <= maxZ; ++z)
                 {
                     Zone zone = Zones[x, z];
-                    if (zone == null) continue;
-                    foreach (Player p in zone.Players)   yield return p;
-                    foreach (Monster m in zone.Monsters) yield return m;
+                    if (zone == null) 
+                        continue;
+
+                    foreach (Player p in zone.Players) 
+                        yield return p;
+                        
+                    foreach (Monster m in zone.Monsters) 
+                        yield return m;
                 }
             }
         }
@@ -356,8 +361,8 @@ namespace Server.Game
                 S_UseSkill failPacket = new S_UseSkill
                 {
                     CasterId = playerId,
-                    SkillId  = skillId,
-                    Result   = result,
+                    SkillId = skillId,
+                    Result = result,
                 };
                 player.Session?.Send(failPacket);
                 return;
@@ -419,7 +424,7 @@ namespace Server.Game
             if (ownerPlayer != null)
             {
                 (int baseDamage, bool isCrit) = ownerPlayer.StatCalculator.GetFinalDamage();
-                damage     = (int)(baseDamage * projectile.DamageCoefficient);
+                damage = (int)(baseDamage * projectile.DamageCoefficient);
                 isCritical = isCrit;
             }
             else
