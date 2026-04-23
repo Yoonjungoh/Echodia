@@ -416,6 +416,71 @@ namespace Server.Game
             SendEquipResult(EquipResult.Success, updatedItemList);
         }
 
+        public void HandleMoveItem(int fromSlotIndex, int toSlotIndex, ItemType itemType)
+        {
+            if (itemType == ItemType.None)
+                return;
+
+            if (!Items.TryGetValue((itemType, fromSlotIndex), out PlayerItemDb fromItem))
+                return;
+
+            // 장착 중인 아이템은 이동 불가
+            if (fromItem.IsEquipped)
+                return;
+
+            Items.TryGetValue((itemType, toSlotIndex), out PlayerItemDb toItem);
+
+            if (toItem != null)
+            {
+                // 스왑: toSlot에 아이템 있음
+                if (toItem.IsEquipped)
+                    return;
+
+                Items.Remove((itemType, fromSlotIndex));
+                Items.Remove((itemType, toSlotIndex));
+
+                fromItem.SlotIndex = toSlotIndex;
+                toItem.SlotIndex = fromSlotIndex;
+
+                Items[(itemType, toSlotIndex)] = fromItem;
+                Items[(itemType, fromSlotIndex)] = toItem;
+
+                InventoryTracker.MarkDirty(fromItem);
+                InventoryTracker.MarkDirty(toItem);
+
+                Session?.Send(new S_UpdateItemData { ItemInfo = ToItemInfo(fromItem) });
+                Session?.Send(new S_UpdateItemData { ItemInfo = ToItemInfo(toItem) });
+            }
+            else
+            {
+                // 이동: toSlot이 빈 슬롯
+                Items.Remove((itemType, fromSlotIndex));
+                fromItem.SlotIndex = toSlotIndex;
+                Items[(itemType, toSlotIndex)] = fromItem;
+
+                InventoryTracker.MarkDirty(fromItem);
+
+                // 기존 슬롯을 비었음으로 알림 (Count 0)
+                Session?.Send(new S_UpdateItemData
+                {
+                    ItemInfo = new ItemInfo { ItemId = 0, Count = 0, SlotIndex = fromSlotIndex }
+                });
+                Session?.Send(new S_UpdateItemData { ItemInfo = ToItemInfo(fromItem) });
+            }
+        }
+
+        private ItemInfo ToItemInfo(PlayerItemDb item)
+        {
+            return new ItemInfo
+            {
+                ItemId = item.ItemId,
+                Count = item.Count,
+                SlotIndex = item.SlotIndex,
+                IsEquipped = item.IsEquipped,
+                EnchantLevel = item.EnchantLevel,
+            };
+        }
+
         public void HandleUnEquipItem(EquipmentSlotType slotType)
         {
             // 무결성) 유효한 슬롯 타입인지 확인

@@ -74,6 +74,7 @@ enum MsgId {
   S_USE_SKILL = 160;
   S_CHANNEL_END = 161;
   C_STOP_CHANNEL = 162;
+  C_MOVE_ITEM = 163;
 }
 
 enum CreatureState {
@@ -823,4 +824,11 @@ message S_UpdateItemData {
 
 message S_UpdateItemDataAll {
   repeated ItemInfo itemInfoList = 1;
+}
+
+// 인벤토리 아이템 슬롯 이동 (같은 카테고리 내, 빈 슬롯 이동 또는 스왑)
+message C_MoveItem {
+  int32 fromSlotIndex = 1;
+  int32 toSlotIndex = 2;
+  ItemType itemType = 3;
 }

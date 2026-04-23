@@ -329,6 +329,18 @@ class PacketHandler
         clientSession?.MyPlayer?.HandleUnEquipItem(unEquipItemPacket.SlotType);
     }
 
+    public static void C_MoveItemHandler(PacketSession session, IMessage packet)
+    {
+        C_MoveItem moveItemPacket = packet as C_MoveItem;
+        ClientSession clientSession = session as ClientSession;
+
+        Player player = clientSession?.MyPlayer;
+        if (player == null)
+            return;
+
+        player.HandleMoveItem(moveItemPacket.FromSlotIndex, moveItemPacket.ToSlotIndex, moveItemPacket.ItemType);
+    }
+
     public static void C_RequestMapTransferHandler(PacketSession session, IMessage packet)
     {
         C_RequestMapTransfer transferPacket = packet as C_RequestMapTransfer;

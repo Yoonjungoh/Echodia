@@ -524,6 +524,7 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("S_USE_SKILL")] SUseSkill = 160,
     [pbr::OriginalName("S_CHANNEL_END")] SChannelEnd = 161,
     [pbr::OriginalName("C_STOP_CHANNEL")] CStopChannel = 162,
+    [pbr::OriginalName("C_MOVE_ITEM")] CMoveItem = 163,
   }
 
   public enum CreatureState {

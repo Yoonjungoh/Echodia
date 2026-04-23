@@ -46,6 +46,13 @@ public class EquipmentSlot_SubItem : UI_Base, IPointerClickHandler, IPointerEnte
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (Managers.UI.IsDraggingItem)
+        {
+            if (eventData.clickCount == 1)
+                HandleDrop();
+            return;
+        }
+
         if (eventData.clickCount != 2)
             return;
 
@@ -57,8 +64,37 @@ public class EquipmentSlot_SubItem : UI_Base, IPointerClickHandler, IPointerEnte
         Managers.Network.Send(packet);
     }
 
+    private void HandleDrop()
+    {
+        ItemInfo dragged = Managers.UI.DraggingItem;
+
+        Managers.UI.EndItemDrag();
+
+        // Equipment 타입만 장착 가능
+        if (Util.GetItemType(dragged.ItemId) != ItemType.Equipment)
+            return;
+
+        // 슬롯 타입 일치 확인
+        EquipmentMetaData meta = Managers.SpecData.GetEquipment(dragged.ItemId);
+        if (meta == null || meta.EquipmentSlotType != _slotType)
+            return;
+
+        // 직업 조건 확인
+        if (!Managers.Equipment.CanEquipByJob(dragged.ItemId))
+        {
+            Managers.UI.ShowToastPopup("직업 제한으로 장비를 착용할 수 없습니다.");
+            return;
+        }
+
+        C_EquipItem packet = new C_EquipItem { SlotIndex = dragged.SlotIndex };
+        Managers.Network.Send(packet);
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (Managers.UI.IsDraggingItem)
+            return;
+
         ItemInfo equipped = Managers.Inventory.GetEquippedItem(_slotType);
         if (equipped == null)
             return;

@@ -20,6 +20,14 @@ public class UIManager
     private float _damageViewerDuration = -1f;
     public Action OnMapTransfer;    // 맵 이동할 때 호출
 
+    // 아이템 드래그 상태
+    public bool IsDraggingItem => _draggingItem != null;
+    public ItemInfo DraggingItem => _draggingItem;
+    public ItemType DraggingItemType => _draggingItemType;
+    private ItemInfo _draggingItem;
+    private ItemType _draggingItemType;
+    private GameObject _dragGhostRoot;
+
     public GameObject Root
     {
         get
@@ -184,9 +192,57 @@ public class UIManager
         }
     }
 
+    public void StartItemDrag(ItemInfo item, ItemType itemType, Sprite icon)
+    {
+        EndItemDrag();
+
+        _draggingItem = item;
+        _draggingItemType = itemType;
+
+        // Ghost Canvas (sortingOrder 1000으로 최상단 렌더링)
+        _dragGhostRoot = new GameObject("ItemDragGhostRoot");
+        _dragGhostRoot.transform.SetParent(Root.transform);
+
+        Canvas ghostCanvas = _dragGhostRoot.AddComponent<Canvas>();
+        ghostCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        ghostCanvas.overrideSorting = true;
+        ghostCanvas.sortingOrder = 1000;
+
+        // Ghost Image
+        GameObject imageGo = new GameObject("GhostImage");
+        imageGo.transform.SetParent(_dragGhostRoot.transform);
+
+        Image img = imageGo.AddComponent<Image>();
+        img.sprite = icon;
+        img.color = new UnityEngine.Color(1f, 1f, 1f, 0.6f);
+        img.raycastTarget = false;
+
+        RectTransform rt = imageGo.GetComponent<RectTransform>();
+        rt.sizeDelta = new UnityEngine.Vector2(75f, 75f);
+        rt.anchorMin = UnityEngine.Vector2.zero;
+        rt.anchorMax = UnityEngine.Vector2.zero;
+        rt.pivot = new UnityEngine.Vector2(0.5f, 0.5f);
+
+        UI_ItemDragGhost ghost = imageGo.AddComponent<UI_ItemDragGhost>();
+        ghost.Setup(ghostCanvas);
+    }
+
+    public void EndItemDrag()
+    {
+        _draggingItem = null;
+        _draggingItemType = ItemType.None;
+
+        if (_dragGhostRoot != null)
+        {
+            UnityEngine.Object.Destroy(_dragGhostRoot);
+            _dragGhostRoot = null;
+        }
+    }
+
     // 맵 이동 시 UI 상태 초기화
     public void ProcessOnMapTransfer()
     {
+        EndItemDrag();
         HideItemTooltip();
         OnMapTransfer?.Invoke();
     }

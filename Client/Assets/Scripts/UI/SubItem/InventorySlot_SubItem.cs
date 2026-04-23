@@ -41,6 +41,10 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler,
     private int _consumableStartId;
     private float _totalCooldown;
 
+    // 드래그&드롭용 슬롯 컨텍스트
+    private ItemType _slotItemType;
+    private int _slotIndex;
+
     public override void Init()
     {
         Bind<TextMeshProUGUI>(typeof(Texts));
@@ -63,6 +67,12 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler,
 
         _equipmentStartId = Managers.Config.GetInt(ConfigType.EquipmentStartId);
         _consumableStartId = Managers.Config.GetInt(ConfigType.ConsumableStartId);
+    }
+
+    public void SetSlotContext(ItemType itemType, int slotIndex)
+    {
+        _slotItemType = itemType;
+        _slotIndex = slotIndex;
     }
 
     public override void SetData(ItemInfo data)
@@ -113,9 +123,9 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler,
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (_data == null)
+        if (_data == null || Managers.UI.IsDraggingItem)
             return;
-            
+
         Managers.UI.ShowItemTooltip(_data);
     }
 
@@ -126,12 +136,30 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler,
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (_data == null)
+        if (eventData.clickCount == 1)
+        {
+            if (Managers.UI.IsDraggingItem)
+            {
+                HandleDrop();
+                return;
+            }
+
+            if (_data == null)
+                return;
+
+            Sprite icon = Managers.Image.GetAssetImage(_data.ItemId);
+            Managers.UI.StartItemDrag(_data, _slotItemType, icon);
             return;
+        }
 
         if (eventData.clickCount == 2)
         {
-            // 외부에서 콜백이 등록된 경우 (장비창 슬롯 등) 기본 동작 대신 실행
+            if (Managers.UI.IsDraggingItem)
+                return;
+
+            if (_data == null)
+                return;
+
             if (OnDoubleClickOverride != null)
             {
                 OnDoubleClickOverride.Invoke(_data);
@@ -142,11 +170,9 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler,
 
             if (itemType == ItemType.Equipment)
             {
-                // 이미 착용 중이면 무시
                 if (_data.IsEquipped)
                     return;
 
-                // 직업 조건 사전 검사 (클라이언트 피드백용 - 서버도 동일하게 검사)
                 if (!Managers.Equipment.CanEquipByJob(_data.ItemId))
                 {
                     Managers.UI.ShowToastPopup("직업 제한으로 장비를 착용할 수 없습니다.");
@@ -158,7 +184,6 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler,
             }
             else
             {
-                // 소비 아이템: 쿨타임 체크 후 사용 요청
                 if (Managers.Cooldown.IsOnCooldown(_data.ItemId))
                 {
                     Managers.UI.ShowToastPopup("아직 쿨타임이 남았습니다.");
@@ -167,11 +192,32 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler,
                 Managers.Cooldown.RequestUseItem(_data.SlotIndex, itemType);
             }
         }
-        // TODO - 클릭 시 아이템 정보 툴팁 등을 띄운다면 1일 때 처리
-        else if (eventData.clickCount == 1)
-        {
+    }
 
-        }
+    private void HandleDrop()
+    {
+        ItemInfo dragged = Managers.UI.DraggingItem;
+        ItemType draggedType = Managers.UI.DraggingItemType;
+
+        Managers.UI.EndItemDrag();
+
+        // 카테고리 불일치 → 취소
+        if (draggedType != _slotItemType)
+            return;
+
+        // 같은 슬롯에 내려놓기 → 취소
+        if (dragged.SlotIndex == _slotIndex && _data != null)
+            return;
+
+        int toSlot = (_data != null) ? _data.SlotIndex : _slotIndex;
+
+        C_MoveItem packet = new C_MoveItem
+        {
+            FromSlotIndex = dragged.SlotIndex,
+            ToSlotIndex = toSlot,
+            ItemType = draggedType,
+        };
+        Managers.Network.Send(packet);
     }
 
 

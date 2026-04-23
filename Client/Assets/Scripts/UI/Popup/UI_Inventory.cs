@@ -53,7 +53,7 @@ public class UI_Inventory : UI_Popup
         _itemContent = Get<Transform>((int)Transforms.ItemContent);
 
         GetButton((int)Buttons.CloseButton).onClick.AddListener(OnClickCloseButton);
-        GetButton((int)Buttons.BackgroundButton).onClick.AddListener(OnClickCloseButton);
+        GetButton((int)Buttons.BackgroundButton).onClick.AddListener(OnClickBackgroundButton);
         GetButton((int)Buttons.EquipmentTabButton).onClick.AddListener(() => OnClickTab(ItemType.Equipment));
         GetButton((int)Buttons.ConsumableTabButton).onClick.AddListener(() => OnClickTab(ItemType.Consumable));
         GetButton((int)Buttons.MiscTabButton).onClick.AddListener(() => OnClickTab(ItemType.Misc));
@@ -94,6 +94,9 @@ public class UI_Inventory : UI_Popup
 
     private void OnClickTab(ItemType tabType)
     {
+        if (Managers.UI.IsDraggingItem)
+            Managers.UI.EndItemDrag();
+
         _currentTab = tabType;
         UpdateUI();
     }
@@ -132,6 +135,7 @@ public class UI_Inventory : UI_Popup
             {
                 foundItem = null;
             }
+            _slots[i].SetSlotContext(_currentTab, i);
             _slots[i].SetData(foundItem);
         }
     }
@@ -153,6 +157,17 @@ public class UI_Inventory : UI_Popup
 
     private void OnClickCloseButton()
     {
+        Managers.UI.EndItemDrag();
+        ClosePopupUI();
+    }
+
+    private void OnClickBackgroundButton()
+    {
+        if (Managers.UI.IsDraggingItem)
+        {
+            Managers.UI.EndItemDrag();
+            return;
+        }
         ClosePopupUI();
     }
 

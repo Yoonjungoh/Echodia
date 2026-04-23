@@ -524,6 +524,7 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("S_USE_SKILL")] SUseSkill = 160,
     [pbr::OriginalName("S_CHANNEL_END")] SChannelEnd = 161,
     [pbr::OriginalName("C_STOP_CHANNEL")] CStopChannel = 162,
+    [pbr::OriginalName("C_MOVE_ITEM")] CMoveItem = 163,
   }
 
   public enum CreatureState {
@@ -11251,6 +11252,105 @@ namespace Google.Protobuf.Protocol {
       }
     }
 
+  }
+
+  public sealed partial class C_MoveItem : pb::IMessage<C_MoveItem> {
+    private static readonly pb::MessageParser<C_MoveItem> _parser = new pb::MessageParser<C_MoveItem>(() => new C_MoveItem());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<C_MoveItem> Parser { get { return _parser; } }
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor { get { return null; } }
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor { get { return Descriptor; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public C_MoveItem() { OnConstruction(); }
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public C_MoveItem(C_MoveItem other) : this() {
+      fromSlotIndex_ = other.fromSlotIndex_;
+      toSlotIndex_ = other.toSlotIndex_;
+      itemType_ = other.itemType_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public C_MoveItem Clone() { return new C_MoveItem(this); }
+
+    public const int FromSlotIndexFieldNumber = 1;
+    private int fromSlotIndex_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int FromSlotIndex { get { return fromSlotIndex_; } set { fromSlotIndex_ = value; } }
+
+    public const int ToSlotIndexFieldNumber = 2;
+    private int toSlotIndex_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ToSlotIndex { get { return toSlotIndex_; } set { toSlotIndex_ = value; } }
+
+    public const int ItemTypeFieldNumber = 3;
+    private global::Google.Protobuf.Protocol.ItemType itemType_ = global::Google.Protobuf.Protocol.ItemType.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Google.Protobuf.Protocol.ItemType ItemType { get { return itemType_; } set { itemType_ = value; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) { return Equals(other as C_MoveItem); }
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(C_MoveItem other) {
+      if (ReferenceEquals(other, null)) return false;
+      if (ReferenceEquals(other, this)) return true;
+      if (FromSlotIndex != other.FromSlotIndex) return false;
+      if (ToSlotIndex != other.ToSlotIndex) return false;
+      if (ItemType != other.ItemType) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (FromSlotIndex != 0) hash ^= FromSlotIndex.GetHashCode();
+      if (ToSlotIndex != 0) hash ^= ToSlotIndex.GetHashCode();
+      if (ItemType != global::Google.Protobuf.Protocol.ItemType.None) hash ^= ItemType.GetHashCode();
+      if (_unknownFields != null) hash ^= _unknownFields.GetHashCode();
+      return hash;
+    }
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() { return pb::JsonFormatter.ToDiagnosticString(this); }
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (FromSlotIndex != 0) { output.WriteRawTag(8); output.WriteInt32(FromSlotIndex); }
+      if (ToSlotIndex != 0) { output.WriteRawTag(16); output.WriteInt32(ToSlotIndex); }
+      if (ItemType != global::Google.Protobuf.Protocol.ItemType.None) { output.WriteRawTag(24); output.WriteEnum((int) ItemType); }
+      if (_unknownFields != null) _unknownFields.WriteTo(output);
+    }
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (FromSlotIndex != 0) size += 1 + pb::CodedOutputStream.ComputeInt32Size(FromSlotIndex);
+      if (ToSlotIndex != 0) size += 1 + pb::CodedOutputStream.ComputeInt32Size(ToSlotIndex);
+      if (ItemType != global::Google.Protobuf.Protocol.ItemType.None) size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ItemType);
+      if (_unknownFields != null) size += _unknownFields.CalculateSize();
+      return size;
+    }
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(C_MoveItem other) {
+      if (other == null) return;
+      if (other.FromSlotIndex != 0) FromSlotIndex = other.FromSlotIndex;
+      if (other.ToSlotIndex != 0) ToSlotIndex = other.ToSlotIndex;
+      if (other.ItemType != global::Google.Protobuf.Protocol.ItemType.None) ItemType = other.ItemType;
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default: _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input); break;
+          case 8: { FromSlotIndex = input.ReadInt32(); break; }
+          case 16: { ToSlotIndex = input.ReadInt32(); break; }
+          case 24: { ItemType = (global::Google.Protobuf.Protocol.ItemType) input.ReadEnum(); break; }
+        }
+      }
+    }
   }
 
   /// <summary>
