@@ -28,6 +28,7 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler,
         EnchantBadge,
     }
     private RectTransform _rectTransform;
+    private bool _isHovered;
 
     private Image _itemImage;
     private Image _cooltimeImage;
@@ -90,6 +91,8 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler,
     {
         if (_data == null)
         {
+            if (_isHovered)
+                Managers.UI.HideItemTooltip();
             _itemImage.sprite = null;
             _gradeImage.color = Color.clear;
             _countBadge.SetActive(false);
@@ -123,6 +126,8 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler,
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        _isHovered = true;
+
         if (_data == null || Managers.UI.IsDraggingItem)
             return;
 
@@ -131,6 +136,7 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler,
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        _isHovered = false;
         Managers.UI.HideItemTooltip();
     }
 
@@ -154,8 +160,14 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler,
 
         if (eventData.clickCount == 2)
         {
+            // 같은 슬롯에서 드래그 시작 후 빠른 더블클릭 → 드래그 취소 후 장착/사용 처리
             if (Managers.UI.IsDraggingItem)
-                return;
+            {
+                if (Managers.UI.DraggingItem == _data)
+                    Managers.UI.EndItemDrag();
+                else
+                    return;
+            }
 
             if (_data == null)
                 return;
