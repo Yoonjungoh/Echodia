@@ -235,7 +235,7 @@ public class UIManager
 
         if (_dragGhostRoot != null)
         {
-            UnityEngine.Object.Destroy(_dragGhostRoot);
+            Managers.Resource.Destroy(_dragGhostRoot);
             _dragGhostRoot = null;
         }
     }

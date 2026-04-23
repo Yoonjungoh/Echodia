@@ -463,7 +463,7 @@ namespace Server.Game
                 // 기존 슬롯을 비었음으로 알림 (Count 0)
                 Session?.Send(new S_UpdateItemData
                 {
-                    ItemInfo = new ItemInfo { ItemId = 0, Count = 0, SlotIndex = fromSlotIndex }
+                    ItemInfo = new ItemInfo { ItemId = fromItem.ItemId, Count = 0, SlotIndex = fromSlotIndex }
                 });
                 Session?.Send(new S_UpdateItemData { ItemInfo = ToItemInfo(fromItem) });
             }
