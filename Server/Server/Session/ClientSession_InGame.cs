@@ -161,11 +161,22 @@ namespace Server
                     };
                     Send(initGameRoomDataPacket);
 
-                    // 전체 인벤토리 전송
+                    // 전체 인벤토리 + 장착 아이템 전송
                     if (MyPlayer?.Items != null)
                     {
                         S_UpdateItemDataAll itemDataAllPacket = new S_UpdateItemDataAll();
                         foreach (PlayerItemDb item in MyPlayer.Items.Values)
+                        {
+                            itemDataAllPacket.ItemInfoList.Add(new ItemInfo
+                            {
+                                ItemId = item.ItemId,
+                                Count = item.Count,
+                                SlotIndex = item.SlotIndex,
+                                IsEquipped = item.IsEquipped,
+                                EnchantLevel = item.EnchantLevel,
+                            });
+                        }
+                        foreach (PlayerItemDb item in MyPlayer.EquippedItems.Values)
                         {
                             itemDataAllPacket.ItemInfoList.Add(new ItemInfo
                             {

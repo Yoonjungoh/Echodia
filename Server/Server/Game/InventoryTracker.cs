@@ -28,6 +28,7 @@ namespace Server.Game
         public void Load()
         {
             _owner.Items.Clear();
+            _owner.EquippedItems.Clear();
             _dirtyItems.Clear();
             _deletedDbIds.Clear();
 
@@ -46,7 +47,16 @@ namespace Server.Game
                 if (meta == null)
                     continue;
 
-                _owner.Items[(meta.ItemType, item.SlotIndex)] = item;
+                if (item.IsEquipped)
+                {
+                    EquipmentMetaData equipMeta = SpecDataManager.Instance.GetEquipment(item.ItemId);
+                    if (equipMeta != null)
+                        _owner.EquippedItems[equipMeta.EquipmentSlotType] = item;
+                }
+                else
+                {
+                    _owner.Items[(meta.ItemType, item.SlotIndex)] = item;
+                }
             }
         }
 

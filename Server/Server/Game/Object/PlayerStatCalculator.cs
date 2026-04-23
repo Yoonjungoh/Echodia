@@ -123,17 +123,11 @@ namespace Server.Game
         private List<EquipmentMetaData> GetEquippedEquipments()
         {
             List<EquipmentMetaData> equippedEquipments = new List<EquipmentMetaData>();
-            foreach (var kvp in _player.Items)
+            foreach (PlayerItemDb item in _player.EquippedItems.Values)
             {
-                PlayerItemDb item = kvp.Value;
-                if (!item.IsEquipped)
-                    continue;
-
                 EquipmentMetaData meta = SpecDataManager.Instance.GetEquipment(item.ItemId);
                 if (meta != null)
-                {
                     equippedEquipments.Add(meta);
-                }
             }
             return equippedEquipments;
         }

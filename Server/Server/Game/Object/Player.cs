@@ -27,6 +27,8 @@ namespace Server.Game
         public SkillExecutor SkillExecutor { get; private set; }
         // (ItemType, SlotIndex) -> PlayerItemDb (타입별로 슬롯 번호 독립)
         public Dictionary<(ItemType, int), PlayerItemDb> Items { get; private set; } = new();
+        // EquipmentSlotType -> PlayerItemDb (장착 중인 장비 전용)
+        public Dictionary<EquipmentSlotType, PlayerItemDb> EquippedItems { get; private set; } = new();
         public PlayerStatCalculator StatCalculator { get; private set; }
         public float MpRegen { get; private set; }  // 초당 마나 재생량 (서버 내부 전용)
 
@@ -396,20 +398,22 @@ namespace Server.Game
 
             List<PlayerItemDb> updatedItemList = new List<PlayerItemDb>();
 
-            // 7. 같은 슬롯 타입에 이미 장착된 아이템이 있으면 교체 (해제)
-            PlayerItemDb existingEquipped = Items.Values.FirstOrDefault(i =>
-                i.IsEquipped &&
-                SpecDataManager.Instance.GetEquipment(i.ItemId)?.EquipmentSlotType == meta.EquipmentSlotType);
-
-            if (existingEquipped != null)
+            // 7. 같은 슬롯 타입에 이미 장착된 아이템이 있으면 교체 (해제 → 인벤 복귀)
+            if (EquippedItems.TryGetValue(meta.EquipmentSlotType, out PlayerItemDb existingEquipped))
             {
+                EquippedItems.Remove(meta.EquipmentSlotType);
                 existingEquipped.IsEquipped = false;
+                int freeSlot = GetNextAvailableSlotIndex(ItemType.Equipment);
+                existingEquipped.SlotIndex = freeSlot;
+                Items[(ItemType.Equipment, freeSlot)] = existingEquipped;
                 InventoryTracker.MarkDirty(existingEquipped);
                 updatedItemList.Add(existingEquipped);
             }
 
-            // 8. 새 아이템 장착
+            // 8. 새 아이템 장착: Items에서 제거 → EquippedItems로 이동
+            Items.Remove((ItemType.Equipment, slotIndex));
             itemDb.IsEquipped = true;
+            EquippedItems[meta.EquipmentSlotType] = itemDb;
             InventoryTracker.MarkDirty(itemDb);
             updatedItemList.Add(itemDb);
 
@@ -424,17 +428,11 @@ namespace Server.Game
             if (!Items.TryGetValue((itemType, fromSlotIndex), out PlayerItemDb fromItem))
                 return;
 
-            // 장착 중인 아이템은 이동 불가
-            if (fromItem.IsEquipped)
-                return;
-
             Items.TryGetValue((itemType, toSlotIndex), out PlayerItemDb toItem);
 
             if (toItem != null)
             {
                 // 스왑: toSlot에 아이템 있음
-                if (toItem.IsEquipped)
-                    return;
 
                 Items.Remove((itemType, fromSlotIndex));
                 Items.Remove((itemType, toSlotIndex));
@@ -490,46 +488,36 @@ namespace Server.Game
                 return;
             }
 
-            // 1. 해당 슬롯에 장착된 아이템 탐색
-            PlayerItemDb equippedItem = Items.Values.FirstOrDefault(i =>
-                i.IsEquipped &&
-                SpecDataManager.Instance.GetEquipment(i.ItemId)?.EquipmentSlotType == slotType);
-
-            if (equippedItem == null)
+            // 1. EquippedItems에서 탐색
+            if (!EquippedItems.TryGetValue(slotType, out PlayerItemDb equippedItem))
             {
                 SendUnEquipResult(UnEquipResult.NotEquipped, null);
                 return;
             }
 
-            // 무결성: 인메모리 아이템 소유 재확인 (PlayerDbId 일치)
+            // 무결성: 인메모리 아이템 소유 재확인
             if (equippedItem.PlayerDbId != PlayerId)
             {
                 SendUnEquipResult(UnEquipResult.NotEquipped, null);
                 return;
             }
 
-            // 2. 해제 처리 - 최소 빈 슬롯으로 이동 (드롭 아이템 습득과 동일한 방식)
-            int oldSlotIndex = equippedItem.SlotIndex;
-            int newSlotIndex = GetNextAvailableSlotIndex(ItemType.Equipment, excludeSlotIndex: oldSlotIndex);
-
-            Items.Remove((ItemType.Equipment, oldSlotIndex));
-            equippedItem.SlotIndex = newSlotIndex;
+            // 2. 해제 처리: EquippedItems → Items 빈 슬롯으로 이동
+            EquippedItems.Remove(slotType);
             equippedItem.IsEquipped = false;
+            int newSlotIndex = GetNextAvailableSlotIndex(ItemType.Equipment);
+            equippedItem.SlotIndex = newSlotIndex;
             Items[(ItemType.Equipment, newSlotIndex)] = equippedItem;
 
             InventoryTracker.MarkDirty(equippedItem);
             SendUnEquipResult(UnEquipResult.Success, equippedItem);
         }
 
-        private int GetNextAvailableSlotIndex(ItemType itemType, int excludeSlotIndex = -1)
+        private int GetNextAvailableSlotIndex(ItemType itemType)
         {
-            HashSet<int> usedSlots = new HashSet<int>();
-            foreach (var key in Items.Keys)
-            {
-                if (key.Item1 == itemType && key.Item2 != excludeSlotIndex)
-                    usedSlots.Add(key.Item2);
-            }
-
+            HashSet<int> usedSlots = new HashSet<int>(
+                Items.Keys.Where(k => k.Item1 == itemType).Select(k => k.Item2)
+            );
             int index = 0;
             while (usedSlots.Contains(index))
                 index++;

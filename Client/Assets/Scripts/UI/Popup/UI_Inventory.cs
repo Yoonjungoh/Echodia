@@ -130,11 +130,6 @@ public class UI_Inventory : UI_Popup
                 continue;
 
             tabItems.TryGetValue(i, out ItemInfo foundItem);
-            // 장착 중인 장비는 장비창에서 표시하므로 인벤토리에서는 숨김
-            if (foundItem != null && foundItem.IsEquipped)
-            {
-                foundItem = null;
-            }
             _slots[i].SetSlotContext(_currentTab, i);
             _slots[i].SetData(foundItem);
         }

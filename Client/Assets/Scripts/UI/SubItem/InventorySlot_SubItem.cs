@@ -170,9 +170,6 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler,
 
             if (itemType == ItemType.Equipment)
             {
-                if (_data.IsEquipped)
-                    return;
-
                 if (!Managers.Equipment.CanEquipByJob(_data.ItemId))
                 {
                     Managers.UI.ShowToastPopup("직업 제한으로 장비를 착용할 수 없습니다.");
@@ -219,7 +216,6 @@ public class InventorySlot_SubItem : UI_SubItem<ItemInfo>, IPointerClickHandler,
         };
         Managers.Network.Send(packet);
     }
-
 
     private void Update()
     {
