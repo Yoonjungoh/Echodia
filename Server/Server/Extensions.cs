@@ -1,4 +1,5 @@
-﻿using Server.DB;
+﻿using Google.Protobuf.Protocol;
+using Server.DB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,5 +42,17 @@ public static class Extensions
             }
             return false;
         }
+    }
+
+    public static ItemInfo ToItemInfo(this PlayerItemDb item)
+    {
+        return new ItemInfo
+        {
+            ItemId = item.ItemId,
+            Count = item.Count,
+            SlotIndex = item.SlotIndex,
+            IsEquipped = item.IsEquipped,
+            EnchantLevel = item.EnchantLevel,
+        };
     }
 }

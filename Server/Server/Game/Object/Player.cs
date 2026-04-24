@@ -446,8 +446,8 @@ namespace Server.Game
                 InventoryTracker.MarkDirty(fromItem);
                 InventoryTracker.MarkDirty(toItem);
 
-                Session?.Send(new S_UpdateItemData { ItemInfo = ToItemInfo(fromItem) });
-                Session?.Send(new S_UpdateItemData { ItemInfo = ToItemInfo(toItem) });
+                Session?.Send(new S_UpdateItemData { ItemInfo = fromItem.ToItemInfo() });
+                Session?.Send(new S_UpdateItemData { ItemInfo = toItem.ToItemInfo() });
             }
             else
             {
@@ -463,21 +463,10 @@ namespace Server.Game
                 {
                     ItemInfo = new ItemInfo { ItemId = fromItem.ItemId, Count = 0, SlotIndex = fromSlotIndex }
                 });
-                Session?.Send(new S_UpdateItemData { ItemInfo = ToItemInfo(fromItem) });
+                Session?.Send(new S_UpdateItemData { ItemInfo = fromItem.ToItemInfo() });
             }
         }
 
-        private ItemInfo ToItemInfo(PlayerItemDb item)
-        {
-            return new ItemInfo
-            {
-                ItemId = item.ItemId,
-                Count = item.Count,
-                SlotIndex = item.SlotIndex,
-                IsEquipped = item.IsEquipped,
-                EnchantLevel = item.EnchantLevel,
-            };
-        }
 
         public void HandleUnEquipItem(EquipmentSlotType slotType)
         {
