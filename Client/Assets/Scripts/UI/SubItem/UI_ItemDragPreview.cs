@@ -1,16 +1,26 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_ItemDragGhost : MonoBehaviour
+public class UI_ItemDragPreview : MonoBehaviour
 {
     private RectTransform _rt;
     private Canvas _canvas;
+    private Image _image;
 
-    public void Setup(Canvas canvas)
+    public void Setup(Canvas canvas, Image image)
     {
         _rt = GetComponent<RectTransform>();
         _canvas = canvas;
+        _image = image;
     }
+
+    public void UpdateIcon(Sprite icon)
+    {
+        _image.sprite = icon;
+    }
+
+    public void Show() => gameObject.SetActive(true);
+    public void Hide() => gameObject.SetActive(false);
 
     private void Update()
     {

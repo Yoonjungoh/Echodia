@@ -27,7 +27,8 @@ public class UIManager
     public ItemType DraggingItemType => _draggingItemType;
     private ItemInfo _draggingItem;
     private ItemType _draggingItemType;
-    private GameObject _dragGhostRoot;
+    private GameObject _dragPreviewRoot;
+    private UI_ItemDragPreview _dragPreview;
 
     public GameObject Root
     {
@@ -195,49 +196,46 @@ public class UIManager
 
     public void StartItemDrag(ItemInfo item, ItemType itemType, Sprite icon)
     {
-        EndItemDrag();
-
         _draggingItem = item;
         _draggingItemType = itemType;
 
-        // Ghost Canvas (sortingOrder 1000으로 최상단 렌더링)
-        _dragGhostRoot = new GameObject("ItemDragGhostRoot");
-        _dragGhostRoot.transform.SetParent(Root.transform);
+        if (_dragPreview == null)
+        {
+            _dragPreviewRoot = new GameObject("ItemDragPreviewRoot");
+            _dragPreviewRoot.transform.SetParent(Root.transform);
 
-        Canvas ghostCanvas = _dragGhostRoot.AddComponent<Canvas>();
-        ghostCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        ghostCanvas.overrideSorting = true;
-        ghostCanvas.sortingOrder = 1000;
+            Canvas previewCanvas = _dragPreviewRoot.AddComponent<Canvas>();
+            previewCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            previewCanvas.overrideSorting = true;
+            previewCanvas.sortingOrder = 1000;
 
-        // Ghost Image
-        GameObject imageGo = new GameObject("GhostImage");
-        imageGo.transform.SetParent(_dragGhostRoot.transform);
+            GameObject imageGo = new GameObject("DragPreviewImage");
+            imageGo.transform.SetParent(_dragPreviewRoot.transform);
 
-        Image img = imageGo.AddComponent<Image>();
-        img.sprite = icon;
-        img.color = new Color(1f, 1f, 1f, 0.6f);
-        img.raycastTarget = false;
+            Image img = imageGo.AddComponent<Image>();
+            img.color = new(1f, 1f, 1f, 0.6f);
+            img.raycastTarget = false;
 
-        RectTransform rt = imageGo.GetComponent<RectTransform>();
-        rt.sizeDelta = new Vector2(75f, 75f);
-        rt.anchorMin = new Vector2(0.5f, 0.5f);
-        rt.anchorMax = new Vector2(0.5f, 0.5f);
-        rt.pivot = new Vector2(0.5f, 0.5f);
+            RectTransform rt = imageGo.GetComponent<RectTransform>();
+            rt.sizeDelta = new Vector2(75f, 75f);
+            rt.anchorMin = new Vector2(0.5f, 0.5f);
+            rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.pivot = new Vector2(0.5f, 0.5f);
 
-        UI_ItemDragGhost ghost = imageGo.AddComponent<UI_ItemDragGhost>();
-        ghost.Setup(ghostCanvas);
+            _dragPreview = imageGo.AddComponent<UI_ItemDragPreview>();
+            _dragPreview.Setup(previewCanvas, img);
+        }
+
+        _dragPreview.UpdateIcon(icon);
+        _dragPreview.Show();
     }
 
     public void EndItemDrag()
     {
         _draggingItem = null;
         _draggingItemType = ItemType.None;
-
-        if (_dragGhostRoot != null)
-        {
-            Managers.Resource.Destroy(_dragGhostRoot);
-            _dragGhostRoot = null;
-        }
+        if (_dragPreview != null)
+            _dragPreview.Hide();
     }
 
     // 맵 이동 시 UI 상태 초기화

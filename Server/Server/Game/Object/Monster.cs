@@ -102,56 +102,17 @@ namespace Server.Game
             long moveTick = (long)(400 / 2f);
             _nextMoveTick = Environment.TickCount64 + moveTick;
 
-            bool pathRecalculated = false;
             if (_cachedPath == null || Environment.TickCount64 >= _nextPathTick)
             {
                 _cachedPath = GameRoom.Map.FindPath(CurrentPosition, _target.CurrentPosition);
                 _nextPathTick = Environment.TickCount64 + _pathInterval;
-                pathRecalculated = true;
             }
 
             if (_cachedPath == null || _cachedPath.Count < 2)
                 return;
 
-            // 웨이포인트 전진: 충분히 가까워졌거나, 지나쳤을 때(overshoot) 다음으로 이동
-            // overshoot 판정: (현재→wp) 방향이 (prev→wp) 방향과 반대이면 이미 지나침
-            const float waypointReachDist = 0.5f;
-            while (_cachedPath.Count >= 2)
-            {
-                Vector3 toWp = _cachedPath[1] - CurrentPosition;
-                toWp.Y = 0;
-                bool reachedClose = toWp.LengthSquared() < waypointReachDist * waypointReachDist;
-
-                bool overshot = false;
-                if (!reachedClose)
-                {
-                    Vector3 pathSeg = _cachedPath[1] - _cachedPath[0];
-                    pathSeg.Y = 0;
-                    // 경로 진행 방향과 현재→wp 방향이 반대 → 이미 지나침
-                    if (pathSeg.LengthSquared() > 0.0001f)
-                        overshot = Vector3.Dot(toWp, pathSeg) < 0f;
-                }
-
-                if (reachedClose || overshot)
-                    _cachedPath.RemoveAt(0);
-                else
-                    break;
-            }
-
-            if (_cachedPath.Count < 2)
-                return;
-
             Vector3 nextPos = _cachedPath[1];
-            Vector3 toNextPos = nextPos - CurrentPosition;
-            toNextPos.Y = 0;
-            if (toNextPos.LengthSquared() < 0.0001f)
-                return;
-
-            Vector3 moveDir = Vector3.Normalize(toNextPos);
-
-            // 경로 재계산 시 EWMA 방향 초기화 (이전 방향이 새 경로와 충돌하여 뒤돌아보는 현상 방지)
-            if (pathRecalculated)
-                _lastDir = Vector3.Zero;
+            Vector3 moveDir = Vector3.Normalize(nextPos - CurrentPosition);
 
             Vector3 finalDir = SmoothDirection(moveDir);
             MoveByDirection(finalDir, moveTick);
@@ -164,7 +125,9 @@ namespace Server.Game
 
             // 관성 비율을 낮춰 A* 경로를 더 빠르게 따라가도록 수정
             // (0.8/0.2 비율은 방향 전환이 너무 느려 경로 재계산 시 우회로가 발생했음)
-            _lastDir = Vector3.Normalize(_lastDir * 0.3f + newDir * 0.7f);
+            // _lastDir = Vector3.Normalize(_lastDir * 0.3f + newDir * 0.7f);
+            _lastDir = Vector3.Normalize(_lastDir * 0.8f + newDir * 0.2f);
+
             return _lastDir;
         }
 
@@ -184,15 +147,15 @@ namespace Server.Game
             float diff = groundY - currentY;
 
             // 1m 이내 높이 차이(계단 포함)는 지형에 즉시 스냅
-            if (Math.Abs(diff) <= 1.0f)
+            if (Math.Abs(diff) <= 0.3f)
             {
                 newPos.Y = groundY;
             }
             else
             {
                 // 1m 초과 절벽/낙하: 점진적 보간으로 튐 방지
-                if (diff > 1f) diff = 1f;
-                if (diff < -1f) diff = -1f;
+                if (diff > 0.3f) diff = 0.3f;
+                if (diff < -0.3f) diff = -0.3f;
 
                 newPos.Y = currentY + diff * 0.35f;
             }
