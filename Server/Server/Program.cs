@@ -60,6 +60,7 @@ namespace Server
             IPAddress ipAddr = ipHost.AddressList[0]; // for test
             IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
+            RedisManager.Instance.Init();
             await SpecDataManager.Instance.Init();
             await ConfigManager.Instance.Init();
             MapManager.Instance.Init();
