@@ -82,7 +82,19 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.CStopChannel, MakePacket<C_StopChannel>);
 		_handler.Add((ushort)MsgId.CStopChannel, PacketHandler.C_StopChannelHandler);		
 		_onRecv.Add((ushort)MsgId.CMoveItem, MakePacket<C_MoveItem>);
-		_handler.Add((ushort)MsgId.CMoveItem, PacketHandler.C_MoveItemHandler);
+		_handler.Add((ushort)MsgId.CMoveItem, PacketHandler.C_MoveItemHandler);		
+		_onRecv.Add((ushort)MsgId.CCreateParty, MakePacket<C_CreateParty>);
+		_handler.Add((ushort)MsgId.CCreateParty, PacketHandler.C_CreatePartyHandler);		
+		_onRecv.Add((ushort)MsgId.CPartyInvite, MakePacket<C_PartyInvite>);
+		_handler.Add((ushort)MsgId.CPartyInvite, PacketHandler.C_PartyInviteHandler);		
+		_onRecv.Add((ushort)MsgId.CPartyInviteResponse, MakePacket<C_PartyInviteResponse>);
+		_handler.Add((ushort)MsgId.CPartyInviteResponse, PacketHandler.C_PartyInviteResponseHandler);		
+		_onRecv.Add((ushort)MsgId.CPartyLeave, MakePacket<C_PartyLeave>);
+		_handler.Add((ushort)MsgId.CPartyLeave, PacketHandler.C_PartyLeaveHandler);		
+		_onRecv.Add((ushort)MsgId.CPartyKick, MakePacket<C_PartyKick>);
+		_handler.Add((ushort)MsgId.CPartyKick, PacketHandler.C_PartyKickHandler);		
+		_onRecv.Add((ushort)MsgId.CRequestRoomPlayerList, MakePacket<C_RequestRoomPlayerList>);
+		_handler.Add((ushort)MsgId.CRequestRoomPlayerList, PacketHandler.C_RequestRoomPlayerListHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

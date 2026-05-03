@@ -566,6 +566,10 @@ namespace Server.Game
 
         public void OnLeaveGame()
         {
+            // 파티에 속해 있으면 탈퇴 처리 (방 이탈 → 파티 자동 탈퇴)
+            if (GameRoom != null)
+                PartyManager.Instance.LeaveParty(GameRoom, Id);
+
             FlushDirtyState();
             DbTransaction.SavePlayerStatsAsync(this);
         }

@@ -15,21 +15,25 @@ namespace Server
     {
         public static QuestManager Instance { get; } = new QuestManager();
 
-        // 몬스터 처치 시 진입점 -> 크레딧 받을 플레이어를 결정하고 각자의 QuestTracker에 통지
-        public void OnMonsterKilled(GameRoom room, Player killer, int monsterTemplateId)
+        // KillRewardManager에서 호출 — 크레딧 대상 목록을 직접 받아 처리
+        public void OnMonsterKilled(GameRoom room, List<Player> creditedPlayers, int monsterTemplateId)
         {
-            List<Player> creditedPlayers = GetCreditedPlayers(room, killer);
             foreach (Player player in creditedPlayers)
             {
                 player.QuestTracker.OnMonsterKilled(monsterTemplateId);
             }
         }
 
-        // 처치 크레딧을 받을 플레이어 목록 반환
-        // 현재 -> 직접 킬한 플레이어만 (파티 시스템 추가 시 여기서 파티원 포함)
+        // 하위 호환용 — 솔로킬 경로에서 직접 호출 시 (현재는 KillRewardManager가 위 오버로드를 사용)
+        public void OnMonsterKilled(GameRoom room, Player killer, int monsterTemplateId)
+        {
+            List<Player> creditedPlayers = GetCreditedPlayers(room, killer);
+            OnMonsterKilled(room, creditedPlayers, monsterTemplateId);
+        }
+
+        // 처치 크레딧을 받을 플레이어 목록 반환 (하위 호환용 스텁)
         private List<Player> GetCreditedPlayers(GameRoom room, Player killer)
         {
-            // TODO - 파티 시스템 구현 시 파티원 중 같은 맵에 있는 플레이어 포함
             return new List<Player> { killer };
         }
 

@@ -24,9 +24,18 @@ public class OtherPlayerController : PlayerController
         }
     }
 
+    // 파티원 여부에 따라 이름바 색 설정 (PartyManager.RefreshAllNameBarColors에서 호출)
+    public void SetPartyNameColor(bool isPartyMember)
+    {
+        _nameBar?.SetPartyColor(isPartyMember);
+    }
+
     private void Start()
     {
         Init();
+        // 스폰 시점에 현재 파티 상태 반영
+        bool isPartyMember = Managers.Party.IsPartyMember(Id);
+        _nameBar?.SetPartyColor(isPartyMember);
     }
 
     private void FixedUpdate()

@@ -92,48 +92,8 @@ namespace Server.Game
             diePacket.InstigatorId = instigator.Id;
             diePacket.CreatureState = CreatureState;
 
-            // 경험치 올려주는 부분
-            // 플레이어 본인이 죽였거나 본인의 투사체가 죽여야 본인이 죽인걸로 인정
-            Player player = null;
-            bool isInstigatorPlayer = false;
-            if ((instigator.ObjectType == GameObjectType.Player && ObjectType == GameObjectType.Monster))
-            {
-                player = instigator as Player;
-                isInstigatorPlayer = true;
-            }
-            if (isInstigatorPlayer == false && instigator.ObjectType == GameObjectType.Projectile)
-            {
-                Projectile projectile = instigator as Projectile;
-                Player owner = GameRoom.Find(projectile.OwnerId);
-                if (owner != null)
-                {
-                    player = owner;
-                    isInstigatorPlayer = true;
-                }
-            }
-            if (isInstigatorPlayer && player != null)
-            {
-                int totalExp = player.Exp + Exp;
-                int levelUpAmount = player.SetExp(totalExp, needLevelUp: true);
-
-                // 레벨업 했으면, 디비 저장 끝내고 레벨, 경험치 패킷 같이 전송
-                // 레벨업 안 했으면, 디비 저장 끝내고 경험치 패킷만 전송
-                CurrencyManager.Instance.SetCurrency(player, CurrencyType.Exp, player.Exp);
-                ConsoleLogManager.Instance.Log($"Player {player.Name} gained {Exp} EXP. Total EXP: {player.Exp}");
-
-                if (levelUpAmount > 0)
-                {
-                    // 레벨업 횟수는 카운팅이 퀘스트 연동면에서도 좋아보임
-                    CurrencyManager.Instance.AddCurrency(player, CurrencyType.Level, levelUpAmount);
-                    ConsoleLogManager.Instance.Log($"Player {player.Name} leveled up! New Level: {player.Level}");
-                }
-            }
-
-            if (GameRoom != null)
-            {
-                GameRoom.Push(GameRoom.Broadcast, CurrentPosition, diePacket);
-                GameRoom.Push(GameRoom.LeaveGame, Id);
-            }
+            GameRoom.Push(GameRoom.Broadcast, CurrentPosition, diePacket);
+            GameRoom.Push(GameRoom.LeaveGame, Id);
         }
 
         public void HealHp(int healAmount)

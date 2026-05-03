@@ -413,4 +413,74 @@ class PacketHandler
             player.SkillExecutor.StopChannel(stopChannelPacket.SkillId, stopChannelPacket.ElapsedMs);
         });
     }
+
+    // ─────────────────────────────────────────
+    // 파티 핸들러
+    // ─────────────────────────────────────────
+
+    public static void C_CreatePartyHandler(PacketSession session, IMessage packet)
+    {
+        ClientSession clientSession = session as ClientSession;
+        Player player = clientSession?.MyPlayer;
+        if (player == null || player.GameRoom == null)
+            return;
+
+        player.GameRoom.Push(player.GameRoom.HandleCreateParty, player.Id);
+    }
+
+    public static void C_PartyInviteHandler(PacketSession session, IMessage packet)
+    {
+        C_PartyInvite p = packet as C_PartyInvite;
+        ClientSession clientSession = session as ClientSession;
+        Player player = clientSession?.MyPlayer;
+        if (player == null || player.GameRoom == null)
+            return;
+
+        player.GameRoom.Push(player.GameRoom.HandlePartyInvite, player.Id, p.TargetObjectId);
+    }
+
+    public static void C_PartyInviteResponseHandler(PacketSession session, IMessage packet)
+    {
+        C_PartyInviteResponse p = packet as C_PartyInviteResponse;
+        ClientSession clientSession = session as ClientSession;
+        Player player = clientSession?.MyPlayer;
+        if (player == null || player.GameRoom == null)
+            return;
+
+        player.GameRoom.Push(() =>
+        {
+            player.GameRoom.HandlePartyInviteResponse(p.InviterObjectId, player.Id, p.Response);
+        });
+    }
+
+    public static void C_PartyLeaveHandler(PacketSession session, IMessage packet)
+    {
+        ClientSession clientSession = session as ClientSession;
+        Player player = clientSession?.MyPlayer;
+        if (player == null || player.GameRoom == null)
+            return;
+
+        player.GameRoom.Push(player.GameRoom.HandlePartyLeave, player.Id);
+    }
+
+    public static void C_PartyKickHandler(PacketSession session, IMessage packet)
+    {
+        C_PartyKick p = packet as C_PartyKick;
+        ClientSession clientSession = session as ClientSession;
+        Player player = clientSession?.MyPlayer;
+        if (player == null || player.GameRoom == null)
+            return;
+
+        player.GameRoom.Push(player.GameRoom.HandlePartyKick, player.Id, p.TargetObjectId);
+    }
+
+    public static void C_RequestRoomPlayerListHandler(PacketSession session, IMessage packet)
+    {
+        ClientSession clientSession = session as ClientSession;
+        Player player = clientSession?.MyPlayer;
+        if (player == null || player.GameRoom == null)
+            return;
+
+        player.GameRoom.Push(player.GameRoom.HandleRequestRoomPlayerList, player.Id);
+    }
 }

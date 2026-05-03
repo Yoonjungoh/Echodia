@@ -75,6 +75,21 @@ enum MsgId {
   S_CHANNEL_END = 161;
   C_STOP_CHANNEL = 162;
   C_MOVE_ITEM = 163;
+
+  // 파티 시스템
+  C_CREATE_PARTY = 164;
+  S_CREATE_PARTY = 165;
+  C_PARTY_INVITE = 166;
+  S_PARTY_INVITE = 167;   // inviter → 전송 결과
+  S_PARTY_INVITE_NOTIFY = 168;   // target  → 초대 알림
+  C_PARTY_INVITE_RESPONSE = 169;
+  S_PARTY_INVITE_RESPONSE = 170;   // inviter → 수락/거절 알림
+  S_PARTY_UPDATE = 171;   // 파티원 전체에게 스냅샷 (구성 변경 시)
+  S_PARTY_LEFT = 172;   // 탈퇴/추방/해산 당한 플레이어에게 1:1
+  C_PARTY_LEAVE = 173;
+  C_PARTY_KICK = 174;
+  C_REQUEST_ROOM_PLAYER_LIST = 175;
+  S_REQUEST_ROOM_PLAYER_LIST = 176;
 }
 
 enum CreatureState {
@@ -323,6 +338,29 @@ enum CastDirectionType {
   CAST_DIRECTION_TYPE_LEFT = 3;
   CAST_DIRECTION_TYPE_RIGHT = 4;
   CAST_DIRECTION_TYPE_SPHERE = 5;
+}
+
+enum PartyInviteResult {
+  PARTY_INVITE_RESULT_NONE              = 0;
+  PARTY_INVITE_RESULT_SUCCESS           = 1;
+  PARTY_INVITE_RESULT_NOT_IN_PARTY      = 2;  // 파티를 먼저 만들어야 함
+  PARTY_INVITE_RESULT_ALREADY_IN_PARTY  = 3;
+  PARTY_INVITE_RESULT_TARGET_IN_PARTY   = 4;
+  PARTY_INVITE_RESULT_PARTY_FULL        = 5;
+  PARTY_INVITE_RESULT_TARGET_NOT_FOUND  = 6;
+}
+
+enum PartyInviteResponseType {
+  PARTY_INVITE_RESPONSE_TYPE_NONE    = 0;
+  PARTY_INVITE_RESPONSE_TYPE_ACCEPT  = 1;
+  PARTY_INVITE_RESPONSE_TYPE_DECLINE = 2;
+}
+
+enum PartyLeftReason {
+  PARTY_LEFT_REASON_NONE       = 0;
+  PARTY_LEFT_REASON_SELF_LEAVE = 1;
+  PARTY_LEFT_REASON_KICKED     = 2;
+  PARTY_LEFT_REASON_DISBANDED  = 3;
 }
 
 enum StatType {
@@ -831,4 +869,77 @@ message C_MoveItem {
   int32 fromSlotIndex = 1;
   int32 toSlotIndex = 2;
   ItemType itemType = 3;
+}
+
+// ─────────────────────────────────────────
+// 파티 시스템
+// ─────────────────────────────────────────
+
+message C_CreateParty { 
+
+}
+message S_CreateParty { 
+bool success = 1; }
+
+message C_PartyInvite {
+  int32 targetObjectId = 1; 
+}
+
+message S_PartyInvite { 
+PartyInviteResult result = 1;
+}
+
+// 초대 대상자에게 전송하는 알림
+message S_PartyInviteNotify {
+  int32  inviterObjectId = 1;
+  string inviterName = 2;
+}
+
+message C_PartyInviteResponse {
+  PartyInviteResponseType response = 1;
+  int32 inviterObjectId = 2;
+}
+
+// 초대자에게 수락/거절 결과 알림
+message S_PartyInviteResponse {
+  PartyInviteResponseType response = 1;
+  string responderName = 2;
+}
+
+// 파티원 한 명의 정보
+message PartyMemberInfo {
+  int32         objectId = 1;
+  int32         playerId = 2;
+  string        name     = 3;
+  int32         level    = 4;
+  PlayerJobType jobType  = 5;
+  bool          isLeader = 6;
+}
+
+// 파티 구성 변경 시 전원에게 스냅샷 전송 (members 비어있으면 파티 없음)
+message S_PartyUpdate {
+  int32                    partyId = 1;
+  repeated PartyMemberInfo members = 2;
+}
+
+// 탈퇴/추방/해산 당한 플레이어 1인에게 전송
+message S_PartyLeft { PartyLeftReason reason = 1; }
+
+message C_PartyLeave { }
+message C_PartyKick  { int32 targetObjectId = 1; }
+
+// 파티창 열 때 같은 방 플레이어 목록 요청
+message C_RequestRoomPlayerList { }
+
+message RoomPlayerInfo {
+  int32         objectId    = 1;
+  string        name        = 2;
+  int32         level       = 3;
+  PlayerJobType jobType     = 4;
+  bool          isInParty   = 5;   // 누군가의 파티에 속해 있는지
+  bool          isInMyParty = 6;   // 요청자와 같은 파티인지
+}
+
+message S_RequestRoomPlayerList {
+  repeated RoomPlayerInfo playerList = 1;
 }

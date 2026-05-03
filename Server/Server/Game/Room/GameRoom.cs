@@ -929,6 +929,17 @@ namespace Server.Game
             return null;
         }
 
+        // DB PlayerId로 플레이어 검색 (KillRewardManager에서 사용)
+        public Player FindPlayerByPlayerId(int playerId)
+        {
+            foreach (Player p in _players.Values)
+            {
+                if (p.PlayerId == playerId)
+                    return p;
+            }
+            return null;
+        }
+
         // AOI 기반 브로드캐스트
         public void Broadcast(Vector3 pos, IMessage packet)
         {
@@ -1179,6 +1190,78 @@ namespace Server.Game
                     SpawnMonster(monsterType, spawnPos, spawner.RespawnSeconds, spawner.SpawnRadius);
                 }
             }
+        }
+
+        // ─────────────────────────────────────────
+        // 파티 패킷 핸들러 (GameRoom 잡 큐 안에서 실행)
+        // ─────────────────────────────────────────
+
+        public void HandleCreateParty(int playerObjectId)
+        {
+            Player player = Find(playerObjectId);
+            if (player == null)
+                return;
+            PartyManager.Instance.CreateParty(this, player);
+        }
+
+        public void HandlePartyInvite(int inviterObjectId, int targetObjectId)
+        {
+            Player inviter = Find(inviterObjectId);
+            if (inviter == null)
+                return;
+            PartyManager.Instance.SendInvite(this, inviter, targetObjectId);
+        }
+
+        public void HandlePartyInviteResponse(
+            int inviterObjectId,
+            int responderObjectId,
+            PartyInviteResponseType response)
+        {
+            Player responder = Find(responderObjectId);
+            if (responder == null)
+                return;
+            PartyManager.Instance.HandleInviteResponse(this, responder, inviterObjectId, response);
+        }
+
+        public void HandlePartyLeave(int playerObjectId)
+        {
+            PartyManager.Instance.LeaveParty(this, playerObjectId);
+        }
+
+        public void HandlePartyKick(int kickerObjectId, int targetObjectId)
+        {
+            PartyManager.Instance.KickMember(this, kickerObjectId, targetObjectId);
+        }
+
+        public void HandleRequestRoomPlayerList(int requesterObjectId)
+        {
+            Player requester = Find(requesterObjectId);
+            if (requester == null)
+                return;
+
+            Party myParty = PartyManager.Instance.GetPartyOf(requesterObjectId);
+
+            var packet = new S_RequestRoomPlayerList();
+            foreach (Player p in _players.Values)
+            {
+                if (p.Id == requesterObjectId)
+                    continue;
+
+                bool inParty   = PartyManager.Instance.IsInParty(p.Id);
+                bool inMyParty = myParty != null && myParty.Contains(p.Id);
+
+                packet.PlayerList.Add(new RoomPlayerInfo
+                {
+                    ObjectId    = p.Id,
+                    Name        = p.Name,
+                    Level       = p.Level,
+                    JobType     = p.Stat.JobType,
+                    IsInParty   = inParty,
+                    IsInMyParty = inMyParty,
+                });
+            }
+
+            requester.Session?.Send(packet);
         }
     }
 }

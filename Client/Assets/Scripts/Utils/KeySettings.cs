@@ -13,4 +13,5 @@ public class KeySettings
     public const KeyCode UseSkill1 = KeyCode.R;
     public const KeyCode UseSkill2 = KeyCode.T;
 
+    public const KeyCode ActivationPartyPopup = KeyCode.P;
 }

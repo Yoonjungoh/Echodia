@@ -20,6 +20,7 @@ public class Managers : MonoBehaviour
     private GameRoomObjectManager _gameRoomObject = new GameRoomObjectManager();
     private MapManager _map = new MapManager();
     private NetworkManager _network = new NetworkManager();
+    private PartyManager _party = new PartyManager();
     private QuestManager _quest = new QuestManager();
     private RedDotManager _redDot = new RedDotManager();
     private RewardManager _reward = new RewardManager();
@@ -45,6 +46,7 @@ public class Managers : MonoBehaviour
     public static GameRoomObjectManager GameRoomObject { get { return Instance._gameRoomObject; } }
     public static MapManager Map { get { return Instance._map; } }
     public static NetworkManager Network { get { return Instance._network; } }
+    public static PartyManager Party { get { return Instance._party; } }
     public static QuestManager Quest { get { return Instance._quest; } }
     public static RedDotManager RedDot { get { return Instance._redDot; } }
     public static RewardManager Reward { get { return Instance._reward; } }

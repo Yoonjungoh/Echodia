@@ -1,5 +1,4 @@
 ﻿using Google.Protobuf.Protocol;
-using Server.Currency;
 using Server.DB;
 using Server.Game;
 using System;
@@ -15,11 +14,34 @@ namespace Server.Game
         protected int _gold;
         protected float _respawnTime;
         public float RespawnTime { get => _respawnTime; set => _respawnTime = value; }
+
+        // playerId → 해당 플레이어가 이 몬스터에게 입힌 누적 데미지
+        protected Dictionary<int, int> _damageContributions = new Dictionary<int, int>();
         public Monster()
         {
             ObjectType = GameObjectType.Monster;
 
             CreatureState = CreatureState.Idle;
+        }
+
+        public override void OnDamaged(GameObject instigator, int damage)
+        {
+            int pid = ResolveContributorPlayerId(instigator);
+            if (pid != 0)
+            {
+                _damageContributions.TryGetValue(pid, out int existing);
+                _damageContributions[pid] = existing + damage;
+            }
+            base.OnDamaged(instigator, damage);
+        }
+
+        private int ResolveContributorPlayerId(GameObject instigator)
+        {
+            if (instigator.ObjectType == GameObjectType.Player)
+                return ((Player)instigator).PlayerId;
+            if (instigator.ObjectType == GameObjectType.Projectile)
+                return GameRoom.Find(((Projectile)instigator).OwnerId)?.PlayerId ?? 0;
+            return 0;
         }
 
         public override void Update()
@@ -253,6 +275,7 @@ namespace Server.Game
             _nextMoveTick = 0;
             _nextAttackTick = 0;
             _lastDir = Vector3.Zero;
+            _damageContributions.Clear();
         }
 
         public override void OnDead(GameObject instigator)
@@ -260,32 +283,32 @@ namespace Server.Game
             // 리스폰 큐에 넣기
             GameRoom.Push(GameRoom.ReserveRespawn, Id, SpawnPosition, _respawnTime);
 
-            Player killer = null;
-            GameObjectType gameObjectType = ObjectManager.Instance.GetObjectTypeById(instigator.Id);
-            if (gameObjectType == GameObjectType.Player)
-            {
-                killer = instigator as Player;
-            }
-            else if (gameObjectType == GameObjectType.Projectile)
-            {
-                Projectile projectile = instigator as Projectile;
-                if (projectile != null)
-                {
-                    killer = GameRoom.Find(projectile.OwnerId);
-                }
-            }
+            Player killer = ResolveKillerPlayer(instigator);
 
             if (killer != null)
             {
-                CurrencyManager.Instance.AddCurrency(killer, CurrencyType.Gold, _gold);
-                QuestManager.Instance.OnMonsterKilled(GameRoom, killer, TemplateId);
+                var contributionSnapshot = new Dictionary<int, int>(_damageContributions);
+                KillRewardManager.Instance.OnMonsterKilled(
+                    GameRoom, killer, contributionSnapshot, Exp, _gold, TemplateId);
             }
+
+            _damageContributions.Clear();
 
             // 드롭 아이템 스폰 (사망 위치 주변에 랜덤 배치)
             Vector3 deathPos = CurrentPosition;
             GameRoom.Push(GameRoom.SpawnDropItems, TemplateId, deathPos);
 
             base.OnDead(instigator);
+        }
+
+        private Player ResolveKillerPlayer(GameObject instigator)
+        {
+            GameObjectType type = ObjectManager.Instance.GetObjectTypeById(instigator.Id);
+            if (type == GameObjectType.Player)
+                return instigator as Player;
+            if (type == GameObjectType.Projectile)
+                return GameRoom.Find(((Projectile)instigator).OwnerId);
+            return null;
         }
 
         protected void BroadCastCurrentState()

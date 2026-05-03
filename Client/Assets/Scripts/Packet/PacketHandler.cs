@@ -841,4 +841,77 @@ class PacketHandler
                 break;
         }
     }
+
+    // ─────────────────────────────────────────
+    // 파티 핸들러
+    // ─────────────────────────────────────────
+
+    public static void S_CreatePartyHandler(PacketSession session, IMessage packet)
+    {
+        S_CreateParty p = packet as S_CreateParty;
+        if (p.Success)
+            Managers.UI.ShowToastPopup("파티가 생성되었습니다.");
+    }
+
+    public static void S_PartyInviteHandler(PacketSession session, IMessage packet)
+    {
+        S_PartyInvite p = packet as S_PartyInvite;
+        switch (p.Result)
+        {
+            case PartyInviteResult.Success:
+                Managers.UI.ShowToastPopup("파티 초대를 보냈습니다.");
+                break;
+            case PartyInviteResult.NotInParty:
+                Managers.UI.ShowToastPopup("파티를 먼저 만들어야 합니다.");
+                break;
+            case PartyInviteResult.PartyFull:
+                Managers.UI.ShowToastPopup("파티 인원이 가득 찼습니다.");
+                break;
+            case PartyInviteResult.TargetInParty:
+                Managers.UI.ShowToastPopup("상대방이 이미 파티에 속해 있습니다.");
+                break;
+            case PartyInviteResult.TargetNotFound:
+                Managers.UI.ShowToastPopup("대상 플레이어를 찾을 수 없습니다.");
+                break;
+        }
+    }
+
+    public static void S_PartyInviteNotifyHandler(PacketSession session, IMessage packet)
+    {
+        S_PartyInviteNotify p = packet as S_PartyInviteNotify;
+        UI_PartyInviteNotification notif = Managers.UI.ShowPopupUI<UI_PartyInviteNotification>();
+        notif.SetData(p.InviterName, p.InviterObjectId);
+    }
+
+    public static void S_PartyInviteResponseHandler(PacketSession session, IMessage packet)
+    {
+        S_PartyInviteResponse p = packet as S_PartyInviteResponse;
+        string msg = p.Response == PartyInviteResponseType.Accept
+            ? $"{p.ResponderName}님이 파티 초대를 수락했습니다."
+            : $"{p.ResponderName}님이 파티 초대를 거절했습니다.";
+        Managers.UI.ShowToastPopup(msg);
+    }
+
+    public static void S_PartyUpdateHandler(PacketSession session, IMessage packet)
+    {
+        S_PartyUpdate p = packet as S_PartyUpdate;
+        Managers.Party.OnPartyUpdate(p);
+
+        // 파티창이 열려 있으면 목록 새로고침
+        if (Managers.UI.IsPopupActive<UI_Party>())
+            Managers.UI.GetPopupUI<UI_Party>()?.RequestRoomPlayerList();
+    }
+
+    public static void S_PartyLeftHandler(PacketSession session, IMessage packet)
+    {
+        S_PartyLeft p = packet as S_PartyLeft;
+        Managers.Party.OnPartyLeft(p);
+    }
+
+    public static void S_RequestRoomPlayerListHandler(PacketSession session, IMessage packet)
+    {
+        S_RequestRoomPlayerList p = packet as S_RequestRoomPlayerList;
+        if (Managers.UI.IsPopupActive<UI_Party>())
+            Managers.UI.GetPopupUI<UI_Party>()?.Refresh(p.PlayerList);
+    }
 }

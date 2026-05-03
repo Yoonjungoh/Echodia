@@ -102,7 +102,21 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.SUseSkill, MakePacket<S_UseSkill>);
 		_handler.Add((ushort)MsgId.SUseSkill, PacketHandler.S_UseSkillHandler);		
 		_onRecv.Add((ushort)MsgId.SChannelEnd, MakePacket<S_ChannelEnd>);
-		_handler.Add((ushort)MsgId.SChannelEnd, PacketHandler.S_ChannelEndHandler);
+		_handler.Add((ushort)MsgId.SChannelEnd, PacketHandler.S_ChannelEndHandler);		
+		_onRecv.Add((ushort)MsgId.SCreateParty, MakePacket<S_CreateParty>);
+		_handler.Add((ushort)MsgId.SCreateParty, PacketHandler.S_CreatePartyHandler);		
+		_onRecv.Add((ushort)MsgId.SPartyInvite, MakePacket<S_PartyInvite>);
+		_handler.Add((ushort)MsgId.SPartyInvite, PacketHandler.S_PartyInviteHandler);		
+		_onRecv.Add((ushort)MsgId.SPartyInviteNotify, MakePacket<S_PartyInviteNotify>);
+		_handler.Add((ushort)MsgId.SPartyInviteNotify, PacketHandler.S_PartyInviteNotifyHandler);		
+		_onRecv.Add((ushort)MsgId.SPartyInviteResponse, MakePacket<S_PartyInviteResponse>);
+		_handler.Add((ushort)MsgId.SPartyInviteResponse, PacketHandler.S_PartyInviteResponseHandler);		
+		_onRecv.Add((ushort)MsgId.SPartyUpdate, MakePacket<S_PartyUpdate>);
+		_handler.Add((ushort)MsgId.SPartyUpdate, PacketHandler.S_PartyUpdateHandler);		
+		_onRecv.Add((ushort)MsgId.SPartyLeft, MakePacket<S_PartyLeft>);
+		_handler.Add((ushort)MsgId.SPartyLeft, PacketHandler.S_PartyLeftHandler);		
+		_onRecv.Add((ushort)MsgId.SRequestRoomPlayerList, MakePacket<S_RequestRoomPlayerList>);
+		_handler.Add((ushort)MsgId.SRequestRoomPlayerList, PacketHandler.S_RequestRoomPlayerListHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)
