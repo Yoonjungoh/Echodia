@@ -425,7 +425,7 @@ class PacketHandler
         if (player == null || player.GameRoom == null)
             return;
 
-        player.GameRoom.Push(player.GameRoom.HandleCreateParty, player.Id);
+        player.GameRoom.Push(player.GameRoom.HandleCreateParty, player.PlayerId);
     }
 
     public static void C_PartyInviteHandler(PacketSession session, IMessage packet)
@@ -436,7 +436,7 @@ class PacketHandler
         if (player == null || player.GameRoom == null)
             return;
 
-        player.GameRoom.Push(player.GameRoom.HandlePartyInvite, player.Id, p.TargetObjectId);
+        player.GameRoom.Push(player.GameRoom.HandlePartyInvite, player.PlayerId, p.TargetPlayerId);
     }
 
     public static void C_PartyInviteResponseHandler(PacketSession session, IMessage packet)
@@ -449,7 +449,7 @@ class PacketHandler
 
         player.GameRoom.Push(() =>
         {
-            player.GameRoom.HandlePartyInviteResponse(p.InviterObjectId, player.Id, p.Response);
+            player.GameRoom.HandlePartyInviteResponse(p.InviterPlayerId, player.PlayerId, p.Response);
         });
     }
 
@@ -460,7 +460,7 @@ class PacketHandler
         if (player == null || player.GameRoom == null)
             return;
 
-        player.GameRoom.Push(player.GameRoom.HandlePartyLeave, player.Id);
+        player.GameRoom.Push(player.GameRoom.HandlePartyLeave, player.PlayerId);
     }
 
     public static void C_PartyKickHandler(PacketSession session, IMessage packet)
@@ -471,7 +471,7 @@ class PacketHandler
         if (player == null || player.GameRoom == null)
             return;
 
-        player.GameRoom.Push(player.GameRoom.HandlePartyKick, player.Id, p.TargetObjectId);
+        player.GameRoom.Push(player.GameRoom.HandlePartyKick, player.PlayerId, p.TargetPlayerId);
     }
 
     public static void C_RequestRoomPlayerListHandler(PacketSession session, IMessage packet)
@@ -481,6 +481,6 @@ class PacketHandler
         if (player == null || player.GameRoom == null)
             return;
 
-        player.GameRoom.Push(player.GameRoom.HandleRequestRoomPlayerList, player.Id);
+        player.GameRoom.Push(player.GameRoom.HandleRequestRoomPlayerList, player.PlayerId);
     }
 }

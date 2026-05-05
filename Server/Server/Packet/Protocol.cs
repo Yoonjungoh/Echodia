@@ -188,24 +188,24 @@ namespace Google.Protobuf.Protocol {
             "ZUl0ZW0SFQoNZnJvbVNsb3RJbmRleBgBIAEoBRITCgt0b1Nsb3RJbmRleBgC",
             "IAEoBRIkCghpdGVtVHlwZRgDIAEoDjISLlByb3RvY29sLkl0ZW1UeXBlIg8K",
             "DUNfQ3JlYXRlUGFydHkiIAoNU19DcmVhdGVQYXJ0eRIPCgdzdWNjZXNzGAEg",
-            "ASgIIicKDUNfUGFydHlJbnZpdGUSFgoOdGFyZ2V0T2JqZWN0SWQYASABKAUi",
+            "ASgIIicKDUNfUGFydHlJbnZpdGUSFgoOdGFyZ2V0UGxheWVySWQYASABKAUi",
             "PAoNU19QYXJ0eUludml0ZRIrCgZyZXN1bHQYASABKA4yGy5Qcm90b2NvbC5Q",
             "YXJ0eUludml0ZVJlc3VsdCJDChNTX1BhcnR5SW52aXRlTm90aWZ5EhcKD2lu",
-            "dml0ZXJPYmplY3RJZBgBIAEoBRITCgtpbnZpdGVyTmFtZRgCIAEoCSJlChVD",
+            "dml0ZXJQbGF5ZXJJZBgBIAEoBRITCgtpbnZpdGVyTmFtZRgCIAEoCSJlChVD",
             "X1BhcnR5SW52aXRlUmVzcG9uc2USMwoIcmVzcG9uc2UYASABKA4yIS5Qcm90",
-            "b2NvbC5QYXJ0eUludml0ZVJlc3BvbnNlVHlwZRIXCg9pbnZpdGVyT2JqZWN0",
+            "b2NvbC5QYXJ0eUludml0ZVJlc3BvbnNlVHlwZRIXCg9pbnZpdGVyUGxheWVy",
             "SWQYAiABKAUiYwoVU19QYXJ0eUludml0ZVJlc3BvbnNlEjMKCHJlc3BvbnNl",
             "GAEgASgOMiEuUHJvdG9jb2wuUGFydHlJbnZpdGVSZXNwb25zZVR5cGUSFQoN",
-            "cmVzcG9uZGVyTmFtZRgCIAEoCSKOAQoPUGFydHlNZW1iZXJJbmZvEhAKCG9i",
-            "amVjdElkGAEgASgFEhAKCHBsYXllcklkGAIgASgFEgwKBG5hbWUYAyABKAkS",
-            "DQoFbGV2ZWwYBCABKAUSKAoHam9iVHlwZRgFIAEoDjIXLlByb3RvY29sLlBs",
-            "YXllckpvYlR5cGUSEAoIaXNMZWFkZXIYBiABKAgiTAoNU19QYXJ0eVVwZGF0",
+            "cmVzcG9uZGVyTmFtZRgCIAEoCSKOAQoPUGFydHlNZW1iZXJJbmZvEhAKCHBs",
+            "YXllcklkGAIgASgFEgwKBG5hbWUYAyABKAkSDQoFbGV2ZWwYBCABKAUSKAoH",
+            "am9iVHlwZRgFIAEoDjIXLlByb3RvY29sLlBsYXllckpvYlR5cGUSEAoIaXNM",
+            "ZWFkZXIYBiABKAgSEAoIaXNPbmxpbmUYByABKAgiTAoNU19QYXJ0eVVwZGF0",
             "ZRIPCgdwYXJ0eUlkGAEgASgFEioKB21lbWJlcnMYAiADKAsyGS5Qcm90b2Nv",
             "bC5QYXJ0eU1lbWJlckluZm8iOAoLU19QYXJ0eUxlZnQSKQoGcmVhc29uGAEg",
             "ASgOMhkuUHJvdG9jb2wuUGFydHlMZWZ0UmVhc29uIg4KDENfUGFydHlMZWF2",
-            "ZSIlCgtDX1BhcnR5S2ljaxIWCg50YXJnZXRPYmplY3RJZBgBIAEoBSIZChdD",
+            "ZSIlCgtDX1BhcnR5S2ljaxIWCg50YXJnZXRQbGF5ZXJJZBgBIAEoBSIZChdD",
             "X1JlcXVlc3RSb29tUGxheWVyTGlzdCKRAQoOUm9vbVBsYXllckluZm8SEAoI",
-            "b2JqZWN0SWQYASABKAUSDAoEbmFtZRgCIAEoCRINCgVsZXZlbBgDIAEoBRIo",
+            "cGxheWVySWQYByABKAUSDAoEbmFtZRgCIAEoCRINCgVsZXZlbBgDIAEoBRIo",
             "Cgdqb2JUeXBlGAQgASgOMhcuUHJvdG9jb2wuUGxheWVySm9iVHlwZRIRCglp",
             "c0luUGFydHkYBSABKAgSEwoLaXNJbk15UGFydHkYBiABKAgiRwoXU19SZXF1",
             "ZXN0Um9vbVBsYXllckxpc3QSLAoKcGxheWVyTGlzdBgBIAMoCzIYLlByb3Rv",
@@ -466,18 +466,18 @@ namespace Google.Protobuf.Protocol {
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_MoveItem), global::Google.Protobuf.Protocol.C_MoveItem.Parser, new[]{ "FromSlotIndex", "ToSlotIndex", "ItemType" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_CreateParty), global::Google.Protobuf.Protocol.C_CreateParty.Parser, null, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_CreateParty), global::Google.Protobuf.Protocol.S_CreateParty.Parser, new[]{ "Success" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_PartyInvite), global::Google.Protobuf.Protocol.C_PartyInvite.Parser, new[]{ "TargetObjectId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_PartyInvite), global::Google.Protobuf.Protocol.C_PartyInvite.Parser, new[]{ "TargetPlayerId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_PartyInvite), global::Google.Protobuf.Protocol.S_PartyInvite.Parser, new[]{ "Result" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_PartyInviteNotify), global::Google.Protobuf.Protocol.S_PartyInviteNotify.Parser, new[]{ "InviterObjectId", "InviterName" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_PartyInviteResponse), global::Google.Protobuf.Protocol.C_PartyInviteResponse.Parser, new[]{ "Response", "InviterObjectId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_PartyInviteNotify), global::Google.Protobuf.Protocol.S_PartyInviteNotify.Parser, new[]{ "InviterPlayerId", "InviterName" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_PartyInviteResponse), global::Google.Protobuf.Protocol.C_PartyInviteResponse.Parser, new[]{ "Response", "InviterPlayerId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_PartyInviteResponse), global::Google.Protobuf.Protocol.S_PartyInviteResponse.Parser, new[]{ "Response", "ResponderName" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.PartyMemberInfo), global::Google.Protobuf.Protocol.PartyMemberInfo.Parser, new[]{ "ObjectId", "PlayerId", "Name", "Level", "JobType", "IsLeader" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.PartyMemberInfo), global::Google.Protobuf.Protocol.PartyMemberInfo.Parser, new[]{ "PlayerId", "Name", "Level", "JobType", "IsLeader", "IsOnline" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_PartyUpdate), global::Google.Protobuf.Protocol.S_PartyUpdate.Parser, new[]{ "PartyId", "Members" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_PartyLeft), global::Google.Protobuf.Protocol.S_PartyLeft.Parser, new[]{ "Reason" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_PartyLeave), global::Google.Protobuf.Protocol.C_PartyLeave.Parser, null, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_PartyKick), global::Google.Protobuf.Protocol.C_PartyKick.Parser, new[]{ "TargetObjectId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_PartyKick), global::Google.Protobuf.Protocol.C_PartyKick.Parser, new[]{ "TargetPlayerId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_RequestRoomPlayerList), global::Google.Protobuf.Protocol.C_RequestRoomPlayerList.Parser, null, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.RoomPlayerInfo), global::Google.Protobuf.Protocol.RoomPlayerInfo.Parser, new[]{ "ObjectId", "Name", "Level", "JobType", "IsInParty", "IsInMyParty" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.RoomPlayerInfo), global::Google.Protobuf.Protocol.RoomPlayerInfo.Parser, new[]{ "PlayerId", "Name", "Level", "JobType", "IsInParty", "IsInMyParty" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_RequestRoomPlayerList), global::Google.Protobuf.Protocol.S_RequestRoomPlayerList.Parser, new[]{ "PlayerList" }, null, null, null, null)
           }));
     }
@@ -16285,7 +16285,7 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public C_PartyInvite(C_PartyInvite other) : this() {
-      targetObjectId_ = other.targetObjectId_;
+      targetPlayerId_ = other.targetPlayerId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -16294,14 +16294,14 @@ namespace Google.Protobuf.Protocol {
       return new C_PartyInvite(this);
     }
 
-    /// <summary>Field number for the "targetObjectId" field.</summary>
-    public const int TargetObjectIdFieldNumber = 1;
-    private int targetObjectId_;
+    /// <summary>Field number for the "targetPlayerId" field.</summary>
+    public const int TargetPlayerIdFieldNumber = 1;
+    private int targetPlayerId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int TargetObjectId {
-      get { return targetObjectId_; }
+    public int TargetPlayerId {
+      get { return targetPlayerId_; }
       set {
-        targetObjectId_ = value;
+        targetPlayerId_ = value;
       }
     }
 
@@ -16318,14 +16318,14 @@ namespace Google.Protobuf.Protocol {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (TargetObjectId != other.TargetObjectId) return false;
+      if (TargetPlayerId != other.TargetPlayerId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (TargetObjectId != 0) hash ^= TargetObjectId.GetHashCode();
+      if (TargetPlayerId != 0) hash ^= TargetPlayerId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -16339,9 +16339,9 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (TargetObjectId != 0) {
+      if (TargetPlayerId != 0) {
         output.WriteRawTag(8);
-        output.WriteInt32(TargetObjectId);
+        output.WriteInt32(TargetPlayerId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -16351,8 +16351,8 @@ namespace Google.Protobuf.Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (TargetObjectId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TargetObjectId);
+      if (TargetPlayerId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TargetPlayerId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -16365,8 +16365,8 @@ namespace Google.Protobuf.Protocol {
       if (other == null) {
         return;
       }
-      if (other.TargetObjectId != 0) {
-        TargetObjectId = other.TargetObjectId;
+      if (other.TargetPlayerId != 0) {
+        TargetPlayerId = other.TargetPlayerId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -16380,7 +16380,7 @@ namespace Google.Protobuf.Protocol {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            TargetObjectId = input.ReadInt32();
+            TargetPlayerId = input.ReadInt32();
             break;
           }
         }
@@ -16546,7 +16546,7 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public S_PartyInviteNotify(S_PartyInviteNotify other) : this() {
-      inviterObjectId_ = other.inviterObjectId_;
+      inviterPlayerId_ = other.inviterPlayerId_;
       inviterName_ = other.inviterName_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -16556,14 +16556,14 @@ namespace Google.Protobuf.Protocol {
       return new S_PartyInviteNotify(this);
     }
 
-    /// <summary>Field number for the "inviterObjectId" field.</summary>
-    public const int InviterObjectIdFieldNumber = 1;
-    private int inviterObjectId_;
+    /// <summary>Field number for the "inviterPlayerId" field.</summary>
+    public const int InviterPlayerIdFieldNumber = 1;
+    private int inviterPlayerId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int InviterObjectId {
-      get { return inviterObjectId_; }
+    public int InviterPlayerId {
+      get { return inviterPlayerId_; }
       set {
-        inviterObjectId_ = value;
+        inviterPlayerId_ = value;
       }
     }
 
@@ -16591,7 +16591,7 @@ namespace Google.Protobuf.Protocol {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (InviterObjectId != other.InviterObjectId) return false;
+      if (InviterPlayerId != other.InviterPlayerId) return false;
       if (InviterName != other.InviterName) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -16599,7 +16599,7 @@ namespace Google.Protobuf.Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (InviterObjectId != 0) hash ^= InviterObjectId.GetHashCode();
+      if (InviterPlayerId != 0) hash ^= InviterPlayerId.GetHashCode();
       if (InviterName.Length != 0) hash ^= InviterName.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -16614,9 +16614,9 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (InviterObjectId != 0) {
+      if (InviterPlayerId != 0) {
         output.WriteRawTag(8);
-        output.WriteInt32(InviterObjectId);
+        output.WriteInt32(InviterPlayerId);
       }
       if (InviterName.Length != 0) {
         output.WriteRawTag(18);
@@ -16630,8 +16630,8 @@ namespace Google.Protobuf.Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (InviterObjectId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(InviterObjectId);
+      if (InviterPlayerId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(InviterPlayerId);
       }
       if (InviterName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(InviterName);
@@ -16647,8 +16647,8 @@ namespace Google.Protobuf.Protocol {
       if (other == null) {
         return;
       }
-      if (other.InviterObjectId != 0) {
-        InviterObjectId = other.InviterObjectId;
+      if (other.InviterPlayerId != 0) {
+        InviterPlayerId = other.InviterPlayerId;
       }
       if (other.InviterName.Length != 0) {
         InviterName = other.InviterName;
@@ -16665,7 +16665,7 @@ namespace Google.Protobuf.Protocol {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            InviterObjectId = input.ReadInt32();
+            InviterPlayerId = input.ReadInt32();
             break;
           }
           case 18: {
@@ -16704,7 +16704,7 @@ namespace Google.Protobuf.Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public C_PartyInviteResponse(C_PartyInviteResponse other) : this() {
       response_ = other.response_;
-      inviterObjectId_ = other.inviterObjectId_;
+      inviterPlayerId_ = other.inviterPlayerId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -16724,14 +16724,14 @@ namespace Google.Protobuf.Protocol {
       }
     }
 
-    /// <summary>Field number for the "inviterObjectId" field.</summary>
-    public const int InviterObjectIdFieldNumber = 2;
-    private int inviterObjectId_;
+    /// <summary>Field number for the "inviterPlayerId" field.</summary>
+    public const int InviterPlayerIdFieldNumber = 2;
+    private int inviterPlayerId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int InviterObjectId {
-      get { return inviterObjectId_; }
+    public int InviterPlayerId {
+      get { return inviterPlayerId_; }
       set {
-        inviterObjectId_ = value;
+        inviterPlayerId_ = value;
       }
     }
 
@@ -16749,7 +16749,7 @@ namespace Google.Protobuf.Protocol {
         return true;
       }
       if (Response != other.Response) return false;
-      if (InviterObjectId != other.InviterObjectId) return false;
+      if (InviterPlayerId != other.InviterPlayerId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -16757,7 +16757,7 @@ namespace Google.Protobuf.Protocol {
     public override int GetHashCode() {
       int hash = 1;
       if (Response != global::Google.Protobuf.Protocol.PartyInviteResponseType.None) hash ^= Response.GetHashCode();
-      if (InviterObjectId != 0) hash ^= InviterObjectId.GetHashCode();
+      if (InviterPlayerId != 0) hash ^= InviterPlayerId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -16775,9 +16775,9 @@ namespace Google.Protobuf.Protocol {
         output.WriteRawTag(8);
         output.WriteEnum((int) Response);
       }
-      if (InviterObjectId != 0) {
+      if (InviterPlayerId != 0) {
         output.WriteRawTag(16);
-        output.WriteInt32(InviterObjectId);
+        output.WriteInt32(InviterPlayerId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -16790,8 +16790,8 @@ namespace Google.Protobuf.Protocol {
       if (Response != global::Google.Protobuf.Protocol.PartyInviteResponseType.None) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Response);
       }
-      if (InviterObjectId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(InviterObjectId);
+      if (InviterPlayerId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(InviterPlayerId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -16807,8 +16807,8 @@ namespace Google.Protobuf.Protocol {
       if (other.Response != global::Google.Protobuf.Protocol.PartyInviteResponseType.None) {
         Response = other.Response;
       }
-      if (other.InviterObjectId != 0) {
-        InviterObjectId = other.InviterObjectId;
+      if (other.InviterPlayerId != 0) {
+        InviterPlayerId = other.InviterPlayerId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -16826,7 +16826,7 @@ namespace Google.Protobuf.Protocol {
             break;
           }
           case 16: {
-            InviterObjectId = input.ReadInt32();
+            InviterPlayerId = input.ReadInt32();
             break;
           }
         }
@@ -17023,29 +17023,18 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public PartyMemberInfo(PartyMemberInfo other) : this() {
-      objectId_ = other.objectId_;
       playerId_ = other.playerId_;
       name_ = other.name_;
       level_ = other.level_;
       jobType_ = other.jobType_;
       isLeader_ = other.isLeader_;
+      isOnline_ = other.isOnline_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public PartyMemberInfo Clone() {
       return new PartyMemberInfo(this);
-    }
-
-    /// <summary>Field number for the "objectId" field.</summary>
-    public const int ObjectIdFieldNumber = 1;
-    private int objectId_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int ObjectId {
-      get { return objectId_; }
-      set {
-        objectId_ = value;
-      }
     }
 
     /// <summary>Field number for the "playerId" field.</summary>
@@ -17103,6 +17092,17 @@ namespace Google.Protobuf.Protocol {
       }
     }
 
+    /// <summary>Field number for the "isOnline" field.</summary>
+    public const int IsOnlineFieldNumber = 7;
+    private bool isOnline_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool IsOnline {
+      get { return isOnline_; }
+      set {
+        isOnline_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as PartyMemberInfo);
@@ -17116,24 +17116,24 @@ namespace Google.Protobuf.Protocol {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (ObjectId != other.ObjectId) return false;
       if (PlayerId != other.PlayerId) return false;
       if (Name != other.Name) return false;
       if (Level != other.Level) return false;
       if (JobType != other.JobType) return false;
       if (IsLeader != other.IsLeader) return false;
+      if (IsOnline != other.IsOnline) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (ObjectId != 0) hash ^= ObjectId.GetHashCode();
       if (PlayerId != 0) hash ^= PlayerId.GetHashCode();
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Level != 0) hash ^= Level.GetHashCode();
       if (JobType != global::Google.Protobuf.Protocol.PlayerJobType.None) hash ^= JobType.GetHashCode();
       if (IsLeader != false) hash ^= IsLeader.GetHashCode();
+      if (IsOnline != false) hash ^= IsOnline.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -17147,10 +17147,6 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (ObjectId != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(ObjectId);
-      }
       if (PlayerId != 0) {
         output.WriteRawTag(16);
         output.WriteInt32(PlayerId);
@@ -17171,6 +17167,10 @@ namespace Google.Protobuf.Protocol {
         output.WriteRawTag(48);
         output.WriteBool(IsLeader);
       }
+      if (IsOnline != false) {
+        output.WriteRawTag(56);
+        output.WriteBool(IsOnline);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -17179,9 +17179,6 @@ namespace Google.Protobuf.Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (ObjectId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ObjectId);
-      }
       if (PlayerId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(PlayerId);
       }
@@ -17197,6 +17194,9 @@ namespace Google.Protobuf.Protocol {
       if (IsLeader != false) {
         size += 1 + 1;
       }
+      if (IsOnline != false) {
+        size += 1 + 1;
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -17207,9 +17207,6 @@ namespace Google.Protobuf.Protocol {
     public void MergeFrom(PartyMemberInfo other) {
       if (other == null) {
         return;
-      }
-      if (other.ObjectId != 0) {
-        ObjectId = other.ObjectId;
       }
       if (other.PlayerId != 0) {
         PlayerId = other.PlayerId;
@@ -17226,6 +17223,9 @@ namespace Google.Protobuf.Protocol {
       if (other.IsLeader != false) {
         IsLeader = other.IsLeader;
       }
+      if (other.IsOnline != false) {
+        IsOnline = other.IsOnline;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -17237,10 +17237,6 @@ namespace Google.Protobuf.Protocol {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            ObjectId = input.ReadInt32();
-            break;
-          }
           case 16: {
             PlayerId = input.ReadInt32();
             break;
@@ -17259,6 +17255,10 @@ namespace Google.Protobuf.Protocol {
           }
           case 48: {
             IsLeader = input.ReadBool();
+            break;
+          }
+          case 56: {
+            IsOnline = input.ReadBool();
             break;
           }
         }
@@ -17677,7 +17677,7 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public C_PartyKick(C_PartyKick other) : this() {
-      targetObjectId_ = other.targetObjectId_;
+      targetPlayerId_ = other.targetPlayerId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -17686,14 +17686,14 @@ namespace Google.Protobuf.Protocol {
       return new C_PartyKick(this);
     }
 
-    /// <summary>Field number for the "targetObjectId" field.</summary>
-    public const int TargetObjectIdFieldNumber = 1;
-    private int targetObjectId_;
+    /// <summary>Field number for the "targetPlayerId" field.</summary>
+    public const int TargetPlayerIdFieldNumber = 1;
+    private int targetPlayerId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int TargetObjectId {
-      get { return targetObjectId_; }
+    public int TargetPlayerId {
+      get { return targetPlayerId_; }
       set {
-        targetObjectId_ = value;
+        targetPlayerId_ = value;
       }
     }
 
@@ -17710,14 +17710,14 @@ namespace Google.Protobuf.Protocol {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (TargetObjectId != other.TargetObjectId) return false;
+      if (TargetPlayerId != other.TargetPlayerId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (TargetObjectId != 0) hash ^= TargetObjectId.GetHashCode();
+      if (TargetPlayerId != 0) hash ^= TargetPlayerId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -17731,9 +17731,9 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (TargetObjectId != 0) {
+      if (TargetPlayerId != 0) {
         output.WriteRawTag(8);
-        output.WriteInt32(TargetObjectId);
+        output.WriteInt32(TargetPlayerId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -17743,8 +17743,8 @@ namespace Google.Protobuf.Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (TargetObjectId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TargetObjectId);
+      if (TargetPlayerId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TargetPlayerId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -17757,8 +17757,8 @@ namespace Google.Protobuf.Protocol {
       if (other == null) {
         return;
       }
-      if (other.TargetObjectId != 0) {
-        TargetObjectId = other.TargetObjectId;
+      if (other.TargetPlayerId != 0) {
+        TargetPlayerId = other.TargetPlayerId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -17772,7 +17772,7 @@ namespace Google.Protobuf.Protocol {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            TargetObjectId = input.ReadInt32();
+            TargetPlayerId = input.ReadInt32();
             break;
           }
         }
@@ -17910,7 +17910,7 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public RoomPlayerInfo(RoomPlayerInfo other) : this() {
-      objectId_ = other.objectId_;
+      playerId_ = other.playerId_;
       name_ = other.name_;
       level_ = other.level_;
       jobType_ = other.jobType_;
@@ -17924,14 +17924,14 @@ namespace Google.Protobuf.Protocol {
       return new RoomPlayerInfo(this);
     }
 
-    /// <summary>Field number for the "objectId" field.</summary>
-    public const int ObjectIdFieldNumber = 1;
-    private int objectId_;
+    /// <summary>Field number for the "playerId" field.</summary>
+    public const int PlayerIdFieldNumber = 7;
+    private int playerId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int ObjectId {
-      get { return objectId_; }
+    public int PlayerId {
+      get { return playerId_; }
       set {
-        objectId_ = value;
+        playerId_ = value;
       }
     }
 
@@ -17971,9 +17971,6 @@ namespace Google.Protobuf.Protocol {
     /// <summary>Field number for the "isInParty" field.</summary>
     public const int IsInPartyFieldNumber = 5;
     private bool isInParty_;
-    /// <summary>
-    /// 누군가의 파티에 속해 있는지
-    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool IsInParty {
       get { return isInParty_; }
@@ -17985,9 +17982,6 @@ namespace Google.Protobuf.Protocol {
     /// <summary>Field number for the "isInMyParty" field.</summary>
     public const int IsInMyPartyFieldNumber = 6;
     private bool isInMyParty_;
-    /// <summary>
-    /// 요청자와 같은 파티인지
-    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool IsInMyParty {
       get { return isInMyParty_; }
@@ -18009,7 +18003,7 @@ namespace Google.Protobuf.Protocol {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (ObjectId != other.ObjectId) return false;
+      if (PlayerId != other.PlayerId) return false;
       if (Name != other.Name) return false;
       if (Level != other.Level) return false;
       if (JobType != other.JobType) return false;
@@ -18021,7 +18015,7 @@ namespace Google.Protobuf.Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (ObjectId != 0) hash ^= ObjectId.GetHashCode();
+      if (PlayerId != 0) hash ^= PlayerId.GetHashCode();
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Level != 0) hash ^= Level.GetHashCode();
       if (JobType != global::Google.Protobuf.Protocol.PlayerJobType.None) hash ^= JobType.GetHashCode();
@@ -18040,10 +18034,6 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (ObjectId != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(ObjectId);
-      }
       if (Name.Length != 0) {
         output.WriteRawTag(18);
         output.WriteString(Name);
@@ -18064,6 +18054,10 @@ namespace Google.Protobuf.Protocol {
         output.WriteRawTag(48);
         output.WriteBool(IsInMyParty);
       }
+      if (PlayerId != 0) {
+        output.WriteRawTag(56);
+        output.WriteInt32(PlayerId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -18072,8 +18066,8 @@ namespace Google.Protobuf.Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (ObjectId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ObjectId);
+      if (PlayerId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(PlayerId);
       }
       if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
@@ -18101,8 +18095,8 @@ namespace Google.Protobuf.Protocol {
       if (other == null) {
         return;
       }
-      if (other.ObjectId != 0) {
-        ObjectId = other.ObjectId;
+      if (other.PlayerId != 0) {
+        PlayerId = other.PlayerId;
       }
       if (other.Name.Length != 0) {
         Name = other.Name;
@@ -18130,10 +18124,6 @@ namespace Google.Protobuf.Protocol {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            ObjectId = input.ReadInt32();
-            break;
-          }
           case 18: {
             Name = input.ReadString();
             break;
@@ -18152,6 +18142,10 @@ namespace Google.Protobuf.Protocol {
           }
           case 48: {
             IsInMyParty = input.ReadBool();
+            break;
+          }
+          case 56: {
+            PlayerId = input.ReadInt32();
             break;
           }
         }

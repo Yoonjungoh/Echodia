@@ -566,10 +566,7 @@ namespace Server.Game
 
         public void OnLeaveGame()
         {
-            // 파티에 속해 있으면 탈퇴 처리 (방 이탈 → 파티 자동 탈퇴)
-            if (GameRoom != null)
-                PartyManager.Instance.LeaveParty(GameRoom, Id);
-
+            // 파티는 오프라인 상태에서도 유지 (재접속 시 OnPlayerEnterGame에서 복원)
             FlushDirtyState();
             DbTransaction.SavePlayerStatsAsync(this);
         }

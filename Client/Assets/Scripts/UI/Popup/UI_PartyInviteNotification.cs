@@ -16,7 +16,7 @@ public class UI_PartyInviteNotification : UI_Popup
         DeclineButton,
     }
 
-    private int _inviterObjectId;
+    private int _inviterPlayerId;
     private float _remainTime;
     private const float AutoDismissSeconds = 15f;
 
@@ -31,10 +31,10 @@ public class UI_PartyInviteNotification : UI_Popup
         GetButton((int)Buttons.DeclineButton).onClick.AddListener(OnClickDecline);
     }
 
-    public void SetData(string inviterName, int inviterObjectId)
+    public void SetData(string inviterName, int inviterPlayerId)
     {
-        _inviterObjectId = inviterObjectId;
-        _remainTime      = AutoDismissSeconds;
+        _inviterPlayerId = inviterPlayerId;
+        _remainTime = AutoDismissSeconds;
 
         Get<TextMeshProUGUI>((int)Texts.InviteMessageText).text =
             $"{inviterName}님이 파티에 초대하셨습니다.";
@@ -44,15 +44,17 @@ public class UI_PartyInviteNotification : UI_Popup
     {
         _remainTime -= UnityEngine.Time.deltaTime;
         if (_remainTime <= 0f)
+        {
             CloseSelf();
+        }
     }
 
     private void OnClickAccept()
     {
         Managers.Network.Send(new C_PartyInviteResponse
         {
-            Response        = PartyInviteResponseType.Accept,
-            InviterObjectId = _inviterObjectId,
+            Response = PartyInviteResponseType.Accept,
+            InviterPlayerId = _inviterPlayerId,
         });
         CloseSelf();
     }
@@ -61,8 +63,8 @@ public class UI_PartyInviteNotification : UI_Popup
     {
         Managers.Network.Send(new C_PartyInviteResponse
         {
-            Response        = PartyInviteResponseType.Decline,
-            InviterObjectId = _inviterObjectId,
+            Response = PartyInviteResponseType.Decline,
+            InviterPlayerId = _inviterPlayerId,
         });
         CloseSelf();
     }

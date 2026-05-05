@@ -879,10 +879,11 @@ message C_CreateParty {
 
 }
 message S_CreateParty { 
-bool success = 1; }
+bool success = 1; 
+}
 
 message C_PartyInvite {
-  int32 targetObjectId = 1; 
+  int32 targetPlayerId = 1;
 }
 
 message S_PartyInvite { 
@@ -891,13 +892,13 @@ PartyInviteResult result = 1;
 
 // 초대 대상자에게 전송하는 알림
 message S_PartyInviteNotify {
-  int32  inviterObjectId = 1;
+  int32 inviterPlayerId = 1;
   string inviterName = 2;
 }
 
 message C_PartyInviteResponse {
   PartyInviteResponseType response = 1;
-  int32 inviterObjectId = 2;
+  int32 inviterPlayerId = 2;
 }
 
 // 초대자에게 수락/거절 결과 알림
@@ -908,17 +909,17 @@ message S_PartyInviteResponse {
 
 // 파티원 한 명의 정보
 message PartyMemberInfo {
-  int32         objectId = 1;
-  int32         playerId = 2;
-  string        name     = 3;
-  int32         level    = 4;
-  PlayerJobType jobType  = 5;
-  bool          isLeader = 6;
+  int32 playerId = 2;
+  string name = 3;
+  int32 level = 4;
+  PlayerJobType jobType = 5;
+  bool isLeader = 6;
+  bool isOnline = 7;
 }
 
 // 파티 구성 변경 시 전원에게 스냅샷 전송 (members 비어있으면 파티 없음)
 message S_PartyUpdate {
-  int32                    partyId = 1;
+  int32 partyId = 1;
   repeated PartyMemberInfo members = 2;
 }
 
@@ -926,18 +927,18 @@ message S_PartyUpdate {
 message S_PartyLeft { PartyLeftReason reason = 1; }
 
 message C_PartyLeave { }
-message C_PartyKick  { int32 targetObjectId = 1; }
+message C_PartyKick { int32 targetPlayerId = 1; }
 
 // 파티창 열 때 같은 방 플레이어 목록 요청
 message C_RequestRoomPlayerList { }
 
 message RoomPlayerInfo {
-  int32         objectId    = 1;
-  string        name        = 2;
-  int32         level       = 3;
-  PlayerJobType jobType     = 4;
-  bool          isInParty   = 5;   // 누군가의 파티에 속해 있는지
-  bool          isInMyParty = 6;   // 요청자와 같은 파티인지
+  int32 playerId = 7;
+  string name = 2;
+  int32 level = 3;
+  PlayerJobType jobType = 4;
+  bool isInParty = 5;
+  bool isInMyParty = 6;
 }
 
 message S_RequestRoomPlayerList {

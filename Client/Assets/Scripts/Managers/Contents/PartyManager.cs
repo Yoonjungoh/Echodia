@@ -13,8 +13,8 @@ public class PartyManager
     {
         get
         {
-            int myId = Managers.GameRoomObject.MyPlayer?.Id ?? 0;
-            return Members.Any(m => m.ObjectId == myId && m.IsLeader);
+            int myPlayerId = Managers.GameRoomObject.PlayerId;
+            return Members.Any(m => m.PlayerId == myPlayerId && m.IsLeader);
         }
     }
 
@@ -68,21 +68,19 @@ public class PartyManager
     {
         foreach (GameObject go in Managers.GameRoomObject.Objects.Values)
         {
-            if (go == null)
-                continue;
+            if (go == null) { continue; }
 
             OtherPlayerController opc = go.GetComponent<OtherPlayerController>();
-            if (opc == null)
-                continue;
+            if (opc == null) { continue; }
 
-            bool isPartyMember = Members.Any(m => m.ObjectId == opc.Id);
+            bool isPartyMember = Members.Any(m => m.Name == opc.Name);
             opc.SetPartyNameColor(isPartyMember);
         }
     }
 
-    // 특정 오브젝트 ID가 파티원인지 확인
-    public bool IsPartyMember(int objectId)
+    // 특정 이름이 파티원인지 확인
+    public bool IsPartyMember(string name)
     {
-        return Members.Any(m => m.ObjectId == objectId);
+        return Members.Any(m => m.Name == name);
     }
 }

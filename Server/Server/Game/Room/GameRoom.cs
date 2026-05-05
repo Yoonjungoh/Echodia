@@ -661,6 +661,8 @@ namespace Server.Game
                 Player player = gameObject as Player;
                 // 본인한테 맵안의 플레이어 정보 전송
                 player.AOI.Update();
+                // 파티에 속해 있으면 상태 복원 및 파티원에게 재접속 알림
+                PartyManager.Instance.OnPlayerEnterGame(this, player);
             }
 
             // 다른 플레이어에게 게임 오브젝트가 접속한 걸 알려주기
@@ -1196,67 +1198,62 @@ namespace Server.Game
         // 파티 패킷 핸들러 (GameRoom 잡 큐 안에서 실행)
         // ─────────────────────────────────────────
 
-        public void HandleCreateParty(int playerObjectId)
+        public void HandleCreateParty(int playerPlayerId)
         {
-            Player player = Find(playerObjectId);
-            if (player == null)
-                return;
+            Player player = FindPlayerByPlayerId(playerPlayerId);
+            if (player == null) { return; }
             PartyManager.Instance.CreateParty(this, player);
         }
 
-        public void HandlePartyInvite(int inviterObjectId, int targetObjectId)
+        public void HandlePartyInvite(int inviterPlayerId, int targetPlayerId)
         {
-            Player inviter = Find(inviterObjectId);
-            if (inviter == null)
-                return;
-            PartyManager.Instance.SendInvite(this, inviter, targetObjectId);
+            Player inviter = FindPlayerByPlayerId(inviterPlayerId);
+            if (inviter == null) { return; }
+            PartyManager.Instance.SendInvite(this, inviter, targetPlayerId);
         }
 
         public void HandlePartyInviteResponse(
-            int inviterObjectId,
-            int responderObjectId,
+            int inviterPlayerId,
+            int responderPlayerId,
             PartyInviteResponseType response)
         {
-            Player responder = Find(responderObjectId);
-            if (responder == null)
-                return;
-            PartyManager.Instance.HandleInviteResponse(this, responder, inviterObjectId, response);
+            Player responder = FindPlayerByPlayerId(responderPlayerId);
+            if (responder == null) { return; }
+            PartyManager.Instance.HandleInviteResponse(this, responder, inviterPlayerId, response);
         }
 
-        public void HandlePartyLeave(int playerObjectId)
+        public void HandlePartyLeave(int playerPlayerId)
         {
-            PartyManager.Instance.LeaveParty(this, playerObjectId);
+            PartyManager.Instance.LeaveParty(this, playerPlayerId);
         }
 
-        public void HandlePartyKick(int kickerObjectId, int targetObjectId)
+        public void HandlePartyKick(int kickerPlayerId, int targetPlayerId)
         {
-            PartyManager.Instance.KickMember(this, kickerObjectId, targetObjectId);
+            PartyManager.Instance.KickMember(this, kickerPlayerId, targetPlayerId);
         }
 
-        public void HandleRequestRoomPlayerList(int requesterObjectId)
+        public void HandleRequestRoomPlayerList(int requesterPlayerId)
         {
-            Player requester = Find(requesterObjectId);
-            if (requester == null)
-                return;
+            Player requester = FindPlayerByPlayerId(requesterPlayerId);
+            if (requester == null) { return; }
 
-            Party myParty = PartyManager.Instance.GetPartyOf(requesterObjectId);
+            Party myParty = PartyManager.Instance.GetPartyOf(requesterPlayerId);
 
             var packet = new S_RequestRoomPlayerList();
             foreach (Player p in _players.Values)
             {
-                if (p.Id == requesterObjectId)
-                    continue;
+                if (p.PlayerId == requesterPlayerId) { continue; }
 
-                bool inParty   = PartyManager.Instance.IsInParty(p.Id);
-                bool inMyParty = myParty != null && myParty.Contains(p.Id);
+                bool inParty = PartyManager.Instance.IsInParty(p.PlayerId);
+                bool inMyParty = myParty != null && myParty.Contains(p.PlayerId);
 
                 packet.PlayerList.Add(new RoomPlayerInfo
                 {
-                    ObjectId    = p.Id,
-                    Name        = p.Name,
-                    Level       = p.Level,
-                    JobType     = p.Stat.JobType,
-                    IsInParty   = inParty,
+                    PlayerId = p.PlayerId,
+                    Name = p.Name,
+                    Level = p.Level,
+                    JobType = p.Stat.JobType,
+                    IsInParty = inParty,
                     IsInMyParty = inMyParty,
                 });
             }

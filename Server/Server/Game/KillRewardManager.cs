@@ -25,10 +25,14 @@ namespace Server
             foreach ((Player player, int exp, int gold) in shares)
             {
                 if (exp > 0)
+                {
                     GrantExp(player, exp);
+                }
 
                 if (gold > 0)
+                {
                     GrantGold(player, gold);
+                }
             }
 
             // 퀘스트 크레딧은 보상 받은 플레이어 전체에게 동일하게 적용
@@ -47,7 +51,7 @@ namespace Server
             int totalExp,
             int totalGold)
         {
-            Party killerParty = PartyManager.Instance.GetPartyOf(killer.Id);
+            Party killerParty = PartyManager.Instance.GetPartyOf(killer.PlayerId);
 
             var eligible = new List<(Player player, int damage)>();
             int totalPartyDamage = 0;
@@ -55,7 +59,7 @@ namespace Server
             foreach (KeyValuePair<int, int> kv in damageContributions)
             {
                 int playerId = kv.Key;
-                int damage   = kv.Value;
+                int damage = kv.Value;
 
                 Player p = room.FindPlayerByPlayerId(playerId);
                 if (p == null)
@@ -70,7 +74,7 @@ namespace Server
                 else
                 {
                     // 같은 파티원만
-                    if (!killerParty.Contains(p.Id))
+                    if (!killerParty.Contains(p.PlayerId))
                         continue;
                 }
 
@@ -86,17 +90,17 @@ namespace Server
 
             // Math.Floor 비례 분배, 나머지는 최고 기여자에게
             var shares = new List<(Player player, int exp, int gold)>(eligible.Count);
-            int expRemaining  = totalExp;
+            int expRemaining = totalExp;
             int goldRemaining = totalGold;
-            Player topPlayer  = null;
-            int    topDamage  = -1;
+            Player topPlayer = null;
+            int topDamage = -1;
 
             foreach ((Player p, int damage) in eligible)
             {
                 float ratio = (float)damage / totalPartyDamage;
-                int   pExp  = (int)Math.Floor(totalExp  * ratio);
-                int   pGold = (int)Math.Floor(totalGold * ratio);
-                expRemaining  -= pExp;
+                int pExp = (int)Math.Floor(totalExp * ratio);
+                int pGold = (int)Math.Floor(totalGold * ratio);
+                expRemaining -= pExp;
                 goldRemaining -= pGold;
                 shares.Add((p, pExp, pGold));
 
@@ -126,7 +130,7 @@ namespace Server
         // 기존 GameObject.OnDead EXP 로직 그대로 이관
         private void GrantExp(Player player, int amount)
         {
-            int newTotal     = player.Exp + amount;
+            int newTotal = player.Exp + amount;
             int levelUpCount = player.SetExp(newTotal, needLevelUp: true);
 
             CurrencyManager.Instance.SetCurrency(player, CurrencyType.Exp, player.Exp);

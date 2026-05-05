@@ -51,25 +51,23 @@ public class PartyPlayer_SubItem : UI_SubItem<RoomPlayerInfo>
         if (_data == null)
             return;
 
-        int myId = Managers.GameRoomObject.MyPlayer?.Id ?? 0;
-
         // 초대 버튼: 내가 파티장이고 대상이 솔로일 때만 활성
         bool canInvite = Managers.Party.IsLeader && !_data.IsInParty;
         GetButton((int)Buttons.InviteButton).interactable = canInvite;
 
-        // 추방 버튼: 내가 파티장이고 대상이 내 파티원일 때만 표시
-        bool canKick = Managers.Party.IsLeader && _data.IsInMyParty && _data.ObjectId != myId;
+        // 추방 버튼: 내가 파티장이고 대상이 내 파티원이며 본인이 아닐 때만 표시
+        bool canKick = Managers.Party.IsLeader && _data.IsInMyParty && _data.PlayerId != Managers.GameRoomObject.PlayerId;
         GetButton((int)Buttons.KickButton).gameObject.SetActive(canKick);
     }
 
     private void OnClickInvite()
     {
-        Managers.Network.Send(new C_PartyInvite { TargetObjectId = _data.ObjectId });
+        Managers.Network.Send(new C_PartyInvite { TargetPlayerId = _data.PlayerId });
     }
 
     private void OnClickKick()
     {
-        Managers.Network.Send(new C_PartyKick { TargetObjectId = _data.ObjectId });
+        Managers.Network.Send(new C_PartyKick { TargetPlayerId = _data.PlayerId });
     }
 
     private string GetJobDisplayName(PlayerJobType jobType)

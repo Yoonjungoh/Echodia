@@ -13,10 +13,10 @@ namespace Server
         // partyId → Party
         private readonly Dictionary<int, Party> _parties = new Dictionary<int, Party>();
 
-        // objectId → partyId
-        private readonly Dictionary<int, int> _objectToParty = new Dictionary<int, int>();
+        // playerId → partyId
+        private readonly Dictionary<int, int> _playerIdToParty = new Dictionary<int, int>();
 
-        // 대기 중인 초대: targetObjectId → inviterObjectId
+        // 대기 중인 초대: targetPlayerId → inviterPlayerId
         private readonly Dictionary<int, int> _pendingInvites = new Dictionary<int, int>();
 
         private int _nextPartyId = 1;
@@ -25,31 +25,33 @@ namespace Server
         // 조회
         // ─────────────────────────────────────────
 
-        public Party GetPartyOf(int objectId)
+        public Party GetPartyOf(int playerId)
         {
             lock (_lock)
             {
-                if (_objectToParty.TryGetValue(objectId, out int partyId) &&
+                if (_playerIdToParty.TryGetValue(playerId, out int partyId) &&
                     _parties.TryGetValue(partyId, out Party party))
+                {
                     return party;
+                }
                 return null;
             }
         }
 
-        public bool IsInParty(int objectId)
+        public bool IsInParty(int playerId)
         {
             lock (_lock)
             {
-                return _objectToParty.ContainsKey(objectId);
+                return _playerIdToParty.ContainsKey(playerId);
             }
         }
 
-        public bool AreInSameParty(int a, int b)
+        public bool AreInSameParty(int playerIdA, int playerIdB)
         {
             lock (_lock)
             {
-                return _objectToParty.TryGetValue(a, out int pid) &&
-                       _objectToParty.TryGetValue(b, out int pid2) &&
+                return _playerIdToParty.TryGetValue(playerIdA, out int pid) &&
+                       _playerIdToParty.TryGetValue(playerIdB, out int pid2) &&
                        pid == pid2;
             }
         }
@@ -62,13 +64,12 @@ namespace Server
         {
             lock (_lock)
             {
-                if (_objectToParty.ContainsKey(leader.Id))
-                    return false;   // 이미 파티에 속해 있음
+                if (_playerIdToParty.ContainsKey(leader.PlayerId)) { return false; }
 
-                int pid   = _nextPartyId++;
-                var party = new Party(pid, leader.Id);
-                _parties[pid]              = party;
-                _objectToParty[leader.Id]  = pid;
+                int pid = _nextPartyId++;
+                var party = new Party(pid, leader.PlayerId, leader.Name, leader.Level, leader.Stat.JobType);
+                _parties[pid] = party;
+                _playerIdToParty[leader.PlayerId] = pid;
             }
 
             leader.Session?.Send(new S_CreateParty { Success = true });
@@ -80,10 +81,10 @@ namespace Server
         // 초대 (C_PartyInvite)
         // ─────────────────────────────────────────
 
-        public void SendInvite(GameRoom room, Player inviter, int targetObjectId)
+        public void SendInvite(GameRoom room, Player inviter, int targetPlayerId)
         {
             PartyInviteResult result;
-            Player target = room.Find(targetObjectId);
+            Player target = room.FindPlayerByPlayerId(targetPlayerId);
 
             lock (_lock)
             {
@@ -91,7 +92,7 @@ namespace Server
                 {
                     result = PartyInviteResult.TargetNotFound;
                 }
-                else if (!_objectToParty.TryGetValue(inviter.Id, out int partyId))
+                else if (!_playerIdToParty.TryGetValue(inviter.PlayerId, out int partyId))
                 {
                     result = PartyInviteResult.NotInParty;
                 }
@@ -99,14 +100,14 @@ namespace Server
                 {
                     result = PartyInviteResult.PartyFull;
                 }
-                else if (_objectToParty.ContainsKey(targetObjectId))
+                else if (_playerIdToParty.ContainsKey(targetPlayerId))
                 {
                     result = PartyInviteResult.TargetInParty;
                 }
                 else
                 {
                     result = PartyInviteResult.Success;
-                    _pendingInvites[targetObjectId] = inviter.Id;
+                    _pendingInvites[targetPlayerId] = inviter.PlayerId;
                 }
             }
 
@@ -116,8 +117,8 @@ namespace Server
             {
                 target.Session?.Send(new S_PartyInviteNotify
                 {
-                    InviterObjectId = inviter.Id,
-                    InviterName     = inviter.Name,
+                    InviterPlayerId = inviter.PlayerId,
+                    InviterName = inviter.Name,
                 });
 
                 // 15초 후 초대 자동 만료
@@ -125,8 +126,10 @@ namespace Server
                 {
                     lock (_lock)
                     {
-                        if (_pendingInvites.TryGetValue(targetObjectId, out int inv) && inv == inviter.Id)
-                            _pendingInvites.Remove(targetObjectId);
+                        if (_pendingInvites.TryGetValue(targetPlayerId, out int inv) && inv == inviter.PlayerId)
+                        {
+                            _pendingInvites.Remove(targetPlayerId);
+                        }
                     }
                 });
             }
@@ -139,76 +142,75 @@ namespace Server
         public void HandleInviteResponse(
             GameRoom room,
             Player responder,
-            int inviterObjectId,
+            int inviterPlayerId,
             PartyInviteResponseType response)
         {
-            Player inviter = room.Find(inviterObjectId);
-            bool   valid   = false;
+            Player inviter = room.FindPlayerByPlayerId(inviterPlayerId);
+            bool valid = false;
 
             lock (_lock)
             {
-                if (_pendingInvites.TryGetValue(responder.Id, out int storedInviterId) &&
-                    storedInviterId == inviterObjectId)
+                if (_pendingInvites.TryGetValue(responder.PlayerId, out int storedInviterId) &&
+                    storedInviterId == inviterPlayerId)
                 {
-                    _pendingInvites.Remove(responder.Id);
+                    _pendingInvites.Remove(responder.PlayerId);
                     valid = true;
                 }
             }
 
-            if (!valid)
-                return;
+            if (!valid) { return; }
 
             if (response == PartyInviteResponseType.Accept && inviter != null)
             {
                 bool added = false;
                 lock (_lock)
                 {
-                    if (_objectToParty.TryGetValue(inviterObjectId, out int partyId) &&
+                    if (_playerIdToParty.TryGetValue(inviterPlayerId, out int partyId) &&
                         _parties.TryGetValue(partyId, out Party party) &&
-                        !_objectToParty.ContainsKey(responder.Id))
+                        !_playerIdToParty.ContainsKey(responder.PlayerId))
                     {
-                        added = party.TryAddMember(responder.Id);
+                        added = party.TryAddMember(responder.PlayerId, responder.Name, responder.Level, responder.Stat.JobType);
                         if (added)
-                            _objectToParty[responder.Id] = partyId;
+                        {
+                            _playerIdToParty[responder.PlayerId] = partyId;
+                        }
                     }
                 }
 
                 if (added)
                 {
-                    BroadcastPartyUpdate(room, GetPartyOf(responder.Id));
+                    BroadcastPartyUpdate(room, GetPartyOf(responder.PlayerId));
                 }
             }
 
             // 초대자에게 결과 알림
             inviter?.Session?.Send(new S_PartyInviteResponse
             {
-                Response      = response,
+                Response = response,
                 ResponderName = responder.Name,
             });
         }
 
         // ─────────────────────────────────────────
-        // 탈퇴 (C_PartyLeave, 방 이탈 시 자동 호출)
+        // 탈퇴 (C_PartyLeave, 명시적 요청 시에만 호출)
         // ─────────────────────────────────────────
 
-        public void LeaveParty(GameRoom room, int objectId)
+        public void LeaveParty(GameRoom room, int playerId)
         {
             Party party;
-            bool  wasLeader;
-            bool  partyRemains;
+            bool wasLeader;
+            bool partyRemains;
 
             lock (_lock)
             {
-                if (!_objectToParty.TryGetValue(objectId, out int partyId))
-                    return;
+                if (!_playerIdToParty.TryGetValue(playerId, out int partyId)) { return; }
 
                 _parties.TryGetValue(partyId, out party);
-                if (party == null)
-                    return;
+                if (party == null) { return; }
 
-                wasLeader    = party.IsLeader(objectId);
-                partyRemains = party.RemoveMember(objectId);
-                _objectToParty.Remove(objectId);
+                wasLeader = party.IsLeader(playerId);
+                partyRemains = party.RemoveMember(playerId);
+                _playerIdToParty.Remove(playerId);
 
                 if (!partyRemains)
                 {
@@ -222,35 +224,34 @@ namespace Server
             }
 
             // 탈퇴자에게 알림
-            Player leaver = room.Find(objectId);
+            Player leaver = room.FindPlayerByPlayerId(playerId);
             leaver?.Session?.Send(new S_PartyLeft { Reason = PartyLeftReason.SelfLeave });
 
             if (party != null)
+            {
                 BroadcastPartyUpdate(room, party);
+            }
         }
 
         // ─────────────────────────────────────────
         // 추방 (C_PartyKick)
         // ─────────────────────────────────────────
 
-        public void KickMember(GameRoom room, int kickerObjectId, int targetObjectId)
+        public void KickMember(GameRoom room, int kickerPlayerId, int targetPlayerId)
         {
             Party party;
-            bool  partyRemains;
+            bool partyRemains;
 
             lock (_lock)
             {
-                if (!_objectToParty.TryGetValue(kickerObjectId, out int partyId))
-                    return;
+                if (!_playerIdToParty.TryGetValue(kickerPlayerId, out int partyId)) { return; }
 
                 _parties.TryGetValue(partyId, out party);
-                if (party == null || !party.IsLeader(kickerObjectId))
-                    return;
-                if (!party.Contains(targetObjectId))
-                    return;
+                if (party == null || !party.IsLeader(kickerPlayerId)) { return; }
+                if (!party.Contains(targetPlayerId)) { return; }
 
-                partyRemains = party.RemoveMember(targetObjectId);
-                _objectToParty.Remove(targetObjectId);
+                partyRemains = party.RemoveMember(targetPlayerId);
+                _playerIdToParty.Remove(targetPlayerId);
 
                 if (!partyRemains)
                 {
@@ -259,11 +260,40 @@ namespace Server
                 }
             }
 
-            Player kicked = room.Find(targetObjectId);
+            Player kicked = room.FindPlayerByPlayerId(targetPlayerId);
             kicked?.Session?.Send(new S_PartyLeft { Reason = PartyLeftReason.Kicked });
 
             if (party != null)
+            {
                 BroadcastPartyUpdate(room, party);
+            }
+        }
+
+        // ─────────────────────────────────────────
+        // 재접속 처리
+        // ─────────────────────────────────────────
+
+        // GameRoom.EnterGame 마지막에 호출: 재접속 시 파티 상태 복원
+        public void OnPlayerEnterGame(GameRoom room, Player player)
+        {
+            int playerId = player.PlayerId;
+            lock (_lock)
+            {
+                if (!_playerIdToParty.ContainsKey(playerId)) { return; }
+                if (_playerIdToParty.TryGetValue(playerId, out int pid) &&
+                    _parties.TryGetValue(pid, out Party party))
+                {
+                    party.UpdateMemberCache(playerId, player.Name, player.Level, player.Stat.JobType);
+                }
+            }
+
+            Party myParty = GetPartyOf(playerId);
+            if (myParty == null) { return; }
+
+            // 자신에게 현재 파티 상태 전송
+            player.Session?.Send(BuildPartyUpdatePacket(room, myParty));
+            // 온라인 파티원에게도 재접속 알림
+            BroadcastPartyUpdate(room, myParty);
         }
 
         // ─────────────────────────────────────────
@@ -273,20 +303,19 @@ namespace Server
         // 파티 전체 멤버에게 최신 스냅샷 전송
         private void BroadcastPartyUpdate(GameRoom room, Party party)
         {
-            if (party == null)
-                return;
+            if (party == null) { return; }
 
             S_PartyUpdate packet = BuildPartyUpdatePacket(room, party);
 
-            IReadOnlyList<int> members;
+            IReadOnlyList<Party.PartyMember> members;
             lock (_lock)
             {
-                members = new List<int>(party.MemberObjectIds);
+                members = new List<Party.PartyMember>(party.Members);
             }
 
-            foreach (int oid in members)
+            foreach (Party.PartyMember m in members)
             {
-                Player p = room.Find(oid);
+                Player p = room.FindPlayerByPlayerId(m.PlayerId);
                 p?.Session?.Send(packet);
             }
         }
@@ -294,10 +323,8 @@ namespace Server
         // 단일 플레이어에게만 자신의 파티 스냅샷 전송 (파티 생성 직후 등)
         private void BroadcastPartyUpdateToPlayer(GameRoom room, Player player)
         {
-            Party party = GetPartyOf(player.Id);
-            if (party == null)
-                return;
-
+            Party party = GetPartyOf(player.PlayerId);
+            if (party == null) { return; }
             player.Session?.Send(BuildPartyUpdatePacket(room, party));
         }
 
@@ -305,26 +332,24 @@ namespace Server
         {
             var packet = new S_PartyUpdate { PartyId = party.PartyId };
 
-            IReadOnlyList<int> members;
+            IReadOnlyList<Party.PartyMember> members;
             lock (_lock)
             {
-                members = new List<int>(party.MemberObjectIds);
+                members = new List<Party.PartyMember>(party.Members);
             }
 
-            foreach (int oid in members)
+            foreach (Party.PartyMember m in members)
             {
-                Player p = room.Find(oid);
-                if (p == null)
-                    continue;
-
+                Player p = room.FindPlayerByPlayerId(m.PlayerId);
+                bool online = p != null;
                 packet.Members.Add(new PartyMemberInfo
                 {
-                    ObjectId = p.Id,
-                    PlayerId = p.PlayerId,
-                    Name     = p.Name,
-                    Level    = p.Level,
-                    JobType  = p.Stat.JobType,
-                    IsLeader = party.IsLeader(p.Id),
+                    PlayerId = m.PlayerId,
+                    Name = online ? p.Name : m.Name,
+                    Level = online ? p.Level : m.Level,
+                    JobType = online ? p.Stat.JobType : m.JobType,
+                    IsLeader = party.IsLeader(m.PlayerId),
+                    IsOnline = online,
                 });
             }
 
