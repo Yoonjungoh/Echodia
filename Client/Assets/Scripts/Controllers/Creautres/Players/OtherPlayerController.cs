@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class OtherPlayerController : PlayerController
 {
+    public int PlayerId { get; set; }
     public override void Init()
     {
         base.Init();
@@ -34,7 +35,7 @@ public class OtherPlayerController : PlayerController
     {
         Init();
         // 스폰 시점에 현재 파티 상태 반영
-        bool isPartyMember = Managers.Party.IsPartyMember(Id);
+        bool isPartyMember = Managers.Party.IsPartyMember(PlayerId);
         _nameBar?.SetPartyColor(isPartyMember);
     }
 

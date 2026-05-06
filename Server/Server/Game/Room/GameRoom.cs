@@ -676,7 +676,12 @@ namespace Server.Game
             }
 
             S_Spawn spawnToOthersPacket = new S_Spawn();
-            spawnToOthersPacket.ObjectStateList.Add(gameObject.ObjectState);
+            SpawnInfo spawnInfo = new SpawnInfo { ObjectState = gameObject.ObjectState };
+            if (objectType == GameObjectType.Player)
+            {
+                spawnInfo.PlayerDbId = (gameObject as Player).PlayerId;
+            }
+            spawnToOthersPacket.ObjectList.Add(spawnInfo);
             Broadcast(MovementHelper.ProtoVec3ToVec3(gameObject.Position), spawnToOthersPacket);
             //Broadcast(spawnToOthersPacket);   // 더미 클라 테스트 용
         }

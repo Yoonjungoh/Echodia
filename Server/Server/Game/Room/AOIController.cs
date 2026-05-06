@@ -126,15 +126,19 @@ namespace Server.Game.Room
 
                 foreach (GameObject go in addedList)
                 {
-                    if (go == null)
-                        continue;
+                    if (go == null) { continue; }
 
                     go.ObjectState.ServerReceivedTime = serverReceivedTime;
                     // 참조로 넣기 불안하니까 복사 한 번 하기
                     ObjectState objectState = new ObjectState();
                     objectState.MergeFrom(go.ObjectState);
-                    spawnPacket.ObjectStateList.Add(objectState);
 
+                    SpawnInfo spawnInfo = new SpawnInfo { ObjectState = objectState };
+                    if (go is Player player)
+                    {
+                        spawnInfo.PlayerDbId = player.PlayerId;
+                    }
+                    spawnPacket.ObjectList.Add(spawnInfo);
                 }
                 Owner.Session.Send(spawnPacket);
             }

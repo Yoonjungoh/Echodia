@@ -38,7 +38,7 @@ public class GameRoomObjectManager
         return (GameObjectType)type;
     }
 
-    public void Add(ObjectState objectState, bool isMyPlayer = false)
+    public void Add(ObjectState objectState, int playerDbId = 0, bool isMyPlayer = false)
     {
         if (MyPlayer != null && MyPlayer.Id == objectState.ObjectId)
             return;
@@ -72,6 +72,7 @@ public class GameRoomObjectManager
 
             otherPlayer.ObjectState = objectState;
             otherPlayer.GameObjectType = objectType;
+            otherPlayer.PlayerId = playerDbId;
 
             otherPlayer.SetServerState(
                 objectState.Position,

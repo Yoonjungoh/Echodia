@@ -1,7 +1,6 @@
 using Google.Protobuf.Protocol;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class PartyManager
@@ -14,7 +13,11 @@ public class PartyManager
         get
         {
             int myPlayerId = Managers.GameRoomObject.PlayerId;
-            return Members.Any(m => m.PlayerId == myPlayerId && m.IsLeader);
+            for (int i = 0; i < Members.Count; i++)
+            {
+                if (Members[i].PlayerId == myPlayerId) { return Members[i].IsLeader; }
+            }
+            return false;
         }
     }
 
@@ -34,7 +37,11 @@ public class PartyManager
         else
         {
             PartyId = packet.PartyId;
-            Members = packet.Members.ToList();
+            Members.Clear();
+            for (int i = 0; i < packet.Members.Count; i++)
+            {
+                Members.Add(packet.Members[i]);
+            }
         }
 
         OnPartyChanged?.Invoke();
@@ -73,14 +80,17 @@ public class PartyManager
             OtherPlayerController opc = go.GetComponent<OtherPlayerController>();
             if (opc == null) { continue; }
 
-            bool isPartyMember = Members.Any(m => m.Name == opc.Name);
-            opc.SetPartyNameColor(isPartyMember);
+            opc.SetPartyNameColor(IsPartyMember(opc.PlayerId));
         }
     }
 
-    // 특정 이름이 파티원인지 확인
-    public bool IsPartyMember(string name)
+    // playerId로 파티원 여부 확인
+    public bool IsPartyMember(int playerId)
     {
-        return Members.Any(m => m.Name == name);
+        for (int i = 0; i < Members.Count; i++)
+        {
+            if (Members[i].PlayerId == playerId) { return true; }
+        }
+        return false;
     }
 }

@@ -413,8 +413,13 @@ message S_LeaveGame {
   RoomExitReason roomExitReason = 3;	// ������ ����
 }
 
+message SpawnInfo {
+  ObjectState objectState = 1;
+  int32 playerDbId = 2;
+}
+
 message S_Spawn {
-  repeated ObjectState objectStateList = 1;
+  repeated SpawnInfo objectList = 1;
 }
 
 message S_Despawn {

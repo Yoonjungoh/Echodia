@@ -99,9 +99,9 @@ class PacketHandler
 
         if (Managers.Scene.CurrentScene == Define.Scene.GameRoom)
         {
-            foreach (ObjectState objectState in spawnPacket.ObjectStateList)
+            foreach (SpawnInfo info in spawnPacket.ObjectList)
             {
-                Managers.GameRoomObject.Add(objectState, isMyPlayer: false);
+                Managers.GameRoomObject.Add(info.ObjectState, info.PlayerDbId, isMyPlayer: false);
             }
         }
     }

@@ -8,13 +8,13 @@ namespace Server.Session
 
         private AccountManager() { }
 
-        public static bool IsAccountLoggedIn(int accountId)
+        public bool IsAccountLoggedIn(int accountId)
             => RedisManager.Instance.GetDatabase().SetContains(LoginSetKey, accountId);
 
-        public static bool Add(int accountId)
+        public bool Add(int accountId)
             => RedisManager.Instance.GetDatabase().SetAdd(LoginSetKey, accountId);
 
-        public static bool Remove(int accountId)
+        public bool Remove(int accountId)
             => RedisManager.Instance.GetDatabase().SetRemove(LoginSetKey, accountId);
     }
 }
