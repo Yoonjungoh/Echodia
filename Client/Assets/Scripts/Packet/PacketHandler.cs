@@ -912,6 +912,8 @@ class PacketHandler
     {
         S_RequestRoomPlayerList p = packet as S_RequestRoomPlayerList;
         if (Managers.UI.IsPopupActive<UI_Party>())
-            Managers.UI.GetPopupUI<UI_Party>()?.Refresh(p.PlayerList);
+        {
+            Managers.UI.GetPopupUI<UI_Party>().Refresh(p.PlayerList);
+        }
     }
 }
