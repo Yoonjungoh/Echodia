@@ -14,6 +14,7 @@ public class UI_GameRoom : UI_Scene
         DropItemNameText,
         DropItemDescText,
         DropItemCountText,
+        InviteMessageText,
     }
 
     enum Sliders
@@ -27,12 +28,15 @@ public class UI_GameRoom : UI_Scene
     {
         QuestPopupButton,
         InventoryPopupButton,
+        AcceptButton,
+        DeclineButton,
     }
 
     enum GameObjects
     {
         QuestRedDot,
         DropItemTooltipPanel,
+        PartyInviteNotificationPanel,
     }
 
     enum Images
@@ -58,6 +62,12 @@ public class UI_GameRoom : UI_Scene
     private TextMeshProUGUI _dropItemDescText;
     private TextMeshProUGUI _dropItemCountText;
     private Image _dropItemImage;
+
+    private GameObject _partyInviteNotificationPanel;
+    private TextMeshProUGUI _inviteMessageText;
+    private int _inviterPlayerId;
+    private float _remainTime;
+    private const float AutoDismissSeconds = 15f;
 
     public override void Init()
     {
@@ -85,8 +95,14 @@ public class UI_GameRoom : UI_Scene
         _dropItemImage = GetImage((int)Images.DropItemImage);
         _dropItemTooltipPanel.SetActive(false);
 
+        _partyInviteNotificationPanel = GetObject((int)GameObjects.PartyInviteNotificationPanel);
+        _inviteMessageText = GetTextMeshProUGUI((int)Texts.InviteMessageText);
+        _partyInviteNotificationPanel.SetActive(false);
+
         GetButton((int)Buttons.QuestPopupButton).onClick.AddListener(OnClickQuestPopupInput);
         GetButton((int)Buttons.InventoryPopupButton).onClick.AddListener(OnClickInventoryPopupInput);
+        GetButton((int)Buttons.AcceptButton).onClick.AddListener(OnClickPartyInviteAccept);
+        GetButton((int)Buttons.DeclineButton).onClick.AddListener(OnClickPartyInviteDecline);
 
         Managers.Input.RegisterKeyAction(KeySettings.ActivationQuestPopup, OnClickQuestPopupInput);
         Managers.Input.RegisterKeyAction(KeySettings.ActivationInventoryPopup, OnClickInventoryPopupInput);
@@ -230,6 +246,52 @@ public class UI_GameRoom : UI_Scene
     private void HideDropItemTooltip()
     {
         _dropItemTooltipPanel.SetActive(false);
+    }
+
+    public void ShowPartyInviteNotification(string inviterName, int inviterPlayerId)
+    {
+        _inviterPlayerId = inviterPlayerId;
+        _remainTime = AutoDismissSeconds;
+        _inviteMessageText.text = $"{inviterName}님이 파티에 초대하셨습니다.";
+        _partyInviteNotificationPanel.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    private void Update()
+    {
+        if (!_partyInviteNotificationPanel.activeSelf)
+            return;
+        _remainTime -= Time.deltaTime;
+        if (_remainTime <= 0f)
+            ClosePartyInviteNotification();
+    }
+
+    private void OnClickPartyInviteAccept()
+    {
+        Managers.Network.Send(new C_PartyInviteResponse
+        {
+            Response = PartyInviteResponseType.Accept,
+            InviterPlayerId = _inviterPlayerId,
+        });
+        ClosePartyInviteNotification();
+    }
+
+    private void OnClickPartyInviteDecline()
+    {
+        Managers.Network.Send(new C_PartyInviteResponse
+        {
+            Response = PartyInviteResponseType.Decline,
+            InviterPlayerId = _inviterPlayerId,
+        });
+        ClosePartyInviteNotification();
+    }
+
+    private void ClosePartyInviteNotification()
+    {
+        _partyInviteNotificationPanel.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void UpdateUI()

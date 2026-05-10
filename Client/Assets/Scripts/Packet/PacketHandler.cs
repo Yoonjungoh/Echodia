@@ -879,8 +879,7 @@ class PacketHandler
     public static void S_PartyInviteNotifyHandler(PacketSession session, IMessage packet)
     {
         S_PartyInviteNotify p = packet as S_PartyInviteNotify;
-        UI_PartyInviteNotification notif = Managers.UI.ShowPopupUI<UI_PartyInviteNotification>();
-        notif.SetData(p.InviterName, p.InviterPlayerId);
+        Managers.UI.GameRoomUI.ShowPartyInviteNotification(p.InviterName, p.InviterPlayerId);
     }
 
     public static void S_PartyInviteResponseHandler(PacketSession session, IMessage packet)
