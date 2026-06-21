@@ -1,0 +1,56 @@
+name: Server CI/CD
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Server/**'
+  pull_request:
+    paths:
+      - 'Server/**'
+
+jobs:
+  # CI: GitHub 클라우드에서 빌드 + 테스트
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0'
+
+      - name: Restore
+        run: dotnet restore Server/Server.sln
+
+      - name: Build
+        run: dotnet build Server/Server.sln --no-restore --configuration Release
+
+      - name: Test
+        run: dotnet test Server/Server.sln --no-build --configuration Release --verbosity normal
+
+  # CD: 내 PC(Self-hosted Runner)에서 서버 재배포
+  # main 브랜치 push + CI 통과 시에만 실행
+  cd:
+    needs: ci
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+
+      # 1. 서버 먼저 종료 → Windows 파일 락 해제
+      - name: Stop Server
+        run: |
+          Stop-Service -Name "EchodiaServer" -ErrorAction SilentlyContinue
+          Start-Sleep -Seconds 2
+        shell: pwsh
+
+      # 2. 파일 락 풀린 상태에서 publish
+      - name: Publish
+        run: dotnet publish Server/Server/Server.csproj -c Release -o C:\EchodiaServer\publish
+
+      # 3. 서비스 재시작
+      - name: Start Server
+        run: C:\EchodiaServer\nssm.exe restart EchodiaServer
+        shell: pwsh
