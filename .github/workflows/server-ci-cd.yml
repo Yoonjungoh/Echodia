@@ -46,7 +46,9 @@ jobs:
       # 1. 서버 먼저 종료 → Windows 파일 락 해제
       - name: Stop Server
         run: |
-          Stop-Service -Name "EchodiaServer" -ErrorAction SilentlyContinue
+          C:\EchodiaServer\nssm.exe stop EchodiaServer
+          Start-Sleep -Seconds 3
+          Stop-Process -Name "Server" -Force -ErrorAction SilentlyContinue
           Start-Sleep -Seconds 2
         shell: powershell
 
