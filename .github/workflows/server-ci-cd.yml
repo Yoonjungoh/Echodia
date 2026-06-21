@@ -22,13 +22,17 @@ jobs:
           dotnet-version: '8.0'
 
       - name: Restore
-        run: dotnet restore Server/Server.sln
+        run: |
+          dotnet restore Server/Server/Server.csproj
+          dotnet restore Server/ServerTests/ServerTests.csproj
 
       - name: Build
-        run: dotnet build Server/Server.sln --no-restore --configuration Release
+        run: |
+          dotnet build Server/Server/Server.csproj --no-restore --configuration Release
+          dotnet build Server/ServerTests/ServerTests.csproj --no-restore --configuration Release
 
       - name: Test
-        run: dotnet test Server/Server.sln --no-build --configuration Release --verbosity normal
+        run: dotnet test Server/ServerTests/ServerTests.csproj --no-build --configuration Release --verbosity normal
 
   # CD: 내 PC(Self-hosted Runner)에서 서버 재배포
   # main 브랜치 push + CI 통과 시에만 실행
