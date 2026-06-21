@@ -48,7 +48,7 @@ jobs:
         run: |
           Stop-Service -Name "EchodiaServer" -ErrorAction SilentlyContinue
           Start-Sleep -Seconds 2
-        shell: pwsh
+        shell: powershell
 
       # 2. 파일 락 풀린 상태에서 publish
       - name: Publish
@@ -57,4 +57,4 @@ jobs:
       # 3. 서비스 재시작
       - name: Start Server
         run: C:\EchodiaServer\nssm.exe restart EchodiaServer
-        shell: pwsh
+        shell: powershell
