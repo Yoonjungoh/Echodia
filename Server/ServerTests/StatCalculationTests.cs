@@ -180,3 +180,4 @@ public class StatCalculationTests
         Assert.Equal(355, result);
     }
 }
+
