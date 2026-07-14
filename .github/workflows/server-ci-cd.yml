@@ -46,6 +46,7 @@ jobs:
       # 1. 서버 먼저 종료 → Windows 파일 락 해제
       - name: Stop Server
         run: |
+          $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
           nssm stop EchodiaServer
           Start-Sleep -Seconds 3
           Get-Process -Name "Server" -ErrorAction SilentlyContinue | Stop-Process -Force
@@ -72,5 +73,7 @@ jobs:
 
       # 3. 서비스 재시작
       - name: Start Server
-        run: nssm start EchodiaServer
+        run: |
+          $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+          nssm start EchodiaServer
         shell: powershell
