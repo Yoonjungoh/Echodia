@@ -9,7 +9,7 @@ namespace Server
         private ConnectionMultiplexer _multiplexer;
  
         private RedisManager() { }
-   
+    
         public void Init(string configuration = "localhost:6379")
         {
             _multiplexer = ConnectionMultiplexer.Connect(configuration);
