@@ -46,11 +46,12 @@ jobs:
       # 1. 서버 먼저 종료 → Windows 파일 락 해제
       - name: Stop Server
         run: |
-          nssm stop EchodiaServer
+          nssm stop EchodiaServer | Out-Null
           Start-Sleep -Seconds 3
           Stop-Process -Name "Server" -Force -ErrorAction SilentlyContinue
           Start-Sleep -Seconds 2
         shell: powershell
+        continue-on-error: true
 
       # 2. 파일 락 풀린 상태에서 publish
       - name: Publish
