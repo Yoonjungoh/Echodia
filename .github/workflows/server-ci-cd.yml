@@ -47,7 +47,7 @@ jobs:
       - name: Stop Server
         run: |
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-          nssm stop EchodiaServer
+          C:\Users\Administrator\AppData\Local\Microsoft\WinGet\Links\nssm.exe stop EchodiaServer
           Start-Sleep -Seconds 3
           Get-Process -Name "Server" -ErrorAction SilentlyContinue | Stop-Process -Force
           Start-Sleep -Seconds 3
@@ -75,5 +75,5 @@ jobs:
       - name: Start Server
         run: |
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-          nssm start EchodiaServer
+          C:\Users\Administrator\AppData\Local\Microsoft\WinGet\Links\nssm.exe start EchodiaServer
         shell: powershell
