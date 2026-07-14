@@ -47,9 +47,9 @@ jobs:
       - name: Stop Server
         run: |
           nssm stop EchodiaServer | Out-Null
-          Start-Sleep -Seconds 3
+          Start-Sleep -Seconds 5
           Stop-Process -Name "Server" -Force -ErrorAction SilentlyContinue
-          Start-Sleep -Seconds 2
+          Start-Sleep -Seconds 3
         shell: powershell
         continue-on-error: true
 
