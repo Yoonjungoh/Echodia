@@ -5,7 +5,7 @@ namespace Server
     public class RedisManager
     {
         public static RedisManager Instance { get; } = new RedisManager();
-
+ 
         private ConnectionMultiplexer _multiplexer;
  
         private RedisManager() { }

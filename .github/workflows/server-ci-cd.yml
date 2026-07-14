@@ -46,10 +46,22 @@ jobs:
       # 1. 서버 먼저 종료 → Windows 파일 락 해제
       - name: Stop Server
         run: |
-          nssm stop EchodiaServer | Out-Null
-          Start-Sleep -Seconds 5
-          Stop-Process -Name "Server" -Force -ErrorAction SilentlyContinue
+          nssm stop EchodiaServer
           Start-Sleep -Seconds 3
+          Get-Process -Name "Server" -ErrorAction SilentlyContinue | Stop-Process -Force
+          Start-Sleep -Seconds 3
+          $locked = $true
+          $retries = 10
+          while ($locked -and $retries -gt 0) {
+            $p = Get-Process -Name "Server" -ErrorAction SilentlyContinue
+            if ($p) {
+              $p | Stop-Process -Force
+              Start-Sleep -Seconds 2
+              $retries--
+            } else {
+              $locked = $false
+            }
+          }
         shell: powershell
         continue-on-error: true
 
