@@ -46,7 +46,7 @@ jobs:
       # 1. 서버 먼저 종료 → Windows 파일 락 해제
       - name: Stop Server
         run: |
-          C:\EchodiaServer\nssm.exe stop EchodiaServer
+          nssm stop EchodiaServer
           Start-Sleep -Seconds 3
           Stop-Process -Name "Server" -Force -ErrorAction SilentlyContinue
           Start-Sleep -Seconds 2
@@ -54,9 +54,10 @@ jobs:
 
       # 2. 파일 락 풀린 상태에서 publish
       - name: Publish
-        run: dotnet publish Server/Server/Server.csproj -c Release -o C:\EchodiaServer\publish
+        run: dotnet publish Server/Server/Server.csproj -c Release -o C:\echodia\server
+        shell: powershell
 
       # 3. 서비스 재시작
       - name: Start Server
-        run: C:\EchodiaServer\nssm.exe restart EchodiaServer
+        run: nssm start EchodiaServer
         shell: powershell
