@@ -26,7 +26,7 @@ public class MultiplayersBuildAndRun
     {
         PerformWin64Build(4);
     }
-    // ³ªÁß¿¡ android·Î ¹Ù²Ù±â
+    // ï¿½ï¿½ï¿½ß¿ï¿½ androidï¿½ï¿½ ï¿½Ù²Ù±ï¿½
     static void PerformWin64Build(int playerCount)
     {
         EditorUserBuildSettings.SwitchActiveBuildTarget(
@@ -45,7 +45,7 @@ public class MultiplayersBuildAndRun
         return s[s.Length - 2];
     }
 
-    // ½ÇÁ¦ ºôµå¿¡ Ãß°¡µÈ scene ÀÌ¸§ ±Ü¾î¿À´Â ÄÚµå
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½å¿¡ ï¿½ß°ï¿½ï¿½ï¿½ scene ï¿½Ì¸ï¿½ ï¿½Ü¾ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
     static string[] GetScenePaths()
     {
         string[] scenes = new string[EditorBuildSettings.scenes.Length];
