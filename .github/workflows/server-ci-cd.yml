@@ -76,9 +76,17 @@ jobs:
       # 3. 서비스 재시작
       - name: Start Server
         run: |
-          C:\Windows\System32\nssm.exe start EchodiaServer | Out-Null
+          $nssmCandidates = @(
+            "C:\Windows\System32\nssm.exe",
+            "C:\Users\Administrator\AppData\Local\Microsoft\WinGet\Links\nssm.exe",
+            (Get-Command nssm -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source)
+          )
+          $nssm = $nssmCandidates | Where-Object { $_ -and (Test-Path $_) } | Select-Object -First 1
+          if (-not $nssm) { throw "nssm.exe not found. Run: Copy-Item <winget-nssm-path> C:\Windows\System32\nssm.exe" }
+          Write-Host "Using nssm at: $nssm"
+          & $nssm start EchodiaServer | Out-Null
           Start-Sleep -Seconds 3
-          $status = C:\Windows\System32\nssm.exe status EchodiaServer
+          $status = & $nssm status EchodiaServer
           Write-Host "Service status: $status"
           if ($status -notmatch "SERVICE_RUNNING") { throw "Service failed to start: $status" }
         shell: powershell
