@@ -21,8 +21,9 @@ namespace Server.DB
 
 
         private static readonly ILoggerFactory _logger = LoggerFactory.Create(builder => { builder.AddConsole(); });
-        // TODO - JSON으로 옮기기
-        private string _connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=GameDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+        private string _connectionString =
+            Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")
+            ?? @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=GameDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options
