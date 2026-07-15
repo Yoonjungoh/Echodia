@@ -46,10 +46,8 @@ jobs:
       # 1. 서버 먼저 종료 → Windows 파일 락 해제
       - name: Stop Server
         run: |
-          if (Test-Path "C:\Windows\System32\nssm.exe") {
-            C:\Windows\System32\nssm.exe stop EchodiaServer
-            Start-Sleep -Seconds 2
-          }
+          sc.exe stop EchodiaServer
+          Start-Sleep -Seconds 2
           taskkill /F /IM Server.exe /T 2>$null
           $deadline = (Get-Date).AddSeconds(30)
           while ((Get-Date) -lt $deadline) {
@@ -76,17 +74,9 @@ jobs:
       # 3. 서비스 재시작
       - name: Start Server
         run: |
-          $nssmCandidates = @(
-            "C:\Windows\System32\nssm.exe",
-            "C:\Users\Administrator\AppData\Local\Microsoft\WinGet\Links\nssm.exe",
-            (Get-Command nssm -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source)
-          )
-          $nssm = $nssmCandidates | Where-Object { $_ -and (Test-Path $_) } | Select-Object -First 1
-          if (-not $nssm) { throw "nssm.exe not found. Run: Copy-Item <winget-nssm-path> C:\Windows\System32\nssm.exe" }
-          Write-Host "Using nssm at: $nssm"
-          & $nssm start EchodiaServer | Out-Null
+          sc.exe start EchodiaServer
           Start-Sleep -Seconds 3
-          $status = & $nssm status EchodiaServer
-          Write-Host "Service status: $status"
-          if ($status -notmatch "SERVICE_RUNNING") { throw "Service failed to start: $status" }
+          $status = sc.exe query EchodiaServer
+          Write-Host $status
+          if ($status -notmatch "RUNNING") { throw "Service failed to start" }
         shell: powershell
