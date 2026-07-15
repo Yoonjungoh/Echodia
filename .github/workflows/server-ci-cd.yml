@@ -68,7 +68,9 @@ jobs:
 
       # 2. 파일 락 풀린 상태에서 publish
       - name: Publish
-        run: dotnet publish Server/Server/Server.csproj -c Release -o C:\echodia\server
+        run: |
+          dotnet publish Server/Server/Server.csproj -c Release -o C:\echodia\server
+          Copy-Item -Path "Common" -Destination "C:\" -Recurse -Force
         shell: powershell
 
       # 3. 서비스 재시작
