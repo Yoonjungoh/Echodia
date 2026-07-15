@@ -93,8 +93,8 @@ public class NetworkManager
         // DNS (Domain Name System)
         string host = Dns.GetHostName();
         IPHostEntry ipHost = Dns.GetHostEntry(host);
-        //IPAddress ipAddr = IPAddress.Parse(urlValue); // for ec2
-        IPAddress ipAddr = ipHost.AddressList[0]; // for local test
+        IPAddress ipAddr = IPAddress.Parse("54.116.85.22"); // for ec2
+        //IPAddress ipAddr = ipHost.AddressList[0]; // for local test
         //IPAddress ipAddr = ipHost.AddressList[1]; // for local test
         IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 

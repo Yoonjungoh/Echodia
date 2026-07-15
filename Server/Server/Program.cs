@@ -56,8 +56,7 @@ namespace Server
 			// DNS (Domain Name System)
 			string host = Dns.GetHostName();
 			IPHostEntry ipHost = Dns.GetHostEntry(host);
-            //IPAddress ipAddr = ipHost.AddressList[1]; // for ec2
-            IPAddress ipAddr = ipHost.AddressList[0]; // for test
+            IPAddress ipAddr = IPAddress.Any; // 0.0.0.0 — 로컬/EC2 모두 동작
             IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
             RedisManager.Instance.Init();
