@@ -43,37 +43,40 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # 1. 서버 먼저 종료 → Windows 파일 락 해제
+      # 1. 서버 실행 중에 staging 디렉토리에 미리 publish (파일 락 없음)
+      - name: Publish to Staging
+        run: |
+          dotnet publish Server/Server/Server.csproj -c Release -o C:\echodia\server_staging
+          Copy-Item -Path "Common" -Destination "C:\" -Recurse -Force
+        shell: powershell
+
+      # 2. 서비스 비활성화 후 종료 → NSSM 자동 재시작 방지
       - name: Stop Server
         run: |
+          sc.exe config EchodiaServer start= disabled
           sc.exe stop EchodiaServer
-          Start-Sleep -Seconds 2
           taskkill /F /IM Server.exe /T 2>$null
           $deadline = (Get-Date).AddSeconds(30)
           while ((Get-Date) -lt $deadline) {
             if (-not (Get-Process -Name "Server" -ErrorAction SilentlyContinue)) {
-              Write-Host "Server process terminated."
+              Write-Host "Server stopped."
               break
             }
-            Write-Host "Waiting for Server to exit..."
             Start-Sleep -Seconds 1
-          }
-          if (Get-Process -Name "Server" -ErrorAction SilentlyContinue) {
-            throw "Server process is still running after 30s — aborting."
           }
         shell: powershell
         continue-on-error: true
 
-      # 2. 파일 락 풀린 상태에서 publish
-      - name: Publish
+      # 3. staging → live 빠른 복사 (서버 멈춘 상태라 락 없음)
+      - name: Deploy
         run: |
-          dotnet publish Server/Server/Server.csproj -c Release -o C:\echodia\server
-          Copy-Item -Path "Common" -Destination "C:\" -Recurse -Force
+          Copy-Item -Path "C:\echodia\server_staging\*" -Destination "C:\echodia\server\" -Recurse -Force
         shell: powershell
 
-      # 3. 서비스 재시작
+      # 4. 서비스 재활성화 후 시작
       - name: Start Server
         run: |
+          sc.exe config EchodiaServer start= auto
           sc.exe start EchodiaServer
           Start-Sleep -Seconds 3
           $status = (sc.exe query EchodiaServer) -join " "
