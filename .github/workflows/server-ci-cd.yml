@@ -76,7 +76,7 @@ jobs:
         run: |
           sc.exe start EchodiaServer
           Start-Sleep -Seconds 3
-          $status = sc.exe query EchodiaServer
+          $status = (sc.exe query EchodiaServer) -join " "
           Write-Host $status
           if ($status -notmatch "RUNNING") { throw "Service failed to start" }
         shell: powershell
