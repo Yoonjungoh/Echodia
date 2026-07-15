@@ -47,7 +47,7 @@ jobs:
       - name: Stop Server
         run: |
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-          C:\Users\Administrator\AppData\Local\Microsoft\WinGet\Links\nssm.exe stop EchodiaServer
+          C:\Windows\System32\nssm.exe stop EchodiaServer
           Start-Sleep -Seconds 3
           Get-Process -Name "Server" -ErrorAction SilentlyContinue | Stop-Process -Force
           Start-Sleep -Seconds 3
@@ -76,9 +76,9 @@ jobs:
       # 3. 서비스 재시작
       - name: Start Server
         run: |
-          C:\Users\Administrator\AppData\Local\Microsoft\WinGet\Links\nssm.exe start EchodiaServer | Out-Null
+          C:\Windows\System32\nssm.exe start EchodiaServer | Out-Null
           Start-Sleep -Seconds 3
-          $status = C:\Users\Administrator\AppData\Local\Microsoft\WinGet\Links\nssm.exe status EchodiaServer
+          $status = C:\Windows\System32\nssm.exe status EchodiaServer
           Write-Host "Service status: $status"
           if ($status -notmatch "SERVICE_RUNNING") { throw "Service failed to start: $status" }
         shell: powershell
