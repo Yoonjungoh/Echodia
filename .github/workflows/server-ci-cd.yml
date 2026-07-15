@@ -46,22 +46,22 @@ jobs:
       # 1. 서버 먼저 종료 → Windows 파일 락 해제
       - name: Stop Server
         run: |
-          $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-          C:\Windows\System32\nssm.exe stop EchodiaServer
-          Start-Sleep -Seconds 3
-          Get-Process -Name "Server" -ErrorAction SilentlyContinue | Stop-Process -Force
-          Start-Sleep -Seconds 3
-          $locked = $true
-          $retries = 10
-          while ($locked -and $retries -gt 0) {
-            $p = Get-Process -Name "Server" -ErrorAction SilentlyContinue
-            if ($p) {
-              $p | Stop-Process -Force
-              Start-Sleep -Seconds 2
-              $retries--
-            } else {
-              $locked = $false
+          if (Test-Path "C:\Windows\System32\nssm.exe") {
+            C:\Windows\System32\nssm.exe stop EchodiaServer
+            Start-Sleep -Seconds 2
+          }
+          taskkill /F /IM Server.exe /T 2>$null
+          $deadline = (Get-Date).AddSeconds(30)
+          while ((Get-Date) -lt $deadline) {
+            if (-not (Get-Process -Name "Server" -ErrorAction SilentlyContinue)) {
+              Write-Host "Server process terminated."
+              break
             }
+            Write-Host "Waiting for Server to exit..."
+            Start-Sleep -Seconds 1
+          }
+          if (Get-Process -Name "Server" -ErrorAction SilentlyContinue) {
+            throw "Server process is still running after 30s — aborting."
           }
         shell: powershell
         continue-on-error: true
