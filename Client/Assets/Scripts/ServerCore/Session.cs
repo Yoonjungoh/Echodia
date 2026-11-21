@@ -128,7 +128,11 @@ namespace ServerCore
                             output = new ArraySegment<byte>(batch, 0, total);
                         }
                     }
+#if NET8_0_OR_GREATER
+                    await _stream.WriteAsync(output.AsMemory()).ConfigureAwait(false);
+#else
                     await _stream.WriteAsync(output.Array, output.Offset, output.Count).ConfigureAwait(false);
+#endif
                     OnSend(output.Count);
                 }
             }
@@ -155,7 +159,11 @@ namespace ServerCore
                     var free = _receive.WriteSegment;
                     if (free.Count == 0)
                         throw new InvalidDataException("Game receive buffer exhausted.");
+#if NET8_0_OR_GREATER
+                    int count = await _stream.ReadAsync(free.AsMemory()).ConfigureAwait(false);
+#else
                     int count = await _stream.ReadAsync(free.Array, free.Offset, free.Count).ConfigureAwait(false);
+#endif
                     if (count == 0)
                         break;
                     _receive.OnWrite(count);
