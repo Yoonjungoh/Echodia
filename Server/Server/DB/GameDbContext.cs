@@ -15,6 +15,9 @@ namespace Server.DB
 
         public DbSet<PlayerDb> Players { get; set; }
 
+        public IQueryable<PlayerDb> OwnedPlayer(int accountId, int playerId) =>
+            Players.Where(p => p.AccountDbId == accountId && p.PlayerDbId == playerId);
+
         public DbSet<QuestDb> Quests { get; set; }
 
         public DbSet<PlayerItemDb> PlayerItems { get; set; }
