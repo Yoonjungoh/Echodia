@@ -1,56 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Net;
+using System.Net.Security;
 using System.Net.Sockets;
-using System.Text;
-using UnityEngine;
+using System.Security.Authentication;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ServerCore
 {
-	public class Connector
-	{
-		Func<Session> _sessionFactory;
-
-		public void Connect(IPEndPoint endPoint, Func<Session> sessionFactory, int count = 1)
-		{
-			for (int i = 0; i < count; i++)
-			{
-				// 휴대폰 설정
-				Socket socket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-				_sessionFactory = sessionFactory;
-
-				SocketAsyncEventArgs args = new SocketAsyncEventArgs();
-				args.Completed += OnConnectCompleted;
-				args.RemoteEndPoint = endPoint;
-				args.UserToken = socket;
-
-				RegisterConnect(args);
-			}
-		}
-
-		void RegisterConnect(SocketAsyncEventArgs args)
-		{
-			Socket socket = args.UserToken as Socket;
-			if (socket == null)
-				return;
-
-			bool pending = socket.ConnectAsync(args);
-			if (pending == false)
-				OnConnectCompleted(null, args);
-		}
-
-		void OnConnectCompleted(object sender, SocketAsyncEventArgs args)
-		{
-			if (args.SocketError == SocketError.Success)
-			{
-				Session session = _sessionFactory.Invoke();
-				session.Start(args.ConnectSocket);
-				session.OnConnected(args.RemoteEndPoint);
-			}
-			else
-			{
-				Debug.Log($"OnConnectCompleted Fail: {args.SocketError}");
-			}
-		}
-	}
+    public class Connector
+    {
+        public async Task ConnectAsync(string host, int port, Func<Session> sessionFactory,
+            RemoteCertificateValidationCallback validateCertificate = null)
+        {
+            var client = new TcpClient(AddressFamily.InterNetworkV6);
+            client.Client.DualMode = true;
+            SslStream tls = null;
+            try
+            {
+                using (var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10)))
+                using (timeout.Token.Register(client.Close))
+                {
+                    await client.ConnectAsync(host, port);
+                    tls = new SslStream(client.GetStream(), false, validateCertificate);
+                    await tls.AuthenticateAsClientAsync(host, null, SslProtocols.None, true);
+                }
+                sessionFactory().Start(tls, client.Client.RemoteEndPoint);
+            }
+            catch
+            {
+                tls?.Dispose();
+                client.Close();
+                throw;
+            }
+        }
+    }
 }

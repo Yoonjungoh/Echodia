@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
@@ -63,10 +65,19 @@ namespace Server
 			//DataManager.Instance.LoadAllData();
 
 			// DNS (Domain Name System)
-			string host = Dns.GetHostName();
-			IPHostEntry ipHost = Dns.GetHostEntry(host);
             IPAddress ipAddr = IPAddress.Any; // 0.0.0.0 — 로컬/EC2 모두 동작
             IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
+            string thumbprint = Environment.GetEnvironmentVariable("ECHODIA_TLS_CERT_THUMBPRINT");
+            if (string.IsNullOrWhiteSpace(thumbprint))
+                throw new InvalidOperationException("The service requires ECHODIA_TLS_CERT_THUMBPRINT.");
+            using var store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
+            store.Open(OpenFlags.ReadOnly);
+            var matches = store.Certificates.Find(X509FindType.FindByThumbprint, thumbprint, false);
+            if (matches.Count != 1 || !matches[0].HasPrivateKey ||
+                DateTime.Now < matches[0].NotBefore || DateTime.Now >= matches[0].NotAfter)
+                throw new InvalidOperationException("The configured TLS certificate is missing, expired or lacks a private key.");
+            using var certificate = matches[0];
+            var tls = SslStreamCertificateContext.Create(certificate, null);
 
             RedisManager.Instance.Init();
             await SpecDataManager.Instance.Init();
@@ -75,7 +86,7 @@ namespace Server
             DataManager.Instance.Init();
             ServerManager.Instance.Init();
 
-            _listener.Init(endPoint, () => { return SessionManager.Instance.Generate(); });
+            _listener.Init(endPoint, SessionManager.Instance.Generate, tls);
             SessionManager.Instance.StartPingTimer();
 			ConsoleLogManager.Instance.Log("Server Starting...");
             

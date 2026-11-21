@@ -1,236 +1,199 @@
-﻿using System;
+using System;
+using System.Buffers;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
-using System.Net.Sockets;
-using System.Text;
+using System.Net.Security;
 using System.Threading;
-using UnityEngine;
+using System.Threading.Tasks;
 
 namespace ServerCore
 {
-	public abstract class PacketSession : Session
-	{
-		public static readonly int HeaderSize = 2;
+    public abstract class PacketSession : Session
+    {
+        public const int HeaderSize = sizeof(ushort) * 2;
 
-		// [size(2)][packetId(2)][ ... ][size(2)][packetId(2)][ ... ]
-		public sealed override int OnRecv(ArraySegment<byte> buffer)
-		{
-			int processLen = 0;
+        public sealed override int OnRecv(ArraySegment<byte> buffer)
+        {
+            int consumed = 0;
+            while (buffer.Count - consumed >= HeaderSize)
+            {
+                int offset = buffer.Offset + consumed;
+                int length = BitConverter.ToUInt16(buffer.Array, offset);
+                if (length < HeaderSize)
+                    throw new InvalidDataException("Invalid game frame length.");
+                if (length > buffer.Count - consumed)
+                    break;
+                OnRecvPacket(new ArraySegment<byte>(buffer.Array, offset, length));
+                consumed += length;
+            }
+            return consumed;
+        }
 
-			while (true)
-			{
-				// 최소한 헤더는 파싱할 수 있는지 확인
-				if (buffer.Count < HeaderSize)
-					break;
+        public abstract void OnRecvPacket(ArraySegment<byte> buffer);
+    }
 
-				// 패킷이 완전체로 도착했는지 확인
-				ushort dataSize = BitConverter.ToUInt16(buffer.Array, buffer.Offset);
-				if (buffer.Count < dataSize)
-					break;
+    public abstract class Session
+    {
+        const int BatchSize = 16 * 1024;
+        readonly RecvBuffer _receive = new RecvBuffer(ushort.MaxValue);
+        readonly Queue<ArraySegment<byte>> _outbound = new Queue<ArraySegment<byte>>();
+        SslStream _stream;
+        EndPoint _remote;
+        bool _writing;
+        int _closed;
 
-				// 여기까지 왔으면 패킷 조립 가능
-				OnRecvPacket(new ArraySegment<byte>(buffer.Array, buffer.Offset, dataSize));
+        public bool IsConnected => Volatile.Read(ref _stream) != null && Volatile.Read(ref _closed) == 0;
+        public abstract void OnConnected(EndPoint endPoint);
+        public abstract int OnRecv(ArraySegment<byte> buffer);
+        public abstract void OnSend(int numOfBytes);
+        public abstract void OnDisconnected(EndPoint endPoint);
 
-				processLen += dataSize;
-				buffer = new ArraySegment<byte>(buffer.Array, buffer.Offset + dataSize, buffer.Count - dataSize);
-			}
+        public void Start(SslStream stream, EndPoint remote)
+        {
+            if (!stream.IsAuthenticated || !stream.IsEncrypted)
+                throw new InvalidOperationException("An authenticated TLS stream is required.");
+            _remote = remote;
+            Volatile.Write(ref _stream, stream);
+            try
+            {
+                OnConnected(remote);
+                _ = ReceiveAsync();
+            }
+            catch
+            {
+                Disconnect();
+                throw;
+            }
+        }
 
+        public void Send(List<ArraySegment<byte>> buffers)
+        {
+            lock (_outbound)
+            {
+                if (!IsConnected || buffers.Count == 0)
+                    return;
+                foreach (var buffer in buffers)
+                    _outbound.Enqueue(buffer);
+                if (_writing)
+                    return;
+                _writing = true;
+            }
+            _ = WriteAsync();
+        }
 
-			return processLen;
-		}
+        public void Send(ArraySegment<byte> buffer)
+        {
+            lock (_outbound)
+            {
+                if (!IsConnected)
+                    return;
+                _outbound.Enqueue(buffer);
+                if (_writing)
+                    return;
+                _writing = true;
+            }
+            _ = WriteAsync();
+        }
 
-		public abstract void OnRecvPacket(ArraySegment<byte> buffer);
-	}
+        async Task WriteAsync()
+        {
+            byte[] batch = null;
+            try
+            {
+                while (true)
+                {
+                    ArraySegment<byte> output;
+                    lock (_outbound)
+                    {
+                        if (_outbound.Count == 0)
+                        {
+                            _writing = false;
+                            return;
+                        }
+                        output = _outbound.Dequeue();
+                        if (_outbound.Count > 0 && output.Count + _outbound.Peek().Count <= BatchSize)
+                        {
+                            if (batch == null)
+                                batch = ArrayPool<byte>.Shared.Rent(BatchSize);
+                            int total = 0;
+                            while (true)
+                            {
+                                Buffer.BlockCopy(output.Array, output.Offset, batch, total, output.Count);
+                                total += output.Count;
+                                if (_outbound.Count == 0 || _outbound.Peek().Count > BatchSize - total)
+                                    break;
+                                output = _outbound.Dequeue();
+                            }
+                            output = new ArraySegment<byte>(batch, 0, total);
+                        }
+                    }
+                    await _stream.WriteAsync(output.Array, output.Offset, output.Count).ConfigureAwait(false);
+                    OnSend(output.Count);
+                }
+            }
+            catch (Exception error)
+            {
+                ReportFailure(error);
+                Disconnect();
+            }
+            finally
+            {
+                if (batch != null)
+                    ArrayPool<byte>.Shared.Return(batch, clearArray: true);
+            }
+        }
 
-	public abstract class Session
-	{
-		Socket _socket;
-		int _disconnected = 0;
+        async Task ReceiveAsync()
+        {
+            try
+            {
+                while (IsConnected)
+                {
+                    if (_receive.FreeSize == 0)
+                        _receive.Clean();
+                    var free = _receive.WriteSegment;
+                    if (free.Count == 0)
+                        throw new InvalidDataException("Game receive buffer exhausted.");
+                    int count = await _stream.ReadAsync(free.Array, free.Offset, free.Count).ConfigureAwait(false);
+                    if (count == 0)
+                        break;
+                    _receive.OnWrite(count);
+                    int consumed = OnRecv(_receive.ReadSegment);
+                    if (consumed < 0 || !_receive.OnRead(consumed))
+                        throw new InvalidDataException("Invalid consumed length.");
+                }
+            }
+            catch (Exception error)
+            {
+                ReportFailure(error);
+            }
+            finally
+            {
+                Disconnect();
+            }
+        }
 
-		RecvBuffer _recvBuffer = new RecvBuffer(65535);
+        void ReportFailure(Exception error)
+        {
+            if (Volatile.Read(ref _closed) == 0)
+                Console.Error.WriteLine("Game session closed: " + error.GetType().Name);
+        }
 
-		object _lock = new object();
-		Queue<ArraySegment<byte>> _sendQueue = new Queue<ArraySegment<byte>>();
-		List<ArraySegment<byte>> _pendingList = new List<ArraySegment<byte>>();
-		SocketAsyncEventArgs _sendArgs = new SocketAsyncEventArgs();
-		SocketAsyncEventArgs _recvArgs = new SocketAsyncEventArgs();
-
-		public abstract void OnConnected(EndPoint endPoint);
-		public abstract int OnRecv(ArraySegment<byte> buffer);
-		public abstract void OnSend(int numOfBytes);
-		public abstract void OnDisconnected(EndPoint endPoint);
-
-		void Clear()
-		{
-			lock (_lock)
-			{
-				_sendQueue.Clear();
-				_pendingList.Clear();
-			}
-		}
-
-		public void Start(Socket socket)
-		{
-			_socket = socket;
-
-			_recvArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnRecvCompleted);
-			_sendArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnSendCompleted);
-
-			RegisterRecv();
-		}
-
-		public void Send(List<ArraySegment<byte>> sendBuffList)
-		{
-			if (sendBuffList.Count == 0)
-				return;
-
-			lock (_lock)
-			{
-				foreach (ArraySegment<byte> sendBuff in sendBuffList)
-					_sendQueue.Enqueue(sendBuff);
-
-				if (_pendingList.Count == 0)
-					RegisterSend();
-			}
-		}
-
-		public void Send(ArraySegment<byte> sendBuff)
-		{
-			lock (_lock)
-			{
-				_sendQueue.Enqueue(sendBuff);
-				if (_pendingList.Count == 0)
-					RegisterSend();
-			}
-		}
-
-		public void Disconnect()
-		{
-			if (Interlocked.Exchange(ref _disconnected, 1) == 1)
-				return;
-
-			OnDisconnected(_socket.RemoteEndPoint);
- 			_socket.Shutdown(SocketShutdown.Both);
-			_socket.Close();
-			Clear();
-		}
-
-		#region 네트워크 통신
-
-		private void RegisterSend()
-		{
-			if (_disconnected == 1)
-				return;
-
-			while (_sendQueue.Count > 0)
-			{
-				ArraySegment<byte> buff = _sendQueue.Dequeue();
-				_pendingList.Add(buff);
-			}
-			_sendArgs.BufferList = _pendingList;
-
-			try
-			{
-				bool pending = _socket.SendAsync(_sendArgs);
-				if (pending == false)
-					OnSendCompleted(null, _sendArgs);
-			}
-			catch (Exception e)
-			{
-				Debug.Log($"RegisterSend Failed {e}");
-			}
-		}
-
-        private void OnSendCompleted(object sender, SocketAsyncEventArgs args)
-		{
-			lock (_lock)
-			{
-				if (args.BytesTransferred > 0 && args.SocketError == SocketError.Success)
-				{
-					try
-					{
-						_sendArgs.BufferList = null;
-						_pendingList.Clear();
-
-						OnSend(_sendArgs.BytesTransferred);
-
-						if (_sendQueue.Count > 0)
-							RegisterSend();
-					}
-					catch (Exception e)
-					{
-						Debug.Log($"OnSendCompleted Failed {e}");
-					}
-				}
-				else
-				{
-					Disconnect();
-				}
-			}
-		}
-
-        private void RegisterRecv()
-		{
-			if (_disconnected == 1)
-				return;
-
-			_recvBuffer.Clean();
-			ArraySegment<byte> segment = _recvBuffer.WriteSegment;
-			_recvArgs.SetBuffer(segment.Array, segment.Offset, segment.Count);
-
-			try
-			{
-				bool pending = _socket.ReceiveAsync(_recvArgs);
-				if (pending == false)
-					OnRecvCompleted(null, _recvArgs);
-			}
-			catch (Exception e)
-			{
-				Debug.Log($"RegisterRecv Failed {e}");
-			}
-		}
-
-        private void OnRecvCompleted(object sender, SocketAsyncEventArgs args)
-		{
-			if (args.BytesTransferred > 0 && args.SocketError == SocketError.Success)
-			{
-				try
-				{
-					// Write 커서 이동
-					if (_recvBuffer.OnWrite(args.BytesTransferred) == false)
-					{
-						Disconnect();
-						return;
-					}
-
-					// 컨텐츠 쪽으로 데이터를 넘겨주고 얼마나 처리했는지 받는다
-					int processLen = OnRecv(_recvBuffer.ReadSegment);
-					if (processLen < 0 || _recvBuffer.DataSize < processLen)
-					{
-						Disconnect();
-						return;
-					}
-
-					// Read 커서 이동
-					if (_recvBuffer.OnRead(processLen) == false)
-					{
-						Disconnect();
-						return;
-					}
-
-					RegisterRecv();
-				}
-				catch (Exception e)
-				{
-					Debug.Log($"OnRecvCompleted Failed {e}");
-				}
-			}
-			else
-			{
-				Disconnect();
-			}
-		}
-
-		#endregion
-	}
+        public void Disconnect()
+        {
+            if (_stream == null || Interlocked.Exchange(ref _closed, 1) != 0)
+                return;
+            try
+            {
+                _stream.Dispose();
+            }
+            finally
+            {
+                lock (_outbound)
+                    _outbound.Clear();
+                OnDisconnected(_remote);
+            }
+        }
+    }
 }

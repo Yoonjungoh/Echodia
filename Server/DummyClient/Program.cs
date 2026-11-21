@@ -1,6 +1,5 @@
 ﻿using DummyClient.Session;
 using ServerCore;
-using System.Net;
 
 namespace DummyClient
 {
@@ -11,13 +10,6 @@ namespace DummyClient
         static void Main(string[] args)
         {
             Thread.Sleep(3000);
-            // DNS (Domain Name System)
-            string host = Dns.GetHostName();
-            IPHostEntry ipHost = Dns.GetHostEntry(host);
-            //IPAddress ipAddr = IPAddress.Parse(urlValue); // for ec2
-            IPAddress ipAddr = ipHost.AddressList[0]; // for local test
-            //IPAddress ipAddr = ipHost.AddressList[1]; // for local test
-            IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
             // ── 더미 동작 플래그 ────────────────────────────────────
             ServerSession.EnableMovement = true;   // 랜덤 이동
@@ -26,11 +18,9 @@ namespace DummyClient
 
             Connector connector = new Connector();
 
-            connector.Connect(endPoint,
-               () => { return SessionManager.Instance.Generate(); },
-               DummyClientCount);
-            //connector.Connect(endPoint, SessionManager.Instance.Generate,
-            //   DummyClientCount);
+            string targetHost = Environment.GetEnvironmentVariable("ECHODIA_GAME_HOST") ?? "localhost";
+            Task.WaitAll(Enumerable.Range(0, DummyClientCount)
+                .Select(_ => connector.ConnectAsync(targetHost, 7777, SessionManager.Instance.Generate)).ToArray());
 
             while (true)
             {

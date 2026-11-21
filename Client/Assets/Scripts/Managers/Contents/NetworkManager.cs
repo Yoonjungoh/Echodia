@@ -1,4 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Google.Protobuf;
 using Google.Protobuf.Protocol;
 using Newtonsoft.Json;
@@ -6,7 +6,9 @@ using ServerCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 using UnityEngine.Networking;
@@ -14,13 +16,13 @@ using UnityEngine.Networking;
 public class NetworkManager
 {
     ServerSession _session = new ServerSession();
-    private string urlValue;
+    private bool _connecting;
 
     // 서버와의 offset 저장
     public double ServerOffsetMs { get; set; } // 서버 기준 시각과 내 로컬 시각의 차이 (초 단위)
     public double RTTMs { get; set; }
     public double LatencyMs { get; set; }
-    public bool IsInitialized { get; set; } = false;
+    public bool IsInitialized => _session.IsConnected;
 
     private long _nextLatencyCheckMs = 0;
     private const long LatencyCheckIntervalMs = 5000;
@@ -62,52 +64,69 @@ public class NetworkManager
         public string url;
     }
 
-    public async UniTaskVoid CoDownloadServerURL(Action callBack = null)
+    public async UniTask CoDownloadServerURL(Action callBack = null)
     {
+        if (_connecting)
+            return;
+        _connecting = true;
         try
         {
-            UnityWebRequest www = UnityWebRequest.Get(Managers.URL.Ec2Url);
-            await www.SendWebRequest();
+            string host = Environment.GetEnvironmentVariable("ECHODIA_GAME_HOST");
+            if (string.IsNullOrWhiteSpace(host))
+            {
+                using (var request = UnityWebRequest.Get(Managers.URL.Ec2Url))
+                {
+                    request.timeout = 5;
+                    try
+                    {
+                        await request.SendWebRequest();
+                        host = JsonConvert.DeserializeObject<URLData>(request.downloadHandler.text)?.url;
+                    }
+                    catch (Exception error)
+                    {
+                        Debug.LogWarning("Endpoint discovery failed: " + error.GetType().Name);
+                    }
+                }
+                if (string.IsNullOrWhiteSpace(host))
+                    host = "54.116.85.22";
+            }
 
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log("Error: " + www.error);
-                Init(callBack); // 실패해도 로컬 접속
-            }
-            else
-            {
-                URLData urlData = JsonConvert.DeserializeObject<URLData>(www.downloadHandler.text);
-                urlValue = urlData.url;
-                Init(callBack);
-            }
+            RemoteCertificateValidationCallback validate = null;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            string pin = Environment.GetEnvironmentVariable("ECHODIA_LOCAL_CERT_SHA256");
+            if (host == "localhost" && !string.IsNullOrEmpty(pin))
+                validate = (sender, cert, chain, errors) => ValidateLocalCertificate(cert, errors, pin);
+#endif
+            ServerSession session = new ServerSession();
+            await new Connector().ConnectAsync(host, 7777, () => _session = session, validate);
         }
-        catch (Exception e)
+        catch (Exception error)
         {
-            Debug.Log($"CoDownloadServerURL 실패: {e.Message}");
-            Init(callBack); // 실패해도 로컬 접속
+            Debug.LogWarning("Game TLS connection failed: " + error.GetBaseException().Message);
+            Managers.UI.ShowToastPopup("게임 서버에 안전하게 연결할 수 없습니다. 로그인 버튼으로 다시 시도해 주세요.");
+        }
+        finally
+        {
+            _connecting = false;
+            callBack?.Invoke();
         }
     }
 
-    public void Init(Action callBack = null)
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+    // The local development player trusts one explicitly selected localhost leaf.
+    static bool ValidateLocalCertificate(X509Certificate cert, SslPolicyErrors errors, string pin)
     {
-        // DNS (Domain Name System)
-        string host = Dns.GetHostName();
-        IPHostEntry ipHost = Dns.GetHostEntry(host);
-        IPAddress ipAddr = IPAddress.Parse("54.116.85.22"); // for ec2
-        //IPAddress ipAddr = ipHost.AddressList[0]; // for local test
-        //IPAddress ipAddr = ipHost.AddressList[1]; // for local test
-        IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
-
-        Connector connector = new Connector();
-
-        connector.Connect(endPoint,
-           () => { return _session; },
-           1);
-
-        callBack?.Invoke();
-
-        IsInitialized = true;
+        if (cert == null || (errors & ~SslPolicyErrors.RemoteCertificateChainErrors) != 0)
+            return false;
+        using (var leaf = new X509Certificate2(cert))
+        using (var sha = SHA256.Create())
+        {
+            string actual = BitConverter.ToString(sha.ComputeHash(leaf.RawData)).Replace("-", "");
+            return DateTime.Now >= leaf.NotBefore && DateTime.Now < leaf.NotAfter
+                && string.Equals(actual, pin, StringComparison.OrdinalIgnoreCase);
+        }
     }
+#endif
 
     public void OnUpdate()
     {

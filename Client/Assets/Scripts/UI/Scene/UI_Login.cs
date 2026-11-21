@@ -1,4 +1,5 @@
 using Google.Protobuf.Protocol;
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -42,6 +43,9 @@ public class UI_Login : UI_Scene
     {
         switch (loginStatus)
         {
+            case LoginStatus.None:
+                Managers.UI.ShowToastPopup("로그인 요청이 많습니다. 잠시 후 다시 시도해 주세요.");
+                break;
             case LoginStatus.Success:
                 OnLoginSuccess();
                 break;
@@ -73,6 +77,11 @@ public class UI_Login : UI_Scene
 
     private void OnClickLoginButton()
     {
+        if (!Managers.Network.IsInitialized)
+        {
+            Managers.Network.CoDownloadServerURL().Forget();
+            return;
+        }
         // TODO - 무한 패킷 발사 방지하기 위해 전송 주기 타이머 넣기
         C_Login loginPacket = new C_Login();
         loginPacket.Id = _idInputField.text;

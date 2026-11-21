@@ -1,77 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Net;
+using System.Net.Security;
 using System.Net.Sockets;
-using System.Text;
+using System.Security.Authentication;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ServerCore
 {
     public class Listener
     {
-        Socket _listenSocket;
-        Func<Session> _sessionFactory;
-        object _lock = new object();
-
-        public void Init(IPEndPoint endPoint, Func<Session> sessionFactory, int register = 10, int backlog = 100)
+        public void Init(IPEndPoint endPoint, Func<Session> sessionFactory,
+            SslStreamCertificateContext certificate, int register = 10, int backlog = 100)
         {
-            _listenSocket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            _listenSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
-            _sessionFactory += sessionFactory;
-
-            _listenSocket.Bind(endPoint);
-            _listenSocket.Listen(backlog);
-
+            var listener = new TcpListener(endPoint);
+            listener.Start(backlog);
+            var options = new SslServerAuthenticationOptions
+            {
+                ServerCertificateContext = certificate,
+                EnabledSslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13
+            };
+            // Each accept loop admits at most one handshake at a time.
             for (int i = 0; i < register; i++)
-            {
-                SocketAsyncEventArgs args = new SocketAsyncEventArgs();
-                args.Completed += new EventHandler<SocketAsyncEventArgs>(OnAcceptCompleted);
-                RegisterAccept(args);
-            }
+                _ = AcceptAsync(listener, sessionFactory, options);
         }
 
-        void RegisterAccept(SocketAsyncEventArgs args)
+        static async Task AcceptAsync(TcpListener listener, Func<Session> sessionFactory,
+            SslServerAuthenticationOptions options)
         {
-            try
+            while (true)
             {
-                args.AcceptSocket = null;
-
-                bool pending = _listenSocket.AcceptAsync(args);
-                if (pending == false)
+                TcpClient client;
+                try
                 {
-                    OnAcceptCompleted(null, args);
+                    client = await listener.AcceptTcpClientAsync().ConfigureAwait(false);
+                }
+                catch (SocketException error)
+                {
+                    ConsoleLogManager.Instance.Log("Accept failed: " + error.SocketErrorCode);
+                    await Task.Delay(100).ConfigureAwait(false);
+                    continue;
+                }
+                SslStream tls = null;
+                try
+                {
+                    tls = new SslStream(client.GetStream());
+                    using (var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10)))
+                        await tls.AuthenticateAsServerAsync(options, timeout.Token).ConfigureAwait(false);
+                    sessionFactory().Start(tls, client.Client.RemoteEndPoint);
+                }
+                catch (Exception error)
+                {
+                    tls?.Dispose();
+                    client.Dispose();
+                    ConsoleLogManager.Instance.Log("TLS connection closed: " + error.GetType().Name);
                 }
             }
-            catch (Exception ex)
-            {
-                ConsoleLogManager.Instance.Log(ex);
-            }
-        }
-
-        void OnAcceptCompleted(object sender, SocketAsyncEventArgs args)
-        {
-            try
-            {
-                if (args.SocketError == SocketError.Success)
-                {
-                    Session session = _sessionFactory.Invoke();
-                    session.Start(args.AcceptSocket);
-                    // 소켓 연결된 상태인지 확인
-                    if (args.AcceptSocket.Connected)
-                    {
-                        session.OnConnected(args.AcceptSocket.RemoteEndPoint);
-                    }
-                }
-                else
-                {
-                    ConsoleLogManager.Instance.Log(args.SocketError.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                ConsoleLogManager.Instance.Log(ex);
-            }
-
-            RegisterAccept(args);
         }
     }
 }
