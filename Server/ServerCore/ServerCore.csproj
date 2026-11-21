@@ -8,6 +8,7 @@
   <ItemGroup>
     <Compile Remove="Connector.cs;Session.cs" />
     <Compile Include="../../Client/Assets/Scripts/ServerCore/Connector.cs" Link="Connector.cs" />
+    <Compile Include="../../Client/Assets/Scripts/ServerCore/GameServerCertificatePolicy.cs" Link="GameServerCertificatePolicy.cs" />
     <Compile Include="../../Client/Assets/Scripts/ServerCore/Session.cs" Link="Session.cs" />
   </ItemGroup>
 </Project>
