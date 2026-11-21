@@ -49,7 +49,7 @@ namespace Server
             QuestManager.Instance.ClaimReward(MyPlayer, mainQuestId, subQuestId);
         }
 
-        public void CheckAndAssignInitialQuest()
+        private void CheckAndAssignInitialQuest()
         {
             lock (_lock)
             {
@@ -60,9 +60,9 @@ namespace Server
                     // 2. 없으면 초반 퀘스트 실행
                     if (hasQuest == false)
                     {
-                        PlayerDb playerDb = db.Players
-                                            .Where(p => p.PlayerDbId == MyPlayer.PlayerId)
-                                            .FirstOrDefault();
+                        PlayerDb playerDb = db.OwnedPlayer(AccountId, MyPlayer.PlayerId).SingleOrDefault();
+                        if (playerDb == null)
+                            return;
                         int mainQuestId = ConfigManager.Instance.GetInt(ConfigType.DefaultCreationMainQuestId);
                         int subQuestId = ConfigManager.Instance.GetInt(ConfigType.DefaultCreationSubQuestId);
 
@@ -134,20 +134,21 @@ namespace Server
             });
         }
 
-        public void HandleRequestInitGameRoomData(int playerId)
+        public void HandleRequestInitGameRoomData()
         {
             lock (_lock)
             {
+                if (_loginClosed || MyPlayer == null)
+                    return;
                 using (GameDbContext db = new GameDbContext())
                 {
-                    PlayerDb player = db.Players
+                    PlayerDb player = db.OwnedPlayer(AccountId, MyPlayer.PlayerId)
                         .AsNoTracking()
-                        .Where(p => p.PlayerDbId == playerId)
-                        .FirstOrDefault();
+                        .SingleOrDefault();
 
                     if (player == null)
                     {
-                        ConsoleLogManager.Instance.Log($"[Error] 캐릭터 정보를 찾을 수 없음. PlayerId: {playerId}");
+                        ConsoleLogManager.Instance.Log($"[Error] 캐릭터 정보를 찾을 수 없음. SessionId: {SessionId}");
                         return;
                     }
 

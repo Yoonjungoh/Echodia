@@ -93,11 +93,13 @@ namespace Server
         {
             SessionManager.Instance.Remove(this);
             // Serialize with the login commit if the socket closes during verification.
+            GameRoom logoutRoom;
             lock (_lock)
             {
                 _loginClosed = true;
                 if (ClientServerState != ClientServerState.Login && AccountId != 0)
                     AccountManager.Instance.Remove(AccountId);
+                logoutRoom = MyPlayer?.GameRoom ?? _pendingEntryRoom;
             }
             if (ClientServerState == ClientServerState.PlayerSelect)
             {
@@ -109,12 +111,17 @@ namespace Server
                 ServerManager.Instance.Remove(SessionId);
                 
                 // 게임에서 내보내기
-                if (MyPlayer != null && MyPlayer.GameRoom != null)
+                if (logoutRoom != null)
                 {
-                    Vector3 pos = MyPlayer.CurrentPosition;
-                    int mapId = MyPlayer.GameRoom.MapId;
-                    DbTransaction.SavePlayerLogoutState(MyPlayer.PlayerId, pos, mapId);
-                    MyPlayer.GameRoom.Push(MyPlayer.GameRoom.LeaveGame, MyPlayer.Id);
+                    var player = MyPlayer;
+                    // If admission is already queued, this runs after it on the same room.
+                    logoutRoom.Push(() =>
+                    {
+                        if (player.GameRoom != logoutRoom)
+                            return;
+                        DbTransaction.SavePlayerLogoutState(player.PlayerId, player.CurrentPosition, logoutRoom.MapId);
+                        logoutRoom.LeaveGame(player.Id);
+                    });
                 }
             }
         }
