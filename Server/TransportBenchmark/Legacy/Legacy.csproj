@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- The pre-TLS socket implementation is retained in the repository, outside the shipping assembly. -->
+    <Compile Include="../../ServerCore/Session.cs" />
+    <Compile Include="../../ServerCore/RecvBuffer.cs" />
+    <Compile Include="../../ServerCore/ConsoleLogManager.cs" />
+  </ItemGroup>
+</Project>
