@@ -6,9 +6,6 @@ using ServerCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Security;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 using UnityEngine.Networking;
@@ -91,14 +88,8 @@ public class NetworkManager
                     host = "54.116.85.22";
             }
 
-            RemoteCertificateValidationCallback validate = null;
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-            string pin = Environment.GetEnvironmentVariable("ECHODIA_LOCAL_CERT_SHA256");
-            if (host == "localhost" && !string.IsNullOrEmpty(pin))
-                validate = (sender, cert, chain, errors) => ValidateLocalCertificate(cert, errors, pin);
-#endif
             ServerSession session = new ServerSession();
-            await new Connector().ConnectAsync(host, 7777, () => _session = session, validate);
+            await new Connector().ConnectAsync(host, 7777, () => _session = session);
         }
         catch (Exception error)
         {
@@ -111,22 +102,6 @@ public class NetworkManager
             callBack?.Invoke();
         }
     }
-
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-    // The local development player trusts one explicitly selected localhost leaf.
-    static bool ValidateLocalCertificate(X509Certificate cert, SslPolicyErrors errors, string pin)
-    {
-        if (cert == null || (errors & ~SslPolicyErrors.RemoteCertificateChainErrors) != 0)
-            return false;
-        using (var leaf = new X509Certificate2(cert))
-        using (var sha = SHA256.Create())
-        {
-            string actual = BitConverter.ToString(sha.ComputeHash(leaf.RawData)).Replace("-", "");
-            return DateTime.Now >= leaf.NotBefore && DateTime.Now < leaf.NotAfter
-                && string.Equals(actual, pin, StringComparison.OrdinalIgnoreCase);
-        }
-    }
-#endif
 
     public void OnUpdate()
     {

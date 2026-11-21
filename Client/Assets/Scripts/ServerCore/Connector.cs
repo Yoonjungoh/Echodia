@@ -10,8 +10,7 @@ namespace ServerCore
 {
     public class Connector
     {
-        public async Task ConnectAsync(string host, int port, Func<Session> sessionFactory,
-            RemoteCertificateValidationCallback validateCertificate = null)
+        public async Task ConnectAsync(string host, int port, Func<Session> sessionFactory)
         {
             var client = new TcpClient(AddressFamily.InterNetworkV6);
             client.Client.DualMode = true;
@@ -22,7 +21,7 @@ namespace ServerCore
                 using (timeout.Token.Register(client.Close))
                 {
                     await client.ConnectAsync(host, port);
-                    tls = new SslStream(client.GetStream(), false, validateCertificate);
+                    tls = new SslStream(client.GetStream(), false, GameServerCertificatePolicy.ForHost(host));
                     await tls.AuthenticateAsClientAsync(host, null, SslProtocols.None, true);
                 }
                 sessionFactory().Start(tls, client.Client.RemoteEndPoint);
