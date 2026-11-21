@@ -5,6 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <!-- Set UnityTlsPlayer=true to exercise the shipping player's compile-time policy. -->
+    <DefineConstants Condition="'$(UnityTlsPlayer)' != 'true'">$(DefineConstants);DEVELOPMENT_BUILD</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +18,7 @@
 
   <ItemGroup>
     <Using Include="Xunit" />
+    <Compile Include="../../Client/Assets/Scripts/ServerCore/GameServerCertificatePolicy.cs" Link="Client/GameServerCertificatePolicy.cs" />
   </ItemGroup>
 
 </Project>
