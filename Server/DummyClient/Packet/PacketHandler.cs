@@ -10,6 +10,27 @@ using System.Diagnostics;
 
 class PacketHandler
 {
+    public static void S_PingHandler(PacketSession session, IMessage packet)
+    {
+        if (session is ServerSession client && packet is S_Ping ping)
+            client.Send(new C_Pong { PingId = ping.PingId });
+    }
+
+    // These notifications update Unity screens. The headless player has no corresponding UI state.
+    public static void S_EquipItemHandler(PacketSession session, IMessage packet) { }
+    public static void S_UnequipItemHandler(PacketSession session, IMessage packet) { }
+    public static void S_MapTransferHandler(PacketSession session, IMessage packet) { }
+    public static void S_ChangeMpHandler(PacketSession session, IMessage packet) { }
+    public static void S_UseSkillHandler(PacketSession session, IMessage packet) { }
+    public static void S_ChannelEndHandler(PacketSession session, IMessage packet) { }
+    public static void S_CreatePartyHandler(PacketSession session, IMessage packet) { }
+    public static void S_PartyInviteNotifyHandler(PacketSession session, IMessage packet) { }
+    public static void S_PartyInviteHandler(PacketSession session, IMessage packet) { }
+    public static void S_PartyInviteResponseHandler(PacketSession session, IMessage packet) { }
+    public static void S_PartyUpdateHandler(PacketSession session, IMessage packet) { }
+    public static void S_PartyLeftHandler(PacketSession session, IMessage packet) { }
+    public static void S_RequestRoomPlayerListHandler(PacketSession session, IMessage packet) { }
+
     public static void S_AssignUserIdHandler(PacketSession session, IMessage packet)
     {
         // UI 찾는게 더 무겁고 패킷 캐스팅이 더 가벼우니 패킷 먼저 체크
