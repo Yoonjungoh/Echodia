@@ -74,51 +74,41 @@ namespace Server.DB
 
         #region Quest
 
-        public static void UpdateQuestStatus(int playerDbId, int mainQuestId, int subQuestId, QuestStatus status, Action callback = null)
+        public static void AcceptQuest(int playerDbId, int mainQuestId, int subQuestId, Action callback)
         {
-            Instance.Push(UpdateQuestStatus_Db, playerDbId, mainQuestId, subQuestId, status, callback);
+            Instance.Push(() =>
+            {
+                using var db = new GameDbContext();
+                if (TryAcceptQuest(db, playerDbId, mainQuestId, subQuestId))
+                    callback?.Invoke();
+            });
         }
 
-        private static void UpdateQuestStatus_Db(int playerDbId, int mainQuestId, int subQuestId, QuestStatus status, Action callback = null)
+        internal static bool TryAcceptQuest(GameDbContext db, int playerDbId, int mainQuestId, int subQuestId)
         {
-            using (GameDbContext db = new GameDbContext())
-            {
-                int successRows = db.Quests
-                    .Where(q => q.PlayerDbId == playerDbId && q.MainQuestId == mainQuestId && q.SubQuestId == subQuestId)
-                    .ExecuteUpdate(s => s.SetProperty(q => q.Status, q => status));
-
-                if (successRows > 0)
-                {
-                    callback?.Invoke();
-                }
-                else
-                {
-                    Console.WriteLine($"[DB Error] UpdateQuestStatus Failed. Player:{playerDbId}, Quest:{mainQuestId}-{subQuestId}");
-                }
-            }
+            return db.Quests.Where(q => q.PlayerDbId == playerDbId && q.MainQuestId == mainQuestId
+                                     && q.SubQuestId == subQuestId && q.Status == QuestStatus.NotAccepted)
+                .ExecuteUpdate(s => s.SetProperty(q => q.Status, QuestStatus.Proceeding)) > 0;
         }
 
         public static void SaveQuestComplete(QuestDb quest, Action callback = null)
         {
-            Instance.Push(SaveQuestComplete_Db, quest, callback);
+            Instance.Push(() =>
+            {
+                using var db = new GameDbContext();
+                if (TryCompleteQuest(db, quest))
+                    callback?.Invoke();
+            });
         }
 
-        private static void SaveQuestComplete_Db(QuestDb quest, Action callback = null)
+        internal static bool TryCompleteQuest(GameDbContext db, QuestDb quest)
         {
-            using (GameDbContext db = new GameDbContext())
-            {
-                int successRows = db.Quests
-                    .Where(q => q.QuestDbId == quest.QuestDbId)
-                    .ExecuteUpdate(s => s
-                        .SetProperty(q => q.RequiredCount, q => quest.RequiredCount)
-                        .SetProperty(q => q.Status, q => quest.Status)
-                        .SetProperty(q => q.ClearedDate, q => quest.ClearedDate));
-
-                if (successRows > 0)
-                    callback?.Invoke();
-                else
-                    Console.WriteLine($"[DB Error] SaveQuestComplete Failed. QuestDbId: {quest.QuestDbId}");
-            }
+            return db.Quests.Where(q => q.QuestDbId == quest.QuestDbId && q.PlayerDbId == quest.PlayerDbId
+                                     && q.Status == QuestStatus.Proceeding)
+                .ExecuteUpdate(s => s
+                    .SetProperty(q => q.RequiredCount, quest.RequiredCount)
+                    .SetProperty(q => q.Status, QuestStatus.Completed)
+                    .SetProperty(q => q.ClearedDate, quest.ClearedDate)) == 1;
         }
 
         // 퀘스트 보상 수령: Completed → RewardClaimed (퀘스트 상태만 DB 저장)

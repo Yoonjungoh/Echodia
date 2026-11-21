@@ -35,7 +35,7 @@ namespace Server
 
         public void AcceptQuest(int mainQuestId, int subQuestId)
         {
-            DbTransaction.UpdateQuestStatus(MyPlayer.PlayerId, mainQuestId, subQuestId, QuestStatus.Proceeding,
+            DbTransaction.AcceptQuest(MyPlayer.PlayerId, mainQuestId, subQuestId,
             () =>
             {
                 ChangeQuestStatus(mainQuestId, subQuestId, QuestStatus.Proceeding);
