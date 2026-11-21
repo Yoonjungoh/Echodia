@@ -1,4 +1,4 @@
-﻿using Google.Protobuf;
+using Google.Protobuf;
 using Google.Protobuf.Protocol;
 using Server.DB;
 using Server.Game;
@@ -91,26 +91,23 @@ namespace Server
 
         public override void OnDisconnected(EndPoint endPoint)
         {
-            int accountId = AccountId;
-            if (ClientServerState == ClientServerState.ServerSelect)
+            SessionManager.Instance.Remove(this);
+            // Serialize with the login commit if the socket closes during verification.
+            lock (_lock)
             {
-                AccountManager.Instance.Remove(AccountId);
-
-                SessionManager.Instance.Remove(this);
+                _loginClosed = true;
+                if (ClientServerState != ClientServerState.Login && AccountId != 0)
+                    AccountManager.Instance.Remove(AccountId);
             }
-            else if (ClientServerState == ClientServerState.PlayerSelect)
+            if (ClientServerState == ClientServerState.PlayerSelect)
             {
-                AccountManager.Instance.Remove(AccountId);
                 ServerManager.Instance.Remove(SessionId);
         
-                SessionManager.Instance.Remove(this);
             }
             else if (ClientServerState == ClientServerState.GameRoom)
             {
-                AccountManager.Instance.Remove(AccountId);
                 ServerManager.Instance.Remove(SessionId);
                 
-                SessionManager.Instance.Remove(this);
                 // 게임에서 내보내기
                 if (MyPlayer != null && MyPlayer.GameRoom != null)
                 {

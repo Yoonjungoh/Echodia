@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Net.Sockets;
@@ -295,75 +295,45 @@ namespace Server
             }
         }
         
+        bool _loginClosed;
+        // Admission is bounded so login bursts leave CPU available for game rooms.
+        static readonly SemaphoreSlim LoginSlots = new(Math.Max(1, Environment.ProcessorCount / 2));
+
         public void HandleLogin(C_Login loginPacket)
         {
-            lock (_lock)
+            if (ClientServerState != ClientServerState.Login)
+                return;
+            if (!LoginSlots.Wait(0))
             {
-                ConsoleLogManager.Instance.Log($"AccountId: {loginPacket.Id}, Password: {loginPacket.Password}");
+                Send(new S_Login { LoginStatus = LoginStatus.None });
+                return;
+            }
 
-                if (ClientServerState != ClientServerState.Login)
+            try
+            {
+                // Hashing and SQL must not hold the lock used by the network send loop.
+                using var db = new GameDbContext();
+                var (status, accountId) = AccountCredentials.Authenticate(db, loginPacket.Id, loginPacket.Password);
+                lock (_lock)
                 {
-                    ConsoleLogManager.Instance.Log($"[Warning] 로그인 상태가 아닌 곳에서 로그인 시도. SessionId: {SessionId}");
-                    return;
-                }
-
-                using (GameDbContext db = new GameDbContext())
-                {
-                    // 1. 아이디 존재하는지 먼저 확인
-                    AccountDb findAccount = db.Accounts
-                        .AsNoTracking()
-                        .Where(a => a.AccountId == loginPacket.Id)
-                        .FirstOrDefault();
-
-                    S_Login serverLoginPacket = new S_Login();
-                    
-                    // 2. 계정이 존재하는 경우
-                    if (findAccount != null)
-                    {
-                        // 2-1. 비밀번호만 틀림
-                        if (findAccount.AccountPassword != loginPacket.Password)
-                        {
-                            serverLoginPacket.LoginStatus = LoginStatus.PasswordWrong;
-                            Send(serverLoginPacket);
-                            return;
-                        }
-
-                        // 2-2. 이미 로그인 중인 아이디면 접속 못함
-                        if (AccountManager.Instance.IsAccountLoggedIn(findAccount.AccountDbId))
-                        {
-                            serverLoginPacket.LoginStatus = LoginStatus.AlreadyLoggedIn;
-                            Send(serverLoginPacket);
-                            return;
-                        }
-
-                        // 2-3. 비밀번호 확인 성공 후, 로그인 처리
-                        AccountManager.Instance.Add(findAccount.AccountDbId);
-                        ClientServerState = ClientServerState.ServerSelect;
-                        AccountId = findAccount.AccountDbId;
-                        serverLoginPacket.LoginStatus = LoginStatus.Success;
-                        Send(serverLoginPacket);
+                    if (_loginClosed || ClientServerState != ClientServerState.Login)
                         return;
+                    if (status == LoginStatus.Success)
+                    {
+                        if (AccountManager.Instance.Add(accountId))
+                        {
+                            AccountId = accountId;
+                            ClientServerState = ClientServerState.ServerSelect;
+                        }
+                        else
+                            status = LoginStatus.AlreadyLoggedIn;
                     }
-
-                    // 3. TODO - 계정이 없으면 새로운 계정 생성 (개발 환경에선 편하지만 라이브 때는 공식 회원가입 시키기)
-                    AccountDb newAccount = new AccountDb()
-                    {
-                        AccountId = loginPacket.Id,
-                        AccountPassword = loginPacket.Password
-                    };
-
-                    db.Accounts.Add(newAccount);
-
-                    bool success = db.SaveChangesEx();
-                    if (success == false)
-                        return;
-
-                    // 4. 회원 가입 성공 의미 
-                    ClientServerState = ClientServerState.Login;
-                    AccountId = newAccount.AccountDbId;
-                    serverLoginPacket.LoginStatus = LoginStatus.SignUpSuccess;
-                    Send(serverLoginPacket);
+                    Send(new S_Login { LoginStatus = status });
                 }
+            }
+            finally
+            {
+                LoginSlots.Release();
             }
         }
 

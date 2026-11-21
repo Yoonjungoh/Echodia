@@ -15,7 +15,9 @@ namespace Server.DB
     {
         public int AccountDbId { get; set; }    // ByConvention 방법으로 클래스 이름에 Id 붙이면 자동으로 pk됨
         public string AccountId { get; set; } // 일단은 Unique 하게 설정 (Index 해줌)
-        public string AccountPassword { get; set; } // 일단은 Unique 하게 설정 (Index 해줌)
+        public string AccountPassword { get; set; } // Legacy rows only. Cleared atomically on conversion.
+        [Column(TypeName = "varbinary(48)")]
+        public byte[] PasswordHashV1 { get; set; }
         public ICollection<PlayerDb> Players { get; set; }  // 이렇게 하면 Player 테이블에 FK 컬럼이 생성됨 
     }
 

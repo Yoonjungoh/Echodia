@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -50,6 +50,15 @@ namespace Server
 
         static async Task Main(string[] args)
 		{
+            if (args.Length == 1 && args[0] == "--migrate-passwords")
+            {
+                if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")))
+                    throw new InvalidOperationException("Set DB_CONNECTION_STRING to the database to migrate.");
+                using var db = new GameDbContext();
+                Console.WriteLine($"Converted accounts: {AccountCredentials.ConvertRemaining(db)}");
+                return;
+            }
+
 			// Json 데이터 역직렬화
 			//DataManager.Instance.LoadAllData();
 

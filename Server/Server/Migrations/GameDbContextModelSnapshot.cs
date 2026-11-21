@@ -36,6 +36,9 @@ namespace Server.Migrations
                     b.Property<string>("AccountPassword")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("PasswordHashV1")
+                        .HasColumnType("varbinary(48)");
+
                     b.HasKey("AccountDbId");
 
                     b.HasIndex("AccountId")
