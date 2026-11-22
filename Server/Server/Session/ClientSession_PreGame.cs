@@ -296,24 +296,31 @@ namespace Server
         }
         
         bool _loginClosed;
+        bool _loginPending;
         // Admission is bounded so login bursts leave CPU available for game rooms.
         static readonly SemaphoreSlim LoginSlots = new(Math.Max(1, Environment.ProcessorCount / 2));
 
         public void HandleLogin(C_Login loginPacket)
         {
-            if (ClientServerState != ClientServerState.Login)
-                return;
-            if (!LoginSlots.Wait(0))
+            lock (_lock)
             {
-                Send(new S_Login { LoginStatus = LoginStatus.None });
-                return;
+                if (_loginClosed || ClientServerState != ClientServerState.Login)
+                    return;
+                if (_loginPending || !LoginSlots.Wait(0))
+                {
+                    Send(new S_Login { LoginStatus = LoginStatus.None });
+                    return;
+                }
+                _loginPending = true;
             }
+            _ = CompleteLoginAsync(loginPacket);
+        }
 
+        async Task CompleteLoginAsync(C_Login loginPacket)
+        {
             try
             {
-                // Hashing and SQL must not hold the lock used by the network send loop.
-                using var db = new GameDbContext();
-                var (status, accountId) = AccountCredentials.Authenticate(db, loginPacket.Id, loginPacket.Password);
+                var (status, accountId) = await Program.CredentialAuthority.AuthenticateAsync(loginPacket).ConfigureAwait(false);
                 lock (_lock)
                 {
                     if (_loginClosed || ClientServerState != ClientServerState.Login)
@@ -331,8 +338,17 @@ namespace Server
                     Send(new S_Login { LoginStatus = status });
                 }
             }
+            catch (Exception error)
+            {
+                ConsoleLogManager.Instance.Log("Login unavailable: " + error.GetType().Name);
+                lock (_lock)
+                    if (!_loginClosed && ClientServerState == ClientServerState.Login)
+                        Send(new S_Login { LoginStatus = LoginStatus.None });
+            }
             finally
             {
+                lock (_lock)
+                    _loginPending = false;
                 LoginSlots.Release();
             }
         }

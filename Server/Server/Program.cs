@@ -16,12 +16,14 @@ using Server.Data;
 using Server.DB;
 using Server.Game;
 using ServerCore;
+using Server.Authentication;
 
 namespace Server
 {
 	class Program
 	{
 		static Listener _listener = new Listener();
+        internal static LoginAuthority CredentialAuthority { get; private set; }
 
         static void DbTask()
         {
@@ -79,6 +81,8 @@ namespace Server
             using var certificate = matches[0];
             var tls = SslStreamCertificateContext.Create(certificate, null);
 
+            using var loginAuthority = LoginAuthority.FromEnvironment();
+            CredentialAuthority = loginAuthority;
             RedisManager.Instance.Init();
             await SpecDataManager.Instance.Init();
             await ConfigManager.Instance.Init();
