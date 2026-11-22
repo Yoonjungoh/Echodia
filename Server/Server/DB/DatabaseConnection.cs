@@ -18,6 +18,8 @@ namespace Server.DB
 
         public static string Configured()
         {
+            if (BenchmarkDatabase.Connection is { } benchmark)
+                return benchmark;
             string connection = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
             if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable(ProtectedFile)))
                 return connection;

@@ -4,7 +4,9 @@ namespace Server.Session
     {
         public static AccountManager Instance { get; } = new AccountManager();
 
-        private const string LoginSetKey = "loggedIn";
+        private string LoginSetKey = "loggedIn";
+
+        internal void UseBenchmarkKey(string key) => LoginSetKey = key;
 
         private AccountManager() { }
 

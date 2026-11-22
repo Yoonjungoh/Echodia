@@ -102,6 +102,11 @@ key=$(openssl pkey -in "$conf/server.key" -pubout -outform DER | sha256sum)
 [ "$leaf" = "$key" ] || die 'Returned certificate does not match the Redis host key.'
 for pem in ca.pem server.pem; do install -m 640 -o root -g redis "$handoff/$pem" "$conf/$pem"; done
 printf 'user default off\nuser echodia reset on #%s ~loggedIn -@all +ping +echo +hello +info +client|setname +client|setinfo +client|id +select +sadd +srem +sismember\n' "$verifier" > "$conf/users.acl.new"
+if [ -f "$handoff/benchmark-acl" ]; then
+    read -r run hash extra < "$handoff/benchmark-acl"
+    [[ "$run" =~ ^[A-Za-z0-9]{1,24}$ && "$hash" =~ ^[a-f0-9]{64}$ && -z "$extra" ]] || die 'Invalid QA ACL handoff.'
+    printf 'user echodiaperf reset on #%s ~EchodiaPerf:%s:loggedIn -@all +ping +echo +hello +info +client|setname +client|setinfo +client|id +select +sadd +srem +sismember +scard +del\n' "$hash" "$run" >> "$conf/users.acl.new"
+fi
 chown root:redis "$conf/users.acl.new"; chmod 640 "$conf/users.acl.new"; mv -f "$conf/users.acl.new" "$conf/users.acl"
 guest=$(guest_ip)
 [[ "$guest" =~ ^[0-9]+(\.[0-9]+){3}$ ]] || die 'Missing WSL NAT guest address.'

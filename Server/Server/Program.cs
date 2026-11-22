@@ -54,6 +54,14 @@ namespace Server
 
         static async Task Main(string[] args)
 		{
+            if (args.Length == 1 && args[0] == "--qa-clear-login-state")
+            {
+                string key = BenchmarkDatabase.Activate();
+                RedisManager.Instance.Init();
+                await RedisManager.Instance.GetDatabase().ExecuteAsync("DEL", key);
+                Console.WriteLine("Isolated QA login membership cleared.");
+                return;
+            }
             if (args.Length == 1 && args[0] == "--check-redis")
             {
                 if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("ECHODIA_REDIS_CONNECTION_DPAPI_FILE")))
@@ -78,8 +86,10 @@ namespace Server
 			//DataManager.Instance.LoadAllData();
 
 			// DNS (Domain Name System)
-            IPAddress ipAddr = IPAddress.Any; // 0.0.0.0 — 로컬/EC2 모두 동작
-            IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
+            bool benchmark = args.Length == 1 && args[0] == "--qa-benchmark";
+            if (benchmark)
+                Server.Session.AccountManager.Instance.UseBenchmarkKey(BenchmarkDatabase.Activate());
+            IPEndPoint endPoint = benchmark ? new IPEndPoint(IPAddress.Loopback, 17777) : new IPEndPoint(IPAddress.Any, 7777);
             string thumbprint = Environment.GetEnvironmentVariable("ECHODIA_TLS_CERT_THUMBPRINT");
             if (string.IsNullOrWhiteSpace(thumbprint))
                 throw new InvalidOperationException("The service requires ECHODIA_TLS_CERT_THUMBPRINT.");

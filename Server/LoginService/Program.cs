@@ -6,7 +6,9 @@ using Google.Protobuf.Protocol;
 using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Server.Authentication;
 
-var builder = WebApplication.CreateSlimBuilder(args);
+bool benchmark = args.Length == 1 && args[0] == "--qa-benchmark";
+if (benchmark) Server.DB.BenchmarkDatabase.Activate();
+var builder = WebApplication.CreateSlimBuilder(benchmark ? Array.Empty<string>() : args);
 builder.Services.AddWindowsService(options => options.ServiceName = "EchodiaLogin");
 if (string.IsNullOrWhiteSpace(Server.DB.DatabaseConnection.Configured()))
     throw new InvalidOperationException("Configure the login database connection.");
