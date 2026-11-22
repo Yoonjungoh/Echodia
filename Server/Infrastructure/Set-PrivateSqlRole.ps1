@@ -7,6 +7,7 @@ param(
     [Parameter(Mandatory)][ValidatePattern('^[A-Fa-f0-9]{64}$')][string]$EnvelopeSha256
 )
 $ErrorActionPreference = 'Stop'
+$EnvelopeFile=(Get-Item -LiteralPath $EnvelopeFile).FullName
 if ((Get-FileHash -LiteralPath $EnvelopeFile).Hash -ne $EnvelopeSha256) { throw 'The encrypted envelope differs from its service host.' }
 if (!(Get-NetIPAddress -IPAddress $DatabaseIp.IPAddressToString -AddressFamily IPv4 -ErrorAction SilentlyContinue)) { throw 'Expected database host private IP on this machine.' }
 $name = "Echodia$($Role)Runtime"
