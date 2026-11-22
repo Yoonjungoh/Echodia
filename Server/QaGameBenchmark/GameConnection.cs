@@ -107,7 +107,12 @@ internal sealed class GameConnection(X509Certificate2? testRoot = null) : IAsync
 
     async Task<T> Expect<T>(CancellationToken ct) where T : class, IMessage
     {
-        var reply = await replies.Reader.ReadAsync(ct);
+        IMessage reply;
+        try { reply = await replies.Reader.ReadAsync(ct); }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            throw new MissingReplyException(typeof(T).Name, ct);
+        }
         return reply as T ?? throw new ScenarioError("UnexpectedReply_" + reply.Descriptor.Name);
     }
 

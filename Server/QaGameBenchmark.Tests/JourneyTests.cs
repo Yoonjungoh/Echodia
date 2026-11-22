@@ -54,6 +54,7 @@ public class JourneyTests
         Assert.Empty(run.Waves);
         Assert.Equal("Timeout", run.Warmup.Single().Outcome);
         Assert.Equal("initialInventory", run.Warmup.Single().FailedStage);
+        Assert.Equal("S_UpdateCurrencyDataAll", run.Warmup.Single().Stages["initialInventory"].MissingReply);
     }
 
     // Only a loopback listener, with a per-test CA trusted inside this test instance.

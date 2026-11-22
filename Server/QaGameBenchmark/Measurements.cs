@@ -7,7 +7,11 @@ namespace QaGameBenchmark;
 
 internal record FixtureUser([property: System.Text.Json.Serialization.JsonPropertyName("account")] string Id, string Password, string Character);
 internal record Fixture(FixtureUser[] Accounts);
-internal record Sample(double StartMs, double DurationMs, string Outcome)
+internal sealed class MissingReplyException(string messageName, CancellationToken token) : OperationCanceledException(token)
+{
+    public string MessageName { get; } = messageName;
+}
+internal record Sample(double StartMs, double DurationMs, string Outcome, string? MissingReply = null)
 {
     internal double EndMs => StartMs + DurationMs;
 }
@@ -26,15 +30,17 @@ internal sealed class Attempt
         deadline.CancelAfter(TimeSpan.FromSeconds(12));
         double start = Now;
         string outcome = "Success";
+        string? missingReply = null;
         try { await action(deadline.Token); }
         catch (Exception error)
         {
             outcome = Code(error, runToken);
+            missingReply = (error as MissingReplyException)?.MessageName;
             Outcome = outcome;
             FailedStage = name;
             throw;
         }
-        finally { Stages.Add(name, new Sample(start, Now - start, outcome)); }
+        finally { Stages.Add(name, new Sample(start, Now - start, outcome, missingReply)); }
     }
 
     internal static string Code(Exception e, CancellationToken token) => e switch
