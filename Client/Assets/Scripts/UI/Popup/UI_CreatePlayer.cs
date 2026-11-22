@@ -13,30 +13,30 @@ public class UI_CreatePlayer : UI_Popup
         CancelButton,
     }
 
-    enum Texts
+    enum InputFields
     {
-        PlayerNameText,
+        PlayerNameInputField,
     }
 
-    private TextMeshProUGUI _playerNameText;
+    private TMP_InputField _nameInputField;
 
     public override void Init()
     {
         base.Init();
         Bind<Button>(typeof(Buttons));
-        Bind<TextMeshProUGUI>(typeof(Texts));
+        Bind<TMP_InputField>(typeof(InputFields));
 
         GetButton((int)Buttons.ConfirmButton).onClick.AddListener(OnClickConfirmButton);
         GetButton((int)Buttons.CancelButton).onClick.AddListener(OnClickCancelButton);
 
-        _playerNameText = GetTextMeshProUGUI((int)Texts.PlayerNameText);
+        _nameInputField = Get<TMP_InputField>((int)InputFields.PlayerNameInputField);
     }
 
     private void OnClickConfirmButton()
     {
         // 서버에 방 생성 패킷 전송
         C_CreatePlayer createPlayerPacket = new C_CreatePlayer();
-        createPlayerPacket.Name = _playerNameText.text;
+        createPlayerPacket.Name = _nameInputField.text;
         Managers.Network.Send(createPlayerPacket);
         
         ClosePopupUI();
