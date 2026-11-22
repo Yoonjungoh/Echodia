@@ -46,7 +46,13 @@ try {
     $signal = @{Status='FAILURE'; Reason='Windows bootstrap failed'; UniqueId='host'; Data=''}
 }
 $body = $signal | ConvertTo-Json -Compress
-Invoke-WebRequest -UseBasicParsing -Method Put -Uri $signalUrl -ContentType '' -Body $body | Out-Null
+Add-Type -AssemblyName System.Net.Http
+$http = New-Object Net.Http.HttpClient
+$content = New-Object Net.Http.ByteArrayContent(,[Text.Encoding]::UTF8.GetBytes($body))
+try {
+    $response = $http.PutAsync([Uri]$signalUrl, $content).GetAwaiter().GetResult()
+    if (!$response.IsSuccessStatusCode) { throw ('AWS provisioning signal HTTP ' + [int]$response.StatusCode) }
+} finally { $content.Dispose(); $http.Dispose() }
 </powershell>"""
 
 
