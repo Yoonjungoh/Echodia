@@ -26,21 +26,10 @@ namespace Server.Game
         }
 
         // 로그인 시 DB에서 재화 목록을 로드해 인메모리 동기화
-        public void Load()
+        internal void Load(PlayerDb playerDb)
         {
             _currencies.Clear();
             _dirtyCurrencies.Clear();
-
-            if (_owner.PlayerId == 0)
-                return;
-
-            using GameDbContext db = new GameDbContext();
-            PlayerDb playerDb = db.Players
-                .AsNoTracking()
-                .FirstOrDefault(p => p.PlayerDbId == _owner.PlayerId);
-
-            if (playerDb == null)
-                return;
 
             // DbTransaction의 expression tree 캐시를 활용해 PlayerDb 속성을 자동으로 로드
             // 명명 규칙: CurrencyType 이름 == PlayerDb 속성 이름
@@ -74,20 +63,26 @@ namespace Server.Game
             _dirtyCurrencies.Add(currencyType);
         }
 
-        // 로그아웃 시 호출 - 변경 사항을 DB에 일괄 저장
-        public void SaveDirtyCurrencies()
+        internal bool HasChanges => _dirtyCurrencies.Count != 0;
+
+        internal void Snapshot(Dictionary<CurrencyType, int> target)
         {
-            if (_dirtyCurrencies.Count == 0)
-                return;
+            foreach (CurrencyType type in _dirtyCurrencies)
+                target.Add(type, Get(type));
+        }
 
-            // 메모리에서 변경된 재화들만 골라내어, 현재의 최신 값과 묶어서 리스트로 만드는 작업
-            List<(CurrencyType, int)> toSave = _dirtyCurrencies
-                .Select(ct => (ct, _currencies.TryGetValue(ct, out int v) ? v : 0))
-                .ToList();
+        internal void Acknowledge(CurrencyType type, int persisted)
+        {
+            if (Get(type) == persisted)
+                _dirtyCurrencies.Remove(type);
+        }
 
-            _dirtyCurrencies.Clear();
-
-            DbTransaction.SavePlayerCurrenciesAsync(_owner, toSave);
+        internal void SetCommitted(CurrencyType type, int amount)
+        {
+            _currencies[type] = amount;
+            _dirtyCurrencies.Remove(type);
+            if (type == CurrencyType.Exp) _owner.Exp = amount;
+            if (type == CurrencyType.Level) _owner.Level = amount;
         }
     }
 }

@@ -20,6 +20,7 @@ namespace Server.Game
 
         // 맵 이동 시 일회성 스폰 좌표 (null이면 마지막 로그아웃 위치 사용)
         public Vector3? PendingTransferPosition { get; set; } = null;
+        internal PlayerEconomy Economy { get; } = new();
         public QuestTracker QuestTracker { get; private set; }
         public CooldownTracker CooldownTracker { get; private set; }
         public InventoryTracker InventoryTracker { get; private set; }
@@ -67,10 +68,8 @@ namespace Server.Game
             SkillExecutor = new SkillExecutor(this);
 
             InventoryTracker = new InventoryTracker(this);
-            InventoryTracker.Load();
-
             CurrencyTracker = new CurrencyTracker(this);
-            CurrencyTracker.Load();
+            Economy.Load(this);
         }
 
         public void InitDbData()
@@ -557,17 +556,16 @@ namespace Server.Game
 
         // 주기적 자동저장 + 로그아웃 공통 - dirty 마킹된 재화/아이템/퀘스트 진행도를 DB에 플러시
         // 즉시 저장이 필요한 데이터(퀘스트 완료 상태, 스탯)는 각 이벤트에서 별도 처리
-        public void FlushDirtyState()
+        public void FlushDirtyState(bool leaving = false)
         {
             QuestTracker.SaveDirtyQuests();
-            InventoryTracker.SaveDirtyItems();
-            CurrencyTracker.SaveDirtyCurrencies();
+            Economy.Flush(this, leaving);
         }
 
         public void OnLeaveGame()
         {
             // 파티는 오프라인 상태에서도 유지 (재접속 시 OnPlayerEnterGame에서 복원)
-            FlushDirtyState();
+            FlushDirtyState(leaving: true);
             DbTransaction.SavePlayerStatsAsync(this);
         }
 

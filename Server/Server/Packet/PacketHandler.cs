@@ -1,4 +1,4 @@
-﻿using Google.Protobuf;
+using Google.Protobuf;
 using Google.Protobuf.Protocol;
 using Server;
 using Server.DB;
@@ -253,7 +253,8 @@ class PacketHandler
         if (clientSession == null)
             return;
 
-        clientSession?.MyPlayer?.HandleUseItem(useItemPacket.ItemType, useItemPacket.SlotIndex);
+        var player = clientSession.MyPlayer;
+        player?.GameRoom?.Push(player.HandleUseItem, useItemPacket.ItemType, useItemPacket.SlotIndex);
     }
 
     public static void C_PickUpDropItemHandler(PacketSession session, IMessage packet)
@@ -286,7 +287,8 @@ class PacketHandler
         if (clientSession == null)
             return;
 
-        clientSession?.MyPlayer?.HandleEquipItem(equipItemPacket.SlotIndex);
+        var player = clientSession.MyPlayer;
+        player?.GameRoom?.Push(player.HandleEquipItem, equipItemPacket.SlotIndex);
     }
 
     public static void C_UnequipItemHandler(PacketSession session, IMessage packet)
@@ -296,7 +298,8 @@ class PacketHandler
         if (clientSession == null)
             return;
 
-        clientSession?.MyPlayer?.HandleUnEquipItem(unEquipItemPacket.SlotType);
+        var player = clientSession.MyPlayer;
+        player?.GameRoom?.Push(player.HandleUnEquipItem, unEquipItemPacket.SlotType);
     }
 
     public static void C_MoveItemHandler(PacketSession session, IMessage packet)
@@ -308,7 +311,7 @@ class PacketHandler
         if (player == null)
             return;
 
-        player.HandleMoveItem(moveItemPacket.FromSlotIndex, moveItemPacket.ToSlotIndex, moveItemPacket.ItemType);
+        player.GameRoom?.Push(player.HandleMoveItem, moveItemPacket.FromSlotIndex, moveItemPacket.ToSlotIndex, moveItemPacket.ItemType);
     }
 
     public static void C_RequestMapTransferHandler(PacketSession session, IMessage packet)

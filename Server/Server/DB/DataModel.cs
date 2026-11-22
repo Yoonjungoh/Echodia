@@ -1,4 +1,4 @@
-﻿using Google.Protobuf.Protocol;
+using Google.Protobuf.Protocol;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -40,6 +40,7 @@ namespace Server.DB
             Level = 1;
         }
         public int PlayerDbId { get; set; } // 게임 내에서 사용하는 고유 Id (ObjectManager에서 사용하는 Id는 다른 거임)
+        public long EconomyRevision { get; set; }
         [ForeignKey("Account")]
         public int AccountDbId { get; set; }  // FK 컬럼
         public AccountDb Account { get; set; }
@@ -102,6 +103,8 @@ namespace Server.DB
     [Table("PlayerItem")]
     public class PlayerItemDb
     {
+        internal PlayerItemDb Snapshot() => (PlayerItemDb)MemberwiseClone();
+
         public int PlayerItemDbId { get; set; }
         public int PlayerDbId { get; set; } // FK
         public int ItemId { get; set; }  // Template ID (기획 데이터 ID)

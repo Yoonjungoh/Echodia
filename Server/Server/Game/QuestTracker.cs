@@ -25,6 +25,12 @@ namespace Server.Game
         // 메모리에서만 변경되고 DB에 아직 반영 안 된 퀘스트 ID 목록 (로그아웃 시 일괄 저장)
         private readonly HashSet<int> _dirtyQuestIds = new();
 
+        private readonly HashSet<(int, int)> _claimable = new();
+
+        internal bool IsClaimable(int mainId, int subId) => _claimable.Contains((mainId, subId));
+        internal void Completed(int mainId, int subId) => _claimable.Add((mainId, subId));
+        internal void Claimed(int mainId, int subId) => _claimable.Remove((mainId, subId));
+
         public QuestTracker(Player owner)
         {
             _owner = owner;
@@ -33,6 +39,7 @@ namespace Server.Game
         // 로그인 시 진행 중인 킬 퀘스트를 메모리에 로드하고 옵저버 인덱스 구성
         public void Load()
         {
+            _claimable.Clear();
             _killQuestByTargetId.Clear();
             _dirtyQuestIds.Clear();
 
@@ -52,6 +59,7 @@ namespace Server.Game
 
             foreach (QuestDb quest in playerDb.Quests)
             {
+                if (quest.Status == QuestStatus.Completed) Completed(quest.MainQuestId, quest.SubQuestId);
                 if (quest.Status != QuestStatus.Proceeding)
                     continue;
 
