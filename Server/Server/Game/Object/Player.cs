@@ -47,17 +47,18 @@ namespace Server.Game
             AOI = new AOIController(this);
             StatCalculator = new PlayerStatCalculator(this);
 
-            InitDbData();
+            InventoryTracker = new InventoryTracker(this);
+            CurrencyTracker = new CurrencyTracker(this);
         }
 
-        public void Init(int playerId, string name)
+        public void Init(int playerId, string name, int accountId)
         {
             ObjectType = GameObjectType.Player;
             Name = name;
             PlayerId = playerId;
             ObjectState.CreatureState = CreatureState.Idle;
 
-            InitDbData();
+            InitDbData(accountId);
 
             QuestTracker = new QuestTracker(this);
             QuestTracker.Load();
@@ -67,24 +68,17 @@ namespace Server.Game
 
             SkillExecutor = new SkillExecutor(this);
 
-            InventoryTracker = new InventoryTracker(this);
-            CurrencyTracker = new CurrencyTracker(this);
-            Economy.Load(this);
+            Economy.Load(this, accountId);
         }
 
-        public void InitDbData()
+        private void InitDbData(int accountId)
         {
             if (ObjectState.Stat == null)
                 ObjectState.Stat = new Stat();
 
             using (GameDbContext db = new GameDbContext())
             {
-                PlayerDb player = db.Players
-                    .Where(p => p.PlayerDbId == PlayerId)
-                    .FirstOrDefault();
-
-                if (player == null)
-                    return;
+                PlayerDb player = db.OwnedPlayer(accountId, PlayerId).Single();
 
                 Level = player.Level;
                 Exp = player.Exp;
@@ -556,16 +550,16 @@ namespace Server.Game
 
         // 주기적 자동저장 + 로그아웃 공통 - dirty 마킹된 재화/아이템/퀘스트 진행도를 DB에 플러시
         // 즉시 저장이 필요한 데이터(퀘스트 완료 상태, 스탯)는 각 이벤트에서 별도 처리
-        public void FlushDirtyState(bool leaving = false)
+        public void FlushDirtyState()
         {
             QuestTracker.SaveDirtyQuests();
-            Economy.Flush(this, leaving);
+            Economy.Flush(this);
         }
 
         public void OnLeaveGame()
         {
             // 파티는 오프라인 상태에서도 유지 (재접속 시 OnPlayerEnterGame에서 복원)
-            FlushDirtyState(leaving: true);
+            FlushDirtyState();
             DbTransaction.SavePlayerStatsAsync(this);
         }
 

@@ -78,43 +78,26 @@ namespace Server
             var room = player?.GameRoom;
             var objective = SpecDataManager.Instance.GetQuestObjectiveDefinition(mainQuestId, subQuestId);
             if (room == null || objective == null) return;
-            room.Push(() =>
+            player.Economy.EnqueueClient(player, () =>
             {
-                if (player.GameRoom != room || player.Session?.MyPlayer != player || !player.Session.IsConnected)
-                    return;
-                if (!player.QuestTracker.IsClaimable(mainQuestId, subQuestId) || !player.Economy.FinishPending(player, wait: true)) return;
+                if (!player.QuestTracker.IsClaimable(mainQuestId, subQuestId)) return;
                 var batch = player.Economy.Capture(player);
                 var grant = new QuestGrant(mainQuestId, subQuestId);
                 if (!PlanReward(player, batch, grant, objective)) return;
                 AddNextQuests(grant);
-                using var db = new GameDbContext();
-                var outcome = batch.Save(db, grant);
-                if (outcome != EconomyWrite.Saved)
+                player.Economy.Submit(player, batch, grant, () =>
                 {
-                    player.Economy.Acknowledge(player, batch, outcome);
-                    return;
-                }
-
-                // The database commit is the acknowledgement boundary. Lost replies are
-                // recovered by the normal character/quest reload on the next connection.
-                player.QuestTracker.Claimed(mainQuestId, subQuestId);
-                foreach (var (key, item) in grant.AwardedSlots)
-                {
-                    item.Count = batch.Items[item].Count;
-                    player.Items[key] = item;
-                }
-                foreach (var (type, balance) in grant.Balances)
-                    player.CurrencyTracker.SetCommitted(type, balance);
-                player.Economy.Acknowledge(player, batch, outcome);
-
-                foreach (var item in grant.AwardedSlots.Values)
-                    player.Session.Send(new S_UpdateItemData { ItemInfo = item.ToItemInfo() });
-                foreach (var (type, balance) in grant.Balances)
-                    player.Session.Send(new S_UpdateCurrencyData { CurrencyType = type, Amount = balance });
-                player.Session.Send(new S_ChangeQuestStatus
-                {
-                    MainQuestId = mainQuestId, SubQuestId = subQuestId, QuestStatus = QuestStatus.RewardClaimed
-                });
+                    player.QuestTracker.Claimed(mainQuestId, subQuestId);
+                    if (!player.Session.IsConnected) return;
+                    foreach (var item in grant.AwardedSlots.Values)
+                        player.Session.Send(new S_UpdateItemData { ItemInfo = item.ToItemInfo() });
+                    foreach (var (type, balance) in grant.Balances)
+                        player.Session.Send(new S_UpdateCurrencyData { CurrencyType = type, Amount = balance });
+                    player.Session.Send(new S_ChangeQuestStatus
+                    {
+                        MainQuestId = mainQuestId, SubQuestId = subQuestId, QuestStatus = QuestStatus.RewardClaimed
+                    });
+            });
                 var response = new S_GiveReward();
                 for (int i = 0; i < objective.RewardIdList.Count; i++)
                     response.RewardItemList.Add(new RewardItem { RewardId = objective.RewardIdList[i], RewardAmount = objective.RewardAmountList[i] });

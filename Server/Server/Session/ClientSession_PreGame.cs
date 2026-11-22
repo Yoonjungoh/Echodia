@@ -116,7 +116,7 @@ namespace Server
                 var player = ObjectManager.Instance.Add<Player>();
                 try
                 {
-                    player.Init(character.PlayerDbId, character.Name);
+                    player.Init(character.PlayerDbId, character.Name, AccountId);
                     player.Session = this;
                     MyPlayer = player;
                     CheckAndAssignInitialQuest();
@@ -128,6 +128,19 @@ namespace Server
                     throw;
                 }
 
+                QueueRoomEntry(room, player);
+            }
+        }
+
+        internal void QueueRoomEntry(GameRoom room, Player player)
+        {
+            lock (_lock)
+            {
+                if (_loginClosed)
+                {
+                    ObjectManager.Instance.Remove(player.Id);
+                    return;
+                }
                 _pendingEntryRoom = room;
                 room.Push(() =>
                 {

@@ -24,15 +24,11 @@ namespace Server
 
             foreach ((Player player, int exp, int gold) in shares)
             {
-                if (exp > 0)
+                player.Economy.RunInRoom(player, room, () =>
                 {
-                    GrantExp(player, exp);
-                }
-
-                if (gold > 0)
-                {
-                    GrantGold(player, gold);
-                }
+                    if (exp > 0) GrantExp(player, exp);
+                    if (gold > 0) GrantGold(player, gold);
+                });
             }
 
             // 퀘스트 크레딧은 보상 받은 플레이어 전체에게 동일하게 적용

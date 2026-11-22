@@ -134,76 +134,70 @@ namespace Server
             });
         }
 
+        public void QueueEconomyRead(Action action)
+        {
+            var player = MyPlayer;
+            player?.Economy.EnqueueClient(player, action);
+        }
+
         public void HandleRequestInitGameRoomData()
         {
             lock (_lock)
             {
                 if (_loginClosed || MyPlayer == null)
                     return;
-                using (GameDbContext db = new GameDbContext())
+                var player = MyPlayer;
+                // 레벨/경험치 초기 데이터
+                S_RequestInitGameRoomData initGameRoomDataPacket = new S_RequestInitGameRoomData();
+                initGameRoomDataPacket.InitGameRoomData = new InitGameRoomData()
                 {
-                    PlayerDb player = db.OwnedPlayer(AccountId, MyPlayer.PlayerId)
-                        .AsNoTracking()
-                        .SingleOrDefault();
+                    Level = player.Level,
+                    Exp = player.Exp,
+                    MaxExp = SpecDataManager.Instance.GetExpRequiredForLevel(player.Level),
+                };
+                Send(initGameRoomDataPacket);
 
-                    if (player == null)
+                // 전체 인벤토리 + 장착 아이템 전송
+                if (MyPlayer?.Items != null)
+                {
+                    S_UpdateItemDataAll itemDataAllPacket = new S_UpdateItemDataAll();
+                    foreach (PlayerItemDb item in MyPlayer.Items.Values)
                     {
-                        ConsoleLogManager.Instance.Log($"[Error] 캐릭터 정보를 찾을 수 없음. SessionId: {SessionId}");
-                        return;
+                        itemDataAllPacket.ItemInfoList.Add(new ItemInfo
+                        {
+                            ItemId = item.ItemId,
+                            Count = item.Count,
+                            SlotIndex = item.SlotIndex,
+                            IsEquipped = item.IsEquipped,
+                            EnchantLevel = item.EnchantLevel,
+                        });
                     }
-
-                    // 레벨/경험치 초기 데이터
-                    S_RequestInitGameRoomData initGameRoomDataPacket = new S_RequestInitGameRoomData();
-                    initGameRoomDataPacket.InitGameRoomData = new InitGameRoomData()
+                    foreach (PlayerItemDb item in MyPlayer.EquippedItems.Values)
                     {
-                        Level = player.Level,
-                        Exp = player.Exp,
-                        MaxExp = SpecDataManager.Instance.GetExpRequiredForLevel(player.Level),
+                        itemDataAllPacket.ItemInfoList.Add(new ItemInfo
+                        {
+                            ItemId = item.ItemId,
+                            Count = item.Count,
+                            SlotIndex = item.SlotIndex,
+                            IsEquipped = item.IsEquipped,
+                            EnchantLevel = item.EnchantLevel,
+                        });
+                    }
+                    Send(itemDataAllPacket);
+                }
+
+                // 전체 재화 전송 (CurrencyTracker 인메모리 데이터 활용, DB 접근 없음)
+                if (MyPlayer?.CurrencyTracker != null)
+                {
+                    S_UpdateCurrencyDataAll currencyDataAllPacket = new S_UpdateCurrencyDataAll();
+                    currencyDataAllPacket.CurrencyData = new CurrencyData()
+                    {
+                        Jewel = MyPlayer.CurrencyTracker.Get(CurrencyType.Jewel),
+                        Gold  = MyPlayer.CurrencyTracker.Get(CurrencyType.Gold),
+                        Exp   = MyPlayer.CurrencyTracker.Get(CurrencyType.Exp),
+                        Level = MyPlayer.CurrencyTracker.Get(CurrencyType.Level),
                     };
-                    Send(initGameRoomDataPacket);
-
-                    // 전체 인벤토리 + 장착 아이템 전송
-                    if (MyPlayer?.Items != null)
-                    {
-                        S_UpdateItemDataAll itemDataAllPacket = new S_UpdateItemDataAll();
-                        foreach (PlayerItemDb item in MyPlayer.Items.Values)
-                        {
-                            itemDataAllPacket.ItemInfoList.Add(new ItemInfo
-                            {
-                                ItemId = item.ItemId,
-                                Count = item.Count,
-                                SlotIndex = item.SlotIndex,
-                                IsEquipped = item.IsEquipped,
-                                EnchantLevel = item.EnchantLevel,
-                            });
-                        }
-                        foreach (PlayerItemDb item in MyPlayer.EquippedItems.Values)
-                        {
-                            itemDataAllPacket.ItemInfoList.Add(new ItemInfo
-                            {
-                                ItemId = item.ItemId,
-                                Count = item.Count,
-                                SlotIndex = item.SlotIndex,
-                                IsEquipped = item.IsEquipped,
-                                EnchantLevel = item.EnchantLevel,
-                            });
-                        }
-                        Send(itemDataAllPacket);
-                    }
-
-                    // 전체 재화 전송 (CurrencyTracker 인메모리 데이터 활용, DB 접근 없음)
-                    if (MyPlayer?.CurrencyTracker != null)
-                    {
-                        S_UpdateCurrencyDataAll currencyDataAllPacket = new S_UpdateCurrencyDataAll();
-                        currencyDataAllPacket.CurrencyData = new CurrencyData()
-                        {
-                            Jewel = MyPlayer.CurrencyTracker.Get(CurrencyType.Jewel),
-                            Gold  = MyPlayer.CurrencyTracker.Get(CurrencyType.Gold),
-                            Exp   = MyPlayer.CurrencyTracker.Get(CurrencyType.Exp),
-                            Level = MyPlayer.CurrencyTracker.Get(CurrencyType.Level),
-                        };
-                        Send(currencyDataAllPacket);
-                    }
+                    Send(currencyDataAllPacket);
                 }
             }
         }

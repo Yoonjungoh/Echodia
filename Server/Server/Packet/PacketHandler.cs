@@ -150,7 +150,7 @@ class PacketHandler
         if (clientSession == null)
             return;
 
-        clientSession.HandleUpdateCurrencyDataAll();
+        clientSession.QueueEconomyRead(clientSession.HandleUpdateCurrencyDataAll);
     }
 
     public static void C_UpdateCurrencyDataHandler(PacketSession session, IMessage packet)
@@ -161,7 +161,7 @@ class PacketHandler
         if (clientSession == null)
             return;
 
-        clientSession.HandleUpdateCurrencyData(updateCurrencyDataPacket.CurrencyType);
+        clientSession.QueueEconomyRead(() => clientSession.HandleUpdateCurrencyData(updateCurrencyDataPacket.CurrencyType));
     }
 
     public static void C_RequestServerSummaryListHandler(PacketSession session, IMessage packet)
@@ -213,7 +213,7 @@ class PacketHandler
         if (clientSession == null)
             return;
 
-        clientSession.HandleRequestInitGameRoomData();
+        clientSession.QueueEconomyRead(clientSession.HandleRequestInitGameRoomData);
     }
 
     public static void C_RequestQuestDataHandler(PacketSession session, IMessage packet)
@@ -254,7 +254,7 @@ class PacketHandler
             return;
 
         var player = clientSession.MyPlayer;
-        player?.GameRoom?.Push(player.HandleUseItem, useItemPacket.ItemType, useItemPacket.SlotIndex);
+        player?.Economy.EnqueueClient(player, () => player.HandleUseItem(useItemPacket.ItemType, useItemPacket.SlotIndex));
     }
 
     public static void C_PickUpDropItemHandler(PacketSession session, IMessage packet)
@@ -268,7 +268,7 @@ class PacketHandler
         if (player?.GameRoom == null)
             return;
 
-        player.GameRoom.Push(player.HandlePickUpDropItem, pickUpDropItemPacket.ItemId);
+        player.Economy.EnqueueClient(player, () => player.HandlePickUpDropItem(pickUpDropItemPacket.ItemId));
     }
 
     public static void C_PongHandler(PacketSession session, IMessage packet)
@@ -288,7 +288,7 @@ class PacketHandler
             return;
 
         var player = clientSession.MyPlayer;
-        player?.GameRoom?.Push(player.HandleEquipItem, equipItemPacket.SlotIndex);
+        player?.Economy.EnqueueClient(player, () => player.HandleEquipItem(equipItemPacket.SlotIndex));
     }
 
     public static void C_UnequipItemHandler(PacketSession session, IMessage packet)
@@ -299,7 +299,7 @@ class PacketHandler
             return;
 
         var player = clientSession.MyPlayer;
-        player?.GameRoom?.Push(player.HandleUnEquipItem, unEquipItemPacket.SlotType);
+        player?.Economy.EnqueueClient(player, () => player.HandleUnEquipItem(unEquipItemPacket.SlotType));
     }
 
     public static void C_MoveItemHandler(PacketSession session, IMessage packet)
@@ -311,7 +311,7 @@ class PacketHandler
         if (player == null)
             return;
 
-        player.GameRoom?.Push(player.HandleMoveItem, moveItemPacket.FromSlotIndex, moveItemPacket.ToSlotIndex, moveItemPacket.ItemType);
+        player.Economy.EnqueueClient(player, () => player.HandleMoveItem(moveItemPacket.FromSlotIndex, moveItemPacket.ToSlotIndex, moveItemPacket.ItemType));
     }
 
     public static void C_RequestMapTransferHandler(PacketSession session, IMessage packet)
@@ -369,7 +369,7 @@ class PacketHandler
         if (player == null || player.GameRoom == null)
             return;
 
-        player.GameRoom.Push(player.GameRoom.HandleUseSkill, player.Id, useSkillPacket.SkillId);
+        player.Economy.EnqueueClient(player, () => player.GameRoom.HandleUseSkill(player.Id, useSkillPacket.SkillId));
     }
 
     public static void C_StopChannelHandler(PacketSession session, IMessage packet)
@@ -381,10 +381,8 @@ class PacketHandler
         if (player == null || player.GameRoom == null)
             return;
 
-        player.GameRoom.Push(() =>
-        {
-            player.SkillExecutor.StopChannel(stopChannelPacket.SkillId, stopChannelPacket.ElapsedMs);
-        });
+        player.Economy.EnqueueClient(player,
+            () => player.SkillExecutor.StopChannel(stopChannelPacket.SkillId, stopChannelPacket.ElapsedMs));
     }
 
     // ─────────────────────────────────────────

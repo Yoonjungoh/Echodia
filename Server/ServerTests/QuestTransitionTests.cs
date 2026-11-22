@@ -2,6 +2,10 @@ using Google.Protobuf.Protocol;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Server.DB;
+using Server.Game;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Server.Migrations;
 
 namespace ServerTests;
 
@@ -154,6 +158,143 @@ public class QuestTransitionTests
         Assert.False(Server.QuestManager.AllocateItems(bag, new HashSet<(ItemType, int)> { key }, batch, grant, meta, 1, 1));
         Assert.Empty(batch.Items);
         Assert.Equal(2, existing.Count);
+    }
+
+    [LocalDbFact]
+    public void RoomContinuesWhileClaimIsPendingAndFinalSaveFollowsQueuedMutation()
+    {
+        using var seed = new QuestTestDatabase();
+        seed.Database.EnsureCreated();
+        try
+        {
+            var row = new PlayerDb { Name = "ordered", Gold = 100, Account = new AccountDb { AccountId = "ordered" } };
+            row.Quests.Add(new QuestDb { MainQuestId = 1, SubQuestId = 1, Status = QuestStatus.Completed });
+            seed.Add(row);
+            seed.SaveChanges();
+            var room = new GameRoom(1, 1, 1);
+            var player = new Player { PlayerId = row.PlayerDbId, GameRoom = room };
+            var economy = new PlayerEconomy(seed.OpenAnotherContext);
+            Assert.Throws<InvalidOperationException>(() => economy.Load(player, row.AccountDbId + 1));
+            economy.Load(player, row.AccountDbId);
+            var batch = economy.Capture(player);
+            var grant = new QuestGrant(1, 1);
+            grant.Balances[CurrencyType.Gold] = batch.Currency[CurrencyType.Gold] = 110;
+            var ticks = new List<string>();
+            economy.Submit(player, batch, grant, () => ticks.Add("claim"));
+            economy.RunInRoom(player, room, () =>
+            {
+                player.CurrencyTracker.Set(CurrencyType.Gold, player.CurrencyTracker.Get(CurrencyType.Gold) + 5);
+                ticks.Add("kill");
+            });
+            void Leave()
+            {
+                if (economy.PrepareLeave(player, Leave)) return;
+                player.GameRoom = null;
+                ticks.Add("leave");
+            }
+            Leave();
+            room.Push(() => ticks.Add("other player's movement"));
+            room.Flush();
+            Assert.Equal(new[] { "other player's movement" }, ticks);
+
+            DbTransaction.Instance.Flush();
+            room.Flush();
+            Assert.Equal(115, player.CurrencyTracker.Get(CurrencyType.Gold));
+            Assert.Equal(new[] { "other player's movement", "claim", "kill" }, ticks);
+            economy.RunInRoom(player, room, () => ticks.Add("late command"));
+            DbTransaction.Instance.Flush();
+            room.Flush();
+            Assert.Equal(new[] { "other player's movement", "claim", "kill", "leave" }, ticks);
+
+            using var reconnect = seed.OpenAnotherContext();
+            Assert.Equal(115, reconnect.Players.Single().Gold);
+            Assert.Equal(2, reconnect.Players.Single().EconomyRevision);
+            Assert.Equal(QuestStatus.RewardClaimed, reconnect.Quests.Single().Status);
+        }
+        finally { seed.Database.EnsureDeleted(); }
+    }
+
+    [LocalDbFact]
+    public void FailedClaimPreservesPriorDirtyGoldAndLeavesQuestAvailableAfterReconnect()
+    {
+        using var seed = new QuestTestDatabase();
+        seed.Database.EnsureCreated();
+        try
+        {
+            var row = new PlayerDb { Name = "recovery", Gold = 100, Account = new AccountDb { AccountId = "recovery" } };
+            row.Quests.Add(new QuestDb { MainQuestId = 3, SubQuestId = 1, Status = QuestStatus.Completed });
+            seed.Add(row);
+            seed.SaveChanges();
+            seed.Database.ExecuteSqlRaw("CREATE TRIGGER [FailClaim] ON [Quest] AFTER UPDATE AS THROW 51005, 'Injected claim rollback', 1;");
+            var room = new GameRoom(1, 1, 1);
+            var player = new Player { PlayerId = row.PlayerDbId, GameRoom = room };
+            var economy = new PlayerEconomy(seed.OpenAnotherContext);
+            economy.Load(player, row.AccountDbId);
+            player.CurrencyTracker.Set(CurrencyType.Gold, 105); // earned before the request
+            var batch = economy.Capture(player);
+            var grant = new QuestGrant(3, 1);
+            grant.Balances[CurrencyType.Gold] = batch.Currency[CurrencyType.Gold] = 125;
+            bool confirmed = false;
+            economy.Submit(player, batch, grant, () => confirmed = true);
+            DbTransaction.Instance.Flush();
+            room.Flush();
+            bool left = false;
+            void Leave()
+            {
+                if (!economy.PrepareLeave(player, Leave)) left = true;
+            }
+            Leave();
+            Assert.False(left);
+            Assert.True(SpinWait.SpinUntil(() =>
+            {
+                room.Flush();
+                DbTransaction.Instance.Flush();
+                return left;
+            }, TimeSpan.FromSeconds(8)));
+            Assert.False(confirmed);
+            using var reconnect = seed.OpenAnotherContext();
+            Assert.Equal(105, reconnect.Players.Single().Gold);
+            Assert.Equal(1, reconnect.Players.Single().EconomyRevision);
+            Assert.Equal(QuestStatus.Completed, reconnect.Quests.Single().Status);
+        }
+        finally { seed.Database.EnsureDeleted(); }
+    }
+
+    [LocalDbFact]
+    public void MigrationPreservesLegacyBagRowsAndRefusesDuplicateQuestsBeforeChanges()
+    {
+        using var db = new QuestTestDatabase();
+        db.Database.EnsureCreated();
+        try
+        {
+            var row = new PlayerDb { Name = "legacy", Account = new AccountDb { AccountId = "legacy" } };
+            row.Quests.Add(new QuestDb { MainQuestId = 8, SubQuestId = 1, Status = QuestStatus.RewardClaimed });
+            for (int i = 1; i <= 3; i++) row.Items.Add(new PlayerItemDb { ItemId = 100 + i, Count = i, SlotIndex = 0 });
+            db.Add(row);
+            db.SaveChanges();
+            var migration = new AtomicQuestEconomy { ActiveProvider = "Microsoft.EntityFrameworkCore.SqlServer" };
+            var sql = db.GetService<IMigrationsSqlGenerator>();
+            void Apply(IReadOnlyList<Microsoft.EntityFrameworkCore.Migrations.Operations.MigrationOperation> ops)
+            {
+                using var tx = db.Database.BeginTransaction();
+                foreach (var command in sql.Generate(ops))
+                    db.Database.ExecuteSqlRaw(command.CommandText);
+                tx.Commit();
+            }
+            Apply(migration.DownOperations);
+            var duplicate = new QuestDb { PlayerDbId = row.PlayerDbId, MainQuestId = 8, SubQuestId = 1 };
+            db.Add(duplicate);
+            db.SaveChanges();
+            Assert.Equal(51001, Assert.Throws<SqlException>(() => Apply(migration.UpOperations)).Number);
+            Assert.Equal(2, db.Quests.Count());
+            db.Quests.Where(q => q.QuestDbId == duplicate.QuestDbId).ExecuteDelete();
+            Apply(migration.UpOperations);
+            db.ChangeTracker.Clear();
+            Assert.Equal(0, db.Players.Single().EconomyRevision);
+            Assert.Equal(QuestStatus.RewardClaimed, db.Quests.Single().Status);
+            Assert.Equal(new[] { 1, 2, 3 }, db.PlayerItems.OrderBy(i => i.ItemId).Select(i => i.Count));
+        }
+        finally { db.Database.EnsureDeleted(); }
     }
 
     // Each test owns a new database on the current Windows user's LocalDB instance.
