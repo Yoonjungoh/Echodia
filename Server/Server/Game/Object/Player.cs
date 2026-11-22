@@ -20,7 +20,7 @@ namespace Server.Game
 
         // 맵 이동 시 일회성 스폰 좌표 (null이면 마지막 로그아웃 위치 사용)
         public Vector3? PendingTransferPosition { get; set; } = null;
-        internal PlayerEconomy Economy { get; } = new();
+        internal PlayerEconomy Economy { get; }
         public QuestTracker QuestTracker { get; private set; }
         public CooldownTracker CooldownTracker { get; private set; }
         public InventoryTracker InventoryTracker { get; private set; }
@@ -33,8 +33,11 @@ namespace Server.Game
         public PlayerStatCalculator StatCalculator { get; private set; }
         public float MpRegen { get; private set; }  // 초당 마나 재생량 (서버 내부 전용)
 
-        public Player()
+        public Player() : this(new PlayerEconomy()) { }
+
+        internal Player(PlayerEconomy economy)
         {
+            Economy = economy;
             Init();
         }
 
@@ -47,6 +50,7 @@ namespace Server.Game
             AOI = new AOIController(this);
             StatCalculator = new PlayerStatCalculator(this);
 
+            QuestTracker = new QuestTracker(this);
             InventoryTracker = new InventoryTracker(this);
             CurrencyTracker = new CurrencyTracker(this);
         }
@@ -60,7 +64,6 @@ namespace Server.Game
 
             InitDbData(accountId);
 
-            QuestTracker = new QuestTracker(this);
             QuestTracker.Load();
 
             CooldownTracker = new CooldownTracker(this);
