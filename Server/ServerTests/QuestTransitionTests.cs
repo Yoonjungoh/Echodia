@@ -172,15 +172,23 @@ public class QuestTransitionTests
             seed.Add(row);
             seed.SaveChanges();
             var room = new GameRoom(1, 1, 1);
-            var player = new Player { PlayerId = row.PlayerDbId, GameRoom = room };
             var economy = new PlayerEconomy(seed.OpenAnotherContext);
+            var player = new Player(economy) { PlayerId = row.PlayerDbId, GameRoom = room };
             Assert.Throws<InvalidOperationException>(() => economy.Load(player, row.AccountDbId + 1));
             economy.Load(player, row.AccountDbId);
             var batch = economy.Capture(player);
             var grant = new QuestGrant(1, 1);
             grant.Balances[CurrencyType.Gold] = batch.Currency[CurrencyType.Gold] = 110;
             var ticks = new List<string>();
-            economy.Submit(player, batch, grant, () => ticks.Add("claim"));
+            grant.Next.Add(new NextQuest(1, 2, 9, 0));
+            var messages = new List<Google.Protobuf.IMessage>();
+            var objective = new Server.Data.QuestObjectiveDefinitionMetaData { RewardIdList = new() { 1 }, RewardAmountList = new() { 10 } };
+            Server.QuestManager.SubmitReward(player, batch, grant, objective, message =>
+            {
+                messages.Add(message);
+                if (message is S_GiveReward) ticks.Add("claim");
+            });
+            Assert.Empty(messages);
             economy.RunInRoom(player, room, () =>
             {
                 player.CurrencyTracker.Set(CurrencyType.Gold, player.CurrencyTracker.Get(CurrencyType.Gold) + 5);
@@ -198,7 +206,13 @@ public class QuestTransitionTests
             Assert.Equal(new[] { "other player's movement" }, ticks);
 
             DbTransaction.Instance.Flush();
+            Assert.Empty(messages);
             room.Flush();
+            Assert.Collection(messages,
+                m => Assert.Equal(110, Assert.IsType<S_UpdateCurrencyData>(m).Amount),
+                m => Assert.Equal(QuestStatus.RewardClaimed, Assert.IsType<S_ChangeQuestStatus>(m).QuestStatus),
+                m => Assert.Equal(10, Assert.Single(Assert.IsType<S_GiveReward>(m).RewardItemList).RewardAmount),
+                m => Assert.Equal(2, Assert.IsType<S_CreateQuest>(m).SubQuestId));
             Assert.Equal(115, player.CurrencyTracker.Get(CurrencyType.Gold));
             Assert.Equal(new[] { "other player's movement", "claim", "kill" }, ticks);
             economy.RunInRoom(player, room, () => ticks.Add("late command"));
@@ -209,7 +223,8 @@ public class QuestTransitionTests
             using var reconnect = seed.OpenAnotherContext();
             Assert.Equal(115, reconnect.Players.Single().Gold);
             Assert.Equal(2, reconnect.Players.Single().EconomyRevision);
-            Assert.Equal(QuestStatus.RewardClaimed, reconnect.Quests.Single().Status);
+            Assert.Equal(QuestStatus.RewardClaimed, reconnect.Quests.Single(q => q.SubQuestId == 1).Status);
+            Assert.Equal(QuestStatus.NotAccepted, reconnect.Quests.Single(q => q.SubQuestId == 2).Status);
         }
         finally { seed.Database.EnsureDeleted(); }
     }
@@ -227,15 +242,18 @@ public class QuestTransitionTests
             seed.SaveChanges();
             seed.Database.ExecuteSqlRaw("CREATE TRIGGER [FailClaim] ON [Quest] AFTER UPDATE AS THROW 51005, 'Injected claim rollback', 1;");
             var room = new GameRoom(1, 1, 1);
-            var player = new Player { PlayerId = row.PlayerDbId, GameRoom = room };
             var economy = new PlayerEconomy(seed.OpenAnotherContext);
+            var player = new Player(economy) { PlayerId = row.PlayerDbId, GameRoom = room };
             economy.Load(player, row.AccountDbId);
             player.CurrencyTracker.Set(CurrencyType.Gold, 105); // earned before the request
             var batch = economy.Capture(player);
             var grant = new QuestGrant(3, 1);
             grant.Balances[CurrencyType.Gold] = batch.Currency[CurrencyType.Gold] = 125;
-            bool confirmed = false;
-            economy.Submit(player, batch, grant, () => confirmed = true);
+            grant.Next.Add(new NextQuest(3, 2, 9, 0));
+            var messages = new List<Google.Protobuf.IMessage>();
+            var objective = new Server.Data.QuestObjectiveDefinitionMetaData { RewardIdList = new() { 1 }, RewardAmountList = new() { 20 } };
+            Server.QuestManager.SubmitReward(player, batch, grant, objective, messages.Add);
+            Assert.Empty(messages);
             DbTransaction.Instance.Flush();
             room.Flush();
             bool left = false;
@@ -251,7 +269,7 @@ public class QuestTransitionTests
                 DbTransaction.Instance.Flush();
                 return left;
             }, TimeSpan.FromSeconds(8)));
-            Assert.False(confirmed);
+            Assert.Empty(messages);
             using var reconnect = seed.OpenAnotherContext();
             Assert.Equal(105, reconnect.Players.Single().Gold);
             Assert.Equal(1, reconnect.Players.Single().EconomyRevision);
