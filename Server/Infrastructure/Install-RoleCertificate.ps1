@@ -4,6 +4,8 @@ param([Parameter(Mandatory)][string]$LeafFile,[Parameter(Mandatory)][string]$Iss
       [Parameter(Mandatory)][ValidatePattern('^[A-Fa-f0-9]{64}$')][string]$LeafSha256,
       [string]$PrivateKeyReader)
 $ErrorActionPreference='Stop'
+$LeafFile=(Get-Item -LiteralPath $LeafFile).FullName
+$IssuerFile=(Get-Item -LiteralPath $IssuerFile).FullName
 foreach($pair in @(@($LeafFile,$LeafSha256),@($IssuerFile,$IssuerSha256))){
     if((Get-FileHash -LiteralPath $pair[0]).Hash -ne $pair[1]){throw 'PKI public file verification failed'}
 }

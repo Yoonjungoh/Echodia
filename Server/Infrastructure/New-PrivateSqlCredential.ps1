@@ -9,6 +9,8 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Security
+$DatabaseCertificateFile=(Get-Item -LiteralPath $DatabaseCertificateFile).FullName
+$EnvelopeFile=$ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($EnvelopeFile)
 if ((Get-FileHash -LiteralPath $DatabaseCertificateFile).Hash -ne $DatabaseCertificateSha256) { throw 'Unexpected database certificate.' }
 $cert = New-Object Security.Cryptography.X509Certificates.X509Certificate2($DatabaseCertificateFile)
 if ($cert.NotAfter -lt [DateTime]::Now -or $cert.NotBefore -gt [DateTime]::Now) { throw 'Database certificate is outside its validity period.' }
