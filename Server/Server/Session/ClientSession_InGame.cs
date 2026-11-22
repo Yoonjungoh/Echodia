@@ -136,8 +136,15 @@ namespace Server
 
         public void QueueEconomyRead(Action action)
         {
-            var player = MyPlayer;
-            player?.Economy.EnqueueClient(player, action);
+            lock (_lock)
+            {
+                var player = MyPlayer;
+                if (_loginClosed || player == null) return;
+                // The initial inventory request can arrive while EnterGame is still
+                // queued. Read on the same room after entry, using its ownership checks.
+                var room = player.GameRoom ?? _pendingEntryRoom;
+                room?.Push(() => player.Economy.RunInRoom(player, room, action, client: true));
+            }
         }
 
         public void HandleRequestInitGameRoomData()
