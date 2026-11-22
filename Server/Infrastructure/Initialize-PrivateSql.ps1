@@ -3,10 +3,12 @@ param(
     [Parameter(Mandatory)][string]$MediaPath,
     [Parameter(Mandatory)][ValidatePattern('^[0-9A-Fa-f]{40}$')][string]$ServerCertificate,
     [Parameter(Mandatory)][ipaddress]$GameIp,
-    [Parameter(Mandatory)][ipaddress]$LoginIp
+    [Parameter(Mandatory)][ipaddress]$LoginIp,
+    [string]$SqlAdministrator=[Security.Principal.WindowsIdentity]::GetCurrent().Name
 )
 $ErrorActionPreference='Stop'
 $ProgressPreference='SilentlyContinue'
+if($SqlAdministrator -notmatch '^[A-Za-z0-9_.-]+\\[A-Za-z0-9_. -]+$'){throw 'Invalid Windows SQL administrator'}
 $media=Get-Item -LiteralPath $MediaPath
 if((Get-FileHash $media.FullName).Hash -ne '2E61C8BBDE6021F9026C54AD9DB4BBB1227E68761D4C00A6A50A2C70FE7AFE05'){
     throw 'Unexpected SQL Server 2022 Express media'
@@ -26,7 +28,7 @@ if(!(Get-Service -Name $svcName -ErrorAction SilentlyContinue)){
     $setupArgs=@('/Q','/ACTION=Install','/FEATURES=SQLENGINE','/INSTANCENAME=SQLEXPRESS',
         '/IACCEPTSQLSERVERLICENSETERMS','/SUPPRESSPRIVACYSTATEMENTNOTICE','/TCPENABLED=0',
         '/NPENABLED=0','/BROWSERSVCSTARTUPTYPE=Disabled','/SQLSVCSTARTUPTYPE=Automatic',
-        ('/SQLSYSADMINACCOUNTS="'+[Security.Principal.WindowsIdentity]::GetCurrent().Name+'"'),'/UPDATEENABLED=True')
+        ('/SQLSYSADMINACCOUNTS="'+$SqlAdministrator+'"'),'/UPDATEENABLED=True')
     $process=Start-Process $setup.FullName -ArgumentList $setupArgs -Wait -PassThru -WindowStyle Hidden
     if($process.ExitCode -notin 0,3010){throw "SQL Setup exit $($process.ExitCode)"}
 }
