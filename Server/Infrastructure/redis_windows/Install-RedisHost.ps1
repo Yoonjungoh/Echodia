@@ -34,6 +34,7 @@ if (!$svc) {
     $svc = New-LocalUser -Name $name -Password (ConvertTo-SecureString $password -AsPlainText -Force) -AccountNeverExpires -PasswordNeverExpires -UserMayNotChangePassword -Description 'Echodia dedicated standard user for WSL Redis'
 }
 $sid = $svc.SID.Value
+& (Join-Path $PSScriptRoot 'Grant-RedisBatchLogon.ps1') -ServiceSid $sid
 Set-ProtectedDirectory $dir $sid
 $state = Join-Path $dir 'state'
 Set-ProtectedDirectory $state $sid -Modify
@@ -79,7 +80,7 @@ foreach ($role in @('EchodiaRedis','EchodiaRedisProxy')) {
     $action = New-ScheduledTaskAction -Execute $exe -Argument ('-NoProfile -NonInteractive -ExecutionPolicy RemoteSigned -File "' + (Join-Path $dir $script) + '"')
     $old = Get-ScheduledTask -TaskName $role -ErrorAction SilentlyContinue
     if ($old) {
-        $owners = if ($guest) { @($sid,$account) } else { @('S-1-5-18','SYSTEM','NT AUTHORITY\SYSTEM') }
+        $owners = if ($guest) { @($sid,$account,$name) } else { @('S-1-5-18','SYSTEM','NT AUTHORITY\SYSTEM') }
         if ($old.Actions.Count -ne 1 -or $old.Actions[0].Execute -ne $action.Execute -or $old.Actions[0].Arguments -ne $action.Arguments -or $old.Principal.UserId -notin $owners) {
             throw "Another configuration owns $role."
         }

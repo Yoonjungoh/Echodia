@@ -35,8 +35,9 @@ try {
     if ($registered.Count -ne 1 -or ($registered[0].BasePath -replace '^\\\\\?\\','').TrimEnd('\') -ine $vhd -or $registered[0].Version -ne 2) {
         throw 'Expected the dedicated user-owned WSL2 distribution in the protected state directory.'
     }
-    & $wsl --distribution $linux --user root --exec /bin/bash $linuxScript prepare $listen $config.Verifier
-    Assert-Exit 'Prepare Redis, CSR and ACL'
+    $prepareArgs = @('--distribution',$linux,'--user','root','--exec','/bin/bash',$linuxScript,'prepare',$listen,$config.Verifier)
+    $prepare = Start-Process -WindowStyle Hidden -Wait -PassThru -FilePath $wsl -ArgumentList $prepareArgs -RedirectStandardOutput (Join-Path $state 'prepare.log') -RedirectStandardError (Join-Path $state 'prepare.err')
+    if ($prepare.ExitCode -ne 0) {throw "Redis preparation failed with exit code $($prepare.ExitCode); inspect state\prepare.err."}
     if (!(Test-Path -LiteralPath (Join-Path $PSScriptRoot 'ca.pem')) -or !(Test-Path -LiteralPath (Join-Path $PSScriptRoot 'server.pem'))) {
         [IO.File]::WriteAllText($status,'Waiting for signed server.pem and ca.pem. Copy the public CSR from state\server.csr, return both PEM files, then start EchodiaRedis again.')
         return
