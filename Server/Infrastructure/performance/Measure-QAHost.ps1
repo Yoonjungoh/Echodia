@@ -12,7 +12,7 @@ $name="EchodiaPerf-$Series-$Role"
 $base=Join-Path $root $name
 $logman=Join-Path $env:WINDIR 'System32\logman.exe'
 if($Action -eq 'Start'){
-    if(Test-Path "$base.blg"){throw 'Existing profile recording would be overwritten'}
+    if(@(Get-ChildItem -Path "$base*.blg" -File -ErrorAction SilentlyContinue).Count){throw 'Existing profile recording would be overwritten'}
     $paths=@('\Processor(_Total)\% Processor Time','\Memory\Available MBytes',
              '\Memory\Committed Bytes','\System\Context Switches/sec','\System\Processor Queue Length',
              '\PhysicalDisk(_Total)\Disk Reads/sec','\PhysicalDisk(_Total)\Disk Writes/sec',
@@ -46,7 +46,9 @@ if($Action -eq 'Start'){
     return
 }
 & $logman stop $name | Out-Null
-if($LASTEXITCODE -and !(Test-Path "$base.blg")){throw 'Counter log missing'}
+$logs=@(Get-ChildItem -Path "$base*.blg" -File -ErrorAction SilentlyContinue)
+if($logs.Count -ne 1){throw 'Expected one native counter log'}
+if($logs[0].FullName -ne "$base.blg"){Move-Item -LiteralPath $logs[0].FullName -Destination "$base.blg"}
 & $logman delete $name | Out-Null
 & "$env:WINDIR\System32\relog.exe" "$base.blg" -f csv -o "$base.csv" -y | Out-Null
 if($LASTEXITCODE -or !(Test-Path "$base.csv")){throw 'Could not export native BLG'}
