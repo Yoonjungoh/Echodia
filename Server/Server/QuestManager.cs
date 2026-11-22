@@ -1,3 +1,4 @@
+using Google.Protobuf;
 using Google.Protobuf.Protocol;
 using Microsoft.EntityFrameworkCore;
 using Server.Data;
@@ -85,25 +86,34 @@ namespace Server
                 var grant = new QuestGrant(mainQuestId, subQuestId);
                 if (!PlanReward(player, batch, grant, objective)) return;
                 AddNextQuests(grant);
-                player.Economy.Submit(player, batch, grant, () =>
+                var session = player.Session;
+                SubmitReward(player, batch, grant, objective, message =>
                 {
-                    player.QuestTracker.Claimed(mainQuestId, subQuestId);
-                    if (!player.Session.IsConnected) return;
-                    foreach (var item in grant.AwardedSlots.Values)
-                        player.Session.Send(new S_UpdateItemData { ItemInfo = item.ToItemInfo() });
-                    foreach (var (type, balance) in grant.Balances)
-                        player.Session.Send(new S_UpdateCurrencyData { CurrencyType = type, Amount = balance });
-                    player.Session.Send(new S_ChangeQuestStatus
-                    {
-                        MainQuestId = mainQuestId, SubQuestId = subQuestId, QuestStatus = QuestStatus.RewardClaimed
-                    });
+                    if (session.IsConnected && session.MyPlayer == player) session.Send(message);
+                });
             });
+        }
+
+        internal static void SubmitReward(Player player, EconomyBatch batch, QuestGrant grant,
+            QuestObjectiveDefinitionMetaData objective, Action<IMessage> notify)
+        {
+            player.Economy.Submit(player, batch, grant, () =>
+            {
+                player.QuestTracker.Claimed(grant.MainId, grant.SubId);
+                foreach (var item in grant.AwardedSlots.Values)
+                    notify(new S_UpdateItemData { ItemInfo = item.ToItemInfo() });
+                foreach (var (type, balance) in grant.Balances)
+                    notify(new S_UpdateCurrencyData { CurrencyType = type, Amount = balance });
+                notify(new S_ChangeQuestStatus
+                {
+                    MainQuestId = grant.MainId, SubQuestId = grant.SubId, QuestStatus = QuestStatus.RewardClaimed
+                });
                 var response = new S_GiveReward();
                 for (int i = 0; i < objective.RewardIdList.Count; i++)
                     response.RewardItemList.Add(new RewardItem { RewardId = objective.RewardIdList[i], RewardAmount = objective.RewardAmountList[i] });
-                player.Session.Send(response);
+                notify(response);
                 foreach (var next in grant.Created)
-                    player.Session.Send(new S_CreateQuest { MainQuestId = next.MainId, SubQuestId = next.SubId });
+                    notify(new S_CreateQuest { MainQuestId = next.MainId, SubQuestId = next.SubId });
             });
         }
 
