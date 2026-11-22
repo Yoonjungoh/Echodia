@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Text;
 using System.Net.Sockets;
 using System.Threading;
@@ -20,17 +21,22 @@ namespace Server
     // PreGame 관련 핸들러들 (로그인, 캐릭터 선택까지를 PreGame이라 칭하자)
     public partial class ClientSession : PacketSession
 	{
-		public Player MyPlayer { get; set; }
+		public Player MyPlayer { get; private set; }
 
 		public int SessionId { get; set; }
         
-        public int AccountId { get; set; }  // DB Id (Account 테이블의 AccountDbId임)
+        public int AccountId { get; private set; }  // DB Id (Account 테이블의 AccountDbId임)
 
-        public int ServerId { get; set; }   // 접속 중인 서버 Id
+        public int ServerId { get; private set; }   // 접속 중인 서버 Id
         
-        public int ChannelId { get; set; }  // 접속 중인 채널 Id
+        public int ChannelId { get; private set; }  // 접속 중인 채널 Id
 
-        private object _lock = new object();
+        private readonly object _lock = new object();
+        private int _selectedPlayerId;
+        private GameRoom _pendingEntryRoom;
+
+        private bool CanChooseCharacter => !_loginClosed && AccountId > 0 &&
+            ClientServerState == ClientServerState.PlayerSelect;
 
         public ClientServerState ClientServerState { get; private set; } = ClientServerState.Login;
 
@@ -38,63 +44,35 @@ namespace Server
         {
             lock (_lock)
             {
-                if (ClientServerState != ClientServerState.PlayerSelect)
+                if (!CanChooseCharacter)
                 {
-                    ConsoleLogManager.Instance.Log($"[Warning] 플레이어 선택창 상태가 아닌 곳에서 캐릭터 삭제 시도. SessionId: {SessionId}");
+                    Send(new S_DeletePlayer { CanDelete = false });
                     return;
                 }
 
                 using (GameDbContext db = new GameDbContext())
                 {
-                    // 1. DB 로드
-                    AccountDb account = db.Accounts
-                        .AsNoTracking()
-                        .Include(a => a.Players)
-                        .Where(a => a.AccountDbId == AccountId)
-                        .FirstOrDefault();
-
-                    if (account == null)
-                    {
-                        ConsoleLogManager.Instance.Log("[Error] 캐릭터 삭제 실패: 계정 정보 없음");
-                        return;
-                    }
-
-                    // 2. 삭제하려는 캐릭터 찾기
-                    PlayerDb target = db.Players
-                        .Where(p => p.PlayerDbId == deletePlayerId)
-                        .FirstOrDefault();
-
                     S_DeletePlayer serverDeletePlayerPacket = new S_DeletePlayer();
-
-                    if (target == null)
+                    try
                     {
-                        ConsoleLogManager.Instance.Log($"[Error] 캐릭터 삭제 실패: AccountId={AccountId}, PlayerId={deletePlayerId} 없음");
-                        serverDeletePlayerPacket.CanDelete = false;
-                        Send(serverDeletePlayerPacket);
-                        return;
+                        serverDeletePlayerPacket.CanDelete = db.OwnedPlayer(AccountId, deletePlayerId).ExecuteDelete() == 1;
                     }
-
-                    // 3. DB에서 삭제
-                    bool canDelete = db.Players.Contains(target);
-                    serverDeletePlayerPacket.CanDelete = canDelete;
-                    db.Players.Remove(target);
-
-                    bool success = db.SaveChangesEx();
-                    if (success == false)
+                    catch (DbException ex)
+                    {
+                        ConsoleLogManager.Instance.Log(ex);
+                    }
+                    if (!serverDeletePlayerPacket.CanDelete)
                     {
                         Send(serverDeletePlayerPacket);
                         return;
                     }
 
-                    // 4. 최신 캐릭터 목록 다시 로드
-                    account = db.Accounts
+                    var remainingPlayers = db.Players
                         .AsNoTracking()
-                        .Include(a => a.Players)
-                        .Where(a => a.AccountDbId == AccountId)
-                        .FirstOrDefault();
+                        .Where(p => p.AccountDbId == AccountId)
+                        .Select(p => new { p.PlayerDbId, p.Name, p.Jewel, p.Gold });
 
-
-                    foreach (PlayerDb player in account.Players)
+                    foreach (var player in remainingPlayers)
                     {
                         PlayerSelectInfo info = new PlayerSelectInfo()
                         {
@@ -115,43 +93,70 @@ namespace Server
         }
 
         // 만들어진 캐릭터 선택 후 게임에 진입 (여기서 세션의 MyPlayer 세팅함)
-        public Player EnterGame(int playerId)
+        public void HandleEnterGame(int playerId, int serverId, int channelId)
         {
             lock (_lock)
             {
-                // enterLobbyPacket에 있는 PlayerId 활용해서 DB에서 찾은 다음 user 생성 후 넣기
-                // 로비에 진입한 플레이어의 고유 아이디 (Player 테이블의 PlayerId)
-                using (GameDbContext db = new GameDbContext())
+                if (_loginClosed || AccountId <= 0 || ClientServerState != ClientServerState.GameRoom ||
+                    _selectedPlayerId != playerId || MyPlayer != null || ServerId != serverId || ChannelId != channelId)
+                    return;
+
+                using var db = new GameDbContext();
+                var character = db.OwnedPlayer(AccountId, _selectedPlayerId)
+                    .Select(p => new { p.PlayerDbId, p.Name, p.LastMapId })
+                    .SingleOrDefault();
+                if (character == null)
+                    return;
+
+                var rooms = ServerManager.Instance.FindChannel(ServerId, ChannelId)?.GameRoomManager;
+                var room = rooms?.Find(character.LastMapId) ?? rooms?.Find(DataManager.Instance.DefaultStartMapId);
+                if (room == null)
+                    return;
+
+                var player = ObjectManager.Instance.Add<Player>();
+                try
                 {
-                    AccountDb account = db.Accounts
-                        .AsNoTracking()
-                        .Include(a => a.Players)
-                        .Where(a => a.AccountDbId == AccountId)
-                        .FirstOrDefault();
-
-                    if (account == null)
-                    {
-                        ConsoleLogManager.Instance.Log("[Error] DB에서 계정 정보를 찾을 수 없음");
-                        return null;
-                    }
-
-                    // 1. 플레이어 찾기
-                    PlayerDb player = db.Players
-                        .Where(p => p.PlayerDbId == playerId)
-                        .FirstOrDefault();
-                    if (player == null)
-                    {
-                        ConsoleLogManager.Instance.Log($"[Error] DB에서 플레이어 정보를 찾을 수 없음 PlayerId: {playerId}");
-                        return null;
-                    }
-
-                    // 2. 해당 플레이어 데이터를 바탕으로 현재 클라이언트 세션의 MyPlayer 생성
-                    MyPlayer = ObjectManager.Instance.Add<Player>();
-                    MyPlayer.Init(player.PlayerDbId, player.Name);
-                    MyPlayer.Session = this;
+                    player.Init(character.PlayerDbId, character.Name, AccountId);
+                    player.Session = this;
+                    MyPlayer = player;
+                    CheckAndAssignInitialQuest();
+                }
+                catch
+                {
+                    MyPlayer = null;
+                    ObjectManager.Instance.Remove(player.Id);
+                    throw;
                 }
 
-                return MyPlayer;
+                QueueRoomEntry(room, player);
+            }
+        }
+
+        internal void QueueRoomEntry(GameRoom room, Player player)
+        {
+            lock (_lock)
+            {
+                if (_loginClosed)
+                {
+                    ObjectManager.Instance.Remove(player.Id);
+                    return;
+                }
+                _pendingEntryRoom = room;
+                room.Push(() =>
+                {
+                    try
+                    {
+                        if (_loginClosed)
+                            ObjectManager.Instance.Remove(player.Id);
+                        else
+                            room.EnterGame(player);
+                    }
+                    finally
+                    {
+                        lock (_lock)
+                            _pendingEntryRoom = null;
+                    }
+                });
             }
         }
 
@@ -159,7 +164,7 @@ namespace Server
         {
             lock (_lock)
             {
-                if (ClientServerState != ClientServerState.PlayerSelect)
+                if (!CanChooseCharacter)
                 {
                     ConsoleLogManager.Instance.Log($"[Warning] 캐릭터 선택창 상태가 아닌 곳에서 캐릭터 생성 시도. SessionId: {SessionId}");
                     return;
@@ -243,7 +248,7 @@ namespace Server
         {
             lock (_lock)
             {
-                if (ClientServerState != ClientServerState.PlayerSelect)
+                if (!CanChooseCharacter)
                 {
                     ConsoleLogManager.Instance.Log($"[Warning] 캐릭터 선택창 상태가 아닌 곳에서 캐릭터 선택 시도. SessionId: {SessionId}");
                     return;
@@ -295,8 +300,8 @@ namespace Server
             }
         }
         
-        bool _loginClosed;
-        bool _loginPending;
+        private volatile bool _loginClosed;
+        private bool _loginPending;
         // Admission is bounded so login bursts leave CPU available for game rooms.
         static readonly SemaphoreSlim LoginSlots = new(Math.Max(1, Environment.ProcessorCount / 2));
 
@@ -378,6 +383,11 @@ namespace Server
         {
             lock (_lock)
             {
+                if (_loginClosed || AccountId <= 0 || ClientServerState != ClientServerState.ServerSelect)
+                {
+                    Send(new S_SelectServer { ServerId = serverId, ChannelId = channelId, EnterServerResult = EnterServerResult.InvalidPlayer });
+                    return;
+                }
                 // 서버/채널 존재하는지 확인 후 패킷 보내기
                 S_SelectServer selectServerPacket = new S_SelectServer();
                 ServerChannel channel = ServerManager.Instance.FindChannel(serverId, channelId);
@@ -408,24 +418,22 @@ namespace Server
         {
             lock (_lock)
             {
-                // TODO - 캐릭터도 존재하는지 DB 뒤져서 미리 알아봐도 좋을듯?
-                // 지금은 부하 생각해서 패스
-                S_SelectPlayer selectPlayerPacket = new S_SelectPlayer();
-                if (ServerId == serverId && ChannelId == channelId)
+                if (!CanChooseCharacter || ServerId != serverId || ChannelId != channelId)
                 {
-                    // 패킷 전송
-                    selectPlayerPacket.PlayerId = playerId;
-                    selectPlayerPacket.CanSelect = true;
-                    Send(selectPlayerPacket);
-
-                    // 상태 인게임으로 변경
-                    ClientServerState = ClientServerState.GameRoom;
+                    Send(new S_SelectPlayer { CanSelect = false });
                     return;
                 }
 
-                ConsoleLogManager.Instance.Log($"[Warning] 잘못된 서버/채널 선택 시도. SessionId: {SessionId}, ServerId: {serverId}, ChannelId: {channelId}");
-                selectPlayerPacket.CanSelect = false;
-                Send(selectPlayerPacket);
+                using var db = new GameDbContext();
+                if (!db.OwnedPlayer(AccountId, playerId).Any())
+                {
+                    Send(new S_SelectPlayer { CanSelect = false });
+                    return;
+                }
+
+                _selectedPlayerId = playerId;
+                ClientServerState = ClientServerState.GameRoom;
+                Send(new S_SelectPlayer { PlayerId = playerId, CanSelect = true });
             }
         }
 

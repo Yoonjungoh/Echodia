@@ -668,7 +668,7 @@ class Program
         sb.AppendLine($"            _{ln}Dict.Clear();");
         sb.AppendLine($"            _{ln}List.Clear();");
         sb.AppendLine();
-        sb.AppendLine($"            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: {cols.Count});");
+        sb.AppendLine($"            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: {cols.Max(c => c.ColIndex) + 1});");
         sb.AppendLine("            for (int i = 2; i < rows.Count; i++)");
         sb.AppendLine("            {");
         sb.AppendLine("                string[] cells = rows[i];");
@@ -809,7 +809,7 @@ class Program
         sb.AppendLine($"            _{ln}Dict.Clear();");
         sb.AppendLine($"            _{ln}List.Clear();");
         sb.AppendLine();
-        sb.AppendLine($"            List<string[]> rows = GvizParser.Parse(raw, colCount: {cols.Count});");
+        sb.AppendLine($"            List<string[]> rows = GvizParser.Parse(raw, colCount: {cols.Max(c => c.ColIndex) + 1});");
         sb.AppendLine("            for (int i = 2; i < rows.Count; i++)");
         sb.AppendLine("            {");
         sb.AppendLine("                string[] cells = rows[i];");
@@ -958,7 +958,7 @@ class Program
         sb.AppendLine("                IsReady = true; return;");
         sb.AppendLine("            }");
         sb.AppendLine("            _dict.Clear();");
-        sb.AppendLine($"            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: {cfg.Columns.Count});");
+        sb.AppendLine($"            List<string[]> rows = GvizParser.Parse(req.downloadHandler.text, colCount: {cfg.Columns.Max(c => c.ColIndex) + 1});");
         AppendConfigParseLoop(sb, idIdx, dtIdx, ctIdx, valIdx, isServer: false);
         sb.AppendLine("            Debug.Log(\"[ConfigManager] 로드 완료: \" + _dict.Count + \"개\");");
         sb.AppendLine("        }");
@@ -1009,7 +1009,7 @@ class Program
         sb.AppendLine("            string url = GoogleSheetConfig.BuildJsonUrl(\"Config\");");
         sb.AppendLine("            string raw = await Http.GetStringAsync(url);");
         sb.AppendLine("            _dict.Clear();");
-        sb.AppendLine($"            List<string[]> rows = GvizParser.Parse(raw, colCount: {cfg.Columns.Count});");
+        sb.AppendLine($"            List<string[]> rows = GvizParser.Parse(raw, colCount: {cfg.Columns.Max(c => c.ColIndex) + 1});");
         AppendConfigParseLoop(sb, idIdx, dtIdx, ctIdx, valIdx, isServer: true);
         sb.AppendLine("            Console.WriteLine(\"[ConfigManager] 로드 완료: \" + _dict.Count + \"개\");");
         sb.AppendLine("        }");

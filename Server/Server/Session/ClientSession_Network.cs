@@ -91,32 +91,46 @@ namespace Server
 
         public override void OnDisconnected(EndPoint endPoint)
         {
-            SessionManager.Instance.Remove(this);
             // Serialize with the login commit if the socket closes during verification.
+            GameRoom logoutRoom;
+            Player player;
+            int loggedInAccount;
             lock (_lock)
             {
+                if (_loginClosed) return;
                 _loginClosed = true;
-                if (ClientServerState != ClientServerState.Login && AccountId != 0)
-                    AccountManager.Instance.Remove(AccountId);
+                loggedInAccount = ClientServerState == ClientServerState.Login ? 0 : AccountId;
+                player = MyPlayer;
+                logoutRoom = player?.GameRoom ?? _pendingEntryRoom;
             }
-            if (ClientServerState == ClientServerState.PlayerSelect)
+            if (ChannelId != 0) ServerManager.Instance.Remove(SessionId);
+            SessionManager.Instance.Remove(this);
+            if (loggedInAccount == 0) return;
+            if (player == null || logoutRoom == null)
             {
-                ServerManager.Instance.Remove(SessionId);
-        
+                AccountManager.Instance.Remove(loggedInAccount);
+                return;
             }
-            else if (ClientServerState == ClientServerState.GameRoom)
+            // Keep the login reservation until the old character's last economic
+            // checkpoint is durable. During recovery a reconnect can retry login.
+            void LeaveAndRelease(GameRoom room)
             {
-                ServerManager.Instance.Remove(SessionId);
-                
-                // 게임에서 내보내기
-                if (MyPlayer != null && MyPlayer.GameRoom != null)
+                GameRoom current;
+                lock (_lock) current = player.GameRoom ?? _pendingEntryRoom;
+                if (current != null && current != room)
                 {
-                    Vector3 pos = MyPlayer.CurrentPosition;
-                    int mapId = MyPlayer.GameRoom.MapId;
-                    DbTransaction.SavePlayerLogoutState(MyPlayer.PlayerId, pos, mapId);
-                    MyPlayer.GameRoom.Push(MyPlayer.GameRoom.LeaveGame, MyPlayer.Id);
+                    current.Push(() => LeaveAndRelease(current));
+                    return;
                 }
+                if (player.GameRoom == room)
+                {
+                    if (player.Economy.PrepareLeave(player, () => LeaveAndRelease(room))) return;
+                    DbTransaction.SavePlayerLogoutState(player.PlayerId, player.CurrentPosition, room.MapId);
+                    room.LeaveGame(player.Id);
+                }
+                DbTransaction.Instance.Push(() => AccountManager.Instance.Remove(loggedInAccount));
             }
+            logoutRoom.Push(() => LeaveAndRelease(logoutRoom));
         }
 
         public override void OnSend(int numOfBytes)

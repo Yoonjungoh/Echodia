@@ -1729,7 +1729,7 @@ public partial class SpecDataManager
             _skillDict.Clear();
             _skillList.Clear();
 
-            List<string[]> rows = GvizParser.Parse(raw, colCount: 16);
+            List<string[]> rows = GvizParser.Parse(raw, colCount: 42);
             for (int i = 2; i < rows.Count; i++)
             {
                 string[] cells = rows[i];
@@ -1942,7 +1942,7 @@ public partial class SpecDataManager
             _skillChannelDict.Clear();
             _skillChannelList.Clear();
 
-            List<string[]> rows = GvizParser.Parse(raw, colCount: 5);
+            List<string[]> rows = GvizParser.Parse(raw, colCount: 42);
             for (int i = 2; i < rows.Count; i++)
             {
                 string[] cells = rows[i];

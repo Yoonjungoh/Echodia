@@ -46,8 +46,11 @@ namespace Server
 
             DbTransaction.SaveQuestComplete(quest, () =>
             {
-                SendQuestCompleted(player, quest);
-                player.QuestTracker.RemoveKillQuestTarget(quest.TargetId);   // 퀘스트 완료 됐으니 다시 로드
+                player.GameRoom?.Push(() =>
+                {
+                    player.QuestTracker.Completed(quest.MainQuestId, quest.SubQuestId);
+                    SendQuestCompleted(player, quest);
+                });
             });
         }
 
@@ -70,157 +73,108 @@ namespace Server
             });
         }
 
-        // 클라이언트가 Complete 버튼을 눌러 보상 수령 요청 시 호출
-        // 검증 -> 보상 목록 구성 -> DB 업데이트(RewardClaimed + 모든 재화) -> 패킷 전송
-        // -> 다음 연쇄 퀘스트 생성 (조건 만족 시)
         public void ClaimReward(Player player, int mainQuestId, int subQuestId)
         {
-            QuestObjectiveDefinitionMetaData objective = SpecDataManager.Instance.GetQuestObjectiveDefinition(mainQuestId, subQuestId);
-            if (objective == null)
+            var room = player?.GameRoom;
+            var objective = SpecDataManager.Instance.GetQuestObjectiveDefinition(mainQuestId, subQuestId);
+            if (room == null || objective == null) return;
+            player.Economy.EnqueueClient(player, () =>
             {
-                Console.WriteLine($"[Quest] ClaimReward: objective not found ({mainQuestId}-{subQuestId})");
-                return;
-            }
-
-            // 보상 목록 구성: RewardId 범위로 재화/아이템 분류
-            // Currency: 1+, Equipment: 100000+, Consumable: 200000+, Misc: 300000+
-            var currencyRewards = new List<(CurrencyType currencyType, int amount)>();
-            var itemRewards = new List<(int itemId, int amount)>();
-            int count = objective.RewardIdList.Count;
-            for (int i = 0; i < count; i++)
-            {
-                int rewardId = objective.RewardIdList[i];
-                int rewardAmount = objective.RewardAmountList[i];
-
-                CurrencyMetaData currency = SpecDataManager.Instance.GetCurrency(rewardId);
-                if (currency != null)
+                if (!player.QuestTracker.IsClaimable(mainQuestId, subQuestId)) return;
+                var batch = player.Economy.Capture(player);
+                var grant = new QuestGrant(mainQuestId, subQuestId);
+                if (!PlanReward(player, batch, grant, objective)) return;
+                AddNextQuests(grant);
+                player.Economy.Submit(player, batch, grant, () =>
                 {
-                    currencyRewards.Add((currency.CurrencyType, rewardAmount));
-                    continue;
-                }
-
-                if (SpecDataManager.Instance.GetEquipment(rewardId) != null ||
-                    SpecDataManager.Instance.GetConsumable(rewardId) != null ||
-                    SpecDataManager.Instance.GetMisc(rewardId) != null)
-                {
-                    itemRewards.Add((rewardId, rewardAmount));
-                    continue;
-                }
-
-                Console.WriteLine($"[Quest] ClaimReward: 알 수 없는 RewardId={rewardId} ({mainQuestId}-{subQuestId})");
-            }
-
-            if (currencyRewards.Count == 0 && itemRewards.Count == 0)
-            {
-                Console.WriteLine($"[Quest] ClaimReward: no valid rewards ({mainQuestId}-{subQuestId})");
-                return;
-            }
-
-            if (player.GameRoom == null)
-            {
-                Console.WriteLine($"[Quest] ClaimReward: GameRoom is null. Player:{player.PlayerId}");
-                return;
-            }
-
-            // 게임룸 단일 스레드에서 인메모리 처리 후 DB 쓰기 위임
-            player.GameRoom.Push(() =>
-            {
-                // 1. 아이템 보상: 인메모리 업데이트 + S_UpdateItemData 패킷 전송 + InventoryTracker 더티 마킹
-                player.GrantItemsInMemory(itemRewards);
-
-                // 2. 재화 보상: CurrencyTracker 인메모리 업데이트 + dirty 마킹 + S_UpdateCurrencyData 패킷 전송
-                //    (DB 저장은 로그아웃 시 SaveDirtyCurrencies가 일괄 처리)
-                foreach (var (currencyType, amount) in currencyRewards)
-                {
-                    int newAmount = player.CurrencyTracker.Get(currencyType) + amount;
-                    player.CurrencyTracker.Set(currencyType, newAmount);
-                    player.Session?.Send(new S_UpdateCurrencyData { CurrencyType = currencyType, Amount = newAmount });
-                }
-
-                // 3. 퀘스트 상태 DB 저장 (Completed → RewardClaimed)
-                DbTransaction.GiveQuestReward(player, mainQuestId, subQuestId, () =>
-                {
-                    // 퀘스트 상태 변경 패킷
-                    S_ChangeQuestStatus changeStatusPacket = new S_ChangeQuestStatus()
+                    player.QuestTracker.Claimed(mainQuestId, subQuestId);
+                    if (!player.Session.IsConnected) return;
+                    foreach (var item in grant.AwardedSlots.Values)
+                        player.Session.Send(new S_UpdateItemData { ItemInfo = item.ToItemInfo() });
+                    foreach (var (type, balance) in grant.Balances)
+                        player.Session.Send(new S_UpdateCurrencyData { CurrencyType = type, Amount = balance });
+                    player.Session.Send(new S_ChangeQuestStatus
                     {
-                        MainQuestId = mainQuestId,
-                        SubQuestId = subQuestId,
-                        QuestStatus = QuestStatus.RewardClaimed,
-                    };
-                    player.Session?.Send(changeStatusPacket);
-
-                    // 보상 수령 패킷
-                    S_GiveReward giveRewardPacket = new S_GiveReward();
-                    for (int i = 0; i < count; i++)
-                    {
-                        giveRewardPacket.RewardItemList.Add(new RewardItem
-                        {
-                            RewardId = objective.RewardIdList[i],
-                            RewardAmount = objective.RewardAmountList[i],
-                        });
-                    }
-                    player.Session?.Send(giveRewardPacket);
-
-                    // 연계 퀘스트 있나 확인
-                    TryAssignNextQuest(player, mainQuestId, subQuestId);
-                });
+                        MainQuestId = mainQuestId, SubQuestId = subQuestId, QuestStatus = QuestStatus.RewardClaimed
+                    });
+            });
+                var response = new S_GiveReward();
+                for (int i = 0; i < objective.RewardIdList.Count; i++)
+                    response.RewardItemList.Add(new RewardItem { RewardId = objective.RewardIdList[i], RewardAmount = objective.RewardAmountList[i] });
+                player.Session.Send(response);
+                foreach (var next in grant.Created)
+                    player.Session.Send(new S_CreateQuest { MainQuestId = next.MainId, SubQuestId = next.SubId });
             });
         }
 
-        // 보상 수령 후 다음 퀘스트 생성
-        // 같은 메인의 다음 서브가 있으면 생성, 없으면 QuestDefinition.NextQuestIdList 기반으로 생성
-        private void TryAssignNextQuest(Player player, int completedMainQuestId, int completedSubQuestId)
+        private static bool PlanReward(Player player, EconomyBatch batch, QuestGrant grant, QuestObjectiveDefinitionMetaData objective)
         {
-            // 1. 같은 메인 퀘스트의 다음 서브 퀘스트가 있으면 생성
-            QuestObjectiveDefinitionMetaData nextSubObjective = SpecDataManager.Instance.GetQuestObjectiveDefinition(completedMainQuestId, completedSubQuestId + 1);
-            if (nextSubObjective != null)
+            var ids = objective.RewardIdList;
+            var amounts = objective.RewardAmountList;
+            if (ids == null || amounts == null || ids.Count == 0 || ids.Count != amounts.Count) return false;
+            for (int i = 0; i < ids.Count; i++)
             {
-                DbTransaction.CreateQuestChain(player, completedMainQuestId, nextSubObjective.SubQuestId);
-                return;
-            }
-
-            // 2. 마지막 서브였다면 QuestDefinition의 NextQuestIdList에서 다음 메인 퀘스트 목록 조회
-            QuestDefinitionMetaData questDef = SpecDataManager.Instance.GetQuestDefinition(completedMainQuestId);
-            if (questDef == null || questDef.NextQuestIdList == null || questDef.NextQuestIdList.Count == 0)
-            {
-                Console.WriteLine($"[Quest] Player {player.PlayerId}: 퀘스트 체인 종료. (마지막: {completedMainQuestId}-{completedSubQuestId})");
-                return;
-            }
-
-            int count = questDef.NextQuestIdList.Count;
-            List<int> questIdList = questDef.NextQuestIdList;
-            for (int i = 0; i < count; ++i)
-            {
-                int nextMainQuestId = questIdList[i];
-
-                // 선행 퀘스트 완료 여부 확인
-                QuestDefinitionMetaData nextQuestDef = SpecDataManager.Instance.GetQuestDefinition(nextMainQuestId);
-                if (nextQuestDef != null && nextQuestDef.PrereqQuestId != 0)
+                if (amounts[i] <= 0) return false;
+                var currency = SpecDataManager.Instance.GetCurrency(ids[i]);
+                if (currency != null)
                 {
-                    if (!IsMainQuestRewardClaimed(player.PlayerId, nextQuestDef.PrereqQuestId))
-                    {
-                        Console.WriteLine($"[Quest] TryAssignNextQuest: 선행 퀘스트 미완료. Player:{player.PlayerId}, NextQuest:{nextMainQuestId}, PrereqQuestId:{nextQuestDef.PrereqQuestId}");
-                        continue;
-                    }
-                }
-
-                QuestObjectiveDefinitionMetaData firstObjective = SpecDataManager.Instance.GetQuestObjectiveDefinition(nextMainQuestId, 1);
-                if (firstObjective == null)
-                {
-                    Console.WriteLine($"[Quest] TryAssignNextQuest: {nextMainQuestId}-1 objective를 스펙시트에서 찾을 수 없습니다.");
+                    int current = grant.Balances.TryGetValue(currency.CurrencyType, out int projected) ?
+                        projected : player.CurrencyTracker.Get(currency.CurrencyType);
+                    int balance = checked(current + amounts[i]);
+                    grant.Balances[currency.CurrencyType] = balance;
+                    batch.Currency[currency.CurrencyType] = balance;
                     continue;
                 }
-                DbTransaction.CreateQuestChain(player, nextMainQuestId, 1);
+                var meta = SpecDataManager.Instance.GetItem(ids[i]);
+                if (meta == null || meta.MaxStack <= 0 ||
+                    !AllocateItems(player.Items, player.InventoryTracker.AmbiguousSlots, batch, grant, meta, amounts[i], player.GetInventorySize(meta.ItemType)))
+                    return false;
             }
+            return true;
         }
 
-        // 해당 메인 퀘스트의 서브 퀘스트 중 하나라도 RewardClaimed 상태면 완료로 간주
-        private bool IsMainQuestRewardClaimed(int playerId, int mainQuestId)
+        internal static bool AllocateItems(IReadOnlyDictionary<(ItemType, int), PlayerItemDb> bag,
+            ISet<(ItemType, int)> ambiguous, EconomyBatch batch, QuestGrant grant, ItemMetaData meta, int amount, int capacity)
         {
-            using GameDbContext db = new GameDbContext();
-            return db.Quests.Any(q => q.PlayerDbId == playerId
-                                   && q.MainQuestId == mainQuestId
-                                   && q.Status == QuestStatus.RewardClaimed);
+            if (amount <= 0 || meta.MaxStack <= 0) return false;
+            // Existing stacks first, then free slots. A plan that cannot fit is discarded in its entirety.
+            for (int pass = 0; pass < 2; pass++)
+                for (int slot = 0; slot < capacity && amount > 0; slot++)
+                {
+                    var key = (meta.ItemType, slot);
+                    if (ambiguous.Contains(key)) continue;
+                    if (!grant.AwardedSlots.TryGetValue(key, out var live)) bag.TryGetValue(key, out live);
+                    if (pass == 0 && (live == null || live.ItemId != meta.Id)) continue;
+                    if (pass == 1 && live != null) continue;
+                    live ??= new PlayerItemDb { PlayerDbId = batch.PlayerId, ItemId = meta.Id, SlotIndex = slot };
+                    if (!batch.Items.TryGetValue(live, out var updated)) updated = live.Snapshot();
+                    if (updated.Count < 0 || updated.Count >= meta.MaxStack) continue;
+                    int add = Math.Min(amount, meta.MaxStack - updated.Count);
+                    updated.Count += add;
+                    batch.Items[live] = updated;
+                    grant.AwardedSlots[key] = live;
+                    amount -= add;
+                }
+            return amount == 0;
+        }
+
+        private static void AddNextQuests(QuestGrant grant)
+        {
+            var spec = SpecDataManager.Instance;
+            var nextSub = spec.GetQuestObjectiveDefinition(grant.MainId, grant.SubId + 1);
+            if (nextSub != null)
+            {
+                grant.Next.Add(new NextQuest(grant.MainId, nextSub.SubQuestId, nextSub.TargetId, 0));
+                return;
+            }
+            var ids = spec.GetQuestDefinition(grant.MainId)?.NextQuestIdList;
+            if (ids == null) return;
+            foreach (var id in ids.Distinct())
+            {
+                var first = spec.GetQuestObjectiveDefinition(id, 1);
+                if (first != null)
+                    grant.Next.Add(new NextQuest(id, 1, first.TargetId, spec.GetQuestDefinition(id)?.PrereqQuestId ?? 0));
+            }
         }
 
         // 퀘스트 생성하고 DB에 저장하고 패킷도 클라에게 전송

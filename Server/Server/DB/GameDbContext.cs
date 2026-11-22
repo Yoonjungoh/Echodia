@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -14,6 +14,9 @@ namespace Server.DB
         public DbSet<AccountDb> Accounts { get; set; }
 
         public DbSet<PlayerDb> Players { get; set; }
+
+        public IQueryable<PlayerDb> OwnedPlayer(int accountId, int playerId) =>
+            Players.Where(p => p.AccountDbId == accountId && p.PlayerDbId == playerId);
 
         public DbSet<QuestDb> Quests { get; set; }
 
@@ -40,6 +43,9 @@ namespace Server.DB
             builder.Entity<PlayerDb>()
                 .HasIndex(p => p.Name)
                 .IsUnique();
+
+            builder.Entity<PlayerDb>().Property(p => p.EconomyRevision).HasDefaultValue(0L);
+            builder.Entity<QuestDb>().HasIndex(q => new { q.PlayerDbId, q.MainQuestId, q.SubQuestId }).IsUnique();
 
             builder.Entity<QuestDb>()
                 .HasOne<PlayerDb>()

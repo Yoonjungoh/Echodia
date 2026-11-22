@@ -1,4 +1,4 @@
-﻿using Google.Protobuf;
+using Google.Protobuf;
 using Google.Protobuf.Protocol;
 using Server;
 using Server.DB;
@@ -27,38 +27,8 @@ class PacketHandler
 
     public static void C_EnterGameHandler(PacketSession session, IMessage packet)
     {
-        // 여기까지 온거면 클라이언트는 GameRoomScene에 있음
-        C_EnterGame enterGamePacket = packet as C_EnterGame;
-        ClientSession clientSession = session as ClientSession;
-
-        if (clientSession == null)
-            return;
-
-        clientSession.EnterGame(enterGamePacket.PlayerId);
-        // 새로 만든 캐릭터가 접속할 경우 첫 퀘스트 부여
-        clientSession.CheckAndAssignInitialQuest();
-
-        if (clientSession.MyPlayer == null)
-            return;
-
-        // 유저가 접속하려는 채널 찾기 (서버 Id도 필요)
-        ServerChannel channel = ServerManager.Instance.FindChannel(enterGamePacket.ServerId, enterGamePacket.ChannelId);
-        if (channel == null)
-            return;
-
-        // 마지막으로 접속했던 맵 Id로 룸 찾기 (DB에 없으면 DefaultStartMapId 사용)
-        int mapId = ObjectManager.Instance.GetPlayerLastLogoutMapId(clientSession.MyPlayer.PlayerId);
-        GameRoom gameRoom = channel.GameRoomManager.Find(mapId);
-        if (gameRoom == null)
-        {
-            // 저장된 맵이 현재 없으면 기본 맵으로 폴백
-            mapId = DataManager.Instance.DefaultStartMapId;
-            gameRoom = channel.GameRoomManager.Find(mapId);
-            if (gameRoom == null)
-                return;
-        }
-
-        gameRoom.Push(gameRoom.EnterGame, clientSession.MyPlayer);
+        if (session is ClientSession clientSession && packet is C_EnterGame enter)
+            clientSession.HandleEnterGame(enter.PlayerId, enter.ServerId, enter.ChannelId);
     }
 
     public static void C_AttackHandler(PacketSession session, IMessage packet)
@@ -180,7 +150,7 @@ class PacketHandler
         if (clientSession == null)
             return;
 
-        clientSession.HandleUpdateCurrencyDataAll();
+        clientSession.QueueEconomyRead(clientSession.HandleUpdateCurrencyDataAll);
     }
 
     public static void C_UpdateCurrencyDataHandler(PacketSession session, IMessage packet)
@@ -191,7 +161,7 @@ class PacketHandler
         if (clientSession == null)
             return;
 
-        clientSession.HandleUpdateCurrencyData(updateCurrencyDataPacket.CurrencyType);
+        clientSession.QueueEconomyRead(() => clientSession.HandleUpdateCurrencyData(updateCurrencyDataPacket.CurrencyType));
     }
 
     public static void C_RequestServerSummaryListHandler(PacketSession session, IMessage packet)
@@ -243,7 +213,7 @@ class PacketHandler
         if (clientSession == null)
             return;
 
-        clientSession.HandleRequestInitGameRoomData(clientSession.MyPlayer.PlayerId);
+        clientSession.QueueEconomyRead(clientSession.HandleRequestInitGameRoomData);
     }
 
     public static void C_RequestQuestDataHandler(PacketSession session, IMessage packet)
@@ -283,7 +253,8 @@ class PacketHandler
         if (clientSession == null)
             return;
 
-        clientSession?.MyPlayer?.HandleUseItem(useItemPacket.ItemType, useItemPacket.SlotIndex);
+        var player = clientSession.MyPlayer;
+        player?.Economy.EnqueueClient(player, () => player.HandleUseItem(useItemPacket.ItemType, useItemPacket.SlotIndex));
     }
 
     public static void C_PickUpDropItemHandler(PacketSession session, IMessage packet)
@@ -297,7 +268,7 @@ class PacketHandler
         if (player?.GameRoom == null)
             return;
 
-        player.GameRoom.Push(player.HandlePickUpDropItem, pickUpDropItemPacket.ItemId);
+        player.Economy.EnqueueClient(player, () => player.HandlePickUpDropItem(pickUpDropItemPacket.ItemId));
     }
 
     public static void C_PongHandler(PacketSession session, IMessage packet)
@@ -316,7 +287,8 @@ class PacketHandler
         if (clientSession == null)
             return;
 
-        clientSession?.MyPlayer?.HandleEquipItem(equipItemPacket.SlotIndex);
+        var player = clientSession.MyPlayer;
+        player?.Economy.EnqueueClient(player, () => player.HandleEquipItem(equipItemPacket.SlotIndex));
     }
 
     public static void C_UnequipItemHandler(PacketSession session, IMessage packet)
@@ -326,7 +298,8 @@ class PacketHandler
         if (clientSession == null)
             return;
 
-        clientSession?.MyPlayer?.HandleUnEquipItem(unEquipItemPacket.SlotType);
+        var player = clientSession.MyPlayer;
+        player?.Economy.EnqueueClient(player, () => player.HandleUnEquipItem(unEquipItemPacket.SlotType));
     }
 
     public static void C_MoveItemHandler(PacketSession session, IMessage packet)
@@ -338,7 +311,7 @@ class PacketHandler
         if (player == null)
             return;
 
-        player.HandleMoveItem(moveItemPacket.FromSlotIndex, moveItemPacket.ToSlotIndex, moveItemPacket.ItemType);
+        player.Economy.EnqueueClient(player, () => player.HandleMoveItem(moveItemPacket.FromSlotIndex, moveItemPacket.ToSlotIndex, moveItemPacket.ItemType));
     }
 
     public static void C_RequestMapTransferHandler(PacketSession session, IMessage packet)
@@ -396,7 +369,7 @@ class PacketHandler
         if (player == null || player.GameRoom == null)
             return;
 
-        player.GameRoom.Push(player.GameRoom.HandleUseSkill, player.Id, useSkillPacket.SkillId);
+        player.Economy.EnqueueClient(player, () => player.GameRoom.HandleUseSkill(player.Id, useSkillPacket.SkillId));
     }
 
     public static void C_StopChannelHandler(PacketSession session, IMessage packet)
@@ -408,10 +381,8 @@ class PacketHandler
         if (player == null || player.GameRoom == null)
             return;
 
-        player.GameRoom.Push(() =>
-        {
-            player.SkillExecutor.StopChannel(stopChannelPacket.SkillId, stopChannelPacket.ElapsedMs);
-        });
+        player.Economy.EnqueueClient(player,
+            () => player.SkillExecutor.StopChannel(stopChannelPacket.SkillId, stopChannelPacket.ElapsedMs));
     }
 
     // ─────────────────────────────────────────

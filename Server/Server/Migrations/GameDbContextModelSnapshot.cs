@@ -59,6 +59,11 @@ namespace Server.Migrations
                     b.Property<int>("AccountDbId")
                         .HasColumnType("int");
 
+                    b.Property<long>("EconomyRevision")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasDefaultValue(0L);
+
                     b.Property<int>("Exp")
                         .HasColumnType("int");
 
@@ -224,7 +229,8 @@ namespace Server.Migrations
 
                     b.HasKey("QuestDbId");
 
-                    b.HasIndex("PlayerDbId");
+                    b.HasIndex("PlayerDbId", "MainQuestId", "SubQuestId")
+                        .IsUnique();
 
                     b.ToTable("Quest");
                 });

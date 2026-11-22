@@ -119,9 +119,10 @@ namespace Server.Game.Skill.Requirements
                 if (kv.Value.Count <= 0)
                 {
                     player.Items.Remove(kv.Key);
+                    player.InventoryTracker.MarkDeleted(kv.Value);
                 }
-
-                player.InventoryTracker.MarkDirty(kv.Value);
+                else
+                    player.InventoryTracker.MarkDirty(kv.Value);
             }
         }
     }

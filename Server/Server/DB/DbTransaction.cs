@@ -74,211 +74,47 @@ namespace Server.DB
 
         #region Quest
 
-        public static void UpdateQuestStatus(int playerDbId, int mainQuestId, int subQuestId, QuestStatus status, Action callback = null)
+        public static void AcceptQuest(int playerDbId, int mainQuestId, int subQuestId, Action callback)
         {
-            Instance.Push(UpdateQuestStatus_Db, playerDbId, mainQuestId, subQuestId, status, callback);
+            Instance.Push(() =>
+            {
+                using var db = new GameDbContext();
+                if (TryAcceptQuest(db, playerDbId, mainQuestId, subQuestId))
+                    callback?.Invoke();
+            });
         }
 
-        private static void UpdateQuestStatus_Db(int playerDbId, int mainQuestId, int subQuestId, QuestStatus status, Action callback = null)
+        internal static bool TryAcceptQuest(GameDbContext db, int playerDbId, int mainQuestId, int subQuestId)
         {
-            using (GameDbContext db = new GameDbContext())
-            {
-                int successRows = db.Quests
-                    .Where(q => q.PlayerDbId == playerDbId && q.MainQuestId == mainQuestId && q.SubQuestId == subQuestId)
-                    .ExecuteUpdate(s => s.SetProperty(q => q.Status, q => status));
-
-                if (successRows > 0)
-                {
-                    callback?.Invoke();
-                }
-                else
-                {
-                    Console.WriteLine($"[DB Error] UpdateQuestStatus Failed. Player:{playerDbId}, Quest:{mainQuestId}-{subQuestId}");
-                }
-            }
+            return db.Quests.Where(q => q.PlayerDbId == playerDbId && q.MainQuestId == mainQuestId
+                                     && q.SubQuestId == subQuestId && q.Status == QuestStatus.NotAccepted)
+                .ExecuteUpdate(s => s.SetProperty(q => q.Status, QuestStatus.Proceeding)) > 0;
         }
 
         public static void SaveQuestComplete(QuestDb quest, Action callback = null)
         {
-            Instance.Push(SaveQuestComplete_Db, quest, callback);
-        }
-
-        private static void SaveQuestComplete_Db(QuestDb quest, Action callback = null)
-        {
-            using (GameDbContext db = new GameDbContext())
+            Instance.Push(() =>
             {
-                int successRows = db.Quests
-                    .Where(q => q.QuestDbId == quest.QuestDbId)
-                    .ExecuteUpdate(s => s
-                        .SetProperty(q => q.RequiredCount, q => quest.RequiredCount)
-                        .SetProperty(q => q.Status, q => quest.Status)
-                        .SetProperty(q => q.ClearedDate, q => quest.ClearedDate));
-
-                if (successRows > 0)
+                using var db = new GameDbContext();
+                if (TryCompleteQuest(db, quest))
                     callback?.Invoke();
-                else
-                    Console.WriteLine($"[DB Error] SaveQuestComplete Failed. QuestDbId: {quest.QuestDbId}");
-            }
+            });
         }
 
-        // 퀘스트 보상 수령: Completed → RewardClaimed (퀘스트 상태만 DB 저장)
-        // 재화/아이템 인메모리 동기화는 호출 전(게임룸 스레드)에 이미 완료됨
-        public static void GiveQuestReward(Player player, int mainQuestId, int subQuestId, Action onSuccess = null)
+        internal static bool TryCompleteQuest(GameDbContext db, QuestDb quest)
         {
-            Instance.Push(() => GiveQuestReward_Db(player, mainQuestId, subQuestId, onSuccess));
+            return db.Quests.Where(q => q.QuestDbId == quest.QuestDbId && q.PlayerDbId == quest.PlayerDbId
+                                     && q.Status == QuestStatus.Proceeding)
+                .ExecuteUpdate(s => s
+                    .SetProperty(q => q.RequiredCount, quest.RequiredCount)
+                    .SetProperty(q => q.Status, QuestStatus.Completed)
+                    .SetProperty(q => q.ClearedDate, quest.ClearedDate)) == 1;
         }
 
-        private static void GiveQuestReward_Db(Player player, int mainQuestId, int subQuestId, Action onSuccess)
+        internal static void SetCurrencyValue(PlayerDb player, CurrencyType type, int amount)
         {
-            using (GameDbContext db = new GameDbContext())
-            {
-                // Completed 상태인 퀘스트를 RewardClaimed로 변경 (재화는 CurrencyTracker에서 이미 인메모리 처리됨)
-                int questRows = db.Quests
-                    .Where(q => q.PlayerDbId == player.PlayerId
-                             && q.MainQuestId == mainQuestId
-                             && q.SubQuestId == subQuestId
-                             && q.Status == QuestStatus.Completed)
-                    .ExecuteUpdate(s => s.SetProperty(q => q.Status, QuestStatus.RewardClaimed));
-
-                if (questRows == 0)
-                {
-                    Console.WriteLine($"[DB Error] GiveQuestReward: 퀘스트가 Completed 상태가 아닙니다. Player:{player.PlayerId}, Quest:{mainQuestId}-{subQuestId}");
-                    return;
-                }
-
-                onSuccess?.Invoke();
-            }
+            GetCurrencyExprInfo(type).Setter(player, amount);
         }
-
-        // 퀘스트 보상 수령 후 다음 퀘스트를 DB에 생성하고 클라이언트에 알림
-        // GiveQuestReward onSuccess 콜백에서 호출됨
-        public static void CreateQuestChain(Player player, int mainQuestId, int subQuestId)
-        {
-            Instance.Push(() => CreateQuestChain_Db(player, mainQuestId, subQuestId));
-        }
-
-        private static void CreateQuestChain_Db(Player player, int mainQuestId, int subQuestId)
-        {
-            QuestObjectiveDefinitionMetaData objective = SpecDataManager.Instance.GetQuestObjectiveDefinition(mainQuestId, subQuestId);
-
-            using (GameDbContext db = new GameDbContext())
-            {
-                QuestDb quest = new QuestDb()
-                {
-                    PlayerDbId = player.PlayerId,
-                    MainQuestId = mainQuestId,
-                    SubQuestId = subQuestId,
-                    TargetId = objective?.TargetId ?? 0,
-                    RequiredCount = 0,
-                    Status = QuestStatus.NotAccepted,
-                    StartedDate = DateTime.UtcNow,
-                };
-
-                db.Quests.Add(quest);
-                bool success = db.SaveChangesEx();
-                if (!success)
-                {
-                    Console.WriteLine($"[DB Error] CreateQuestChain: Save failed. Player:{player.PlayerId}, Quest:{mainQuestId}-{subQuestId}");
-                    return;
-                }
-
-                player.Session?.Send(new S_CreateQuest
-                {
-                    MainQuestId = mainQuestId,
-                    SubQuestId = subQuestId,
-                });
-
-                player.GameRoom?.Push(() => player.QuestTracker.Load());
-            }
-        }
-
-        #endregion
-
-        #region Item
-
-        // 로그아웃 시 InventoryTracker가 호출 — 인메모리 변경 사항 일괄 DB 반영
-        public static void SaveInventoryAsync(Player player, List<PlayerItemDb> toSave, List<int> toDeleteDbIds)
-        {
-            Instance.Push(() => SaveInventory_Db(player, toSave, toDeleteDbIds));
-        }
-
-        private static void SaveInventory_Db(Player player, List<PlayerItemDb> toSave, List<int> toDeleteDbIds)
-        {
-            using GameDbContext db = new GameDbContext();
-            using var transaction = db.Database.BeginTransaction();
-            try
-            {
-                // 삭제 (수량 0으로 소비된 아이템)
-                if (toDeleteDbIds.Count > 0)
-                {
-                    db.PlayerItems
-                        .Where(i => toDeleteDbIds.Contains(i.PlayerItemDbId))
-                        .ExecuteDelete();
-                }
-
-                // 업데이트 / 신규 삽입
-                foreach (PlayerItemDb item in toSave)
-                {
-                    if (item.PlayerItemDbId > 0)
-                    {
-                        db.PlayerItems
-                            .Where(i => i.PlayerItemDbId == item.PlayerItemDbId)
-                            .ExecuteUpdate(s => s
-                                .SetProperty(i => i.Count, item.Count)
-                                .SetProperty(i => i.IsEquipped, item.IsEquipped)
-                                .SetProperty(i => i.EnchantLevel, item.EnchantLevel));
-                    }
-                    else
-                    {
-                        db.PlayerItems.Add(new PlayerItemDb
-                        {
-                            PlayerDbId = item.PlayerDbId,
-                            ItemId = item.ItemId,
-                            Count = item.Count,
-                            SlotIndex = item.SlotIndex,
-                            IsEquipped = item.IsEquipped,
-                            EnchantLevel = item.EnchantLevel,
-                        });
-                    }
-                }
-
-                db.SaveChangesEx();
-                transaction.Commit();
-            }
-            catch (Exception e)
-            {
-                transaction.Rollback();
-                Console.WriteLine($"[DB Error] SaveInventory Failed. Player:{player.PlayerId}, {e.Message}");
-            }
-        }
-
-        #endregion
-
-        #region Currency
-
-        // 로그아웃 시 CurrencyTracker가 호출 — 인메모리 변경 사항 일괄 DB 반영
-        // expression tree 캐시로 switch 없이 자동 매핑, 새 재화 추가 시 PlayerDb 속성만 추가하면 됨
-        public static void SavePlayerCurrenciesAsync(Player player, List<(CurrencyType currencyType, int amount)> currencies)
-        {
-            Instance.Push(() => SavePlayerCurrencies_Db(player, currencies));
-        }
-
-        private static void SavePlayerCurrencies_Db(Player player, List<(CurrencyType currencyType, int amount)> currencies)
-        {
-            using GameDbContext db = new GameDbContext();
-            PlayerDb playerDb = db.Players.Find(player.PlayerId);
-            if (playerDb == null)
-            {
-                Console.WriteLine($"[DB Error] SavePlayerCurrencies: Player not found. PlayerId:{player.PlayerId}");
-                return;
-            }
-
-            foreach (var (currencyType, amount) in currencies)
-                GetCurrencyExprInfo(currencyType).Setter(playerDb, amount);
-
-            db.SaveChangesEx();
-        }
-
         #endregion
 
         #region Stats

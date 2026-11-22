@@ -1,4 +1,4 @@
-﻿using Google.Protobuf;
+using Google.Protobuf;
 using Google.Protobuf.Protocol;
 using Microsoft.Extensions.Logging.Console;
 using Server.Currency;
@@ -698,6 +698,8 @@ namespace Server.Game
                 if (_players.TryGetValue(objectId, out player) == false)
                     return;
 
+                if (player.Economy.PrepareLeave(player, () => LeaveGame(objectId))) return;
+
                 pos = player.CurrentPosition;
 
                 Zone zone = GetZone(player.CurrentPosition);
@@ -780,6 +782,17 @@ namespace Server.Game
             if (!_players.TryGetValue(playerId, out Player player))
                 return;
 
+            if (player.Session?.IsConnected != true) return;
+            if (player.Economy.PrepareLeave(player, () => TransferPlayer(playerId, newMapId, spawnPos))) return;
+
+            ServerChannel channel = ServerManager.Instance.FindChannel(ServerId, ChannelId);
+            GameRoom newRoom = channel?.GameRoomManager.Find(newMapId);
+            if (newRoom == null)
+            {
+                ConsoleLogManager.Instance.Log($"[TransferPlayer] New room not found: MapId={newMapId}");
+                return;
+            }
+
             // 1. 현재 룸에서 제거 (S_LeaveGame 없이 S_Despawn만 전송)
             Vector3 curPos = player.CurrentPosition;
 
@@ -804,15 +817,7 @@ namespace Server.Game
             // 3. 새 룸에 스폰 위치를 심어두고 입장
             player.PendingTransferPosition = spawnPos;
 
-            ServerChannel channel = ServerManager.Instance.FindChannel(ServerId, ChannelId);
-            GameRoom newRoom = channel?.GameRoomManager.Find(newMapId);
-            if (newRoom == null)
-            {
-                ConsoleLogManager.Instance.Log($"[TransferPlayer] New room not found: MapId={newMapId}");
-                return;
-            }
-
-            newRoom.Push(newRoom.EnterGame, player);
+            player.Session.QueueRoomEntry(newRoom, player);
         }
 
         public void HandleMove(Player player, C_Move movePacket)
