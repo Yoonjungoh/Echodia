@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="QaGameBenchmark.Tests" />
+    <PackageReference Include="Google.Protobuf" Version="3.12.3" />
+    <Compile Include="..\DummyClient\Packet\Protocol.cs" Link="Packet\Protocol.cs" />
+  </ItemGroup>
+</Project>
