@@ -2,6 +2,7 @@ using StackExchange.Redis;
 using System;
 using System.Linq;
 using System.Net;
+using Server.Configuration;
 
 namespace Server
 {
@@ -15,9 +16,20 @@ namespace Server
       
         public void Init(string configuration = null)
         {
-            configuration ??= Environment.GetEnvironmentVariable("ECHODIA_REDIS_CONNECTION") ?? "localhost:6379";
+            configuration ??= ReadConfiguration();
             _multiplexer = ConnectionMultiplexer.Connect(ParseConfiguration(configuration));
         } 
+
+        private static string ReadConfiguration()
+        {
+            string protectedPath = Environment.GetEnvironmentVariable("ECHODIA_REDIS_CONNECTION_DPAPI_FILE");
+            string clear = Environment.GetEnvironmentVariable("ECHODIA_REDIS_CONNECTION");
+            if (string.IsNullOrWhiteSpace(protectedPath))
+                return clear ?? "localhost:6379";
+            if (!string.IsNullOrWhiteSpace(clear))
+                throw new InvalidOperationException("Set only one source for the Redis credential.");
+            return MachineProtectedSecret.Read(protectedPath);
+        }
 
         internal static ConfigurationOptions ParseConfiguration(string configuration)
         {

@@ -54,6 +54,17 @@ namespace Server
 
         static async Task Main(string[] args)
 		{
+            if (args.Length == 1 && args[0] == "--check-redis")
+            {
+                if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("ECHODIA_REDIS_CONNECTION_DPAPI_FILE")))
+                    throw new InvalidOperationException("Provide the protected game-to-Redis endpoint to check.");
+                RedisManager.Instance.Init();
+                var cache = RedisManager.Instance.GetDatabase();
+                _ = await cache.PingAsync();
+                _ = await cache.SetContainsAsync("loggedIn", -1);
+                Console.WriteLine("Redis connection and membership read succeeded.");
+                return;
+            }
             if (args.Length == 1 && args[0] == "--migrate-passwords")
             {
                 if (string.IsNullOrWhiteSpace(DatabaseConnection.Configured()))
