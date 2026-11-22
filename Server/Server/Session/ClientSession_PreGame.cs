@@ -172,26 +172,11 @@ namespace Server
 
                 using (GameDbContext db = new GameDbContext())
                 {
-                    AccountDb account = db.Accounts
-                        .AsNoTracking()
-                        .Include(a => a.Players)
-                        .Where(a => a.AccountDbId == AccountId)
-                        .FirstOrDefault();
-
-                    if (account == null)
-                    {
-                        ConsoleLogManager.Instance.Log("[Error] DB에서 계정 정보를 찾을 수 없음");
-                        return;
-                    }
-
-                    // 1. 캐릭터 이름 중복 검사
-                    PlayerDb existingPlayer = db.Players
-                        .Where(p => p.Name == name)
-                        .FirstOrDefault();
+                    bool nameExists = db.Players.Any(p => p.Name == name);
 
                     S_CreatePlayer serverCreatePlayerPacket = new S_CreatePlayer();
 
-                    if (existingPlayer != null)
+                    if (nameExists)
                     {
                         // 중복이므로 생성 불가
                         serverCreatePlayerPacket.CanCreate = false;
@@ -200,7 +185,7 @@ namespace Server
                     }
 
                     // 2. 새 PlayerDb 생성
-                    PlayerDb newPlayerDb = new PlayerDb(account.AccountDbId, name);
+                    PlayerDb newPlayerDb = new PlayerDb(AccountId, name);
 
                     // 3. DB 저장
                     db.Players.Add(newPlayerDb);
@@ -213,16 +198,13 @@ namespace Server
                     }
 
                     // 혹시 모르니 최신 상태 다시 불러오기
-                    account = db.Accounts
-                        .AsNoTracking()
-                        .Include(a => a.Players)
-                        .Where(a => a.AccountDbId == account.AccountDbId)
-                        .FirstOrDefault();
+                    var players = db.Players.AsNoTracking().Where(p => p.AccountDbId == AccountId)
+                        .Select(p => new { p.PlayerDbId, p.Name, p.Jewel, p.Gold });
 
                     // 4. 생성 성공 결과 패킷 전송
                     serverCreatePlayerPacket.CanCreate = true;
 
-                    foreach (PlayerDb player in account.Players)
+                    foreach (var player in players)
                     {
                         PlayerSelectInfo info = new PlayerSelectInfo()
                         {
@@ -256,26 +238,13 @@ namespace Server
 
                 using (GameDbContext db = new GameDbContext())
                 {
-                    // Account + Players 데이터를 한 번에 로드해야 함
-                    AccountDb account = db.Accounts
-                        .AsNoTracking()
-                        .Include(a => a.Players)
-                        .Where(a => a.AccountDbId == AccountId)
-                        .FirstOrDefault();
-
-                    if (account == null)
-                    {
-                        Console.WriteLine("[Error] 계정을 찾을 수 없음");
-                        return;
-                    }
-
-                    // 1. 계정의 Player 목록
-                    List<PlayerDb> playerList = account.Players?.ToList() ?? new List<PlayerDb>();
+                    var playerList = db.Players.AsNoTracking().Where(p => p.AccountDbId == AccountId)
+                        .Select(p => new { p.PlayerDbId, p.Name, p.Jewel, p.Gold, p.Exp, p.Level });
 
                     // 2. 패킷 생성
                     S_RequestPlayerList serverRequestPlayerList = new S_RequestPlayerList();
 
-                    foreach (PlayerDb player in playerList)
+                    foreach (var player in playerList)
                     {
                         PlayerSelectInfo info = new PlayerSelectInfo()
                         {
@@ -301,24 +270,31 @@ namespace Server
         }
         
         private volatile bool _loginClosed;
+        private bool _loginPending;
         // Admission is bounded so login bursts leave CPU available for game rooms.
         static readonly SemaphoreSlim LoginSlots = new(Math.Max(1, Environment.ProcessorCount / 2));
 
         public void HandleLogin(C_Login loginPacket)
         {
-            if (ClientServerState != ClientServerState.Login)
-                return;
-            if (!LoginSlots.Wait(0))
+            lock (_lock)
             {
-                Send(new S_Login { LoginStatus = LoginStatus.None });
-                return;
+                if (_loginClosed || ClientServerState != ClientServerState.Login)
+                    return;
+                if (_loginPending || !LoginSlots.Wait(0))
+                {
+                    Send(new S_Login { LoginStatus = LoginStatus.None });
+                    return;
+                }
+                _loginPending = true;
             }
+            _ = CompleteLoginAsync(loginPacket);
+        }
 
+        async Task CompleteLoginAsync(C_Login loginPacket)
+        {
             try
             {
-                // Hashing and SQL must not hold the lock used by the network send loop.
-                using var db = new GameDbContext();
-                var (status, accountId) = AccountCredentials.Authenticate(db, loginPacket.Id, loginPacket.Password);
+                var (status, accountId) = await Program.CredentialAuthority.AuthenticateAsync(loginPacket).ConfigureAwait(false);
                 lock (_lock)
                 {
                     if (_loginClosed || ClientServerState != ClientServerState.Login)
@@ -336,8 +312,17 @@ namespace Server
                     Send(new S_Login { LoginStatus = status });
                 }
             }
+            catch (Exception error)
+            {
+                ConsoleLogManager.Instance.Log("Login unavailable: " + error.GetType().Name);
+                lock (_lock)
+                    if (!_loginClosed && ClientServerState == ClientServerState.Login)
+                        Send(new S_Login { LoginStatus = LoginStatus.None });
+            }
             finally
             {
+                lock (_lock)
+                    _loginPending = false;
                 LoginSlots.Release();
             }
         }
