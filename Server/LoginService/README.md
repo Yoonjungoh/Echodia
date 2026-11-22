@@ -17,7 +17,9 @@ Unity keeps the existing TLS game connection and the same `C_Login` and `S_Login
 | `ECHODIA_LOGIN_CA_FILE` | Absolute path to public CA certificate | Absolute path to public CA certificate |
 | `ECHODIA_LOGIN_BIND_ADDRESS` | | Private IP bound by Kestrel |
 | `ECHODIA_LOGIN_CLIENT_SHA256` | | 64 hex digits identifying the game leaf |
-| `DB_CONNECTION_STRING` | Game database credentials | Account database credentials |
+| `ECHODIA_DB_CONNECTION_DPAPI_FILE` | Absolute path to the game SQL credential file | Absolute path to the login SQL credential file |
+
+Each Windows host can protect its own UTF-8 SQL connection string with DPAPI LocalMachine. Store the binary result in an ACL-restricted directory readable by the service identity, SYSTEM and administrators. The connection must enable encryption and certificate validation. Restart the service after replacing its credential file. Existing installations can continue to set `DB_CONNECTION_STRING` directly. Configure one source per service.
 
 The private channel validates the server name, chain, certificate purpose and validity. The login service verifies the client chain and allows only the configured game leaf. Private CA trust is scoped to this connection. This offline CA configuration does not perform CRL lookup. Use short-lived leaves, protect the offline issuer and provision replacements before expiry. For a game certificate rotation, change the fingerprint and client identity in a coordinated maintenance window. The public Unity certificate retains its separate renewal process.
 

@@ -56,8 +56,8 @@ namespace Server
 		{
             if (args.Length == 1 && args[0] == "--migrate-passwords")
             {
-                if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")))
-                    throw new InvalidOperationException("Set DB_CONNECTION_STRING to the database to migrate.");
+                if (string.IsNullOrWhiteSpace(DatabaseConnection.Configured()))
+                    throw new InvalidOperationException("Configure the SQL database to migrate.");
                 using var db = new GameDbContext();
                 Console.WriteLine($"Converted accounts: {AccountCredentials.ConvertRemaining(db)}");
                 return;

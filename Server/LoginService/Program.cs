@@ -8,7 +8,8 @@ using Server.Authentication;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 builder.Services.AddWindowsService(options => options.ServiceName = "EchodiaLogin");
-_ = LoginTls.Required("DB_CONNECTION_STRING");
+if (string.IsNullOrWhiteSpace(Server.DB.DatabaseConnection.Configured()))
+    throw new InvalidOperationException("Configure the login database connection.");
 var address = IPAddress.Parse(LoginTls.Required("ECHODIA_LOGIN_BIND_ADDRESS"));
 using var identity = LoginTls.LoadIdentity();
 using var issuer = LoginTls.LoadIssuer();
