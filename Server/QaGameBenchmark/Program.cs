@@ -8,7 +8,7 @@ using QaGameBenchmark;
 
 if (args.Contains("--help") || args.Length == 0)
 {
-    Console.WriteLine("QaGameBenchmark --endpoint 127.0.0.1 --tls-name CERTIFICATE_NAME --fixture accounts.json --label single|split|local --output NEW.json [--level 1|4|8|16] [--repeats 1..5]");
+    Console.WriteLine("QaGameBenchmark --endpoint 127.0.0.1 --tls-name CERTIFICATE_NAME --fixture accounts.json --label single|split|local --output NEW.json [--level 1|4|8|16] [--mode reconnect|resident-reads] [--repeats 1..5]");
     return args.Length == 0 ? 2 : 0;
 }
 var json = new JsonSerializerOptions
@@ -17,7 +17,7 @@ var json = new JsonSerializerOptions
 };
 try
 {
-    string[] known = ["--endpoint","--tls-name","--fixture","--label","--output","--level","--repeats"];
+    string[] known = ["--endpoint","--tls-name","--fixture","--label","--output","--level","--repeats","--mode"];
     if (args.Length % 2 != 0) throw new ScenarioError("InvalidOptions");
     var options = new Dictionary<string,string>();
     for (int i = 0; i < args.Length; i += 2)
@@ -37,6 +37,9 @@ try
     int[] levels = options.TryGetValue("--level", out var l) ? [int.Parse(l, CultureInfo.InvariantCulture)] : allowedLevels;
     int repeats = int.Parse(options.GetValueOrDefault("--repeats", "3"), CultureInfo.InvariantCulture);
     if (!levels.All(allowedLevels.Contains) || repeats is < 1 or > 5) throw new ScenarioError("InvalidLoadBound");
+    string mode = options.GetValueOrDefault("--mode", "reconnect");
+    if (mode is not ("reconnect" or "resident-reads") || (mode == "resident-reads" && options.ContainsKey("--repeats")))
+        throw new ScenarioError("InvalidMeasurementMode");
     var source = new FileInfo(Required("--fixture"));
     if (source.Length <= 0 || source.Length > 32768) throw new ScenarioError("InvalidFixtureSize");
     Fixture? fixture;
@@ -55,6 +58,24 @@ try
     using var cancellation = new CancellationTokenSource(TimeSpan.FromMinutes(12));
     Console.CancelKeyPress += (_,e) => { e.Cancel = true; cancellation.Cancel(); };
     var startedUtc = DateTimeOffset.UtcNow;
+    if (mode == "resident-reads")
+    {
+        var reader = new ResidentReadBenchmark(address, tlsName, fixture.Accounts, levels);
+        await reader.Run(cancellation.Token);
+        var readReport = new
+        {
+            schemaVersion = 1, label, mode, startedUtc, finishedUtc = DateTimeOffset.UtcNow,
+            runtime = RuntimeInformation.FrameworkDescription, driverCpuCount = Environment.ProcessorCount,
+            driverVersion = typeof(Benchmark).Assembly.GetCustomAttributes(false).OfType<System.Reflection.AssemblyInformationalVersionAttribute>().FirstOrDefault()?.InformationalVersion,
+            endpoint = address.ToString(), port = GameConnection.Port, tlsName, levels,
+            timeoutSecondsPerStage = 12, minimumStartIntervalMs = ResidentReadBenchmark.IntervalMs,
+            wavesPerLevel = ResidentReadBenchmark.WavesPerLevel, stopReason = reader.StopReason,
+            sessions = reader.Sessions, measurements = reader.Levels
+        };
+        await JsonSerializer.SerializeAsync(result, readReport, json);
+        Console.WriteLine($"mode={mode} levels={reader.Levels.Count} stop={reader.StopReason}");
+        return reader.StopReason == "Completed" ? 0 : 1;
+    }
     var test = new Benchmark(address,tlsName,fixture.Accounts,levels,repeats);
     await test.Run(cancellation.Token);
     var report = new

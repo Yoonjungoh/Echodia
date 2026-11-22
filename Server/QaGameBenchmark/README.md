@@ -28,3 +28,11 @@ A wave records its UTC start and its monotonic start in milliseconds. Subtract t
 `LoginNone` is the actual protocol response. The server can emit it for admission contention or an unavailable authentication provider. A wave with at least half of all participants receiving that response has `admissionSaturated=true`. Normal admission rejections do not trigger retries or raise the 16-player cap. A transport error, a 12-second phase timeout, an incorrect fixture response or an observer failure stops further waves. The driver waits 1.5 seconds between waves for normal account release.
 
 The synthetic loopback tests exercise a verified TLS handshake, normal replies, concurrent admission rejection, a mismatched certificate name, and a missing inventory response. Their injected timing is solely for verifying the driver. Run them with `dotnet test Server/QaGameBenchmark.Tests/QaGameBenchmark.Tests.csproj -c Release`.
+
+## Concurrent resident inventory reads
+
+Run the same command with `--mode resident-reads` and a fresh output file. This synthetic microbenchmark isolates the cost of concurrent UI data refreshes for characters already in the game. It describes a repeatable access pattern; ordinary player behavior needs separate observation.
+
+Authenticated residents enter sequentially and warm their own inventory once. The same connections stay open as the cohort grows through 1, 4, 8 and 16 residents. Each level has six synchronized waves. Every resident sends one normal inventory request per wave and validates all three replies. The next wave starts after every outstanding reply and at least one second after the latest actual request start in the previous wave. A failed read ends escalation.
+
+Each wave retains the UTC and monotonic intervals for its barrier and responses, the outcome and latency of each participant in fixture order, and the expected packet name for a reply deadline. The per-level summary reports attempts, completions, failures, p50/p95/max of completed reads, and completed requests per second across six paced windows. Sequential warmup and login have their own timing records. The final pacing interval is included, so 16 residents cannot exceed 16 measured requests per second.

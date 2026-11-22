@@ -12,7 +12,7 @@ internal sealed class Benchmark(IPAddress endpoint, string tlsName, FixtureUser[
     public string StopReason { get; private set; } = "Completed";
     static readonly int[] ProbeOffsets = [0, 75, 150];
 
-    async Task Enter(GameConnection socket, FixtureUser user, Attempt a, Action ready, Task loginGate, CancellationToken ct)
+    internal static async Task Enter(IPAddress endpoint, string tlsName, GameConnection socket, FixtureUser user, Attempt a, Action ready, Task loginGate, CancellationToken ct)
     {
         await a.Step("tcp", t => socket.Connect(endpoint, t), ct);
         await a.Step("tls", t => socket.Authenticate(tlsName, t), ct);
@@ -27,7 +27,7 @@ internal sealed class Benchmark(IPAddress endpoint, string tlsName, FixtureUser[
         await a.Step("enter", t => socket.Enter(user, t), ct);
     }
 
-    static async Task Close(GameConnection socket, Attempt a, CancellationToken ct)
+    internal static async Task Close(GameConnection socket, Attempt a, CancellationToken ct)
     {
         if (socket.TlsVersion == null) return;
         var original = (a.Outcome, a.FailedStage);
@@ -43,7 +43,7 @@ internal sealed class Benchmark(IPAddress endpoint, string tlsName, FixtureUser[
         try
         {
             await start.WaitAsync(ct);
-            await Enter(socket, user, a, ready, loginGate, ct);
+            await Enter(endpoint, tlsName, socket, user, a, ready, loginGate, ct);
             await a.Step("initialInventory", socket.ReadInventory, ct);
         }
         catch (Exception error)
@@ -58,7 +58,7 @@ internal sealed class Benchmark(IPAddress endpoint, string tlsName, FixtureUser[
         return a;
     }
 
-    static async Task<Sample> ProbeInventory(GameConnection resident, CancellationToken ct)
+    internal static async Task<Sample> ProbeInventory(GameConnection resident, CancellationToken ct)
     {
         var a = new Attempt();
         try { await a.Step("read", resident.ReadInventory, ct); }
@@ -123,7 +123,7 @@ internal sealed class Benchmark(IPAddress endpoint, string tlsName, FixtureUser[
         await using var resident = ConnectionFactory();
         try
         {
-            await Enter(resident, users[16], ResidentSession, () => {}, Task.CompletedTask, ct);
+            await Enter(endpoint, tlsName, resident, users[16], ResidentSession, () => {}, Task.CompletedTask, ct);
             await ResidentSession.Step("initialInventory", resident.ReadInventory, ct);
             await Task.Delay(1500, ct);
             foreach (var level in levels)

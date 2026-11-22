@@ -57,6 +57,28 @@ public class JourneyTests
         Assert.Equal("S_UpdateCurrencyDataAll", run.Warmup.Single().Stages["initialInventory"].MissingReply);
     }
 
+    [Fact]
+    public async Task ResidentReadsAuthenticateOnceAndObserveAllSixPacedBursts()
+    {
+        await using var fixture = new LoopbackGame();
+        var run = fixture.MakeResidentReads([4]);
+        await run.Run(CancellationToken.None);
+        Assert.Equal("Completed", run.StopReason);
+        Assert.Equal(4, fixture.Logins);
+        var stage = Assert.Single(run.Levels);
+        Assert.Equal(24, stage.Attempted);
+        Assert.Equal(24, stage.Completed);
+        Assert.Equal(0, stage.Failed);
+        Assert.Equal(6, stage.Bursts.Count);
+        Assert.InRange(stage.CompletedRequestsPerSecond!.Value, 0.01, 4);
+        for (int i = 1; i < stage.Bursts.Count; i++)
+        {
+            double first = stage.Bursts[i].Reads.Min(s => s.StartMs);
+            double previousLast = stage.Bursts[i - 1].Reads.Max(s => s.StartMs);
+            Assert.True(first - previousLast >= 1000);
+        }
+    }
+
     // Only a loopback listener, with a per-test CA trusted inside this test instance.
     sealed class LoopbackGame : IAsyncDisposable
     {
@@ -97,6 +119,9 @@ public class JourneyTests
 
         internal Benchmark MakeRun(int[] levels, int repeats, string name = "qa.test.invalid") =>
             new(address,name,users,levels,repeats) { ConnectionFactory = () => new GameConnection(root) };
+
+        internal ResidentReadBenchmark MakeResidentReads(int[] levels) =>
+            new(address, "qa.test.invalid", users, levels) { ConnectionFactory = () => new GameConnection(root) };
 
         async Task Accept()
         {
